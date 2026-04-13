@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://isdf.dev/schemas/v0.1.0/ud.schema.json",
+  "title": "Universal Document (UD) — iSDF v0.1.0",
+  "description": "JSON Schema for Universal Document Reviewable (UDR) and Universal Document Sealed (UDS) files.",
+  "type": "object",
+  "required": ["ud_version", "state", "metadata", "manifest", "blocks"],
+  "additionalProperties": false,
+
+  "properties": {
+
+    "ud_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the iSDF spec this document conforms to."
+    },
+
+    "state": {
+      "type": "string",
+      "enum": ["UDR", "UDS"],
+      "description": "UDR = editable. UDS = sealed and immutable."
+    },
+
+    "metadata": {
+      "type": "object",
+      "required": ["id", "title", "created_at", "updated_at", "created_by", "revoked"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "UUID v4 unique identifier for this document."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "organisation": {
+          "type": "string"
+        },
+        "document_type": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "expiry": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "revoked": {
+          "type": "boolean"
+        },
+        "revocation_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+
+    "manifest": {
+      "type": "object",
+      "required": ["base_language", "language_manifest", "clarity_layer_manifest", "permissions"],
+      "additionalProperties": false,
+      "properties": {
+
+        "base_language": {
+          "type": "string"
+        },
+
+        "language_manifest": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["code", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "type": "string" },
+              "label": { "type": "string" },
+              "direction": {
+                "type": "string",
+                "enum": ["ltr", "rtl"],
+                "default": "ltr"
+              }
+            }
+          }
+        },
+
+        "clarity_layer_manifest": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "label": { "type": "string" }
+            }
+          }
+        },
+
+        "permissions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "allow_copy": { "type": "boolean" },
+            "allow_print": { "type": "boolean" },
+            "allow_export": { "type": "boolean" },
+            "require_auth": { "type": "boolean" },
+            "audience": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "blocks": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "base_content"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": ["paragraph", "heading", "table", "list", "image", "code", "divider", "custom"]
+          },
+          "base_content": {
+            "type": "object"
+          },
+          "clarity": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "translations": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false
+          },
+          "audience": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "source": { "type": "string" },
+              "imported_from": { "type": "string" },
+              "imported_at": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      }
+    },
+
+    "seal": {
+      "type": "object",
+      "required": ["sealed_at", "sealed_by", "hash", "chain_of_custody"],
+      "additionalProperties": false,
+      "properties": {
+        "sealed_at": { "type": "string", "format": "date-time" },
+        "sealed_by": { "type": "string" },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "signature": { "type": "string" },
+        "chain_of_custody": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["event", "actor", "timestamp"],
+            "additionalProperties": false,
+            "properties": {
+              "event": {
+                "type": "string",
+                "enum": ["created", "edited", "reviewed", "approved", "sealed", "shared", "revoked"]
+              },
+              "actor": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" },
+              "note": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "if": {
+    "properties": { "state": { "const": "UDS" } }
+  },
+  "then": {
+    "required": ["seal"]
+  },
+  "else": {
+    "properties": {
+      "seal": { "not": {} }
+    }
+  }
+}
