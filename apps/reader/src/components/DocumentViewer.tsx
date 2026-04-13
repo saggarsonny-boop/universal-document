@@ -1,0 +1,241 @@
+'use client'
+
+import { useState } from 'react'
+import type { UDDocument } from '@/lib/types'
+import BlockRenderer from './BlockRenderer'
+import { checkExpiry, checkRevoked } from '@/lib/validator'
+
+interface Props {
+  doc: UDDocument
+}
+
+export default function DocumentViewer({ doc }: Props) {
+  const { metadata, manifest, blocks, seal } = doc
+
+  const layers = manifest.clarity_layer_manifest || []
+  const languages = manifest.language_manifest || []
+
+  const [activeLayer, setActiveLayer] = useState(layers[0]?.id || 'default')
+  const [activeLanguage, setActiveLanguage] = useState(manifest.base_language)
+  const [showCustody, setShowCustody] = useState(false)
+
+  const isExpired = checkExpiry(doc)
+  const isRevoked = checkRevoked(doc)
+
+  const activeLanguageEntry = languages.find((l) => l.code === activeLanguage)
+  const direction = activeLanguageEntry?.direction || 'ltr'
+
+  if (isRevoked) {
+    return (
+      <div style={alertStyle('#fef2f2', '#dc2626', '#fee2e2')}>
+        <strong>Document Revoked</strong>
+        <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
+          This document has been revoked and can no longer be viewed.
+        </p>
+      </div>
+    )
+  }
+
+  if (isExpired) {
+    return (
+      <div style={alertStyle('#fffbeb', '#d97706', '#fef3c7')}>
+        <strong>Document Expired</strong>
+        <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
+          This document expired on {new Date(metadata.expiry!).toLocaleDateString()} and can no longer be viewed.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ maxWidth: '780px', margin: '0 auto', padding: '2rem 1.5rem' }}>
+
+      {/* Document header */}
+      <div style={{ marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '2px solid #e5e7eb' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+          <span style={badgeStyle(doc.state === 'UDS' ? '#065f46' : '#1e40af', doc.state === 'UDS' ? '#d1fae5' : '#dbeafe')}>
+            {doc.state}
+          </span>
+          {metadata.document_type && (
+            <span style={badgeStyle('#374151', '#f3f4f6')}>{metadata.document_type}</span>
+          )}
+        </div>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#111827', marginBottom: '0.5rem' }}>
+          {metadata.title}
+        </h1>
+        <div style={{ fontSize: '0.85rem', color: '#6b7280', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+          <span>Created by <strong>{metadata.created_by}</strong></span>
+          {metadata.organisation && <span>{metadata.organisation}</span>}
+          <span>{new Date(metadata.created_at).toLocaleDateString()}</span>
+          {metadata.expiry && (
+            <span style={{ color: '#d97706' }}>
+              Expires {new Date(metadata.expiry).toLocaleDateString()}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Controls */}
+      {(languages.length > 1 || layers.length > 0) && (
+        <div style={{
+          display: 'flex',
+          gap: '1rem',
+          flexWrap: 'wrap',
+          marginBottom: '2rem',
+          padding: '1rem',
+          background: '#f9fafb',
+          borderRadius: '0.75rem',
+          border: '1px solid #e5e7eb',
+        }}>
+
+          {languages.length > 1 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Language
+              </span>
+              <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => setActiveLanguage(lang.code)}
+                    style={controlButton(activeLanguage === lang.code)}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {layers.length > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                View
+              </span>
+              <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                {layers.map((layer) => (
+                  <button
+                    key={layer.id}
+                    onClick={() => setActiveLayer(layer.id)}
+                    style={controlButton(activeLayer === layer.id)}
+                  >
+                    {layer.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+      )}
+
+      {/* Blocks */}
+      <div>
+        {blocks.map((block) => (
+          <BlockRenderer
+            key={block.id}
+            block={block}
+            activeLayer={activeLayer}
+            activeLanguage={activeLanguage}
+            direction={direction}
+          />
+        ))}
+      </div>
+
+      {/* Chain of custody */}
+      {seal && seal.chain_of_custody && seal.chain_of_custody.length > 0 && (
+        <div style={{ marginTop: '3rem', borderTop: '1px solid #e5e7eb', paddingTop: '1.5rem' }}>
+          <button
+            onClick={() => setShowCustody(!showCustody)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              color: '#6b7280',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+            }}
+          >
+            {showCustody ? '▾' : '▸'} Chain of Custody ({seal.chain_of_custody.length} events)
+          </button>
+
+          {showCustody && (
+            <div style={{ marginTop: '1rem' }}>
+              {seal.chain_of_custody.map((entry, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    padding: '0.6rem 0',
+                    borderBottom: '1px solid #f3f4f6',
+                    fontSize: '0.85rem',
+                  }}
+                >
+                  <span style={badgeStyle('#374151', '#f3f4f6')}>{entry.event}</span>
+                  <span style={{ color: '#374151' }}>{entry.actor}</span>
+                  <span style={{ color: '#9ca3af', marginInlineStart: 'auto' }}>
+                    {new Date(entry.timestamp).toLocaleString()}
+                  </span>
+                  {entry.note && <span style={{ color: '#6b7280' }}>{entry.note}</span>}
+                </div>
+              ))}
+              <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: '#9ca3af', fontFamily: 'monospace' }}>
+                SHA-256: {seal.hash}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Footer */}
+      <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #f3f4f6', fontSize: '0.75rem', color: '#d1d5db', textAlign: 'center' }}>
+        Universal Document v{doc.ud_version} · UD Reader by The Hive Engines · Free forever
+      </div>
+
+    </div>
+  )
+}
+
+function alertStyle(bg: string, color: string, border: string): React.CSSProperties {
+  return {
+    maxWidth: '600px',
+    margin: '4rem auto',
+    padding: '1.5rem',
+    background: bg,
+    border: `1px solid ${border}`,
+    borderRadius: '0.75rem',
+    color,
+    textAlign: 'center',
+  }
+}
+
+function badgeStyle(color: string, bg: string): React.CSSProperties {
+  return {
+    display: 'inline-block',
+    padding: '0.2rem 0.6rem',
+    borderRadius: '9999px',
+    fontSize: '0.75rem',
+    fontWeight: 600,
+    color,
+    background: bg,
+  }
+}
+
+function controlButton(active: boolean): React.CSSProperties {
+  return {
+    padding: '0.3rem 0.75rem',
+    borderRadius: '9999px',
+    border: active ? '2px solid #2563eb' : '2px solid #e5e7eb',
+    background: active ? '#eff6ff' : '#ffffff',
+    color: active ? '#2563eb' : '#374151',
+    fontSize: '0.8rem',
+    fontWeight: active ? 600 : 400,
+    cursor: 'pointer',
+    transition: 'all 0.15s',
+  }
+}
