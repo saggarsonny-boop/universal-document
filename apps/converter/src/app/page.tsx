@@ -1,11 +1,30 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
 
 const ACCEPTED = '.docx,.txt,.md'
 const ACCEPTED_LABEL = 'DOCX, TXT, MD'
+const FREE_LIMIT = 5
+
+function getTodayKey() {
+  return new Date().toISOString().slice(0, 10)
+}
+
+function getUsage(): number {
+  if (typeof window === 'undefined') return 0
+  const day = localStorage.getItem('converter_day')
+  if (day !== getTodayKey()) return 0
+  return Number(localStorage.getItem('converter_count') ?? '0')
+}
+
+function incrementUsage() {
+  localStorage.setItem('converter_day', getTodayKey())
+  const next = getUsage() + 1
+  localStorage.setItem('converter_count', String(next))
+  return next
+}
 
 export default function ConverterPage() {
   const [state, setState] = useState<ConvertState>('idle')
@@ -13,7 +32,15 @@ export default function ConverterPage() {
   const [fileName, setFileName] = useState('')
   const [outputName, setOutputName] = useState('')
   const [isDragging, setIsDragging] = useState(false)
+  const [usage, setUsage] = useState(0)
+  const [isPro, setIsPro] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setUsage(getUsage())
+    const storedEmail = localStorage.getItem('converter_pro_email')
+    setIsPro(!!storedEmail)
+  }, [])
 
   async function convert(file: File) {
     setFileName(file.name)
@@ -23,11 +50,20 @@ export default function ConverterPage() {
     const form = new FormData()
     form.append('file', file)
 
+    const headers: Record<string, string> = {}
+    const apiKey = localStorage.getItem('converter_api_key')
+    if (apiKey) headers['X-API-Key'] = apiKey
+
     try {
-      const res = await fetch('/api/convert', { method: 'POST', body: form })
+      const res = await fetch('/api/convert', { method: 'POST', body: form, headers })
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
+        if (res.status === 429) {
+          setError(`Free tier: ${FREE_LIMIT} files per day reached.`)
+          setState('error')
+          return
+        }
         throw new Error(data.error || 'Conversion failed')
       }
 
@@ -43,6 +79,11 @@ export default function ConverterPage() {
       a.download = name
       a.click()
       URL.revokeObjectURL(url)
+
+      if (!isPro) {
+        const next = incrementUsage()
+        setUsage(next)
+      }
       setState('done')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Conversion failed')
@@ -55,7 +96,7 @@ export default function ConverterPage() {
     setIsDragging(false)
     const file = e.dataTransfer.files[0]
     if (file) convert(file)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isPro]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function reset() {
     setState('idle')
@@ -65,14 +106,18 @@ export default function ConverterPage() {
     if (inputRef.current) inputRef.current.value = ''
   }
 
+  const atLimit = !isPro && usage >= FREE_LIMIT
+
   return (
     <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
 
       <div style={{ marginBottom: 48, textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
-          <a href="https://ud.hive.baby" style={{ fontSize: 13, color: '#6b7280' }}>← UD Reader</a>
+          <a href="https://ud.hive.baby" style={{ fontSize: 13, color: '#6b7280' }}>← UD Hub</a>
           <span style={{ color: '#d1d5db' }}>·</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Converter</span>
+          <span style={{ color: '#d1d5db' }}>·</span>
+          <a href="/pricing" style={{ fontSize: 13, color: '#2563eb' }}>Pricing</a>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: '#111827', marginBottom: 12 }}>
           Convert to Universal Document
@@ -80,9 +125,36 @@ export default function ConverterPage() {
         <p style={{ fontSize: 15, color: '#6b7280', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
           Upload a {ACCEPTED_LABEL} file. Download a <code style={{ background: '#f3f4f6', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file, ready to open in the UD Reader.
         </p>
+
+        {!isPro && (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, background: atLimit ? '#fef2f2' : '#f3f4f6', border: `1px solid ${atLimit ? '#fecaca' : '#e5e7eb'}`, borderRadius: 20, padding: '6px 14px' }}>
+            <span style={{ fontSize: 12, color: atLimit ? '#dc2626' : '#6b7280' }}>
+              {usage}/{FREE_LIMIT} free conversions today
+            </span>
+            {atLimit && (
+              <a href="/pricing" style={{ fontSize: 12, fontWeight: 600, color: '#2563eb' }}>Upgrade →</a>
+            )}
+          </div>
+        )}
+
+        {isPro && (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 16, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 20, padding: '6px 14px' }}>
+            <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600 }}>⚡ Pro — unlimited</span>
+            <a href="/pro" style={{ fontSize: 12, color: '#6b7280' }}>Manage →</a>
+          </div>
+        )}
       </div>
 
-      {state === 'idle' || state === 'error' ? (
+      {atLimit && state === 'idle' ? (
+        <div style={{ border: '1px solid #fecaca', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: '#fef2f2' }}>
+          <div style={{ fontSize: 40, marginBottom: 16 }}>🔒</div>
+          <p style={{ fontSize: 18, fontWeight: 700, color: '#dc2626', marginBottom: 8 }}>Daily limit reached</p>
+          <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 24 }}>Free tier: {FREE_LIMIT} conversions per day. Resets at midnight.</p>
+          <a href="/pricing" style={{ display: 'inline-block', background: '#2563eb', color: '#fff', borderRadius: 8, padding: '12px 28px', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+            Upgrade to Pro — $29/month
+          </a>
+        </div>
+      ) : state === 'idle' || state === 'error' ? (
         <>
           <div
             onDrop={onDrop}
@@ -104,7 +176,7 @@ export default function ConverterPage() {
               Drop your file here
             </p>
             <p style={{ fontSize: 13, color: '#9ca3af' }}>
-              or click to browse · {ACCEPTED_LABEL} supported · max 10 MB
+              or click to browse · {ACCEPTED_LABEL} supported · max {isPro ? '50' : '10'} MB
             </p>
             <input
               ref={inputRef}
@@ -116,8 +188,11 @@ export default function ConverterPage() {
           </div>
 
           {state === 'error' && (
-            <div style={{ marginTop: 16, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', color: '#dc2626', fontSize: 14 }}>
-              {error}
+            <div style={{ marginTop: 16, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', fontSize: 14 }}>
+              <span style={{ color: '#dc2626' }}>{error}</span>
+              {error.includes('limit') && (
+                <a href="/pricing" style={{ marginLeft: 12, color: '#2563eb', fontSize: 13, fontWeight: 600 }}>Upgrade to Pro →</a>
+              )}
               <button onClick={reset} style={{ marginLeft: 12, color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}>Try again</button>
             </div>
           )}
@@ -147,14 +222,27 @@ export default function ConverterPage() {
         </div>
       )}
 
+      {!isPro && (
+        <div style={{ marginTop: 28, background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <p style={{ fontSize: 14, fontWeight: 600, color: '#92400e', marginBottom: 4 }}>Need more?</p>
+            <p style={{ fontSize: 13, color: '#b45309' }}>Unlimited files · Batch ZIP · API access · Chain of custody</p>
+          </div>
+          <a href="/pricing" style={{ background: '#f59e0b', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            Pro — $29/mo →
+          </a>
+        </div>
+      )}
+
       <div style={{ marginTop: 48, borderTop: '1px solid #f3f4f6', paddingTop: 24, textAlign: 'center' }}>
         <p style={{ fontSize: 11, color: '#d1d5db', marginBottom: 12, letterSpacing: '0.05em' }}>
           NO ADS · NO INVESTORS · NO AGENDA
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
-            ['UD Reader', 'https://ud.hive.baby'],
-            ['What is UD?', 'https://hive.baby'],
+            ['UD Hub', 'https://ud.hive.baby'],
+            ['Pricing', '/pricing'],
+            ['Pro', '/pro'],
             ['hive.baby', 'https://hive.baby'],
           ].map(([label, href]) => (
             <a key={label} href={href} style={{ fontSize: 12, color: '#9ca3af' }}>{label}</a>
