@@ -1,0 +1,26 @@
+{
+  "ud_version": "iSDF v0.1.0",
+  "state": "UDR",
+  "metadata": {
+    "id": "wp-003-expiry-trust",
+    "title": "Expiry, Revocation, and Trust in Universal Documents",
+    "created_at": "2026-04-18T00:00:00.000Z",
+    "revoked": false,
+    "tags": ["whitepaper", "expiry", "trust", "security", "revocation"]
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [],
+    "clarity_layer_manifest": [],
+    "permissions": { "require_auth": false }
+  },
+  "blocks": [
+    { "id": "b1", "type": "heading", "base_content": { "text": "Expiry, Revocation, and Trust in Universal Documents" } },
+    { "id": "b2", "type": "paragraph", "base_content": { "text": "Information has a shelf life. A medical guideline published in 2019 may have been superseded. A legal contract has an execution date. A news briefing expires within hours." } },
+    { "id": "b3", "type": "paragraph", "base_content": { "text": "UD introduces expires_at as a first-class metadata field. Any system consuming a UD file can immediately determine whether the content is still valid — no external lookup required." } },
+    { "id": "b4", "type": "heading", "base_content": { "text": "Revocation" } },
+    { "id": "b5", "type": "paragraph", "base_content": { "text": "The revoked boolean field marks a document as withdrawn. Combined with a cryptographic signature (planned for iSDF v0.2), revocation becomes tamper-evident." } },
+    { "id": "b6", "type": "heading", "base_content": { "text": "Trust Hierarchy" } },
+    { "id": "b7", "type": "list", "base_content": { "items": ["Open: anyone can read, metadata unverified", "Signed: issuer verified via public key (v0.2)", "Auth-required: reader must authenticate before access", "Revoked: document withdrawn, should not be consumed"] } }
+  ]
+}

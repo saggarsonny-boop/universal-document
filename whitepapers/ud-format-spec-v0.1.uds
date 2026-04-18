@@ -1,0 +1,27 @@
+{
+  "ud_version": "iSDF v0.1.0",
+  "state": "UDR",
+  "metadata": {
+    "id": "wp-001-format-spec",
+    "title": "Universal Document Format Specification v0.1",
+    "created_at": "2026-04-18T00:00:00.000Z",
+    "revoked": false,
+    "tags": ["whitepaper", "specification", "format", "iSDF"]
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [],
+    "clarity_layer_manifest": [],
+    "permissions": { "require_auth": false }
+  },
+  "blocks": [
+    { "id": "b1", "type": "heading", "base_content": { "text": "Universal Document Format Specification v0.1" } },
+    { "id": "b2", "type": "paragraph", "base_content": { "text": "The Universal Document (UD) is an open, machine-readable document format designed for intelligence-native workflows. It stores structured content, metadata, provenance, expiry, and audience-adaptive layers in a single portable file." } },
+    { "id": "b3", "type": "heading", "base_content": { "text": "Schema" } },
+    { "id": "b4", "type": "paragraph", "base_content": { "text": "Schema version iSDF v0.1.0. A UD file is a JSON document with four top-level fields: ud_version, state, metadata, manifest, and blocks." } },
+    { "id": "b5", "type": "heading", "base_content": { "text": "Block Types" } },
+    { "id": "b6", "type": "list", "base_content": { "items": ["paragraph: body text", "heading: section titles", "list: bullet items", "divider: visual separator", "image: embedded or linked media (planned)", "table: structured data (planned)"] } },
+    { "id": "b7", "type": "heading", "base_content": { "text": "Provenance" } },
+    { "id": "b8", "type": "paragraph", "base_content": { "text": "Each block may carry a provenance field recording the source, author, and timestamp of its content. This enables chain-of-custody verification and source attribution." } }
+  ]
+}

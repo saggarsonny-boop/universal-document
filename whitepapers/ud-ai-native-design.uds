@@ -1,0 +1,24 @@
+{
+  "ud_version": "iSDF v0.1.0",
+  "state": "UDR",
+  "metadata": {
+    "id": "wp-002-ai-native",
+    "title": "AI-Native Document Design: Why UD Exists",
+    "created_at": "2026-04-18T00:00:00.000Z",
+    "revoked": false,
+    "tags": ["whitepaper", "AI", "design", "philosophy"]
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [],
+    "clarity_layer_manifest": [],
+    "permissions": { "require_auth": false }
+  },
+  "blocks": [
+    { "id": "b1", "type": "heading", "base_content": { "text": "AI-Native Document Design: Why UD Exists" } },
+    { "id": "b2", "type": "paragraph", "base_content": { "text": "PDFs were designed for printers. Word documents for typists. Neither was designed for AI systems that must parse, translate, summarise, and adapt content across audiences." } },
+    { "id": "b3", "type": "paragraph", "base_content": { "text": "Universal Document is the first format designed from first principles for machine reasoning — while remaining human-readable and human-writable." } },
+    { "id": "b4", "type": "heading", "base_content": { "text": "Core Principles" } },
+    { "id": "b5", "type": "list", "base_content": { "items": ["Structure over style: meaning is in the blocks, not the formatting", "Metadata as first-class: title, expiry, tags, and provenance are mandatory", "Audience-adaptive: clarity layers allow the same document to speak to a surgeon and a patient", "Open: no proprietary lock-in, no required cloud service", "Verifiable: chain of custody from creation to consumption"] } }
+  ]
+}
