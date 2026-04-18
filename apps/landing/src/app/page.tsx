@@ -148,6 +148,27 @@ export default function LandingPage() {
 
       <hr style={s.divider} />
 
+      {/* Certification badge */}
+      <section style={{ ...s.section, textAlign: 'center' as const }}>
+        <p style={s.sectionTitle}>UD Certified</p>
+        <p style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 24, maxWidth: 480, margin: '0 auto 24px' }}>
+          Products and services that implement the Universal Document specification may display the UD Certified mark.
+        </p>
+        <div style={{ display: 'inline-flex', flexDirection: 'column' as const, alignItems: 'center', gap: 16 }}>
+          <svg width="148" height="32" viewBox="0 0 148 32" xmlns="http://www.w3.org/2000/svg">
+            <rect width="148" height="32" rx="16" fill="#f5f4f0" stroke="#d0cdc6" strokeWidth="1"/>
+            <rect x="4" y="4" width="24" height="24" rx="4" fill="#1e2d3d"/>
+            <text x="16" y="20" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="9" fill="#ffffff">UD</text>
+            <text x="36" y="21" fontFamily="'Courier New', monospace" fontSize="10" fill="#444444" letterSpacing="1">UD CERTIFIED</text>
+          </svg>
+          <a href="/certified" style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline' }}>
+            Apply for UD Certified →
+          </a>
+        </div>
+      </section>
+
+      <hr style={s.divider} />
+
       {/* Features */}
       <section style={s.section}>
         <p style={s.sectionTitle}>Why Universal Document</p>

@@ -175,9 +175,24 @@ export default function ConverterPage() {
             <p style={{ fontSize: 16, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
               Drop your file here
             </p>
-            <p style={{ fontSize: 13, color: '#9ca3af' }}>
+            <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 12 }}>
               or click to browse · {ACCEPTED_LABEL} supported · max {isPro ? '50' : '10'} MB
             </p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+              <div style={{ textAlign: 'center' as const }}>
+                <svg width="36" height="45" viewBox="0 0 64 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="0" y="0" width="64" height="80" rx="6" fill="#f0f4f8" stroke="#d0dde8" strokeWidth="1"/>
+                  <rect x="8" y="12" width="32" height="4" rx="2" fill="#c0cdd8"/>
+                  <rect x="8" y="22" width="40" height="3" rx="1.5" fill="#d0dde8"/>
+                  <rect x="8" y="30" width="36" height="3" rx="1.5" fill="#d0dde8"/>
+                  <rect x="8" y="38" width="28" height="3" rx="1.5" fill="#d0dde8"/>
+                  <rect x="0" y="56" width="64" height="24" rx="6" fill="#1e2d3d"/>
+                  <rect x="0" y="56" width="64" height="10" fill="#1e2d3d"/>
+                  <text x="32" y="72" textAnchor="middle" fontFamily="'Courier New', monospace" fontWeight="700" fontSize="10" fill="#ffffff">.uds</text>
+                </svg>
+                <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 4 }}>output</div>
+              </div>
+            </div>
             <input
               ref={inputRef}
               type="file"
