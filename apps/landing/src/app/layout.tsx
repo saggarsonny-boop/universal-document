@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <a href="https://hive.baby" className="hive-planet" style={{ textDecoration: 'none', fontSize: '22px', lineHeight: '1' }}>🌍</a>
             {/* Horizontal lockup — dark-adapted */}
-            <a href="https://ud.hive.baby" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <a href="https://universal-document.vercel.app" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
               <svg width="180" height="34" viewBox="0 0 320 56" xmlns="http://www.w3.org/2000/svg">
                 <rect width="56" height="56" rx="8" fill="#1e2d3d"/>
                 <text x="28" y="39" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="22" fill="#ffffff">UD</text>

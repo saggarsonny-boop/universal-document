@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header style={{ borderBottom: '1px solid #f3f4f6', padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#ffffff', position: 'sticky', top: 0, zIndex: 50 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <a href="https://hive.baby" className="hive-planet" style={{ textDecoration: 'none', fontSize: '20px', lineHeight: '1' }}>🌍</a>
-            <a href="https://ud.hive.baby" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <a href="https://universal-document.vercel.app" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
               <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                 <rect width="32" height="32" rx="5" fill="#1e2d3d"/>
                 <text x="16" y="23" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="13" fill="#ffffff">UD</text>
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
           </div>
           <nav style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-            <a href="https://ud.hive.baby" style={NAV}>UD Hub</a>
+            <a href="https://universal-document.vercel.app" style={NAV}>UD Hub</a>
             <span style={DOT}>·</span>
             <a href="/pricing" style={NAV}>Pricing</a>
             <span style={DOT}>·</span>
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '10px' }}>
             <a href="https://hive.baby" style={{ fontSize: '12px', color: '#9ca3af' }}>hive.baby</a>
             <span style={DOT}>·</span>
-            <a href="https://ud.hive.baby" style={{ fontSize: '12px', color: '#9ca3af' }}>Universal Document</a>
+            <a href="https://universal-document.vercel.app" style={{ fontSize: '12px', color: '#9ca3af' }}>Universal Document</a>
             <span style={DOT}>·</span>
             <a href="mailto:hive@hive.baby" style={{ fontSize: '12px', color: '#9ca3af' }}>Feedback</a>
           </div>

@@ -113,7 +113,7 @@ export default function ConverterPage() {
 
       <div style={{ marginBottom: 48, textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
-          <a href="https://ud.hive.baby" style={{ fontSize: 13, color: '#6b7280' }}>← UD Hub</a>
+          <a href="https://universal-document.vercel.app" style={{ fontSize: 13, color: '#6b7280' }}>← UD Hub</a>
           <span style={{ color: '#d1d5db' }}>·</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Converter</span>
           <span style={{ color: '#d1d5db' }}>·</span>
@@ -226,7 +226,7 @@ export default function ConverterPage() {
           <p style={{ fontSize: 14, color: '#047857', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
           <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 28 }}>
             Open it in the{' '}
-            <a href="https://ud.hive.baby" style={{ color: '#2563eb' }}>UD Reader</a>.
+            <a href="https://universal-document.vercel.app" style={{ color: '#2563eb' }}>UD Reader</a>.
           </p>
           <button
             onClick={reset}
@@ -255,7 +255,7 @@ export default function ConverterPage() {
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
-            ['UD Hub', 'https://ud.hive.baby'],
+            ['UD Hub', 'https://universal-document.vercel.app'],
             ['Pricing', '/pricing'],
             ['Pro', '/pro'],
             ['hive.baby', 'https://hive.baby'],

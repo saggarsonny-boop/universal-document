@@ -10,7 +10,7 @@ export default function LandingPage() {
     {
       name: 'UD Reader',
       desc: 'Open and read any .uds file in your browser. No install.',
-      url: 'https://ud.hive.baby/reader',
+      url: 'https://universal-document.vercel.app/reader',
       status: 'live',
       emoji: '📖',
     },
