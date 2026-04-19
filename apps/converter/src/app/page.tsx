@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import AutoDemo from './components/AutoDemo'
 import FirstVisitCard from './components/FirstVisitCard'
+import TooltipTour from './components/TooltipTour'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
 
@@ -114,6 +115,12 @@ export default function ConverterPage() {
     <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
       <AutoDemo />
       <FirstVisitCard />
+      <TooltipTour engineId="udconverter" tips={[
+        { label: "Upload or drag", text: "Drop a DOCX, TXT, or MD file — or click the area to browse. Converts to clean PDF." },
+        { label: "Free tier", text: "5 free conversions per day, no account needed. The count resets at midnight." },
+        { label: "API key", text: "Have your own Anthropic key? Paste it in settings for unlimited conversions." },
+        { label: "Download", text: "After conversion, a download link appears instantly — no email required." },
+      ]} />
 
       <div style={{ marginBottom: 48, textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
