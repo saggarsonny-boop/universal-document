@@ -35,9 +35,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer style={{ borderTop: '1px solid rgba(13,31,53,0.8)', padding: '20px 24px 28px', textAlign: 'center' }}>
           <p style={{ fontSize: '11px', color: 'rgba(26,58,92,0.5)', marginBottom: '14px', letterSpacing: '0.05em' }}>Free forever. No ads. No investors. You are the investor.</p>
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '10px' }}>
-            <a href="https://hive.baby" style={NAV}>hive.baby</a>
+            <a href="https://hive.baby" style={NAV}>A social experiment</a>
             <span style={DOT}>·</span>
             <a href="https://converter.hive.baby" style={NAV}>UD Converter</a>
+            <span style={DOT}>·</span>
+            <a href="https://hive.baby/patrons" style={NAV}>Patrons</a>
+            <span style={DOT}>·</span>
+            <a href="https://hive.baby/privacy" style={NAV}>Privacy</a>
             <span style={DOT}>·</span>
             <a href="mailto:hive@hive.baby" style={NAV}>Feedback</a>
           </div>
