@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
+import AutoDemo from './components/AutoDemo'
+import FirstVisitCard from './components/FirstVisitCard'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
 
@@ -110,6 +112,8 @@ export default function ConverterPage() {
 
   return (
     <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
+      <AutoDemo />
+      <FirstVisitCard />
 
       <div style={{ marginBottom: 48, textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
