@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fontSize: 12,
           color: '#4a5568',
         }}>
-          UD Utilities · Part of the Universal Document ecosystem · No ads. No investors. No agenda.
+          UD Utilities · Part of the Universal Document™ ecosystem · No ads. No investors. No agenda.
         </footer>
       </body>
     </html>

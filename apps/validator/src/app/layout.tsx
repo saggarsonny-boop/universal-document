@@ -37,11 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '10px' }}>
             <a href="https://hive.baby" style={NAV}>hive.baby</a>
             <span style={DOT}>·</span>
-            <a href="https://universal-document.vercel.app" style={NAV}>Universal Document</a>
+            <a href="https://universal-document.vercel.app" style={NAV}>Universal Document™</a>
             <span style={DOT}>·</span>
             <a href="mailto:hive@hive.baby" style={NAV}>Feedback</a>
           </div>
-          <p style={TM}>The UD wordmark and UD Certified mark are trademarks of Hive. The Universal Document specification is released under CC BY 4.0 and may be implemented freely by any party.</p>
+          <p style={TM}>Universal Document™ is a pending trademark (Serial 99774346). The UD wordmark and UD Certified mark are trademarks of Hive. The Universal Document™ specification is released under CC BY 4.0 and may be implemented freely by any party.</p>
         </footer>
       </body>
     </html>

@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <svg width="180" height="34" viewBox="0 0 320 56" xmlns="http://www.w3.org/2000/svg">
                 <rect width="56" height="56" rx="8" fill="#1e2d3d"/>
                 <text x="28" y="39" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="22" fill="#ffffff">UD</text>
-                <text x="76" y="30" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="18" fill="#e2e8f0">Universal Document</text>
+                <text x="76" y="30" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="700" fontSize="18" fill="#e2e8f0">Universal Document™</text>
                 <text x="77" y="46" fontFamily="'Courier New', monospace" fontSize="11" fill="#475569" letterSpacing="1">SPECIFICATION 1.0</text>
               </svg>
             </a>
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span style={DOT}>·</span>
             <a href="mailto:press@hive.baby" style={NAV}>press@hive.baby</a>
           </div>
-          <p style={TM}>The UD wordmark and UD Certified mark are trademarks of Hive. The Universal Document specification is released under CC BY 4.0 and may be implemented freely by any party.</p>
+          <p style={TM}>Universal Document™ is a pending trademark (Serial 99774346). The UD wordmark and UD Certified mark are trademarks of Hive. The Universal Document™ specification is released under CC BY 4.0 and may be implemented freely by any party.</p>
         </footer>
       </body>
     </html>

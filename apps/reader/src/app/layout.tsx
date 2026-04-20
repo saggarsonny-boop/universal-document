@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span style={DOT}>·</span>
             <a href="mailto:hive@hive.baby" style={NAV}>Feedback</a>
           </div>
-          <p style={TM}>The UD wordmark and UD Certified mark are trademarks of Hive. The Universal Document specification is released under CC BY 4.0 and may be implemented freely by any party.</p>
+          <p style={TM}>Universal Document™ is a pending trademark (Serial 99774346). The UD wordmark and UD Certified mark are trademarks of Hive. The Universal Document™ specification is released under CC BY 4.0 and may be implemented freely by any party.</p>
         </footer>
       </body>
     </html>
