@@ -4,8 +4,9 @@ import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
-  title: 'UD Converter — Convert to Universal Document™',
-  description: 'Convert DOCX, TXT, MD to .uds format. Free forever. Pro tier for unlimited conversions.',
+  title: 'Universal Document™ Converter',
+  description: 'Universal Document™ Converter — convert DOCX, TXT, and Markdown to .uds format. Free forever.',
+  openGraph: { title: 'Universal Document™ Converter', description: 'Convert any file to Universal Document™ format. Free forever.' },
   icons: { icon: '/favicon.svg' },
 }
 

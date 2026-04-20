@@ -4,8 +4,9 @@ import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
-  title: 'UD Validator — Verify Universal Documents™',
-  description: 'Verify any .uds file. Check schema version, expiry, signatures, languages, and more.',
+  title: 'Universal Document™ Validator',
+  description: 'Universal Document™ Validator — verify any .uds file. Check schema, expiry, signatures, and more. Free.',
+  openGraph: { title: 'Universal Document™ Validator', description: 'Validate Universal Document™ files instantly.' },
   icons: { icon: '/favicon.svg' },
 }
 

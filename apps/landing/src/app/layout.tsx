@@ -4,12 +4,12 @@ import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
-  title: 'Universal Document™ — The next document format',
-  description: 'AI-native, semantic, expiring, multilingual. The document format built for the age of intelligence.',
+  title: 'Universal Document™',
+  description: 'Universal Document™ — the next-generation document format. AI-native, semantic, expiring, multilingual.',
   icons: { icon: '/favicon.svg' },
   openGraph: {
     title: 'Universal Document™',
-    description: 'The next document format. AI-native. Semantic. Expiring. Multilingual.',
+    description: 'Universal Document™ — the next-generation document format. AI-native. Semantic. Expiring. Multilingual.',
     type: 'website',
   },
 }

@@ -4,8 +4,9 @@ import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
-  title: 'UD Reader — Universal Document™ Reader',
-  description: 'Open and read Universal Document (.uds) files. Free forever.',
+  title: 'Universal Document™ Reader',
+  description: 'Universal Document™ Reader — open and read any .uds or .udr file. Free forever.',
+  openGraph: { title: 'Universal Document™ Reader', description: 'Read Universal Document™ files. Free forever.' },
   icons: { icon: '/favicon.svg' },
 }
 

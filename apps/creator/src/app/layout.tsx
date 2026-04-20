@@ -4,8 +4,9 @@ import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
-  title: 'UD Creator — Build Universal Documents™',
-  description: 'Create .uds files with rich text, metadata, and expiry. The document format built for intelligence.',
+  title: 'Universal Document™ Creator',
+  description: 'Universal Document™ Creator — build .uds files with rich text, metadata, and expiry. Free forever.',
+  openGraph: { title: 'Universal Document™ Creator', description: 'Create Universal Document™ files. Free forever.' },
   icons: { icon: '/favicon.svg' },
 }
 

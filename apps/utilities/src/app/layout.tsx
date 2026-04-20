@@ -4,8 +4,9 @@ import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
-  title: 'UD Utilities — Universal Document™ Tools',
-  description: 'Merge, split, compress, OCR, protect, watermark, and more. Free PDF and document utilities from the Universal Document™ ecosystem.',
+  title: 'Universal Document™ Utilities',
+  description: 'Universal Document™ Utilities — merge, split, compress, OCR, protect, watermark, and more. Free forever.',
+  openGraph: { title: 'Universal Document™ Utilities', description: 'Thirteen PDF and document tools. Free forever.' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
