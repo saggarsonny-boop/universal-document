@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
           copying: false,
           modifying: false,
         },
-      })
+      } as any)
       return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
