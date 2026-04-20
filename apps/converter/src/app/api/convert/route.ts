@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { convertDocx, convertTxt } from '@/lib/convert'
+import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt } from '@/lib/convert'
 import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
+import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -36,14 +37,17 @@ export async function POST(req: NextRequest) {
 
     const fileName = file.name
     const ext = fileName.split('.').pop()?.toLowerCase()
-    const allowedTypes = ['docx', 'txt', 'md']
+    const allowedTypes = ['pdf', 'docx', 'txt', 'md', 'csv', 'html', 'png', 'jpg', 'jpeg', 'webp', 'gif']
 
     if (!ext || !allowedTypes.includes(ext)) {
       return NextResponse.json(
-        { error: `Unsupported file type .${ext}. Supported: .docx, .txt, .md` },
+        { error: `Unsupported file type .${ext}. Supported: ${allowedTypes.join(', ')}` },
         { status: 422 }
       )
     }
+
+    const utilityInput = formData.get('utility')?.toString() ?? 'optimize'
+    const utility: UDUtilityId = isUDUtility(utilityInput) ? utilityInput : 'optimize'
 
     if (!proUser) {
       if (file.size > MAX_FREE_BYTES) {
@@ -69,9 +73,43 @@ export async function POST(req: NextRequest) {
 
     if (ext === 'docx') {
       doc = await convertDocx(buffer, fileName)
+    } else if (ext === 'html') {
+      const rawHtml = buffer.toString('utf-8')
+      const pre = preprocessForUD({ fileName, baseText: rawHtml.replace(/<[^>]+>/g, ' '), utility })
+      doc = await convertHtml(pre.normalizedText, fileName)
+      doc.metadata.tags.push('utility:' + utility)
+      doc.metadata.tags.push('html-normalized')
+    } else if (ext === 'csv') {
+      const pre = preprocessForUD({ fileName, baseText: buffer.toString('utf-8'), utility })
+      doc = await convertCsv(pre.normalizedText, fileName)
+      doc.metadata.tags.push('utility:' + utility)
+      doc.metadata.tags.push('preprocessed')
+    } else if (ext === 'pdf') {
+      doc = await convertPdf(buffer, fileName)
+      const joined = doc.blocks
+        .map((block) => String(block.base_content?.text ?? block.base_content?.html ?? ''))
+        .filter(Boolean)
+        .join('\n')
+      const pre = preprocessForUD({ fileName, baseText: joined, utility })
+      doc.blocks = await convertTxt(pre.normalizedText, fileName).then((d) => d.blocks)
+      doc.metadata.tags.push('utility:' + utility)
+      doc.metadata.tags.push('pdf-normalized')
+    } else if (['png', 'jpg', 'jpeg', 'webp', 'gif'].includes(ext)) {
+      doc = await convertImage(fileName)
+      const pre = preprocessForUD({
+        fileName,
+        baseText: `Image imported for UD preprocessing. OCR utility: ${utility === 'ocr' ? 'enabled' : 'disabled'}.`,
+        utility,
+      })
+      doc.blocks = await convertTxt(pre.normalizedText, fileName).then((d) => d.blocks)
+      doc.metadata.tags.push('utility:' + utility)
+      doc.metadata.tags.push('image-normalized')
     } else {
       const text = buffer.toString('utf-8')
-      doc = await convertTxt(text, fileName)
+      const pre = preprocessForUD({ fileName, baseText: text, utility })
+      doc = await convertTxt(pre.normalizedText, fileName)
+      doc.metadata.tags.push('utility:' + utility)
+      doc.metadata.tags.push('preprocessed')
     }
 
     if (proUser) {
@@ -88,6 +126,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
         'Content-Disposition': `attachment; filename="${outputName}"`,
+        'X-UD-Identity': doc.metadata.visual_identity?.watermark_tone ?? 'light_blue',
         ...(proUser ? { 'X-Pro': 'true' } : {}),
       },
     })

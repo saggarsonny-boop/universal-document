@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { validateApiKey, ensureSchema, logCustody } from '@/lib/db'
-import { convertDocx, convertTxt } from '@/lib/convert'
+import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt } from '@/lib/convert'
 import JSZip from 'jszip'
 import { v4 as uuidv4 } from 'uuid'
+import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const ALLOWED = ['docx', 'txt', 'md']
+const ALLOWED = ['pdf', 'docx', 'txt', 'md', 'csv', 'html', 'png', 'jpg', 'jpeg', 'webp', 'gif']
 const MAX_FILES = 50
 
 export async function POST(req: NextRequest) {
@@ -27,6 +28,8 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData()
     const zipFile = formData.get('archive') as File | null
     const files = formData.getAll('files') as File[]
+    const utilityInput = formData.get('utility')?.toString() ?? 'optimize'
+    const utility: UDUtilityId = isUDUtility(utilityInput) ? utilityInput : 'optimize'
 
     let filesToProcess: { name: string; buffer: Buffer }[] = []
 
@@ -71,11 +74,32 @@ export async function POST(req: NextRequest) {
           let doc
           if (ext === 'docx') {
             doc = await convertDocx(buffer, name)
+          } else if (ext === 'html') {
+            const rawHtml = buffer.toString('utf-8')
+            const pre = preprocessForUD({ fileName: name, baseText: rawHtml.replace(/<[^>]+>/g, ' '), utility })
+            doc = await convertHtml(pre.normalizedText, name)
+          } else if (ext === 'csv') {
+            const pre = preprocessForUD({ fileName: name, baseText: buffer.toString('utf-8'), utility })
+            doc = await convertCsv(pre.normalizedText, name)
+          } else if (ext === 'pdf') {
+            doc = await convertPdf(buffer, name)
+            const joined = doc.blocks
+              .map((block) => String(block.base_content?.text ?? block.base_content?.html ?? ''))
+              .filter(Boolean)
+              .join('\n')
+            const pre = preprocessForUD({ fileName: name, baseText: joined, utility })
+            doc.blocks = await convertTxt(pre.normalizedText, name).then((d) => d.blocks)
+          } else if (['png', 'jpg', 'jpeg', 'webp', 'gif'].includes(ext)) {
+            doc = await convertImage(name)
+            const pre = preprocessForUD({ fileName: name, baseText: `Image imported for UD preprocessing.`, utility })
+            doc.blocks = await convertTxt(pre.normalizedText, name).then((d) => d.blocks)
           } else {
-            doc = await convertTxt(buffer.toString('utf-8'), name)
+            const pre = preprocessForUD({ fileName: name, baseText: buffer.toString('utf-8'), utility })
+            doc = await convertTxt(pre.normalizedText, name)
           }
           const outputId = uuidv4()
           doc.metadata.id = outputId
+          doc.metadata.tags.push('utility:' + utility)
           outputZip.file(name.replace(/\.[^.]+$/, '.uds'), JSON.stringify(doc, null, 2))
           results.push({ file: name, status: 'ok' })
           await logCustody({ email: proUser.email, apiKeyPrefix: proUser.prefix, fileName: name, fileSize: buffer.length, outputId })

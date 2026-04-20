@@ -11,6 +11,7 @@ interface Props {
 
 export default function DocumentViewer({ doc }: Props) {
   const { metadata, manifest, blocks, seal } = doc
+  const identity = metadata.visual_identity
 
   const layers = manifest.clarity_layer_manifest || []
   const languages = manifest.language_manifest || []
@@ -24,6 +25,39 @@ export default function DocumentViewer({ doc }: Props) {
 
   const activeLanguageEntry = languages.find((l) => l.code === activeLanguage)
   const direction = activeLanguageEntry?.direction || 'ltr'
+
+  function openAsUDR() {
+    const clone: UDDocument = {
+      ...doc,
+      state: 'UDR',
+      metadata: {
+        ...doc.metadata,
+        visual_identity: {
+          role: 'editable',
+          watermark_tone: 'light_blue',
+          watermark_hex: '#4DA3FF',
+          icon: {
+            desktop: '/icons/udr-file.svg',
+            finder_preview: '/icons/udr-file.svg',
+            explorer_preview: '/icons/udr-file.svg',
+            preview_pane: '/icons/udr-file.svg',
+          },
+          file_metadata: {
+            format_family: 'UD',
+            extension_hint: 'udr',
+          },
+        },
+      },
+    }
+
+    const blob = new Blob([JSON.stringify(clone, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${(doc.metadata.title || 'document').toLowerCase().replace(/\s+/g, '-')}.udr`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   if (isRevoked) {
     return (
@@ -50,6 +84,44 @@ export default function DocumentViewer({ doc }: Props) {
   return (
     <div style={{ maxWidth: '780px', margin: '0 auto', padding: '2rem 1.5rem' }}>
 
+      {identity && (
+        <div style={{
+          marginBottom: '1.25rem',
+          border: '1px solid #dbeafe',
+          background: '#eff6ff',
+          borderRadius: '0.75rem',
+          padding: '0.75rem 1rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{
+              width: 28,
+              height: 28,
+              borderRadius: 6,
+              background: identity.watermark_hex,
+              color: '#fff',
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              {identity.file_metadata.extension_hint.toUpperCase()}
+            </div>
+            <div style={{ fontSize: '0.82rem', color: '#1e3a8a' }}>
+              {identity.role === 'sealed' ? 'UDS sealed identity' : 'UDR editable identity'} · {identity.watermark_tone.replace('_', ' ')} watermark
+            </div>
+          </div>
+          <div style={{ fontSize: '0.75rem', color: '#1d4ed8' }}>
+            Desktop/Finder/Explorer/Preview IDs embedded in metadata
+          </div>
+        </div>
+      )}
+
       {/* Document header */}
       <div style={{ marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '2px solid #e5e7eb' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
@@ -58,6 +130,24 @@ export default function DocumentViewer({ doc }: Props) {
           </span>
           {metadata.document_type && (
             <span style={badgeStyle('#374151', '#f3f4f6')}>{metadata.document_type}</span>
+          )}
+          {doc.state === 'UDS' && (
+            <button
+              onClick={openAsUDR}
+              style={{
+                marginLeft: '0.5rem',
+                background: '#4DA3FF',
+                border: 'none',
+                color: '#fff',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                borderRadius: 999,
+                padding: '0.28rem 0.7rem',
+                cursor: 'pointer',
+              }}
+            >
+              Open as UDR
+            </button>
           )}
         </div>
         <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#111827', marginBottom: '0.5rem' }}>
@@ -130,7 +220,24 @@ export default function DocumentViewer({ doc }: Props) {
       )}
 
       {/* Blocks */}
-      <div>
+      <div style={{ position: 'relative' }}>
+        {identity && (
+          <div style={{
+            position: 'absolute',
+            inset: '0 0 auto 0',
+            pointerEvents: 'none',
+            zIndex: 1,
+            opacity: 0.07,
+            fontSize: '4.2rem',
+            fontWeight: 800,
+            letterSpacing: '0.1em',
+            color: identity.watermark_hex,
+            textAlign: 'center',
+            paddingTop: '6rem',
+          }}>
+            {identity.file_metadata.extension_hint.toUpperCase()} · UNIVERSAL DOCUMENT
+          </div>
+        )}
         {blocks.map((block) => (
           <BlockRenderer
             key={block.id}
@@ -141,6 +248,35 @@ export default function DocumentViewer({ doc }: Props) {
           />
         ))}
       </div>
+
+      {identity && (
+        <div style={{ marginTop: '2rem', border: '1px solid #e5e7eb', borderRadius: '0.75rem', overflow: 'hidden' }}>
+          <div style={{ padding: '0.7rem 0.9rem', borderBottom: '1px solid #e5e7eb', background: '#f8fafc', fontSize: '0.78rem', color: '#475569', fontWeight: 600 }}>
+            File Preview Pane Metadata
+          </div>
+          <div style={{ padding: '0.9rem', fontSize: '0.8rem', color: '#334155', display: 'grid', gap: '0.4rem' }}>
+            <div>Format family: {identity.file_metadata.format_family}</div>
+            <div>Extension hint: .{identity.file_metadata.extension_hint}</div>
+            <div>Desktop icon id: {identity.icon.desktop}</div>
+            <div>Finder preview id: {identity.icon.finder_preview}</div>
+            <div>Explorer preview id: {identity.icon.explorer_preview}</div>
+            <div>Preview pane id: {identity.icon.preview_pane}</div>
+          </div>
+        </div>
+      )}
+
+      {metadata.viral_links && (
+        <div style={{ marginTop: '1rem', border: '1px solid #dbeafe', borderRadius: '0.75rem', background: '#eff6ff', padding: '0.85rem 1rem' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e40af', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            Ecosystem Links
+          </div>
+          <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+            <a href={metadata.viral_links.open_in_reader} style={{ color: '#1d4ed8' }}>Open in UD Reader</a>
+            <a href={metadata.viral_links.convert_to_uds} style={{ color: '#1d4ed8' }}>Convert your files to UDS</a>
+            <a href={metadata.viral_links.create_udr} style={{ color: '#1d4ed8' }}>Create your own UDR</a>
+          </div>
+        </div>
+      )}
 
       {/* Chain of custody */}
       {seal && seal.chain_of_custody && seal.chain_of_custody.length > 0 && (

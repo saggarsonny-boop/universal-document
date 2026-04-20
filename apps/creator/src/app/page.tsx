@@ -2,6 +2,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 
 type BlockType = 'heading' | 'paragraph' | 'list' | 'divider'
+type DocState = 'UDR' | 'UDS'
 interface Block { id: string; type: BlockType; html: string }
 interface SavedDoc { id: string; title: string; updated_at: string }
 
@@ -14,8 +15,54 @@ function getPlainText(html: string) {
   return d.textContent ?? ''
 }
 
-function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: string, requireAuth: boolean) {
+function getIdentity(state: DocState) {
+  if (state === 'UDS') {
+    return {
+      role: 'sealed' as const,
+      watermark_tone: 'dark_blue' as const,
+      watermark_hex: '#003A8C',
+      icon: {
+        desktop: '/icons/uds-file.svg',
+        finder_preview: '/icons/uds-file.svg',
+        explorer_preview: '/icons/uds-file.svg',
+        preview_pane: '/icons/uds-file.svg',
+      },
+      file_metadata: {
+        format_family: 'UD' as const,
+        extension_hint: 'uds' as const,
+      },
+    }
+  }
+
+  return {
+    role: 'editable' as const,
+    watermark_tone: 'light_blue' as const,
+    watermark_hex: '#4DA3FF',
+    icon: {
+      desktop: '/icons/udr-file.svg',
+      finder_preview: '/icons/udr-file.svg',
+      explorer_preview: '/icons/udr-file.svg',
+      preview_pane: '/icons/udr-file.svg',
+    },
+    file_metadata: {
+      format_family: 'UD' as const,
+      extension_hint: 'udr' as const,
+    },
+  }
+}
+
+function hashContent(input: string) {
+  let h = 2166136261
+  for (let i = 0; i < input.length; i += 1) {
+    h ^= input.charCodeAt(i)
+    h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24)
+  }
+  return `udhash_${(h >>> 0).toString(16).padStart(8, '0')}`
+}
+
+function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: string, requireAuth: boolean, state: DocState) {
   const tagList = tags.split(',').map(t => t.trim()).filter(Boolean)
+  const identity = getIdentity(state)
   const udBlocks = blocks.map(b => {
     if (b.type === 'divider') return { id: b.id, type: 'divider', base_content: {} }
     if (b.type === 'list') {
@@ -27,15 +74,22 @@ function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: strin
       base_content: { html: b.html, text: getPlainText(b.html) },
     }
   })
+  const chainHash = hashContent(JSON.stringify(udBlocks))
   return {
     ud_version: 'iSDF v0.1.0',
-    state: 'UDR',
+    state,
     metadata: {
       id: uid(),
       title: title || 'Untitled',
       created_at: new Date().toISOString(),
       revoked: false,
       tags: tagList,
+      visual_identity: identity,
+      viral_links: {
+        open_in_reader: 'https://reader.hive.baby',
+        convert_to_uds: 'https://converter.hive.baby',
+        create_udr: 'https://creator.hive.baby',
+      },
       ...(expiresAt ? { expires_at: new Date(expiresAt).toISOString() } : {}),
     },
     manifest: {
@@ -45,6 +99,17 @@ function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: strin
       permissions: { require_auth: requireAuth },
     },
     blocks: udBlocks,
+    ...(state === 'UDS' ? {
+      seal: {
+        sealed_at: new Date().toISOString(),
+        sealed_by: 'UD Creator/Editor',
+        hash: chainHash,
+        chain_of_custody: [
+          { event: 'created', actor: 'UD Creator/Editor', timestamp: new Date().toISOString(), note: 'Document created in editor dashboard.' },
+          { event: 'sealed', actor: 'UD Creator/Editor', timestamp: new Date().toISOString(), note: 'Exported as final UDS.' },
+        ],
+      },
+    } : {}),
   }
 }
 
@@ -192,6 +257,7 @@ export default function CreatorPage() {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle')
   const [docId, setDocId] = useState<string | null>(null)
   const [docsOpen, setDocsOpen] = useState(false)
+  const [docState, setDocState] = useState<DocState>('UDR')
 
   useEffect(() => {
     const s = localStorage.getItem('ud_creator_session')
@@ -216,7 +282,7 @@ export default function CreatorPage() {
   async function saveDoc() {
     if (!sessionId) { setShowAuth(true); return }
     setSaving(true); setSaveStatus('idle')
-    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth)
+    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth, docState)
     try {
       if (docId) {
         await fetch(`/api/documents/${docId}`, {
@@ -247,6 +313,7 @@ export default function CreatorPage() {
     setTags((d.metadata?.tags ?? []).join(', '))
     setExpiresAt(d.metadata?.expires_at ? d.metadata.expires_at.slice(0, 10) : '')
     setRequireAuth(d.manifest?.permissions?.require_auth ?? false)
+    setDocState(d.state === 'UDS' ? 'UDS' : 'UDR')
     setBlocks((d.blocks ?? []).map((b: { id: string; type: BlockType; base_content: { html?: string; text?: string; items?: string[] } }) => ({
       id: b.id ?? uid(),
       type: b.type,
@@ -266,6 +333,7 @@ export default function CreatorPage() {
   function resetEditor() {
     setTitle(''); setTags(''); setExpiresAt(''); setRequireAuth(false)
     setBlocks([{ id: uid(), type: 'paragraph', html: '' }])
+    setDocState('UDR')
     setDocId(null)
   }
 
@@ -315,12 +383,12 @@ export default function CreatorPage() {
   }
 
   function exportFile() {
-    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth)
+    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth, docState)
     const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${(title || 'document').toLowerCase().replace(/\s+/g, '-')}.uds`
+    a.download = `${(title || 'document').toLowerCase().replace(/\s+/g, '-')}.${docState.toLowerCase()}`
     a.click()
     URL.revokeObjectURL(url)
     setExported(true)
@@ -369,7 +437,7 @@ export default function CreatorPage() {
       {showAuth && <AuthModal onDone={() => { setShowAuth(false); fetchDocs() }} onClose={() => setShowAuth(false)} />}
       <div style={S.wrap}>
         <div style={S.topBar}>
-          <h1 style={S.h1}>UD Creator</h1>
+          <h1 style={S.h1}>UD Creator / UD Editor</h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             {email ? (
               <>
@@ -387,6 +455,21 @@ export default function CreatorPage() {
               </button>
             )}
           </div>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
+          gap: 10,
+          marginBottom: 18,
+          fontSize: 11,
+          color: 'var(--muted)',
+          textTransform: 'uppercase',
+          letterSpacing: '0.06em',
+        }}>
+          <div style={{ border: '1px dashed var(--border)', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>Left sidebar: sections</div>
+          <div style={{ border: '1px dashed var(--border)', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>Top bar: clarity layers</div>
+          <div style={{ border: '1px dashed var(--border)', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>Right sidebar: metadata</div>
         </div>
 
         {docsOpen && savedDocs.length > 0 && (
@@ -426,6 +509,55 @@ export default function CreatorPage() {
           <div style={S.field}>
             <label style={S.label}>Tags (comma-separated)</label>
             <input style={S.input} value={tags} onChange={e => setTags(e.target.value)} placeholder="legal, draft, private" />
+          </div>
+        </div>
+
+        <div style={{ ...S.field, marginBottom: 18 }}>
+          <label style={S.label}>UD visual identity</label>
+          <div style={{ display: 'inline-flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
+            <button
+              onClick={() => setDocState('UDR')}
+              style={{
+                padding: '8px 14px',
+                border: 'none',
+                cursor: 'pointer',
+                background: docState === 'UDR' ? 'rgba(96,165,250,0.18)' : 'transparent',
+                color: docState === 'UDR' ? '#93c5fd' : 'var(--muted)',
+                fontWeight: 700,
+                fontSize: 12,
+              }}
+            >
+              UDR editable
+            </button>
+            <button
+              onClick={() => setDocState('UDS')}
+              style={{
+                padding: '8px 14px',
+                border: 'none',
+                cursor: 'pointer',
+                background: docState === 'UDS' ? 'rgba(37,99,235,0.18)' : 'transparent',
+                color: docState === 'UDS' ? '#60a5fa' : 'var(--muted)',
+                fontWeight: 700,
+                fontSize: 12,
+              }}
+            >
+              UDS sealed
+            </button>
+          </div>
+          <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
+            {docState === 'UDS' ? 'Dark blue watermark (#003A8C) and sealed icon IDs are embedded during export.' : 'Light blue watermark (#4DA3FF) and editable icon IDs are embedded during export.'}
+          </p>
+        </div>
+
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 14px', marginBottom: 20 }}>
+          <div style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+            Preview pane identity
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text)', display: 'grid', gap: 4 }}>
+            <div>State: {docState}</div>
+            <div>Watermark: {docState === 'UDS' ? 'dark_blue (#003A8C)' : 'light_blue (#4DA3FF)'}</div>
+            <div>Desktop icon id: {docState === 'UDS' ? '/icons/uds-file.svg' : '/icons/udr-file.svg'}</div>
+            <div>Finder/Explorer preview ids: {docState === 'UDS' ? '/icons/uds-file.svg' : '/icons/udr-file.svg'}</div>
           </div>
         </div>
 
@@ -500,11 +632,15 @@ export default function CreatorPage() {
 
         <div style={S.actionRow}>
           <button style={S.exportBtn} onClick={exportFile}>
-            {exported ? '✓ Downloaded' : 'Export .uds file'}
+            {exported ? '✓ Downloaded' : `Export .${docState.toLowerCase()} file`}
           </button>
           <button style={S.saveBtn(saveStatus)} onClick={saveDoc} disabled={saving}>
             {saving ? 'Saving…' : saveStatus === 'saved' ? '✓ Saved' : saveStatus === 'error' ? 'Save failed' : docId ? 'Save changes' : 'Save to cloud'}
           </button>
+        </div>
+
+        <div style={{ marginTop: 12, border: '1px dashed var(--border)', borderRadius: 8, padding: '9px 11px', fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: 'center' }}>
+          Bottom bar: version history and chain-of-custody
         </div>
 
         <style>{`
