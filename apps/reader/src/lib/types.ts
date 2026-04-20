@@ -48,6 +48,26 @@ export interface Metadata {
   expiry?: string
   revoked: boolean
   revocation_url?: string
+  visual_identity?: {
+    role: 'editable' | 'sealed'
+    watermark_tone: 'light_blue' | 'dark_blue'
+    watermark_hex: string
+    icon: {
+      desktop: string
+      finder_preview: string
+      explorer_preview: string
+      preview_pane: string
+    }
+    file_metadata: {
+      format_family: 'UD'
+      extension_hint: 'udr' | 'uds'
+    }
+  }
+  viral_links?: {
+    open_in_reader: string
+    convert_to_uds: string
+    create_udr: string
+  }
 }
 
 export interface Provenance {

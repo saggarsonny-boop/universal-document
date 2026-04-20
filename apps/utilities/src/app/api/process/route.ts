@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         copied.forEach(p => merged.addPage(p))
       }
       const bytes = await merged.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-merged.pdf"',
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       out.addPage(page)
       // Full implementation: return zip. For now return page 1 with note.
       const bytes = await out.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': `attachment; filename="ud-split-page1-of-${total}.pdf"`,
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
       const src = await loadPdf(files[0])
       // pdf-lib doesn't do image resampling; we can at least re-save with objectsPerTick
       const bytes = await src.save({ useObjectStreams: true, addDefaultPage: false, objectsPerTick: 50 })
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-compressed.pdf"',
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
       const copied = await out.copyPages(src, indices)
       copied.forEach(p => out.addPage(p))
       const bytes = await out.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-extracted.pdf"',
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
       const copied = await out.copyPages(src, order)
       copied.forEach(p => out.addPage(p))
       const bytes = await out.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-rearranged.pdf"',
@@ -133,8 +133,8 @@ export async function POST(req: NextRequest) {
           copying: false,
           modifying: false,
         },
-      })
-      return new Response(bytes, {
+      } as any)
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-protected.pdf"',
@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
       const buf = await files[0].arrayBuffer()
       const src = await PDFDocument.load(buf, { password })
       const bytes = await src.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-unlocked.pdf"',
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
         })
       }
       const bytes = await src.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-watermarked.pdf"',
@@ -199,7 +199,7 @@ export async function POST(req: NextRequest) {
         page.drawText(text, { x, y, size: 10, font, color: rgb(0.3, 0.3, 0.3) })
       })
       const bytes = await src.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-numbered.pdf"',
@@ -223,7 +223,7 @@ export async function POST(req: NextRequest) {
         })
       }
       const bytes = await src.save()
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-redacted.pdf"',
@@ -235,7 +235,7 @@ export async function POST(req: NextRequest) {
     if (tool === 'optimize') {
       const src = await loadPdf(files[0])
       const bytes = await src.save({ useObjectStreams: true, addDefaultPage: false })
-      return new Response(bytes, {
+      return new Response(bytes as unknown as BodyInit, {
         headers: {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'attachment; filename="ud-optimized.pdf"',

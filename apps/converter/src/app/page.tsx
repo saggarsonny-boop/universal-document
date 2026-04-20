@@ -8,9 +8,25 @@ import UDOnboarding from '@/components/UDOnboarding'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
 
-const ACCEPTED = '.docx,.txt,.md'
-const ACCEPTED_LABEL = 'DOCX, TXT, MD'
+const ACCEPTED = '.pdf,.docx,.txt,.md,.csv,.html,.png,.jpg,.jpeg,.webp,.gif'
+const ACCEPTED_LABEL = 'PDF, DOCX, TXT, CSV, HTML, images'
 const FREE_LIMIT = 5
+
+const UTILITY_OPTIONS = [
+  { id: 'merge', label: 'UD Merge' },
+  { id: 'split', label: 'UD Split' },
+  { id: 'compress', label: 'UD Compress' },
+  { id: 'extract-pages', label: 'UD Extract Pages' },
+  { id: 'rearrange-pages', label: 'UD Rearrange Pages' },
+  { id: 'protect', label: 'UD Protect' },
+  { id: 'unlock', label: 'UD Unlock' },
+  { id: 'ocr', label: 'UD OCR' },
+  { id: 'watermark', label: 'UD Watermark' },
+  { id: 'page-numbers', label: 'UD Page Numbers' },
+  { id: 'compare', label: 'UD Compare' },
+  { id: 'redact', label: 'UD Redact' },
+  { id: 'optimize', label: 'UD Optimize' },
+] as const
 
 function getTodayKey() {
   return new Date().toISOString().slice(0, 10)
@@ -38,6 +54,7 @@ export default function ConverterPage() {
   const [isDragging, setIsDragging] = useState(false)
   const [usage, setUsage] = useState(0)
   const [isPro, setIsPro] = useState(false)
+  const [utility, setUtility] = useState<(typeof UTILITY_OPTIONS)[number]['id']>('optimize')
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -53,6 +70,7 @@ export default function ConverterPage() {
 
     const form = new FormData()
     form.append('file', file)
+    form.append('utility', utility)
 
     const headers: Record<string, string> = {}
     const apiKey = localStorage.getItem('converter_api_key')
@@ -118,15 +136,15 @@ export default function ConverterPage() {
       <AutoDemo />
       <FirstVisitCard />
       <TooltipTour engineId="udconverter" tips={[
-        { label: "Upload or drag", text: "Drop a DOCX, TXT, or MD file — or click the area to browse. Converts to clean PDF." },
+        { label: "Upload or drag", text: "Drop PDF, DOCX, TXT, CSV, HTML, or images — then normalize to UDS." },
         { label: "Free tier", text: "5 free conversions per day, no account needed. The count resets at midnight." },
-        { label: "API key", text: "Have your own Anthropic key? Paste it in settings for unlimited conversions." },
-        { label: "Download", text: "After conversion, a download link appears instantly — no email required." },
+        { label: "UD utilities", text: "Use Merge, Split, OCR, Redact, Optimize and more before conversion." },
+        { label: "Download", text: "Output is a UDS file with sealed visual identity and metadata links." },
       ]} />
 
       <div style={{ marginBottom: 48, textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
-          <a href="https://universal-document.vercel.app" style={{ fontSize: 13, color: '#6b7280' }}>← UD Hub</a>
+          <a href="https://ud.hive.baby" style={{ fontSize: 13, color: '#6b7280' }}>← UD Hub</a>
           <span style={{ color: '#d1d5db' }}>·</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Converter</span>
           <span style={{ color: '#d1d5db' }}>·</span>
@@ -136,8 +154,23 @@ export default function ConverterPage() {
           Convert to Universal Document
         </h1>
         <p style={{ fontSize: 15, color: '#6b7280', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
-          Upload a {ACCEPTED_LABEL} file. Download a <code style={{ background: '#f3f4f6', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file, ready to open in the UD Reader.
+          Upload a {ACCEPTED_LABEL} file. Pick a UD utility, then download a normalized <code style={{ background: '#f3f4f6', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file ready for UD Reader.
         </p>
+
+        <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
+          <label style={{ fontSize: 12, color: '#4b5563', display: 'flex', alignItems: 'center', gap: 8 }}>
+            Utility
+            <select
+              value={utility}
+              onChange={(e) => setUtility(e.target.value as (typeof UTILITY_OPTIONS)[number]['id'])}
+              style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '6px 10px', fontSize: 12, color: '#111827', background: '#fff' }}
+            >
+              {UTILITY_OPTIONS.map((option) => (
+                <option key={option.id} value={option.id}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+        </div>
 
         {!isPro && (
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, background: atLimit ? '#fef2f2' : '#f3f4f6', border: `1px solid ${atLimit ? '#fecaca' : '#e5e7eb'}`, borderRadius: 20, padding: '6px 14px' }}>
@@ -237,8 +270,9 @@ export default function ConverterPage() {
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
           <p style={{ fontSize: 18, fontWeight: 700, color: '#065f46', marginBottom: 6 }}>Converted successfully</p>
           <p style={{ fontSize: 14, color: '#047857', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
-          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 24 }}>
-            Your .uds file has been downloaded. Open it in the UD Reader or validate it below.
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 28 }}>
+            Open it in the{' '}
+            <a href="https://ud.hive.baby" style={{ color: '#2563eb' }}>UD Reader</a>.
           </p>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
             <a
@@ -277,7 +311,7 @@ export default function ConverterPage() {
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
-            ['UD Hub', 'https://universal-document.vercel.app'],
+            ['UD Hub', 'https://ud.hive.baby'],
             ['Pricing', '/pricing'],
             ['Pro', '/pro'],
             ['hive.baby', 'https://hive.baby'],
