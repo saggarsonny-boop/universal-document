@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import AutoDemo from './components/AutoDemo'
 import FirstVisitCard from './components/FirstVisitCard'
 import TooltipTour from './components/TooltipTour'
+import UDOnboarding from '@/components/UDOnboarding'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
 
@@ -113,6 +114,7 @@ export default function ConverterPage() {
 
   return (
     <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
+      <UDOnboarding engine="Converter" />
       <AutoDemo />
       <FirstVisitCard />
       <TooltipTour engineId="udconverter" tips={[
@@ -235,13 +237,22 @@ export default function ConverterPage() {
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
           <p style={{ fontSize: 18, fontWeight: 700, color: '#065f46', marginBottom: 6 }}>Converted successfully</p>
           <p style={{ fontSize: 14, color: '#047857', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
-          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 28 }}>
-            Open it in the{' '}
-            <a href="https://universal-document.vercel.app" style={{ color: '#2563eb' }}>UD Reader</a>.
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 24 }}>
+            Your .uds file has been downloaded. Open it in the UD Reader or validate it below.
           </p>
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
+            <a
+              href="https://ud.hive.baby"
+              style={{ background: 'var(--ud-ink)', color: '#fff', border: 'none', borderRadius: 99, padding: '10px 22px', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
+            >Open in UD Reader →</a>
+            <a
+              href="https://validator.hive.baby"
+              style={{ background: 'transparent', color: 'var(--ud-ink)', border: '1px solid var(--ud-border)', borderRadius: 99, padding: '10px 22px', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
+            >Validate this file →</a>
+          </div>
           <button
             onClick={reset}
-            style={{ background: '#2563eb', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+            style={{ background: 'none', color: 'var(--ud-muted)', border: 'none', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', marginTop: 8 }}
           >
             Convert another file
           </button>

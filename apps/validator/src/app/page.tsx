@@ -1,5 +1,6 @@
 'use client'
 import { useState, useCallback } from 'react'
+import UDOnboarding from '@/components/UDOnboarding'
 
 interface UDBlock {
   id: string
@@ -137,6 +138,7 @@ export default function ValidatorPage() {
 
   return (
     <div style={S.page}>
+      <UDOnboarding engine="Validator" />
       <div style={S.center}>
         <h1 style={S.h1}>UD Validator</h1>
         <p style={S.sub}>Upload any .uds file to verify its structure and metadata.</p>
@@ -221,6 +223,13 @@ export default function ValidatorPage() {
               </div>
             )}
 
+            {valid && (
+              <a href="https://ud.hive.baby" style={{
+                display: 'inline-block', marginBottom: 12, marginRight: 10,
+                background: 'var(--ud-ink)', color: '#fff', borderRadius: 99,
+                padding: '9px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none',
+              }}>Open in UD Reader →</a>
+            )}
             <button style={S.reset} onClick={() => { setResult(null); setFileName('') }}>Validate another file</button>
           </div>
         )}

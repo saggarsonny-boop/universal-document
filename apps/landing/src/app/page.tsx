@@ -62,22 +62,6 @@ export default function LandingPage() {
 
   return (
     <div style={s.page}>
-      {/* Nav */}
-      <nav style={s.nav}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <svg width="28" height="28" viewBox="0 0 28 28">
-            <rect width="28" height="28" rx="6" fill="#003A8C" />
-            <text x="14" y="20" textAnchor="middle" fontFamily="Georgia,serif" fontWeight="700" fontSize="11" fill="#fff">UD</text>
-          </svg>
-          <span style={{ fontWeight: 700, fontSize: 15, color: '#f1f5f9' }}>Universal Document</span>
-        </div>
-        <div style={{ display: 'flex', gap: 20, fontSize: 13, color: '#8892a4' }}>
-          <a href="https://converter.hive.baby" style={{ color: '#8892a4' }}>Converter</a>
-          <a href="https://udutilities.hive.baby" style={{ color: '#4DA3FF', fontWeight: 600 }}>Utilities</a>
-          <a href="https://hive.baby/patrons" style={{ color: '#8892a4' }}>Support</a>
-        </div>
-      </nav>
-
       {/* Hero */}
       <div style={s.hero}>
         <div style={s.badge}>iSDF v0.1.0 · Open format</div>
@@ -301,10 +285,6 @@ export default function LandingPage() {
         <a href="https://hive.baby/patrons" style={s.ctaSecondary}>View patrons →</a>
       </section>
 
-      {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '24px', textAlign: 'center', fontSize: 12, color: '#4a5568' }}>
-        Universal Document · Part of <a href="https://hive.baby" style={{ color: '#4DA3FF' }}>hive.baby</a> · No ads. No investors. No agenda.
-      </footer>
     </div>
   )
 }

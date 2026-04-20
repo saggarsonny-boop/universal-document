@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import UDOnboarding from '@/components/UDOnboarding'
 import type { UDDocument } from '@/lib/types'
 import { validateUDDocument } from '@/lib/validator'
 import DocumentViewer from '@/components/DocumentViewer'
@@ -153,6 +154,7 @@ export default function Home() {
 
   return (
     <div style={centeredPage}>
+      <UDOnboarding engine="Reader" />
       <div style={{ maxWidth: '560px', width: '100%' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>

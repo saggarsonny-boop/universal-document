@@ -1,5 +1,6 @@
 'use client'
 import { useState, useCallback, useRef, useEffect } from 'react'
+import UDOnboarding from '@/components/UDOnboarding'
 
 type BlockType = 'heading' | 'paragraph' | 'list' | 'divider'
 interface Block { id: string; type: BlockType; html: string }
@@ -366,6 +367,7 @@ export default function CreatorPage() {
 
   return (
     <div style={S.page}>
+      <UDOnboarding engine="Creator" />
       {showAuth && <AuthModal onDone={() => { setShowAuth(false); fetchDocs() }} onClose={() => setShowAuth(false)} />}
       <div style={S.wrap}>
         <div style={S.topBar}>
@@ -506,6 +508,19 @@ export default function CreatorPage() {
             {saving ? 'Saving…' : saveStatus === 'saved' ? '✓ Saved' : saveStatus === 'error' ? 'Save failed' : docId ? 'Save changes' : 'Save to cloud'}
           </button>
         </div>
+        {exported && (
+          <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
+            <a href="https://ud.hive.baby" style={{
+              background: 'var(--ud-ink)', color: '#fff', borderRadius: 99,
+              padding: '9px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none',
+            }}>Open in UD Reader →</a>
+            <a href="https://validator.hive.baby" style={{
+              background: 'transparent', color: 'var(--ud-ink)',
+              border: '1px solid var(--ud-border)', borderRadius: 99,
+              padding: '9px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none',
+            }}>Validate this file →</a>
+          </div>
+        )}
 
         <style>{`
           [contenteditable]:empty:before {

@@ -1,51 +1,166 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #080a0f;
-  --surface: #0d1117;
-  --border: #1a2030;
-  --border2: #1e2840;
-  --text: #e2e8f0;
-  --muted: #64748b;
-  --subtle: #334155;
-  --gold: #d4af37;
-  --gold-dim: rgba(212,175,55,0.6);
-  --gold-glow: rgba(212,175,55,0.15);
+  /* Brand colors */
+  --ud-ink:      #1e2d3d;
+  --ud-ink-2:    #2d4060;
+  --ud-paper:    #fafaf8;
+  --ud-paper-2:  #f2f1ee;
+  --ud-paper-3:  #e8e6e0;
+  --ud-gold:     #c8960a;
+  --ud-gold-2:   #e8b420;
+  --ud-gold-3:   #fff3cc;
+  --ud-teal:     #0a7a6a;
+  --ud-teal-2:   #e0f5f0;
+  --ud-border:   #e0ddd6;
+  --ud-border-2: #d0cdc6;
+  --ud-muted:    #6b7280;
+  --ud-danger:   #e24b4a;
+  --ud-success:  #1d9e75;
+
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  /* Shape */
+  --ud-radius:    8px;
+  --ud-radius-lg: 12px;
+  --ud-radius-xl: 16px;
+  --ud-shadow:    0 1px 3px rgba(0,0,0,0.06);
 }
 
 html, body { height: 100%; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--ud-paper);
+  color: var(--ud-ink);
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--gold-dim); text-decoration: none; }
-a:hover { color: var(--gold); }
+a { color: var(--ud-ink); text-decoration: none; }
+a:hover { color: var(--ud-teal); }
 
+/* Planet button spin */
 @keyframes hive-planet-spin {
   from { transform: rotate(0deg) }
-  to { transform: rotate(360deg) }
+  to   { transform: rotate(360deg) }
 }
-.hive-planet {
-  animation: hive-planet-spin 12s linear infinite;
+.hive-planet { animation: hive-planet-spin 12s linear infinite; display: inline-block; }
+
+/* Shared entrance animation */
+@keyframes ud-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ud-fade-in { animation: ud-fade-in 0.3s ease forwards; }
+
+/* Onboarding icon keyframes */
+@keyframes ud-bounce {
+  0%, 100% { transform: translateY(0); }
+  40%       { transform: translateY(-10px); }
+  70%       { transform: translateY(-5px); }
+}
+@keyframes ud-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Cursor blink */
+@keyframes ud-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.ud-cursor {
+  display: inline-block; width: 2px; height: 1em;
+  background: var(--ud-ink); margin-left: 1px; vertical-align: middle;
+  animation: ud-blink 0.7s step-end infinite;
+}
+
+/* Shared card */
+.ud-card {
+  background: #fff;
+  border: 0.5px solid var(--ud-border);
+  border-radius: var(--ud-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--ud-shadow);
+}
+
+/* Shared button primitives */
+.ud-btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 24px; border-radius: 99px; border: none;
+  background: var(--ud-ink); color: #fff;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(30,45,61,0.18);
+}
+.ud-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(30,45,61,0.26);
+}
+
+.ud-btn-secondary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 24px; border-radius: 99px;
+  border: 1px solid var(--ud-ink); background: transparent;
+  color: var(--ud-ink);
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: background 0.15s;
+}
+.ud-btn-secondary:hover { background: var(--ud-paper-2); }
+
+/* Shared badge */
+.ud-badge {
   display: inline-block;
+  font-family: var(--font-mono); font-size: 10px;
+  font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 99px;
+}
+.ud-badge-default  { background: var(--ud-paper-3); color: var(--ud-ink); }
+.ud-badge-success  { background: var(--ud-teal-2);  color: var(--ud-teal); }
+.ud-badge-gold     { background: var(--ud-gold-3);  color: var(--ud-gold); }
+.ud-badge-pending  { background: var(--ud-paper-2); color: var(--ud-muted); }
+.ud-badge-danger   { background: rgba(226,75,74,0.1); color: var(--ud-danger); }
+
+/* Drop zone */
+.ud-drop-zone {
+  border: 1.5px dashed var(--ud-border-2);
+  border-radius: var(--ud-radius-xl);
+  padding: 56px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: var(--ud-paper-2);
+}
+.ud-drop-zone:hover,
+.ud-drop-zone.active {
+  border-color: var(--ud-teal);
+  background: var(--ud-teal-2);
 }
 
-@keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.3); }
-  50% { box-shadow: 0 0 0 8px rgba(212,175,55,0); }
-}
-.pulse { animation: pulse-gold 3s ease-in-out infinite; }
-
+/* Legacy var aliases — existing page components use these names */
 :root {
-  --font-display: 'Syne', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  --bg:       var(--ud-paper);
+  --surface:  #ffffff;
+  --border:   var(--ud-border);
+  --text:     var(--ud-ink);
+  --muted:    var(--ud-muted);
+  --gold:     var(--ud-gold);
+  --gold-dim: var(--ud-gold);
+  --green:    var(--ud-success);
+  --red:      var(--ud-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
