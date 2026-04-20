@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import type { CSSProperties } from 'react'
 import './globals.css'
-import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 
 export const metadata: Metadata = {
@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   openGraph: { title: 'Universal Document™ Reader', description: 'Read Universal Document™ files. Free forever.' },
   icons: { icon: '/favicon.svg' },
 }
+
+const NAV: CSSProperties = { fontSize: '11px', color: 'rgba(180,200,225,0.55)', textDecoration: 'none' }
+const DOT: CSSProperties = { color: 'rgba(26,58,92,0.5)', fontSize: '11px' }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,6 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="https://creator.hive.baby" style={NAV}>Creator</a>
             <span style={DOT}>·</span>
             <a href="https://validator.hive.baby" style={NAV}>Validator</a>
+            <span style={DOT}>·</span>
+            <a href="https://signer.hive.baby" style={NAV}>Signer</a>
             <span style={DOT}>·</span>
             <a href="https://ud.hive.baby" style={NAV}>UD Hub</a>
           </nav>

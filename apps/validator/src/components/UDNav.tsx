@@ -6,6 +6,7 @@ const TOOLS = [
   { label: 'Creator', href: 'https://creator.hive.baby' },
   { label: 'Validator', href: 'https://validator.hive.baby' },
   { label: 'Utilities', href: 'https://utilities.hive.baby' },
+  { label: 'Signer', href: 'https://signer.hive.baby' },
 ]
 
 export default function UDNav({ engine }: { engine: string }) {
