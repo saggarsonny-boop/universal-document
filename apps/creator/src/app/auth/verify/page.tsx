@@ -1,8 +1,8 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 
-export default function AuthVerifyPage() {
+function AuthVerifyInner() {
   const params = useSearchParams()
   const router = useRouter()
 
@@ -20,5 +20,17 @@ export default function AuthVerifyPage() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
       <p style={{ color: 'var(--muted)', fontSize: 14 }}>Signing you in…</p>
     </div>
+  )
+}
+
+export default function AuthVerifyPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
+        <p style={{ color: 'var(--muted)', fontSize: 14 }}>Signing you in…</p>
+      </div>
+    }>
+      <AuthVerifyInner />
+    </Suspense>
   )
 }
