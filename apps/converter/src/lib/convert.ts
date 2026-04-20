@@ -9,7 +9,15 @@ export interface UDBlock {
 
 export interface UDDocument {
   ud_version: string
-  state: 'UDR'
+  state: 'UDS' | 'UDR'
+  _udBrand: {
+    type: 'UDS'
+    color: '#003A8C'
+    label: 'Universal Document Sealed'
+    convertedBy: 'UD Converter'
+    convertedAt: string
+    ecosystemUrl: 'https://ud.hive.baby'
+  }
   metadata: {
     id: string
     title: string
@@ -96,7 +104,15 @@ export function buildUDDocument(params: {
   const now = new Date().toISOString()
   return {
     ud_version: '0.1.0',
-    state: 'UDR',
+    state: 'UDS',
+    _udBrand: {
+      type: 'UDS',
+      color: '#003A8C',
+      label: 'Universal Document Sealed',
+      convertedBy: 'UD Converter',
+      convertedAt: now,
+      ecosystemUrl: 'https://ud.hive.baby',
+    },
     metadata: {
       id: uuidv4(),
       title: params.title,

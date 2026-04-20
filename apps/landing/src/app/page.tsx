@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import LifecycleAnimation from '@/components/LifecycleAnimation'
 
 const TOOLS = [
   { name: 'UD Converter', desc: 'Turn any file into UDS. DOCX, TXT, MD, CSV — instant.', url: 'https://converter.hive.baby', status: 'live', icon: '📄' },
@@ -92,6 +93,14 @@ export default function LandingPage() {
           <a href="https://converter.hive.baby" style={s.ctaPrimary}>Try UD Converter — Free →</a>
           <a href="https://udutilities.hive.baby" style={s.ctaSecondary}>UD Utilities</a>
         </div>
+      </div>
+
+      <hr style={s.divider} />
+
+      {/* Lifecycle Animation */}
+      <div style={{ maxWidth: 640, margin: '0 auto', padding: '48px 24px' }}>
+        <p style={{ ...s.sectionTitle, marginBottom: 20 }}>How it works</p>
+        <LifecycleAnimation autoPlay={true} />
       </div>
 
       <hr style={s.divider} />
