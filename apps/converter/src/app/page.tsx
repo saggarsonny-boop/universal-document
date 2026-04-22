@@ -144,17 +144,17 @@ export default function ConverterPage() {
 
       <div style={{ marginBottom: 48, textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
-          <a href="https://ud.hive.baby" style={{ fontSize: 13, color: '#6b7280' }}>← UD Hub</a>
-          <span style={{ color: '#d1d5db' }}>·</span>
+          <a href="https://reader.hive.baby" style={{ fontSize: 13, color: 'var(--ud-muted)' }}>← UD Hub</a>
+          <span style={{ color: 'var(--ud-border)' }}>·</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Converter</span>
-          <span style={{ color: '#d1d5db' }}>·</span>
+          <span style={{ color: 'var(--ud-border)' }}>·</span>
           <a href="/pricing" style={{ fontSize: 13, color: '#2563eb' }}>Pricing</a>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: '#111827', marginBottom: 12 }}>
           Convert to Universal Document
         </h1>
-        <p style={{ fontSize: 15, color: '#6b7280', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
-          Upload a {ACCEPTED_LABEL} file. Pick a UD utility, then download a normalized <code style={{ background: '#f3f4f6', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file ready for UD Reader.
+        <p style={{ fontSize: 15, color: 'var(--ud-muted)', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
+          Upload a {ACCEPTED_LABEL} file. Pick a UD utility, then download a normalized <code style={{ background: 'var(--ud-paper-2)', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file ready for UD Reader.
         </p>
 
         <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
@@ -186,7 +186,7 @@ export default function ConverterPage() {
         {isPro && (
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 16, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 20, padding: '6px 14px' }}>
             <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600 }}>⚡ Pro — unlimited</span>
-            <a href="/pro" style={{ fontSize: 12, color: '#6b7280' }}>Manage →</a>
+            <a href="/pro" style={{ fontSize: 12, color: 'var(--ud-muted)' }}>Manage →</a>
           </div>
         )}
       </div>
@@ -195,7 +195,7 @@ export default function ConverterPage() {
         <div style={{ border: '1px solid #fecaca', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: '#fef2f2' }}>
           <div style={{ fontSize: 40, marginBottom: 16 }}>🔒</div>
           <p style={{ fontSize: 18, fontWeight: 700, color: '#dc2626', marginBottom: 8 }}>Daily limit reached</p>
-          <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 24 }}>Free tier: {FREE_LIMIT} conversions per day. Resets at midnight.</p>
+          <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 24 }}>Free tier: {FREE_LIMIT} conversions per day. Resets at midnight.</p>
           <a href="/pricing" style={{ display: 'inline-block', background: '#2563eb', color: '#fff', borderRadius: 8, padding: '12px 28px', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
             Upgrade to Pro — $29/month
           </a>
@@ -221,7 +221,7 @@ export default function ConverterPage() {
             <p style={{ fontSize: 16, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
               Drop your file here
             </p>
-            <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 12 }}>
+            <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 12 }}>
               or click to browse · {ACCEPTED_LABEL} supported · max {isPro ? '50' : '10'} MB
             </p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
@@ -236,7 +236,7 @@ export default function ConverterPage() {
                   <rect x="0" y="56" width="64" height="10" fill="#1e2d3d"/>
                   <text x="32" y="72" textAnchor="middle" fontFamily="'Courier New', monospace" fontWeight="700" fontSize="10" fill="#ffffff">.uds</text>
                 </svg>
-                <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 4 }}>output</div>
+                <div style={{ fontSize: 9, color: 'var(--ud-muted)', marginTop: 4 }}>output</div>
               </div>
             </div>
             <input
@@ -262,7 +262,7 @@ export default function ConverterPage() {
         <div style={{ border: '1px solid #e5e7eb', borderRadius: 16, padding: '56px 32px', textAlign: 'center', background: '#fff' }}>
           <div style={{ width: 36, height: 36, border: '3px solid #e5e7eb', borderTopColor: '#2563eb', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 20px' }} />
           <p style={{ fontSize: 15, color: '#374151', fontWeight: 500 }}>Converting {fileName}…</p>
-          <p style={{ fontSize: 13, color: '#9ca3af', marginTop: 6 }}>This usually takes a second or two.</p>
+          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>This usually takes a second or two.</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
       ) : (
@@ -270,13 +270,13 @@ export default function ConverterPage() {
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
           <p style={{ fontSize: 18, fontWeight: 700, color: '#065f46', marginBottom: 6 }}>Converted successfully</p>
           <p style={{ fontSize: 14, color: '#047857', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
-          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 28 }}>
+          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 28 }}>
             Open it in the{' '}
-            <a href="https://ud.hive.baby" style={{ color: '#2563eb' }}>UD Reader</a>.
+            <a href="https://reader.hive.baby" style={{ color: '#2563eb' }}>UD Reader</a>.
           </p>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
             <a
-              href="https://ud.hive.baby"
+              href="https://reader.hive.baby"
               style={{ background: 'var(--ud-ink)', color: '#fff', border: 'none', borderRadius: 99, padding: '10px 22px', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
             >Open in UD Reader →</a>
             <a
@@ -305,18 +305,18 @@ export default function ConverterPage() {
         </div>
       )}
 
-      <div style={{ marginTop: 48, borderTop: '1px solid #f3f4f6', paddingTop: 24, textAlign: 'center' }}>
-        <p style={{ fontSize: 11, color: '#d1d5db', marginBottom: 12, letterSpacing: '0.05em' }}>
+      <div style={{ marginTop: 48, borderTop: '1px solid var(--ud-border)', paddingTop: 24, textAlign: 'center' }}>
+        <p style={{ fontSize: 11, color: 'var(--ud-border)', marginBottom: 12, letterSpacing: '0.05em' }}>
           NO ADS · NO INVESTORS · NO AGENDA
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
-            ['UD Hub', 'https://ud.hive.baby'],
+            ['UD Hub', 'https://reader.hive.baby'],
             ['Pricing', '/pricing'],
             ['Pro', '/pro'],
             ['hive.baby', 'https://hive.baby'],
           ].map(([label, href]) => (
-            <a key={label} href={href} style={{ fontSize: 12, color: '#9ca3af' }}>{label}</a>
+            <a key={label} href={href} style={{ fontSize: 12, color: 'var(--ud-muted)' }}>{label}</a>
           ))}
         </div>
       </div>

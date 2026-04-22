@@ -642,7 +642,7 @@ export default function CreatorPage() {
         </div>
         {exported && (
           <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
-            <a href="https://ud.hive.baby" style={{
+            <a href="https://reader.hive.baby" style={{
               background: 'var(--ud-ink)', color: '#fff', borderRadius: 99,
               padding: '9px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none',
             }}>Open in UD Reader →</a>

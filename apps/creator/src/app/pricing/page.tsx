@@ -22,7 +22,7 @@ export default function PricingPage() {
           Simple pricing.
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ud-muted)', maxWidth: 480, margin: '0 auto' }}>
-          Free forever for individuals. Pro for teams and power users.
+          Free forever for individuals. Pro for teams and organisations.
         </p>
       </div>
 
@@ -34,42 +34,43 @@ export default function PricingPage() {
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 4 }}>$0</p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 28 }}>Always. No card required.</p>
           {[
-            '5 conversions per day',
-            'DOCX, TXT, Markdown, CSV',
-            'Download as .uds',
-            'Basic metadata',
-            'No account required',
+            'Up to 5 documents per day',
+            'Rich text editing',
+            'Basic metadata (title, author, expiry)',
+            'Export as .uds',
+            'Download .udr working copy',
           ].map(f => (
             <div key={f} style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 10 }}>
               <span style={{ color: 'var(--ud-teal)', fontWeight: 700, flexShrink: 0 }}>✓</span> {f}
             </div>
           ))}
-          <a href="https://converter.hive.baby" style={{
+          <a href="https://creator.hive.baby" style={{
             display: 'block', marginTop: 28, padding: '11px 0', textAlign: 'center',
             border: '1px solid var(--ud-border)', borderRadius: 8, textDecoration: 'none',
             fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14, color: 'var(--ud-ink)',
-          }}>Start converting →</a>
+          }}>Start creating →</a>
         </div>
 
-        {/* Pro Monthly */}
+        {/* Pro */}
         <div style={card.featured}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-gold)', marginBottom: 16 }}>Pro</p>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, color: '#fff', marginBottom: 4 }}>$29<span style={{ fontSize: 16, fontWeight: 400, opacity: 0.7 }}>/month</span></p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 28 }}>Or $249/year — save $99.</p>
           {[
-            'Unlimited conversions',
-            'Batch convert (ZIP upload)',
-            'Up to 50 MB per file',
-            'Full metadata + expiry controls',
-            'Chain of custody logging',
-            'API access',
-            'Priority processing',
+            'Unlimited documents',
+            'Clarity layers (multi-audience)',
+            'Multilingual ribbons',
+            'Full chain of custody',
+            'Advanced expiry and revocation',
+            'Permission controls per section',
+            'AI document analysis',
+            'Template library',
           ].map(f => (
             <div key={f} style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(255,255,255,0.85)', display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 10 }}>
               <span style={{ color: 'var(--ud-gold)', fontWeight: 700, flexShrink: 0 }}>✓</span> {f}
             </div>
           ))}
-          <a href="mailto:press@universaldocument.solutions?subject=Pro%20enquiry" style={{
+          <a href="mailto:press@universaldocument.solutions?subject=Pro%20Creator%20enquiry" style={{
             display: 'block', marginTop: 28, padding: '11px 0', textAlign: 'center',
             background: 'var(--ud-gold)', borderRadius: 8, textDecoration: 'none',
             fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14, color: '#fff',
@@ -81,7 +82,7 @@ export default function PricingPage() {
 
       <div style={{ textAlign: 'center', padding: '32px 24px', background: 'var(--ud-paper-2)', borderRadius: 12, border: '0.5px solid var(--ud-border)' }}>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-muted)', marginBottom: 8 }}>
-          Need enterprise volume, self-hosting, or custom integration?
+          Need enterprise volume, team licences, or custom integration?
         </p>
         <a href="mailto:press@universaldocument.solutions" style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', textDecoration: 'none' }}>
           Contact Universal Document Incorporated →
