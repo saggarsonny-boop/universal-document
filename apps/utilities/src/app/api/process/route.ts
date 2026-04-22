@@ -146,7 +146,8 @@ export async function POST(req: NextRequest) {
     if (tool === 'unlock') {
       const password = form.get('password') as string || ''
       const buf = await files[0].arrayBuffer()
-      const src = await PDFDocument.load(buf, { password })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const src = await PDFDocument.load(buf, { password } as any)
       const bytes = await src.save()
       return new Response(bytes as unknown as BodyInit, {
         headers: {

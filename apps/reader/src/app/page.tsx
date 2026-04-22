@@ -166,7 +166,7 @@ export default function Home() {
             Open any Universal Document file. Free forever.
           </p>
           <p style={{ color: '#9ca3af', fontSize: '0.82rem', marginTop: '0.6rem', lineHeight: 1.6 }}>
-            Lifecycle: legacy file -> converter -> UDS -> reader clarity -> UDR editing -> UDS export.
+            Lifecycle: legacy file → converter → UDS → reader clarity → UDR editing → UDS export.
             UDR appears with light blue identity. UDS appears with dark blue identity.
           </p>
           <p style={{ color: '#64748b', fontSize: '0.78rem', marginTop: '0.45rem', lineHeight: 1.6 }}>
