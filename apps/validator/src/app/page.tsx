@@ -68,7 +68,7 @@ function validate(raw: string): ValidationResult {
 const S = {
   page: { minHeight: '100vh', background: 'var(--bg)', padding: '48px 24px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' } as React.CSSProperties,
   center: { maxWidth: '640px', margin: '0 auto' } as React.CSSProperties,
-  h1: { fontSize: '26px', fontWeight: 700, color: 'var(--text)', marginBottom: '8px' } as React.CSSProperties,
+  h1: { fontSize: 32, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: '8px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' } as React.CSSProperties,
   sub: { fontSize: '14px', color: 'var(--muted)', marginBottom: '40px' } as React.CSSProperties,
   drop: (active: boolean): React.CSSProperties => ({
     border: `2px dashed ${active ? 'var(--gold)' : 'var(--border)'}`,

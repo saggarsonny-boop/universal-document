@@ -194,7 +194,7 @@ export default function UtilitiesHub() {
         <span className="ud-badge ud-badge-default" style={{ marginBottom: 20, display: 'inline-block' }}>
           Universal Document™ Ecosystem
         </span>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--ud-ink)', lineHeight: 1.1, marginBottom: 20 }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', lineHeight: 1.1, marginBottom: 20 }}>
           UD Utilities
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ud-muted)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>

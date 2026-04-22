@@ -20,13 +20,17 @@ const FEATURES = [
   { icon: '🔒', title: 'Controlled',       desc: 'Copy, print, and export permissions set at document level — not at platform level.' },
 ]
 
-const LIFECYCLE_STEPS = [
+const LIFECYCLE_LEGACY = [
   { label: 'Any file',     sub: 'PDF · DOCX · TXT',   color: 'var(--ud-muted)' },
   { label: 'UD Converter', sub: 'cleans & transforms', color: 'var(--ud-ink)' },
-  { label: 'UDS',          sub: 'sealed · navy',       color: 'var(--ud-ink)' },
-  { label: 'UD Reader',    sub: 'clarity layers',      color: 'var(--ud-teal)' },
+  { label: 'UDS',          sub: 'legacy · sealed',     color: 'var(--ud-ink)' },
+]
+
+const LIFECYCLE_NATIVE = [
+  { label: 'UD Creator',   sub: 'write from scratch',  color: '#3b82f6' },
   { label: 'UDR',          sub: 'editable · blue',     color: '#3b82f6' },
-  { label: 'UD Creator',   sub: 'structured editing',  color: '#3b82f6' },
+  { label: 'UD Creator',   sub: 'publish / seal',      color: '#3b82f6' },
+  { label: 'Pure UDS',     sub: 'native · sealed',     color: 'var(--ud-ink)' },
 ]
 
 const INSTITUTIONS = [
@@ -40,7 +44,7 @@ const divider = { border: 'none', borderTop: '1px solid var(--ud-border)', margi
 const sectionLabel = { fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: 'var(--ud-muted)', marginBottom: 32, textAlign: 'center' as const }
 
 export default function LandingPage() {
-  const [activeStep, setActiveStep] = useState<number | null>(null)
+  const [activeStep, setActiveStep] = useState<string | null>(null)
 
   return (
     <div style={{ background: 'var(--ud-paper)', minHeight: '100vh', color: 'var(--ud-ink)' }}>
@@ -109,30 +113,41 @@ export default function LandingPage() {
       {/* Lifecycle flow */}
       <section style={{ maxWidth: 960, margin: '0 auto', padding: '56px 24px' }}>
         <p style={sectionLabel}>The UD Lifecycle</p>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0 }}>
-          {LIFECYCLE_STEPS.map((step, i) => (
-            <div key={step.label} style={{ display: 'flex', alignItems: 'center' }}>
-              <div
-                onMouseEnter={() => setActiveStep(i)}
-                onMouseLeave={() => setActiveStep(null)}
-                style={{
-                  padding: '12px 16px',
-                  background: activeStep === i ? step.color : 'var(--ud-paper-2)',
-                  border: `1px solid ${activeStep === i ? step.color : 'var(--ud-border)'}`,
-                  borderRadius: 10, textAlign: 'center', cursor: 'default',
-                  transition: 'all 0.2s', minWidth: 80,
-                }}
-              >
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 700, color: activeStep === i ? '#fff' : 'var(--ud-ink)', marginBottom: 2 }}>{step.label}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: activeStep === i ? 'rgba(255,255,255,0.7)' : 'var(--ud-muted)' }}>{step.sub}</div>
-              </div>
-              {i < LIFECYCLE_STEPS.length - 1 && (
-                <div style={{ width: 20, height: 1, background: 'var(--ud-border-2)', margin: '0 2px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', right: -4, top: -4, width: 0, height: 0, borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: '6px solid var(--ud-border-2)' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
+          {[
+            { key: 'legacy', label: 'Legacy', steps: LIFECYCLE_LEGACY },
+            { key: 'native', label: 'Native', steps: LIFECYCLE_NATIVE },
+          ].map(({ key, label, steps }) => (
+            <div key={key} style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', gap: 0 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' as const, width: 56, textAlign: 'right' as const, marginRight: 16, flexShrink: 0 }}>{label}</span>
+              {steps.map((step, i) => (
+                <div key={`${key}-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div
+                    onMouseEnter={() => setActiveStep(`${key}-${i}`)}
+                    onMouseLeave={() => setActiveStep(null)}
+                    style={{
+                      padding: '12px 16px',
+                      background: activeStep === `${key}-${i}` ? step.color : 'var(--ud-paper-2)',
+                      border: `1px solid ${activeStep === `${key}-${i}` ? step.color : 'var(--ud-border)'}`,
+                      borderRadius: 10, textAlign: 'center', cursor: 'default',
+                      transition: 'all 0.2s', minWidth: 80,
+                    }}
+                  >
+                    <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 700, color: activeStep === `${key}-${i}` ? '#fff' : 'var(--ud-ink)', marginBottom: 2 }}>{step.label}</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: activeStep === `${key}-${i}` ? 'rgba(255,255,255,0.7)' : 'var(--ud-muted)' }}>{step.sub}</div>
+                  </div>
+                  {i < steps.length - 1 && (
+                    <div style={{ width: 20, height: 1, background: 'var(--ud-border-2)', margin: '0 2px', position: 'relative' }}>
+                      <div style={{ position: 'absolute', right: -4, top: -4, width: 0, height: 0, borderTop: '4px solid transparent', borderBottom: '4px solid transparent', borderLeft: '6px solid var(--ud-border-2)' }} />
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
           ))}
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginTop: 8, textAlign: 'center' }}>
+            UD Reader opens all UDS &amp; UDR files — it is not a conversion step
+          </p>
         </div>
         <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)', marginTop: 20 }}>
           Every UDS spreads the ecosystem · Every UDR builds the ecosystem · Every user becomes a node

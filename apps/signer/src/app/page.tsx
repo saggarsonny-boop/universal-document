@@ -375,7 +375,7 @@ export default function SignerPage() {
 
       {/* Header */}
       <div style={{ marginBottom: 36 }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 10 }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 10, letterSpacing: '-0.02em' }}>
           UD Signer
         </h1>
         <p style={{ color: 'var(--ud-muted)', fontSize: 15, lineHeight: 1.6, maxWidth: 560 }}>
