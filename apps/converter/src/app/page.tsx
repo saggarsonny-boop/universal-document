@@ -150,7 +150,7 @@ export default function ConverterPage() {
           <span style={{ color: 'var(--ud-border)' }}>·</span>
           <a href="/pricing" style={{ fontSize: 13, color: '#2563eb' }}>Pricing</a>
         </div>
-        <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: '#111827', marginBottom: 12 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: 12 }}>
           Convert to Universal Document
         </h1>
         <p style={{ fontSize: 15, color: 'var(--ud-muted)', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>

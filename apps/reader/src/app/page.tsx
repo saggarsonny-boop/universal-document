@@ -88,25 +88,25 @@ export default function Home() {
       <div>
         <div style={{
           background: '#ffffff',
-          borderBottom: '1px solid #e5e7eb',
+          borderBottom: '1px solid var(--ud-border)',
           padding: '0.75rem 1.5rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-          <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#111827' }}>
+          <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>
             UD Reader
           </span>
           <button
             onClick={reset}
             style={{
               background: 'none',
-              border: '1px solid #e5e7eb',
+              border: '1px solid var(--ud-border)',
               borderRadius: '0.5rem',
               padding: '0.35rem 0.75rem',
               fontSize: '0.8rem',
               cursor: 'pointer',
-              color: '#6b7280',
+              color: 'var(--ud-muted)',
             }}
           >
             Open another document
@@ -120,7 +120,7 @@ export default function Home() {
   if (appState === 'loading') {
     return (
       <div style={centeredPage}>
-        <div style={{ fontSize: '1rem', color: '#6b7280' }}>Loading document...</div>
+        <div style={{ fontSize: '1rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>Loading document...</div>
       </div>
     )
   }
@@ -136,11 +136,11 @@ export default function Home() {
           maxWidth: '520px',
           width: '100%',
         }}>
-          <div style={{ fontWeight: 700, color: '#dc2626', marginBottom: '0.75rem' }}>
+          <div style={{ fontWeight: 700, color: '#dc2626', marginBottom: '0.75rem', fontFamily: 'var(--font-body)' }}>
             Invalid Document
           </div>
           {errors.map((e, i) => (
-            <div key={i} style={{ fontSize: '0.85rem', color: '#7f1d1d', marginBottom: '0.35rem', fontFamily: 'monospace' }}>
+            <div key={i} style={{ fontSize: '0.85rem', color: '#7f1d1d', marginBottom: '0.35rem', fontFamily: 'var(--font-mono)' }}>
               {e}
             </div>
           ))}
@@ -158,18 +158,17 @@ export default function Home() {
       <div style={{ maxWidth: '560px', width: '100%' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📄</div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', marginBottom: '0.5rem' }}>
+          <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>
             UD Reader
           </h1>
-          <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
+          <p style={{ color: 'var(--ud-muted)', fontSize: '0.95rem', fontFamily: 'var(--font-body)' }}>
             Open any Universal Document file. Free forever.
           </p>
-          <p style={{ color: '#9ca3af', fontSize: '0.82rem', marginTop: '0.6rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ud-muted)', fontSize: '0.82rem', marginTop: '0.6rem', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
             Lifecycle: legacy file → converter → UDS → reader clarity → UDR editing → UDS export.
             UDR appears with light blue identity. UDS appears with dark blue identity.
           </p>
-          <p style={{ color: '#64748b', fontSize: '0.78rem', marginTop: '0.45rem', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ud-muted)', fontSize: '0.78rem', marginTop: '0.45rem', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
             Reader surfaces clarity layers, semantic sections, metadata, multilingual ribbons, permissions, and chain-of-custody as read-only.
           </p>
         </div>
@@ -180,11 +179,11 @@ export default function Home() {
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
           style={{
-            border: `2px dashed ${isDragging ? '#2563eb' : '#d1d5db'}`,
+            border: `2px dashed ${isDragging ? 'var(--ud-teal)' : 'var(--ud-border)'}`,
             borderRadius: '1rem',
             padding: '2.5rem',
             textAlign: 'center',
-            background: isDragging ? '#eff6ff' : '#f9fafb',
+            background: isDragging ? 'var(--ud-teal-2)' : 'var(--ud-paper-2)',
             transition: 'all 0.2s',
             marginBottom: '1.5rem',
             cursor: 'pointer',
@@ -192,10 +191,10 @@ export default function Home() {
           onClick={() => document.getElementById('fileInput')?.click()}
         >
           <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>⬆️</div>
-          <div style={{ fontWeight: 600, color: '#374151', marginBottom: '0.35rem' }}>
+          <div style={{ fontWeight: 600, color: 'var(--ud-ink)', marginBottom: '0.35rem', fontFamily: 'var(--font-body)' }}>
             Drop a .uds or .udr file here
           </div>
-          <div style={{ fontSize: '0.85rem', color: '#9ca3af' }}>
+          <div style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>
             or click to browse
           </div>
           <input
@@ -212,9 +211,9 @@ export default function Home() {
 
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-          <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />
-          <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>or load from URL</span>
-          <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />
+          <div style={{ flex: 1, height: '1px', background: 'var(--ud-border)' }} />
+          <span style={{ fontSize: '0.8rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>or load from URL</span>
+          <div style={{ flex: 1, height: '1px', background: 'var(--ud-border)' }} />
         </div>
 
         {/* URL input */}
@@ -228,11 +227,13 @@ export default function Home() {
             style={{
               flex: 1,
               padding: '0.65rem 1rem',
-              border: '1px solid #d1d5db',
+              border: '1px solid var(--ud-border)',
               borderRadius: '0.5rem',
               fontSize: '0.9rem',
               outline: 'none',
-              color: '#111827',
+              color: 'var(--ud-ink)',
+              background: '#ffffff',
+              fontFamily: 'var(--font-body)',
             }}
           />
           <button onClick={handleURL} style={primaryButton}>
@@ -240,8 +241,8 @@ export default function Home() {
           </button>
         </div>
 
-        <div style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', color: '#d1d5db' }}>
-          Universal Document · iSDF v0.1.0 · The Hive Engines · Free forever
+        <div style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>
+          Universal Document™ · iSDF v0.1.0 · The Hive Engines · Free forever
         </div>
 
       </div>
@@ -255,11 +256,11 @@ const centeredPage: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   padding: '2rem',
-  background: '#f9fafb',
+  background: 'var(--ud-paper)',
 }
 
 const primaryButton: React.CSSProperties = {
-  background: '#2563eb',
+  background: 'var(--ud-ink)',
   color: '#ffffff',
   border: 'none',
   borderRadius: '0.5rem',
@@ -268,4 +269,5 @@ const primaryButton: React.CSSProperties = {
   fontWeight: 600,
   cursor: 'pointer',
   marginTop: '1rem',
+  fontFamily: 'var(--font-body)',
 }

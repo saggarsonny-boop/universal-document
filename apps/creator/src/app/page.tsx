@@ -404,7 +404,7 @@ export default function CreatorPage() {
     page: { minHeight: '100vh', background: 'var(--bg)', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' } as React.CSSProperties,
     wrap: { maxWidth: '760px', margin: '0 auto', padding: '48px 24px 80px' } as React.CSSProperties,
     topBar: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32, flexWrap: 'wrap' as const, gap: 12 },
-    h1: { fontSize: '22px', fontWeight: 700, color: 'var(--text)' } as React.CSSProperties,
+    h1: { fontSize: 32, fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' } as React.CSSProperties,
     label: { display: 'block', fontSize: '11px', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' as const, letterSpacing: '0.06em' },
     input: { width: '100%', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', color: 'var(--text)', fontSize: '14px', outline: 'none', boxSizing: 'border-box' as const },
     row: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' } as React.CSSProperties,
