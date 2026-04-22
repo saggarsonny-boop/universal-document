@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" role="img" aria-label="Universal Document — Möbius strip logo">
+  <!-- Dark navy background -->
+  <rect width="200" height="260" fill="#1e2d3d" rx="12"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MÖBIUS STRIP
+       Two arcs + two side connectors, bright/dim gold for depth.
+       Drawing order: dim (back) first, bright (front) on top.
+       ─────────────────────────────────────────────────────── -->
+
+  <!-- Bottom arc — back face, dim amber -->
+  <path d="M 160,96 C 160,150 40,150 40,102"
+    stroke="#9a6b04" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+  <!-- Left connector — back face, dim amber (the TWIST side) -->
+  <path d="M 40,102 C 16,104 14,72 40,74"
+    stroke="#9a6b04" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+  <!-- Top arc — front face, bright gold (drawn over the back parts) -->
+  <path d="M 40,74 C 40,28 160,28 160,80"
+    stroke="#c8960a" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+  <!-- Right cap — front face, smooth connection, bright gold -->
+  <path d="M 160,80 C 184,80 184,96 160,96"
+    stroke="#c8960a" stroke-width="22" stroke-linecap="round" fill="none"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WORDMARK
+       ─────────────────────────────────────────────────────── -->
+  <text x="100" y="206"
+    text-anchor="middle"
+    font-family="'Playfair Display',Georgia,'Times New Roman',serif"
+    font-size="15" font-weight="700"
+    fill="#c8960a" letter-spacing="3">UNIVERSAL DOCUMENT</text>
+
+  <text x="100" y="225"
+    text-anchor="middle"
+    font-family="'Playfair Display',Georgia,serif"
+    font-size="9" fill="#c8960a" letter-spacing="4" opacity="0.6">&#x2122; OPEN FORMAT</text>
+</svg>

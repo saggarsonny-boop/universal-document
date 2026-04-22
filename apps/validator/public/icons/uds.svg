@@ -1,19 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" width="80" height="96" role="img" aria-label="UDS file type icon">
-  <!-- File body -->
-  <rect x="4" y="4" width="60" height="76" rx="5" fill="#1e2d3d" stroke="#2d4459" stroke-width="2"/>
-  <!-- Folded corner -->
-  <path d="M46 4 L64 22 L46 22 Z" fill="#2d4459"/>
-  <path d="M46 4 L64 22 L46 22" fill="none" stroke="#4a6580" stroke-width="1.5"/>
-  <!-- File type label -->
-  <text x="34" y="56" text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif"
-    font-size="20" font-weight="700"
-    fill="#fafaf8" letter-spacing="1">UDS</text>
-  <!-- Divider -->
-  <line x1="12" y1="64" x2="56" y2="64" stroke="#c8960a" stroke-width="1.2" opacity="0.6"/>
-  <!-- Wordmark -->
-  <text x="34" y="76" text-anchor="middle"
-    font-family="'DM Sans', system-ui, sans-serif"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 96" role="img" aria-label="UDS — Universal Document sealed file">
+  <!-- File body with top-right corner fold -->
+  <path d="M 6,4 H 50 L 68,22 V 82 Q 68,87 63,87 H 11 Q 6,87 6,82 Z" fill="#1e2d3d"/>
+  <!-- Corner fold — slightly lighter navy -->
+  <path d="M 50,4 L 68,22 H 50 Z" fill="#2d4459"/>
+  <!-- Corner fold crease in gold -->
+  <line x1="50" y1="4" x2="68" y2="22" stroke="#c8960a" stroke-width="1.2" opacity="0.55"/>
+  <!-- UDS in DM Mono bold, gold -->
+  <text x="37" y="58"
+    text-anchor="middle"
+    font-family="'DM Mono','Courier New',monospace"
+    font-size="22" font-weight="700"
+    fill="#c8960a" letter-spacing="2">UDS</text>
+  <!-- Divider in gold -->
+  <line x1="14" y1="67" x2="60" y2="67" stroke="#c8960a" stroke-width="1" opacity="0.5"/>
+  <!-- UNIVERSAL DOCUMENT™ in DM Sans tiny, gold -->
+  <text x="37" y="78"
+    text-anchor="middle"
+    font-family="'DM Sans','Arial',sans-serif"
     font-size="5.5" font-weight="400"
-    fill="#fafaf8" letter-spacing="1.2" opacity="0.6">UNIVERSAL DOCUMENT&#x2122;</text>
+    fill="#c8960a" letter-spacing="1.2" opacity="0.72">UNIVERSAL DOCUMENT&#x2122;</text>
 </svg>

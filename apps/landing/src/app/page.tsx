@@ -47,6 +47,13 @@ export default function LandingPage() {
 
       {/* Hero */}
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '80px 24px 64px', textAlign: 'center' }}>
+        <img
+          src="/icons/ud-logo.svg"
+          alt="Universal Document"
+          width={120}
+          height={156}
+          style={{ display: 'block', margin: '0 auto 32px', borderRadius: 8 }}
+        />
         <div style={{
           display: 'inline-block', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em',
           textTransform: 'uppercase', padding: '4px 14px', borderRadius: 20, marginBottom: 28,
