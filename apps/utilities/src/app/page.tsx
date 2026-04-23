@@ -6,67 +6,67 @@ const TOOLS = [
   {
     slug: 'merge',    name: 'UD Merge',          icon: '⊕',   color: 'var(--ud-ink)',   free: true,
     anim: 'merge',    animLabel: '2 docs → 1',
-    desc: 'Combine multiple PDFs into one document.',
+    desc: 'Combine multiple PDFs or Universal Documents™ into one.',
   },
   {
     slug: 'split',    name: 'UD Split',           icon: '⊘',   color: 'var(--ud-ink)',   free: true,
     anim: 'split',    animLabel: '1 doc → pages',
-    desc: 'Split a PDF into separate pages or ranges.',
+    desc: 'Split a PDF or Universal Document™ into separate pages or ranges.',
   },
   {
     slug: 'compress', name: 'UD Compress',        icon: '⊛',   color: 'var(--ud-ink)',   free: true,
     anim: 'compress', animLabel: '10 MB → 2 MB',
-    desc: 'Reduce PDF file size without losing quality.',
+    desc: 'Reduce PDF or Universal Document™ file size without losing quality.',
   },
   {
     slug: 'extract-pages', name: 'UD Extract Pages', icon: '⊡', color: 'var(--ud-ink)', free: true,
     anim: 'extract',  animLabel: 'pick pages',
-    desc: 'Pull specific pages out of any PDF.',
+    desc: 'Pull specific pages out of any PDF or Universal Document™.',
   },
   {
     slug: 'rearrange', name: 'UD Rearrange',      icon: '⇅',   color: 'var(--ud-ink)',   free: true,
     anim: 'rearrange', animLabel: 'drag to reorder',
-    desc: 'Drag and drop to reorder pages visually.',
+    desc: 'Drag and drop to reorder pages in any document visually.',
   },
   {
     slug: 'protect',  name: 'UD Protect',         icon: '⊠',   color: 'var(--ud-ink)',   free: true,
     anim: 'protect',  animLabel: 'add password',
-    desc: 'Add password protection to any PDF.',
+    desc: 'Add password protection to any PDF or Universal Document™.',
   },
   {
     slug: 'unlock',   name: 'UD Unlock',          icon: '⊟',   color: 'var(--ud-ink)',   free: true,
     anim: 'unlock',   animLabel: 'remove password',
-    desc: 'Remove password from a PDF you own.',
+    desc: 'Remove password from a PDF or Universal Document™ you own.',
   },
   {
     slug: 'ocr',      name: 'UD OCR',             icon: '⊜',   color: 'var(--ud-teal)',  free: false, proLabel: 'AI',
     anim: 'ocr',      animLabel: 'scan → text',
-    desc: 'Extract text from scanned PDFs and images using AI.',
+    desc: 'Extract text from scanned PDFs, images, or Universal Documents™ using AI.',
   },
   {
     slug: 'watermark', name: 'UD Watermark',      icon: '⊙',   color: 'var(--ud-teal)',  free: true,
     anim: 'watermark', animLabel: 'stamp document',
-    desc: 'Add text or UD-certified watermarks to documents.',
+    desc: 'Add text or UD-certified watermarks to any document.',
   },
   {
     slug: 'page-numbers', name: 'UD Page Numbers', icon: '#',  color: 'var(--ud-ink)',   free: true,
     anim: 'pagenums', animLabel: 'add numbering',
-    desc: 'Add customisable page numbers to any PDF.',
+    desc: 'Add customisable page numbers to any PDF or Universal Document™.',
   },
   {
     slug: 'compare',  name: 'UD Compare',         icon: '⊷',   color: 'var(--ud-teal)',  free: false, proLabel: 'AI',
     anim: 'compare',  animLabel: 'A vs B → diff',
-    desc: 'Side-by-side diff of two documents. Upload orignal and revised.',
+    desc: 'Side-by-side diff of two documents. Upload original and revised.',
   },
   {
-    slug: 'redact',   name: 'UD Redact',          icon: '▬',   color: '#1e2d3d',         free: false, proLabel: 'Pro',
+    slug: 'redact',   name: 'UD Redact & Highlight', icon: '▬', color: 'var(--ud-ink)',  free: false, proLabel: 'Pro',
     anim: 'redact',   animLabel: 'black out text',
-    desc: 'Permanently black out sensitive text or regions.',
+    desc: 'Permanently redact sensitive text or highlight key regions in any document.',
   },
   {
     slug: 'optimize', name: 'UD Optimize',        icon: '⊕',   color: 'var(--ud-ink)',   free: true,
     anim: 'optimize', animLabel: 'tune structure',
-    desc: 'Optimise PDF structure for web, print, or archiving.',
+    desc: 'Optimise PDF or Universal Document™ structure for web, print, or archiving.',
   },
 ]
 
