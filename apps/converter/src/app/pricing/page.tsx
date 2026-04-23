@@ -84,7 +84,7 @@ export default function PricingPage() {
           Need enterprise volume, self-hosting, or custom integration?
         </p>
         <a href="mailto:press@universaldocument.solutions" style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', textDecoration: 'none' }}>
-          Contact Universal Document Incorporated →
+          Contact Universal Document™ Incorporated →
         </a>
       </div>
     </main>

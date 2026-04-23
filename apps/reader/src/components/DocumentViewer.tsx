@@ -330,7 +330,7 @@ export default function DocumentViewer({ doc }: Props) {
 
       {/* Footer */}
       <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #f3f4f6', fontSize: '0.75rem', color: '#d1d5db', textAlign: 'center' }}>
-        Universal Document v{doc.ud_version} · UD Reader by The Hive Engines · Free forever
+        Universal Document™ v{doc.ud_version} · UD Reader by The Hive Engines · Free forever
       </div>
 
     </div>

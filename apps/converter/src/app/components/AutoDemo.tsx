@@ -5,7 +5,7 @@ const DEMO_KEY = 'hive_demo_udconverter'
 const DEMO_INPUT = 'quarterly-report.docx'
 const DEMO_RESULT = {
   name: 'quarterly-report.uds',
-  format: 'Universal Document v0.1.0',
+  format: 'Universal Document™ v0.1.0',
   size: '12.4 KB',
   sections: '8 sections detected',
   status: 'Ready to open in any UD reader',

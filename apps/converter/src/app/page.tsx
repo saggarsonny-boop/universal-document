@@ -151,7 +151,7 @@ export default function ConverterPage() {
           <a href="/pricing" style={{ fontSize: 13, color: '#2563eb' }}>Pricing</a>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: 12 }}>
-          Convert to Universal Document
+          Convert to Universal Document™
         </h1>
         <p style={{ fontSize: 15, color: 'var(--ud-muted)', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
           Upload a {ACCEPTED_LABEL} file. Pick a UD utility, then download a normalized <code style={{ background: 'var(--ud-paper-2)', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file ready for UD Reader.

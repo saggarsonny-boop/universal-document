@@ -5,7 +5,7 @@ import LifecycleAnimation from '@/components/LifecycleAnimation'
 const TOOLS = [
   { name: 'UD Converter',  desc: 'Turn any file into UDS. DOCX, TXT, MD, CSV — instant.',               url: 'https://converter.hive.baby',  status: 'live', icon: '📄' },
   { name: 'UD Reader',     desc: 'Open and read any .uds or .udr file. Clarity layers, metadata.',       url: 'https://reader.hive.baby',     status: 'live', icon: '📖' },
-  { name: 'UD Creator',    desc: 'Write a Universal Document from scratch. Rich text, metadata, expiry.', url: 'https://creator.hive.baby',    status: 'live', icon: '✏️' },
+  { name: 'UD Creator',    desc: 'Write a Universal Document™ from scratch. Rich text, metadata, expiry.', url: 'https://creator.hive.baby',    status: 'live', icon: '✏️' },
   { name: 'UD Validator',  desc: 'Verify schema, expiry, signatures, chain-of-custody.',                 url: 'https://validator.hive.baby',  status: 'live', icon: '✅' },
   { name: 'UD Utilities',  desc: 'Merge, split, compress, OCR, protect, watermark, compare, redact.',    url: 'https://utilities.hive.baby',  status: 'live', icon: '🔧' },
   { name: 'UD Signer',     desc: 'Governed signing with legal-grade audit trails.',                      url: 'https://signer.hive.baby',     status: 'live', icon: '🔏' },
@@ -53,7 +53,7 @@ export default function LandingPage() {
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '80px 24px 64px', textAlign: 'center' }}>
         <img
           src="/icons/ud-logo.svg"
-          alt="Universal Document"
+          alt="Universal Document™"
           width={120}
           height={156}
           style={{ display: 'block', margin: '0 auto 32px', borderRadius: 8 }}
@@ -63,12 +63,12 @@ export default function LandingPage() {
           textTransform: 'uppercase', padding: '4px 14px', borderRadius: 20, marginBottom: 28,
           background: 'var(--ud-gold-3)', border: '1px solid rgba(200,150,10,0.3)', color: 'var(--ud-gold)',
           fontFamily: 'var(--font-mono)',
-        }}>Universal Document Standard 1.0 · Open format</div>
+        }}>Universal Document™ Standard 1.0 · Open format</div>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 6vw, 60px)', fontWeight: 700,
           letterSpacing: '-0.02em', color: 'var(--ud-ink)', lineHeight: 1.15, marginBottom: 24,
         }}>
-          Universal Documents.<br />
+          Universal Document™.<br />
           <span style={{ color: 'var(--ud-gold)' }}>For a universal world.</span>
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ud-muted)', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
@@ -104,7 +104,7 @@ export default function LandingPage() {
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ud-muted)', lineHeight: 1.8 }}>
           Legacy formats were not built for a global, multilingual, AI-native world.<br />
           They do not expire. They do not adapt. They do not prove who touched them.<br />
-          Universal Document fixes all of that.
+          Universal Document™ fixes all of that.
         </p>
       </div>
 
@@ -164,7 +164,7 @@ export default function LandingPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <img src="/icons/uds.svg" width={36} height={44} alt="UDS" style={{ flexShrink: 0 }} />
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: '#fff' }}>UDS — Universal Document Standard</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: '#fff' }}>UDS — Universal Document™ Sealed</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Sealed · Navy · Authoritative</div>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function LandingPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <img src="/icons/udr.svg" width={36} height={44} alt="UDR" style={{ flexShrink: 0 }} />
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--ud-ink)' }}>UDR — Universal Document Record</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--ud-ink)' }}>UDR — Universal Document™ Revisable</div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#3b82f6' }}>Editable · Light blue · Flexible</div>
               </div>
             </div>
@@ -226,7 +226,7 @@ export default function LandingPage() {
 
       {/* Features */}
       <section style={{ maxWidth: 960, margin: '0 auto', padding: '56px 24px' }}>
-        <p style={sectionLabel}>Why Universal Document</p>
+        <p style={sectionLabel}>Why Universal Document™</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
           {FEATURES.map(f => (
             <div key={f.title} style={{ background: '#fff', border: '0.5px solid var(--ud-border)', borderRadius: 12, padding: 24, boxShadow: 'var(--ud-shadow)' }}>
@@ -263,7 +263,7 @@ export default function LandingPage() {
       <section style={{ maxWidth: 640, margin: '0 auto', padding: '56px 24px', textAlign: 'center' }}>
         <p style={{ ...sectionLabel, marginBottom: 16 }}>Open. Free. Yours.</p>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ud-muted)', lineHeight: 1.8, marginBottom: 28 }}>
-          The Universal Document specification is open. The reader SDK is free. UD is built by Hive and stays free because of the people who choose to support it.
+          The Universal Document™ specification is open. The reader SDK is free. UD is built by Hive and stays free because of the people who choose to support it.
         </p>
         <a href="https://hive.baby/patrons" style={{
           display: 'inline-block', padding: '13px 28px', background: 'transparent', color: 'var(--ud-ink)',

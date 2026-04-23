@@ -13,7 +13,7 @@ export interface UDDocument {
   _udBrand?: {
     type: 'UDS'
     color: '#003A8C'
-    label: 'Universal Document Sealed'
+    label: 'Universal Document™ Sealed'
     convertedBy: 'UD Converter'
     convertedAt: string
     ecosystemUrl: 'https://ud.hive.baby'
@@ -182,7 +182,7 @@ export function buildUDDocument(params: {
     _udBrand: state === 'UDS' ? {
       type: 'UDS',
       color: '#003A8C',
-      label: 'Universal Document Sealed',
+      label: 'Universal Document™ Sealed',
       convertedBy: 'UD Converter',
       convertedAt: now,
       ecosystemUrl: 'https://ud.hive.baby',

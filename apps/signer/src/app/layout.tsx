@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://signer.hive.baby'),
   openGraph: {
-    title: 'UD Signer — Universal Document Signing',
+    title: 'UD Signer — Universal Document™ Signing',
     description: 'Sign any document format. Generate .udsig companion proofs. Free forever.',
   },
 }

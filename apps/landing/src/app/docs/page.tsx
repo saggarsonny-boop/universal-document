@@ -66,7 +66,7 @@ export default function DocsPage() {
     <main style={{ maxWidth: 900, margin: '0 auto', padding: '72px 24px', color: 'var(--ud-charcoal)' }}>
       <h1 style={{ fontSize: '2rem', marginBottom: 8 }}>UD Developer Documentation</h1>
       <p style={{ color: 'var(--ud-slate)', lineHeight: 1.7, marginBottom: 22 }}>
-        Official table of contents for the Universal Document developer docs.
+        Official table of contents for the Universal Document™ developer docs.
       </p>
       <ol style={{ paddingLeft: 18, lineHeight: 1.9, color: 'var(--ud-charcoal)' }}>
         {SECTIONS.map((item) => (

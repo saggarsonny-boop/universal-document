@@ -19,7 +19,7 @@ export default function UDFooter() {
         <p style={{
           fontFamily: 'var(--font-body)', fontSize: 13,
           fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4,
-        }}>Universal Document Incorporated</p>
+        }}>Universal Document™ Incorporated</p>
         <p style={{
           fontFamily: 'var(--font-mono)', fontSize: 11,
           color: 'var(--ud-muted)', marginBottom: 18,
@@ -40,7 +40,7 @@ export default function UDFooter() {
           ))}
         </div>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 6 }}>
-          Universal Document Standard 1.0 · CC BY 4.0 · April 2026
+          Universal Document™ Standard 1.0 · CC BY 4.0 · April 2026
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto' }}>
           Universal Document™ is a pending trademark (Serial 99774346). The specification is released under CC BY 4.0 and may be implemented freely by any party.

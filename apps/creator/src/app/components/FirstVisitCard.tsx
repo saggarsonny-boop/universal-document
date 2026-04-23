@@ -28,7 +28,7 @@ export default function FirstVisitCard() {
       }}>
         <div style={{ fontSize: 36, marginBottom: 14 }}>✏️</div>
         <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text)', marginBottom: 10 }}>
-          Build a Universal Document
+          Build a Universal Document™
         </h2>
         <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 24 }}>
           Try adding a heading and a paragraph. Export as .udr or .uds.

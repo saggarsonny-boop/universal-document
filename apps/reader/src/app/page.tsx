@@ -162,7 +162,7 @@ export default function Home() {
             UD Reader
           </h1>
           <p style={{ color: 'var(--ud-muted)', fontSize: '0.95rem', fontFamily: 'var(--font-body)' }}>
-            Open any Universal Document file. Free forever.
+            Open any Universal Document™ file. Free forever.
           </p>
           <p style={{ color: 'var(--ud-muted)', fontSize: '0.82rem', marginTop: '0.6rem', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
             Lifecycle: legacy file → converter → UDS → reader clarity → UDR editing → UDS export.

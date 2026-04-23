@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
             <p style="margin:0 0 1.5rem;color:#64748b;font-size:0.9rem">Click below to sign in and access your saved documents. Link expires in 1 hour.</p>
             <a href="${link}" style="display:inline-block;padding:0.75rem 1.75rem;background:#1e2d3d;color:#ffffff;text-decoration:none;border-radius:0.5rem;font-weight:600;font-size:0.95rem">Open UD Creator</a>
             <p style="margin:1.5rem 0 0;font-size:0.75rem;color:#475569">If you didn't request this, you can safely ignore this email.</p>
-            <p style="margin:0.5rem 0 0;font-size:0.75rem;color:#334155">UD Creator · Universal Document · No ads · No investors</p>
+            <p style="margin:0.5rem 0 0;font-size:0.75rem;color:#334155">UD Creator · Universal Document™ · No ads · No investors</p>
           </div>
         </div>
       `,

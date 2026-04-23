@@ -556,7 +556,7 @@ export default function SignerPage() {
             { icon: '📄', title: 'PDF', body: 'Embeds signer metadata into the PDF and generates a .udsig companion.' },
             { icon: '📝', title: 'DOCX / any file', body: 'Generates a .udsig JSON companion with SHA-256 hash and signature record.' },
             { icon: '📋', title: 'UDR', body: 'Sign and keep as UDR — or sign and seal into a UDS in one step.' },
-            { icon: '🔒', title: 'UDS', body: 'Add co-signatures to an already-sealed Universal Document.' },
+            { icon: '🔒', title: 'UDS', body: 'Add co-signatures to an already-sealed Universal Document™.' },
           ].map(c => (
             <div key={c.title} className="ud-card" style={{ padding: '20px 18px' }}>
               <div style={{ fontSize: 22, marginBottom: 8 }}>{c.icon}</div>

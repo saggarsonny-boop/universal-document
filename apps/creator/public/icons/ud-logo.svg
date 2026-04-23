@@ -1,40 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" role="img" aria-label="Universal Document — Möbius strip logo">
-  <!-- Dark navy background -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" role="img" aria-label="Universal Document™ — Möbius strip logo">
   <rect width="200" height="260" fill="#1e2d3d" rx="12"/>
 
-  <!-- ═══════════════════════════════════════════════════════
-       MÖBIUS STRIP
-       Two arcs + two side connectors, bright/dim gold for depth.
-       Drawing order: dim (back) first, bright (front) on top.
-       ─────────────────────────────────────────────────────── -->
+  <!--
+    MÖBIUS STRIP — half-twist crossing explicitly visible at centre.
 
-  <!-- Bottom arc — back face, dim amber -->
-  <path d="M 160,96 C 160,150 40,150 40,102"
-    stroke="#9a6b04" stroke-width="22" stroke-linecap="round" fill="none"/>
+    Geometry (crossing centre at 100,95):
+      A=(85,80) top-left    B=(115,80) top-right
+      C=(85,110) bot-left   D=(115,110) bot-right
 
-  <!-- Left connector — back face, dim amber (the TWIST side) -->
-  <path d="M 40,102 C 16,104 14,72 40,74"
-    stroke="#9a6b04" stroke-width="22" stroke-linecap="round" fill="none"/>
+    Back face:  B →[right arc]→ D →[back diagonal]→ A   (dim amber #9a6b04)
+    Front face: A →[left arc]→  C →[front diagonal]→ B  (bright gold #c8960a)
 
-  <!-- Top arc — front face, bright gold (drawn over the back parts) -->
-  <path d="M 40,74 C 40,28 160,28 160,80"
-    stroke="#c8960a" stroke-width="22" stroke-linecap="round" fill="none"/>
+    At crossing: front diagonal C→B passes OVER back diagonal D→A.
+    Navy mask between steps 2 and 4 hides the back diagonal at the crossing,
+    creating a clear over/under depth illusion.
+  -->
 
-  <!-- Right cap — front face, smooth connection, bright gold -->
-  <path d="M 160,80 C 184,80 184,96 160,96"
-    stroke="#c8960a" stroke-width="22" stroke-linecap="round" fill="none"/>
+  <!-- 1. Back diagonal D→A — dim amber, goes UNDER the front crossing -->
+  <path d="M 115,110 L 85,80"
+    stroke="#9a6b04" stroke-width="20" stroke-linecap="round" fill="none"/>
 
-  <!-- ═══════════════════════════════════════════════════════
-       WORDMARK
-       ─────────────────────────────────────────────────────── -->
+  <!-- 2. Back right loop B→D — dim amber -->
+  <path d="M 115,80 C 192,48 192,148 115,110"
+    stroke="#9a6b04" stroke-width="20" stroke-linecap="round" fill="none"/>
+
+  <!-- 3. Navy mask — erases back diagonal at the crossing point -->
+  <line x1="89" y1="107" x2="111" y2="83"
+    stroke="#1e2d3d" stroke-width="28" stroke-linecap="butt"/>
+
+  <!-- 4. Front left loop A→C — bright gold -->
+  <path d="M 85,80 C 8,48 8,148 85,110"
+    stroke="#c8960a" stroke-width="20" stroke-linecap="round" fill="none"/>
+
+  <!-- 5. Front diagonal C→B — bright gold, crosses OVER the back -->
+  <path d="M 85,110 L 115,80"
+    stroke="#c8960a" stroke-width="20" stroke-linecap="round" fill="none"/>
+
+  <!-- WORDMARK -->
   <text x="100" y="206"
     text-anchor="middle"
     font-family="'Playfair Display',Georgia,'Times New Roman',serif"
     font-size="15" font-weight="700"
-    fill="#c8960a" letter-spacing="3">UNIVERSAL DOCUMENT</text>
+    fill="#c8960a" letter-spacing="3">UNIVERSAL DOCUMENT<tspan font-size="9" dy="-5" letter-spacing="0" dx="1">&#x2122;</tspan></text>
 
   <text x="100" y="225"
     text-anchor="middle"
     font-family="'Playfair Display',Georgia,serif"
-    font-size="9" fill="#c8960a" letter-spacing="4" opacity="0.6">&#x2122; OPEN FORMAT</text>
+    font-size="9" fill="#c8960a" letter-spacing="4" opacity="0.6">OPEN FORMAT</text>
 </svg>

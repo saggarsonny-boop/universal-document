@@ -10,22 +10,22 @@ interface Step {
 
 const STEPS: Record<string, Step[]> = {
   Converter: [
-    { icon: '📄', iconAnim: 'ud-bounce', title: 'Convert any document', body: 'Turn PDF, DOCX, TXT, or MD into a Universal Document (.uds) file.' },
+    { icon: '📄', iconAnim: 'ud-bounce', title: 'Convert any document', body: 'Turn PDF, DOCX, TXT, or MD into a Universal Document™ (.uds) file.' },
     { icon: '⬆️', iconAnim: 'ud-rise', title: 'Drag or click to upload', body: 'Drop your file anywhere on the page — conversion happens instantly in your browser.' },
     { icon: '🆓', title: 'Free forever', body: 'Up to 5 files per day, free. No account needed.' },
   ],
   Reader: [
-    { icon: '📖', iconAnim: 'ud-bounce', title: 'Open any Universal Document', body: 'UD Reader opens .uds and .udr files directly in your browser.' },
+    { icon: '📖', iconAnim: 'ud-bounce', title: 'Open any Universal Document™', body: 'UD Reader opens .uds and .udr files directly in your browser.' },
     { icon: '🖱️', iconAnim: 'ud-rise', title: 'Drag a file here, or paste a URL', body: 'No upload required — your document stays on your device.' },
     { icon: '🌍', title: 'Opens in your language', body: 'Multilingual documents adapt automatically to your locale.' },
   ],
   Creator: [
-    { icon: '✏️', iconAnim: 'ud-bounce', title: 'Create Universal Documents', body: 'Write structured documents from scratch with the block editor.' },
+    { icon: '✏️', iconAnim: 'ud-bounce', title: 'Create Universal Document™', body: 'Write structured documents from scratch with the block editor.' },
     { icon: '⬛', iconAnim: 'ud-rise', title: 'Blocks: headings, paragraphs, lists', body: 'Click + to add a block. Press Enter to continue. Bold, italic, and links supported.' },
     { icon: '⬇️', title: 'Export as .uds', body: 'Download your document — it opens in any UD Reader, forever.' },
   ],
   Validator: [
-    { icon: '✅', iconAnim: 'ud-bounce', title: 'Verify any Universal Document', body: 'Drop a .uds file to instantly check its structure and integrity.' },
+    { icon: '✅', iconAnim: 'ud-bounce', title: 'Verify any Universal Document™', body: 'Drop a .uds file to instantly check its structure and integrity.' },
     { icon: '🔍', iconAnim: 'ud-rise', title: 'Schema, expiry, signature', body: 'See encryption status, expiry date, signature, and schema version at a glance.' },
     { icon: '🛡️', title: 'Know your document is genuine', body: 'Validation confirms the file is well-formed and unmodified.' },
   ],

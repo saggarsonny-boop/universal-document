@@ -34,8 +34,8 @@ const FRAMES = [
   },
   {
     id: 'lockup',
-    label: 'Universal Document',
-    caption: 'Universal Documents. For a universal world.',
+    label: 'Universal Document™',
+    caption: 'Universal Document™. For a universal world.',
     duration: 1500,
   },
 ]
@@ -284,7 +284,7 @@ export default function LifecycleAnimation({ autoPlay = true }: { autoPlay?: boo
                 <span style={{ fontFamily: 'Georgia,serif', fontWeight: 800, fontSize: 18, color: '#fff' }}>UD</span>
               </div>
               <span style={{ fontSize: 22, fontWeight: 800, color: '#f1f5f9', letterSpacing: '-0.02em' }}>
-                Universal Document
+                Universal Document™
               </span>
             </div>
           </div>

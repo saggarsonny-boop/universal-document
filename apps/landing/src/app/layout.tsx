@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <UDNav engine="Universal Document" />
+        <UDNav engine="Universal Document™" />
         <main style={{ flex: 1 }}>{children}</main>
         <UDFooter />
       </body>
