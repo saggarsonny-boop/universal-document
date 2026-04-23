@@ -16,10 +16,10 @@ const AI_TOOLS = [
   { slug: 'clinical-summary',   name: 'UD Clinical Summary',   icon: '🏥', desc: 'Two summaries from one clinical document: plain language for patients, structured clinical summary for professionals.', badge: 'Pro' as const },
 ]
 
-const COMING_SOON_TOOLS = [
+const LIFECYCLE_TOOLS = [
   { slug: 'expire',           name: 'UD Expire',           icon: '⏳', desc: 'Add or update an expiration date on any Universal Document™.',                                         badge: 'FREE' as const },
   { slug: 'revoke',           name: 'UD Revoke',           icon: '🚫', desc: 'Mark a document as revoked. Generates a revocation hash embedded in provenance metadata.',             badge: 'FREE' as const },
-  { slug: 'version-history',  name: 'UD Version History',  icon: '📋', desc: 'Parse version lineage of any UDS file. Diff any two versions.',                                         badge: 'FREE' as const },
+  { slug: 'version-history',  name: 'UD Version History',  icon: '📋', desc: 'Parse the full provenance timeline of any UDS file — creation, sealing, translation, revocation.',     badge: 'FREE' as const },
   { slug: 'metadata-editor',  name: 'UD Metadata Editor',  icon: '✏️', desc: 'Edit title, author, classification, audience, jurisdiction, and custom fields in any .uds document.', badge: 'Pro'  as const },
 ]
 
@@ -307,17 +307,17 @@ export default function UtilitiesHub() {
         </div>
       </div>
 
-      {/* ── Coming Soon ──────────────────────────────── */}
+      {/* ── Lifecycle & Governance ───────────────────── */}
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Coming Soon</h2>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Lifecycle &amp; Governance</h2>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Expire · Revoke · Version History · Metadata Editor</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-          {COMING_SOON_TOOLS.map(tool => (
-            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', opacity: 0.75 }}>
+          {LIFECYCLE_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'box-shadow 0.15s' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                <div style={{ width: 40, height: 40, background: 'var(--ud-border)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-paper-2)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
                 <span className="ud-badge" style={{ background: tool.badge === 'Pro' ? 'var(--ud-gold-3)' : 'var(--ud-teal-2)', color: tool.badge === 'Pro' ? 'var(--ud-gold)' : 'var(--ud-teal)' }}>{tool.badge}</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
