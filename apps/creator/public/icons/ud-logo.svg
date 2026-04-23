@@ -1,50 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" role="img" aria-label="Universal Document™ — Möbius strip logo">
-  <rect width="200" height="260" fill="#1e2d3d" rx="12"/>
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 290" role="img" aria-label="Universal Document™">
   <!--
-    MÖBIUS STRIP — half-twist crossing explicitly visible at centre.
+    MÖBIUS RIBBON — redesigned for elegance.
 
-    Geometry (crossing centre at 100,95):
-      A=(85,80) top-left    B=(115,80) top-right
-      C=(85,110) bot-left   D=(115,110) bot-right
+    Geometry (crossing centre 150,150):
+      A=(104,112) top-left    B=(196,112) top-right
+      C=(104,188) bot-left    D=(196,188) bot-right
 
-    Back face:  B →[right arc]→ D →[back diagonal]→ A   (dim amber #9a6b04)
-    Front face: A →[left arc]→  C →[front diagonal]→ B  (bright gold #c8960a)
+    Back face:  D → [right arc back] → B → [back diagonal] → C   NO wait...
+    Topology:
+      Segment 1 (front): C →[front diagonal]→ B  — OVER at crossing
+      Segment 2 (back):  D →[back diagonal] → A  — UNDER at crossing
+      Arcs:  A →[left arc]→ C  and  B →[right arc]→ D
 
-    At crossing: front diagonal C→B passes OVER back diagonal D→A.
-    Navy mask between steps 2 and 4 hides the back diagonal at the crossing,
-    creating a clear over/under depth illusion.
+    3-layer technique per segment:
+      — dark shadow (wide)  →  gold gradient (medium)  →  warm highlight (narrow)
+    Crossing mask uses paper colour #fafaf8 to erase back diagonal at twist.
   -->
+  <defs>
+    <!-- Bright gold gradient — top warm, base deep amber -->
+    <linearGradient id="gGold" x1="150" y1="80" x2="150" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffe499"/>
+      <stop offset="36%"  stop-color="#c8960a"/>
+      <stop offset="100%" stop-color="#7a5200"/>
+    </linearGradient>
+    <!-- Dim back gradient — uniformly shadowed -->
+    <linearGradient id="gDim"  x1="150" y1="80" x2="150" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#9a7020"/>
+      <stop offset="100%" stop-color="#4a3000"/>
+    </linearGradient>
+  </defs>
 
-  <!-- 1. Back diagonal D→A — dim amber, goes UNDER the front crossing -->
-  <path d="M 115,110 L 85,80"
-    stroke="#9a6b04" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <!-- ── 1. BACK DIAGONAL D→A ─ in shadow, drawn first ──────────────── -->
+  <line x1="196" y1="188" x2="104" y2="112"
+        stroke="#2e1c00" stroke-width="46" stroke-linecap="round"/>
+  <line x1="196" y1="188" x2="104" y2="112"
+        stroke="url(#gDim)" stroke-width="34" stroke-linecap="round"/>
 
-  <!-- 2. Back right loop B→D — dim amber -->
-  <path d="M 115,80 C 192,48 192,148 115,110"
-    stroke="#9a6b04" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <!-- ── 2. LEFT ARC A→C ─────────────────────────────────────────────── -->
+  <path d="M 104,112 C 25,80 25,220 104,188"
+        stroke="#2e1c00" stroke-width="46" stroke-linecap="round" fill="none"/>
+  <path d="M 104,112 C 25,80 25,220 104,188"
+        stroke="url(#gGold)" stroke-width="34" stroke-linecap="round" fill="none"/>
+  <path d="M 104,112 C 25,80 25,220 104,188"
+        stroke="#ffe499" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.35"/>
 
-  <!-- 3. Navy mask — erases back diagonal at the crossing point -->
-  <line x1="89" y1="107" x2="111" y2="83"
-    stroke="#1e2d3d" stroke-width="28" stroke-linecap="butt"/>
+  <!-- ── 3. RIGHT ARC B→D ────────────────────────────────────────────── -->
+  <path d="M 196,112 C 275,80 275,220 196,188"
+        stroke="#2e1c00" stroke-width="46" stroke-linecap="round" fill="none"/>
+  <path d="M 196,112 C 275,80 275,220 196,188"
+        stroke="url(#gGold)" stroke-width="34" stroke-linecap="round" fill="none"/>
+  <path d="M 196,112 C 275,80 275,220 196,188"
+        stroke="#ffe499" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.35"/>
 
-  <!-- 4. Front left loop A→C — bright gold -->
-  <path d="M 85,80 C 8,48 8,148 85,110"
-    stroke="#c8960a" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <!-- ── 4. CROSSING MASK ─ paper colour, hides back diagonal at twist ── -->
+  <!--  Back diagonal direction: (-92,-76). Unit: (-0.771,-0.637).
+        Mask centred at (150,150), ±40px along that direction:
+        end1 (180.8, 175.5) → end2 (119.2, 124.5)                        -->
+  <line x1="181" y1="176" x2="119" y2="124"
+        stroke="#fafaf8" stroke-width="56" stroke-linecap="butt"/>
 
-  <!-- 5. Front diagonal C→B — bright gold, crosses OVER the back -->
-  <path d="M 85,110 L 115,80"
-    stroke="#c8960a" stroke-width="20" stroke-linecap="round" fill="none"/>
+  <!-- ── 5. FRONT DIAGONAL C→B ─ fully lit, on top ─────────────────── -->
+  <line x1="104" y1="188" x2="196" y2="112"
+        stroke="#2e1c00" stroke-width="44" stroke-linecap="round"/>
+  <line x1="104" y1="188" x2="196" y2="112"
+        stroke="url(#gGold)" stroke-width="34" stroke-linecap="round"/>
+  <line x1="104" y1="188" x2="196" y2="112"
+        stroke="#ffe499" stroke-width="11" stroke-linecap="round" opacity="0.55"/>
 
-  <!-- WORDMARK -->
-  <text x="100" y="206"
-    text-anchor="middle"
-    font-family="'Playfair Display',Georgia,'Times New Roman',serif"
-    font-size="12" font-weight="700"
-    fill="#c8960a" letter-spacing="1.5">UNIVERSAL DOCUMENT<tspan font-size="8" dy="-4" letter-spacing="0" dx="1">&#x2122;</tspan></text>
-
-  <text x="100" y="225"
-    text-anchor="middle"
-    font-family="'Playfair Display',Georgia,serif"
-    font-size="9" fill="#c8960a" letter-spacing="4" opacity="0.6">OPEN FORMAT</text>
+  <!-- ── WORDMARK ────────────────────────────────────────────────────── -->
+  <text x="150" y="258"
+        text-anchor="middle"
+        font-family="'Playfair Display',Georgia,'Times New Roman',serif"
+        font-size="14" font-weight="700" fill="#c8960a" letter-spacing="3"
+  >UNIVERSAL DOCUMENT<tspan font-size="9" dy="-4" letter-spacing="0" dx="2">&#x2122;</tspan></text>
 </svg>
