@@ -9,8 +9,17 @@ const FORMAT_TOOLS = [
 ]
 
 const AI_TOOLS = [
-  { slug: 'translate',  name: 'UD Translate',  icon: '🌐', desc: 'Translate any Universal Document™ into another language using Claude. Embeds translation as a parallel language stream.', free: true, proLabel: 'AI' },
-  { slug: 'summarise',  name: 'UD Summarise',  icon: '✦',  desc: 'Generate a plain-language summary of any Universal Document™. Embedded as a Clarity Layer in the output file.',          free: true, proLabel: 'AI' },
+  { slug: 'translate',           name: 'UD Translate',           icon: '🌐', desc: 'Translate any Universal Document™ into another language. Translation embedded as a parallel language stream.',         badge: 'AI'  as const },
+  { slug: 'summarise',           name: 'UD Summarise',           icon: '✦',  desc: 'Generate a plain-language summary embedded as a Clarity Layer in the output .uds file.',                               badge: 'AI'  as const },
+  { slug: 'accessibility-check', name: 'UD Accessibility Check', icon: '♿', desc: 'Check any document against WCAG 2.1 and Section 508. Outputs a compliance report and remediated .uds file.',          badge: 'AI'  as const },
+  { slug: 'classify',            name: 'UD Classify',            icon: '🏷', desc: 'Claude assigns Public / Internal / Confidential / Restricted classification with reasoning, embedded in metadata.',    badge: 'Pro' as const },
+]
+
+const COMING_SOON_TOOLS = [
+  { slug: 'expire',           name: 'UD Expire',           icon: '⏳', desc: 'Add or update an expiration date on any Universal Document™.',                                         badge: 'FREE' as const },
+  { slug: 'revoke',           name: 'UD Revoke',           icon: '🚫', desc: 'Mark a document as revoked. Generates a revocation hash embedded in provenance metadata.',             badge: 'FREE' as const },
+  { slug: 'version-history',  name: 'UD Version History',  icon: '📋', desc: 'Parse version lineage of any UDS file. Diff any two versions.',                                         badge: 'FREE' as const },
+  { slug: 'metadata-editor',  name: 'UD Metadata Editor',  icon: '✏️', desc: 'Edit title, author, classification, audience, jurisdiction, and custom fields in any .uds document.', badge: 'Pro'  as const },
 ]
 
 /* Per-tool mini-animation: CSS keyframe name + rendered SVG/emoji sequence */
@@ -287,8 +296,28 @@ export default function UtilitiesHub() {
               onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                <div style={{ width: 40, height: 40, background: 'var(--ud-teal)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-teal-2)', color: 'var(--ud-teal)' }}>AI · Beta</span>
+                <div style={{ width: 40, height: 40, background: tool.badge === 'Pro' ? 'var(--ud-gold)' : 'var(--ud-teal)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: tool.badge === 'Pro' ? 'var(--ud-gold-3)' : 'var(--ud-teal-2)', color: tool.badge === 'Pro' ? 'var(--ud-gold)' : 'var(--ud-teal)' }}>{tool.badge} · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Coming Soon ──────────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Coming Soon</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Expire · Revoke · Version History · Metadata Editor</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {COMING_SOON_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', opacity: 0.75 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-border)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: tool.badge === 'Pro' ? 'var(--ud-gold-3)' : 'var(--ud-teal-2)', color: tool.badge === 'Pro' ? 'var(--ud-gold)' : 'var(--ud-teal)' }}>{tool.badge}</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
