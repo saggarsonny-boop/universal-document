@@ -1,0 +1,179 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "c3ee01c5-ecc5-4330-ae77-ad39a6bdfa8e",
+    "title": "Commercial Services Agreement \u2014 Harlow Digital Solutions / Meridian Group",
+    "created_at": "2026-04-23T00:28:50Z",
+    "updated_at": "2026-04-23T00:28:50Z",
+    "created_by": "James R. Harlow, CEO \u2014 Harlow Digital Solutions Ltd",
+    "organisation": "Harlow Digital Solutions Ltd",
+    "document_type": "commercial-contract",
+    "tags": [
+      "contract",
+      "commercial",
+      "services",
+      "signed"
+    ],
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": true,
+      "allow_print": true,
+      "allow_export": true,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "6223aadcd29f",
+      "type": "heading",
+      "base_content": {
+        "text": "Commercial Services Agreement",
+        "level": 1
+      }
+    },
+    {
+      "id": "4f84f80bfc87",
+      "type": "paragraph",
+      "base_content": {
+        "text": "This agreement is entered into between Harlow Digital Solutions Ltd (the \"Supplier\") and Meridian Group PLC (the \"Client\"), collectively referred to as the \"Parties\"."
+      }
+    },
+    {
+      "id": "fb2d6451b983",
+      "type": "heading",
+      "base_content": {
+        "text": "1. Scope of Services",
+        "level": 2
+      }
+    },
+    {
+      "id": "3af78db2e358",
+      "type": "paragraph",
+      "base_content": {
+        "text": "The Supplier agrees to deliver a custom data integration platform encompassing API development, cloud infrastructure setup, security audit, and 12 months of post-delivery support as specified in Schedule A."
+      }
+    },
+    {
+      "id": "1d36228d511b",
+      "type": "heading",
+      "base_content": {
+        "text": "2. Payment Terms",
+        "level": 2
+      }
+    },
+    {
+      "id": "48a6339d25b1",
+      "type": "paragraph",
+      "base_content": {
+        "text": "The Client shall pay the Supplier a total contract value of \u00a350,000 (fifty thousand pounds sterling), payable in four equal quarterly instalments of \u00a312,500, commencing 30 days after the contract execution date."
+      }
+    },
+    {
+      "id": "948ef4fd6f43",
+      "type": "heading",
+      "base_content": {
+        "text": "3. Delivery Timeline",
+        "level": 2
+      }
+    },
+    {
+      "id": "bb1a3ffd0bf4",
+      "type": "paragraph",
+      "base_content": {
+        "text": "The platform shall be delivered in full within 180 calendar days of contract signature. Milestone payments are tied to delivery of phases as outlined in Schedule B."
+      }
+    },
+    {
+      "id": "85d98887452c",
+      "type": "heading",
+      "base_content": {
+        "text": "4. Intellectual Property",
+        "level": 2
+      }
+    },
+    {
+      "id": "f2d1ca6a44b2",
+      "type": "paragraph",
+      "base_content": {
+        "text": "All intellectual property created under this agreement transfers to the Client upon receipt of final payment. The Supplier retains the right to use non-confidential components as portfolio examples."
+      }
+    },
+    {
+      "id": "e9bf0eebb511",
+      "type": "heading",
+      "base_content": {
+        "text": "5. Governing Law",
+        "level": 2
+      }
+    },
+    {
+      "id": "6ed377bae9c7",
+      "type": "paragraph",
+      "base_content": {
+        "text": "This agreement is governed by the laws of England and Wales. Any disputes shall be referred to binding arbitration under the ICC Rules before any court proceedings are initiated."
+      }
+    },
+    {
+      "id": "c9d6cf6d4291",
+      "type": "divider",
+      "base_content": {}
+    },
+    {
+      "id": "2d0a5c568213",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Signed for and on behalf of Harlow Digital Solutions Ltd: [Signature] James R. Harlow, CEO  |  Date: 2026-04-23"
+      }
+    },
+    {
+      "id": "170ac7b7ae73",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Signed for and on behalf of Meridian Group PLC: [Signature] Sarah E. Brightwell, CFO  |  Date: 2026-04-23"
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-23T00:28:50Z",
+    "sealed_by": "James R. Harlow (CEO, Harlow Digital Solutions Ltd)",
+    "hash": "0da68889938e76a6b21f2fc8398e55e481d381c5c9424bc006fe7ea69c716d51",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "James R. Harlow",
+        "timestamp": "2026-04-22T22:28:50Z",
+        "note": "Contract drafted"
+      },
+      {
+        "event": "reviewed",
+        "actor": "Sarah E. Brightwell (CFO, Meridian Group PLC)",
+        "timestamp": "2026-04-22T23:28:50Z",
+        "note": "Client review completed"
+      },
+      {
+        "event": "approved",
+        "actor": "Both Parties",
+        "timestamp": "2026-04-22T23:58:50Z",
+        "note": "Agreed and approved for sealing"
+      },
+      {
+        "event": "sealed",
+        "actor": "James R. Harlow",
+        "timestamp": "2026-04-23T00:28:50Z",
+        "note": "Contract sealed and executed"
+      }
+    ]
+  }
+}

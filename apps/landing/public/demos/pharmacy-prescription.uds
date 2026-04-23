@@ -1,0 +1,247 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "6bcc1e18-2909-4620-9903-057f22bd8fa9",
+    "title": "Prescription — Maria Santos — Amoxicillin 500mg",
+    "created_at": "2026-04-23T00:27:46Z",
+    "updated_at": "2026-04-23T00:27:46Z",
+    "created_by": "Dr. J. Williams (GMC 4521987)",
+    "organisation": "Hillcroft Medical Practice, NHS",
+    "document_type": "prescription",
+    "tags": [
+      "prescription",
+      "pharmacy",
+      "antibiotic",
+      "nhs"
+    ],
+    "expiry": "2026-05-23T00:27:46Z",
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      },
+      {
+        "code": "ar",
+        "label": "Arabic",
+        "direction": "rtl"
+      },
+      {
+        "code": "zh",
+        "label": "Mandarin",
+        "direction": "ltr"
+      },
+      {
+        "code": "es",
+        "label": "Spanish",
+        "direction": "ltr"
+      },
+      {
+        "code": "fr",
+        "label": "French",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [
+      {
+        "id": "patient",
+        "label": "Patient"
+      },
+      {
+        "id": "pharmacist",
+        "label": "Pharmacist (Clinical)"
+      }
+    ],
+    "permissions": {
+      "allow_copy": false,
+      "allow_print": true,
+      "allow_export": false,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "a3b0c7cc2803",
+      "type": "heading",
+      "base_content": {
+        "text": "NHS Prescription",
+        "level": 1
+      },
+      "translations": {
+        "ar": "وصفة طبية — هيئة الخدمات الصحية الوطنية",
+        "zh": "NHS处方",
+        "es": "Receta Médica NHS",
+        "fr": "Ordonnance NHS"
+      },
+      "clarity": {
+        "patient": {
+          "en": "Your Prescription",
+          "ar": "وصفتك الطبية",
+          "zh": "您的处方",
+          "es": "Su Receta",
+          "fr": "Votre Ordonnance"
+        },
+        "pharmacist": {
+          "en": "FP10 NHS Prescription — Verify GMC before dispensing"
+        }
+      }
+    },
+    {
+      "id": "35e6c5cda9a1",
+      "type": "heading",
+      "base_content": {
+        "text": "Patient Details",
+        "level": 2
+      },
+      "translations": {
+        "ar": "بيانات المريض",
+        "zh": "患者信息",
+        "es": "Datos del Paciente",
+        "fr": "Informations Patient"
+      }
+    },
+    {
+      "id": "17a35866b5e4",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Patient: Maria Santos  |  Date of Birth: 15/03/1978  |  NHS Number: 485 777 3322"
+      },
+      "translations": {
+        "ar": "المريضة: ماريا سانتوس  |  تاريخ الميلاد: 15/03/1978  |  رقم NHS: 485 777 3322",
+        "zh": "患者：Maria Santos  |  出生日期：1978年3月15日  |  NHS编号：485 777 3322",
+        "es": "Paciente: Maria Santos  |  Fecha de nacimiento: 15/03/1978  |  Número NHS: 485 777 3322",
+        "fr": "Patient: Maria Santos  |  Date de naissance: 15/03/1978  |  Numéro NHS: 485 777 3322"
+      }
+    },
+    {
+      "id": "bc6ca29d535d",
+      "type": "heading",
+      "base_content": {
+        "text": "Medication",
+        "level": 2
+      },
+      "translations": {
+        "ar": "الدواء",
+        "zh": "药物",
+        "es": "Medicación",
+        "fr": "Médicament"
+      }
+    },
+    {
+      "id": "e526fd548b8a",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Amoxicillin 500mg capsules — Three times daily — 7-day course — Qty: 21 capsules"
+      },
+      "translations": {
+        "ar": "كبسولات أموكسيسيلين 500 مجم — ثلاث مرات يومياً — دورة 7 أيام — الكمية: 21 كبسولة",
+        "zh": "阿莫西林500mg胶囊 — 每日三次 — 7天疗程 — 数量：21粒",
+        "es": "Cápsulas de Amoxicilina 500mg — Tres veces al día — Duración: 7 días — Cantidad: 21 cápsulas",
+        "fr": "Gélules Amoxicilline 500mg — Trois fois par jour — Cure de 7 jours — Qté: 21 gélules"
+      },
+      "clarity": {
+        "patient": {
+          "en": "Take ONE capsule THREE TIMES A DAY with or without food. Continue for 7 days even if you feel better. If you experience rash, difficulty breathing or severe diarrhoea, stop and contact your GP immediately.",
+          "ar": "تناول كبسولة واحدة ثلاث مرات يومياً مع الطعام أو بدونه. استمر لمدة 7 أيام حتى لو شعرت بتحسن.",
+          "zh": "每日三次，每次服用一粒胶囊，可随餐或空腹服用。即使感觉好转，也请坚持服用7天。",
+          "es": "Tome UNA cápsula TRES VECES AL DÍA con o sin comida. Continúe durante 7 días aunque se sienta mejor.",
+          "fr": "Prendre UNE gélule TROIS FOIS PAR JOUR avec ou sans nourriture. Continuer 7 jours même si vous vous sentez mieux."
+        },
+        "pharmacist": {
+          "en": "Amoxicillin 500mg TDS 7/7. Check for penicillin allergy before dispensing. BNF 5.1.1.3. No interactions with current repeat medications on record. Prescriber: Dr. J. Williams GMC 4521987."
+        }
+      }
+    },
+    {
+      "id": "b08309861931",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Indication: Suspected lower respiratory tract infection"
+      },
+      "translations": {
+        "ar": "المؤشر: اشتباه في عدوى الجهاز التنفسي السفلي",
+        "zh": "适应症：疑似下呼吸道感染",
+        "es": "Indicación: Sospecha de infección del tracto respiratorio inferior",
+        "fr": "Indication: Infection présumée des voies respiratoires inférieures"
+      },
+      "clarity": {
+        "patient": {
+          "en": "You have been prescribed this antibiotic for a chest infection.",
+          "ar": "تمت وصف هذا المضاد الحيوي لعلاج عدوى في الصدر.",
+          "zh": "此抗生素是为治疗胸部感染而开具的处方药。",
+          "es": "Se le ha recetado este antibiótico para una infección de pecho.",
+          "fr": "Cet antibiotique vous a été prescrit pour une infection pulmonaire."
+        }
+      }
+    },
+    {
+      "id": "e1f579899216",
+      "type": "heading",
+      "base_content": {
+        "text": "Prescriber",
+        "level": 2
+      },
+      "translations": {
+        "ar": "الطبيب المعالج",
+        "zh": "处方医生",
+        "es": "Médico Prescriptor",
+        "fr": "Prescripteur"
+      }
+    },
+    {
+      "id": "a3fd68bb2da4",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Dr. J. Williams  |  GMC Registration: 4521987  |  Hillcroft Medical Practice  |  Date: 2026-04-23"
+      },
+      "translations": {
+        "ar": "الدكتور ج. ويليامز  |  ترخيص GMC: 4521987  |  عيادة هيلكروفت الطبية",
+        "zh": "J. Williams医生  |  GMC注册号：4521987  |  Hillcroft医疗诊所",
+        "es": "Dr. J. Williams  |  Registro GMC: 4521987  |  Consultorio Médico Hillcroft",
+        "fr": "Dr J. Williams  |  Inscription GMC: 4521987  |  Cabinet Médical Hillcroft"
+      }
+    },
+    {
+      "id": "84b9d89abdf5",
+      "type": "divider",
+      "base_content": {}
+    },
+    {
+      "id": "330e8e428570",
+      "type": "paragraph",
+      "base_content": {
+        "text": "This prescription expires 30 days from issue date. This is a Universal Document™ (UDS) — sealed, tamper-evident, and multilingual. Open at ud.hive.baby"
+      },
+      "translations": {
+        "ar": "تنتهي صلاحية هذه الوصفة بعد 30 يوماً من تاريخ الإصدار.",
+        "zh": "本处方自签发之日起30天内有效。",
+        "es": "Esta receta expira 30 días desde la fecha de emisión.",
+        "fr": "Cette ordonnance expire 30 jours après la date d'émission."
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-23T00:27:46Z",
+    "sealed_by": "Dr. J. Williams (GMC 4521987)",
+    "hash": "d1db853c95005879196823569ba83aae11ae6004fbcbe1594be92a8a07fa2353",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "Dr. J. Williams (GMC 4521987)",
+        "timestamp": "2026-04-23T00:22:46Z",
+        "note": "Prescription created in clinical system"
+      },
+      {
+        "event": "sealed",
+        "actor": "Dr. J. Williams (GMC 4521987)",
+        "timestamp": "2026-04-23T00:27:46Z",
+        "note": "Digitally sealed and dispatched"
+      }
+    ]
+  }
+}

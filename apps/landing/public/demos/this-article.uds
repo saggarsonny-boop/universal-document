@@ -1,0 +1,325 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "d64c1b64-1ae2-41ea-aa93-b64354f2b2c5",
+    "title": "Universal Document™: The Format That Changes Everything — Part 2",
+    "created_at": "2026-04-24T09:00:00Z",
+    "updated_at": "2026-04-24T09:00:00Z",
+    "created_by": "Universal Document™ Incorporated",
+    "organisation": "Universal Document™ Incorporated",
+    "document_type": "article",
+    "tags": [
+      "universal-document",
+      "open-format",
+      "article",
+      "medium",
+      "part-2",
+      "2026"
+    ],
+    "expiry": "2027-04-24T09:00:00Z",
+    "revoked": false,
+    "revocation_url": "https://universaldocument.hive.baby"
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      },
+      {
+        "code": "es",
+        "label": "Spanish",
+        "direction": "ltr"
+      },
+      {
+        "code": "ar",
+        "label": "Arabic",
+        "direction": "rtl"
+      },
+      {
+        "code": "fr",
+        "label": "French",
+        "direction": "ltr"
+      },
+      {
+        "code": "zh",
+        "label": "Mandarin",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [
+      {
+        "id": "full_article",
+        "label": "Full Article"
+      },
+      {
+        "id": "executive_summary",
+        "label": "Executive Summary (300 words)"
+      }
+    ],
+    "permissions": {
+      "allow_copy": true,
+      "allow_print": true,
+      "allow_export": true,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "cefc23fef48b",
+      "type": "heading",
+      "base_content": {
+        "text": "Universal Document™: The Format That Changes Everything",
+        "level": 1
+      },
+      "translations": {
+        "es": "Universal Document™: El Formato Que Cambia Todo",
+        "ar": "Universal Document™: الصيغة التي ستغيّر كل شيء",
+        "fr": "Universal Document™: Le Format Qui Change Tout",
+        "zh": "Universal Document™：改变一切的文档格式"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "Universal Document™ is a new open document format designed to replace PDF and DOCX. This article introduces its core capabilities."
+        }
+      }
+    },
+    {
+      "id": "7f665e84a84f",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Last week, we introduced Universal Document™ (UD) — an open, free, and AI-native document format built as the modern successor to PDF and DOCX. The response was extraordinary. Thousands of readers, engineers, clinicians, and civil servants wrote in. The central question in almost every message was the same: how does it actually work?"
+      },
+      "translations": {
+        "es": "La semana pasada presentamos Universal Document™ (UD), un formato de documento abierto, gratuito y nativo de IA creado como el sucesor moderno de PDF y DOCX. La respuesta fue extraordinaria.",
+        "ar": "الأسبوع الماضي، قدّمنا Universal Document™ (UD) — صيغة وثائق مفتوحة المصدر ومجانية ومبنية للذكاء الاصطناعي كخلف عصري لـ PDF وDOCX. كان الرد استثنائياً.",
+        "fr": "La semaine dernière, nous avons présenté Universal Document™ (UD) — un format de document ouvert, gratuit et natif de l'IA, conçu comme le successeur moderne de PDF et DOCX.",
+        "zh": "上周，我们介绍了Universal Document™（UD）——一种开放、免费、AI原生的文档格式，作为PDF和DOCX的现代继任者。反响之热烈出乎意料。"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "Universal Document™ launched last week to extraordinary response from engineers, clinicians, and civil servants worldwide, all asking: how does it actually work?"
+        }
+      }
+    },
+    {
+      "id": "cc0932777d9a",
+      "type": "heading",
+      "base_content": {
+        "text": "Two Formats, One Ecosystem",
+        "level": 2
+      },
+      "translations": {
+        "es": "Dos Formatos, Un Ecosistema",
+        "ar": "صيغتان، نظام واحد",
+        "fr": "Deux Formats, Un Écosystème",
+        "zh": "两种格式，一个生态系统"
+      }
+    },
+    {
+      "id": "6dbe64459221",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Universal Document™ has two file types. UDS — Universal Document™ Sealed — is the final, authoritative form. It cannot be edited, only superseded. It carries a cryptographic seal, a chain of custody, and optional expiry. UDR — Universal Document™ Revisable — is the working format. Editable, structured, intelligent. When a UDR is ready, it is sealed into a UDS."
+      },
+      "translations": {
+        "es": "Universal Document™ tiene dos tipos de archivo. UDS es la forma final y autoritativa. No puede editarse, solo superarse. UDR es el formato de trabajo: editable, estructurado, inteligente.",
+        "ar": "يحتوي Universal Document™ على نوعين من الملفات. UDS هو الشكل النهائي والموثوق — لا يمكن تعديله، بل استبداله فقط. UDR هو تنسيق العمل: قابل للتحرير، منظم، وذكي.",
+        "fr": "Universal Document™ a deux types de fichiers. UDS est la forme finale et faisant autorité. Il ne peut être modifié, seulement remplacé. UDR est le format de travail : modifiable, structuré, intelligent.",
+        "zh": "Universal Document™有两种文件类型。UDS（Universal Document™ Sealed）是最终权威形式，不可编辑，只能被新版本取代。UDR（Universal Document™ Revisable）是工作格式：可编辑、结构化、智能化。"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "UD has two formats: UDS (sealed, final, tamper-evident) and UDR (editable, working draft). UDR becomes UDS when ready."
+        }
+      }
+    },
+    {
+      "id": "897a13c48354",
+      "type": "heading",
+      "base_content": {
+        "text": "Clarity Layers: One Document, Multiple Audiences",
+        "level": 2
+      },
+      "translations": {
+        "es": "Capas de Claridad: Un Documento, Múltiples Audiencias",
+        "ar": "طبقات الوضوح: وثيقة واحدة لجمهور متعدد",
+        "fr": "Couches de Clarté: Un Document, Plusieurs Publics",
+        "zh": "清晰度层：一份文档，多个受众"
+      }
+    },
+    {
+      "id": "ca36a9e24677",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Every block in a Universal Document™ can carry multiple versions of its content — one for each audience. A prescription shows clinical detail to a pharmacist and plain-language instructions to the patient. A legal contract shows full terms to a lawyer and a plain-English summary to the signatory. A government regulation shows statutory text to an official and a plain-language summary to the public. The document is one file. The audience determines what they see."
+      },
+      "translations": {
+        "es": "Cada bloque en un Universal Document™ puede contener múltiples versiones de su contenido para cada audiencia. Una receta muestra detalles clínicos al farmacéutico e instrucciones sencillas al paciente.",
+        "ar": "يمكن لكل كتلة في Universal Document™ أن تحمل نسخاً متعددة من محتواها لكل جمهور. توصفة تُظهر التفاصيل السريرية للصيدلاني وتعليمات بسيطة للمريض.",
+        "fr": "Chaque bloc d'un Universal Document™ peut contenir plusieurs versions de son contenu — une pour chaque public. Une ordonnance montre les détails cliniques au pharmacien et des instructions claires au patient.",
+        "zh": "Universal Document™中的每个内容块都可以为不同受众携带多个版本的内容。处方对药剂师显示临床细节，对患者显示通俗语言的指导。"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "Clarity Layers allow a single document to show different content to different audiences (patient vs clinician, public vs official) — no duplicate files needed."
+        }
+      }
+    },
+    {
+      "id": "449ed3f80475",
+      "type": "heading",
+      "base_content": {
+        "text": "Language Streams: No Translation Files",
+        "level": 2
+      },
+      "translations": {
+        "es": "Flujos de Idioma: Sin Archivos de Traducción",
+        "ar": "تدفقات اللغة: بدون ملفات ترجمة",
+        "fr": "Flux de Langue: Pas de Fichiers de Traduction",
+        "zh": "语言流：无需翻译文件"
+      }
+    },
+    {
+      "id": "247420852f7e",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Every block carries its own translations as structured data — not as a separate file, not as a linked resource, but embedded at block level. Switch the active language and the document re-renders instantly. The same prescription, in the same file, reads natively in English, Arabic, Mandarin, Spanish, or French. One file. Every language. No duplication."
+      },
+      "translations": {
+        "es": "Cada bloque lleva sus propias traducciones como datos estructurados. Cambia el idioma activo y el documento se vuelve a renderizar instantáneamente. Un archivo. Todos los idiomas.",
+        "ar": "تحمل كل كتلة ترجماتها الخاصة كبيانات منظمة. غيّر اللغة النشطة وسيُعيد المستند العرض فوراً. ملف واحد. كل اللغات.",
+        "fr": "Chaque bloc porte ses propres traductions sous forme de données structurées. Changez la langue active et le document se restitue instantanément. Un fichier. Toutes les langues.",
+        "zh": "每个内容块都以结构化数据的形式携带自己的翻译。切换活跃语言，文档立即重新呈现。一个文件，所有语言，零重复。"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "Every UD block contains its translations as structured data. One file handles every language — no separate translation documents."
+        }
+      }
+    },
+    {
+      "id": "4234c5bafae6",
+      "type": "heading",
+      "base_content": {
+        "text": "Expiry, Revocation, and Chain of Custody",
+        "level": 2
+      },
+      "translations": {
+        "es": "Vencimiento, Revocación y Cadena de Custodia",
+        "ar": "الانتهاء والإلغاء وسلسلة الحضانة",
+        "fr": "Expiration, Révocation et Chaîne de Garde",
+        "zh": "过期、撤销与保管链"
+      }
+    },
+    {
+      "id": "2c652b8a1218",
+      "type": "paragraph",
+      "base_content": {
+        "text": "A Universal Document™ can expire. A surgical consent expires after 24 hours. A prescription expires after 30 days. A policy document expires on the day its successor is published. Expiry is built into the file — not managed by a platform. A UD can also be revoked, permanently. And every action — creation, edit, approval, sealing, sharing — is recorded in a chain of custody embedded in the seal. There is no way to alter the document without invalidating the seal."
+      },
+      "translations": {
+        "es": "Un Universal Document™ puede expirar. Un consentimiento quirúrgico expira tras 24 horas. Una receta expira a los 30 días. La caducidad está integrada en el archivo, no gestionada por una plataforma.",
+        "ar": "يمكن لـ Universal Document™ أن ينتهي. يتهي وثيقة الموافقة الجراحية بعد 24 ساعة. انتهاء الصلاحية مدمج في الملف وليس مُدار بواسطة منصة.",
+        "fr": "Un Universal Document™ peut expirer. Un consentement chirurgical expire après 24 heures. Une ordonnance après 30 jours. L'expiration est intégrée dans le fichier, non gérée par une plateforme.",
+        "zh": "Universal Document™可以设置过期时间。手术同意书24小时后过期，处方30天后过期。过期机制内置于文件本身，而非由平台管理。"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "UDS documents can expire automatically and be revoked permanently. Every action is recorded in a tamper-evident chain of custody inside the file seal."
+        }
+      }
+    },
+    {
+      "id": "20496a6e56a4",
+      "type": "heading",
+      "base_content": {
+        "text": "Try It Now",
+        "level": 2
+      },
+      "translations": {
+        "es": "Pruébelo Ahora",
+        "ar": "جربه الآن",
+        "fr": "Essayez Maintenant",
+        "zh": "立即体验"
+      }
+    },
+    {
+      "id": "b04c9a349de7",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Four demonstration files are available to download and open in the UD Reader at reader.hive.baby. A pharmacy prescription with five language streams and two clarity layers. A surgical consent that expires in 24 hours. A commercial contract and a tampered version that fails integrity checks. And this article itself — as a Universal Document™."
+      },
+      "translations": {
+        "es": "Cuatro archivos de demostración están disponibles para descargar y abrir en el Lector UD en reader.hive.baby.",
+        "ar": "أربعة ملفات تجريبية متاحة للتنزيل وفتحها في قارئ UD على reader.hive.baby.",
+        "fr": "Quatre fichiers de démonstration sont disponibles en téléchargement et à ouvrir dans le lecteur UD sur reader.hive.baby.",
+        "zh": "四个演示文件可在reader.hive.baby的UD阅读器中下载并打开。"
+      }
+    },
+    {
+      "id": "c3040c4fe776",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Universal Document™ is open. The specification is free. The tools are free. The iSDK carries no licence cost. If you build with it, you do not owe us anything — except the courtesy of calling it Universal Document™."
+      },
+      "translations": {
+        "es": "Universal Document™ es abierto. La especificación es gratuita. Las herramientas son gratuitas. El iSDK no tiene costo de licencia.",
+        "ar": "Universal Document™ مفتوح. المواصفة مجانية. الأدوات مجانية. لا تكلفة ترخيص على iSDK.",
+        "fr": "Universal Document™ est ouvert. La spécification est gratuite. Les outils sont gratuits. L'iSDK ne comporte aucun coût de licence.",
+        "zh": "Universal Document™是开放的。规范是免费的。工具是免费的。iSDK不收取任何许可费用。"
+      },
+      "clarity": {
+        "executive_summary": {
+          "en": "Universal Document™ is fully open. Free specification, free tools, no SDK licensing costs. Use it freely — just call it Universal Document™."
+        }
+      }
+    },
+    {
+      "id": "9b36eee41fbd",
+      "type": "divider",
+      "base_content": {}
+    },
+    {
+      "id": "785e02410bb9",
+      "type": "paragraph",
+      "base_content": {
+        "text": "universaldocument.solutions · ud.hive.baby · reader.hive.baby · converter.hive.baby  |  Universal Document™ is a pending trademark (Serial 99774346). Specification released under CC BY 4.0.  |  This document expires: 2027-04-24."
+      },
+      "translations": {
+        "es": "universaldocument.solutions · ud.hive.baby  |  Universal Document™ es una marca pendiente de registro (Serie 99774346). Especificación publicada bajo CC BY 4.0.",
+        "ar": "universaldocument.solutions · ud.hive.baby  |  Universal Document™ علامة تجارية معلقة (الرقم التسلسلي 99774346). المواصفة صادرة بموجب CC BY 4.0.",
+        "fr": "universaldocument.solutions · ud.hive.baby  |  Universal Document™ est une marque déposée en attente (Série 99774346). Spécification publiée sous CC BY 4.0.",
+        "zh": "universaldocument.solutions · ud.hive.baby  |  Universal Document™为待注册商标（序列号99774346）。规范依据CC BY 4.0发布。"
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-23T00:30:09Z",
+    "sealed_by": "Universal Document™ Incorporated",
+    "hash": "5b6fe4d97042b2000235da8161535ec2afea3b5db19c6215d8223832dfbaf8a1",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "Universal Document™ Incorporated",
+        "timestamp": "2026-04-21T09:00:00Z",
+        "note": "Article drafted for Medium Part 2 launch"
+      },
+      {
+        "event": "reviewed",
+        "actor": "Editorial Team — Universal Document™ Incorporated",
+        "timestamp": "2026-04-23T09:00:00Z",
+        "note": "Final editorial review"
+      },
+      {
+        "event": "sealed",
+        "actor": "Universal Document™ Incorporated",
+        "timestamp": "2026-04-24T09:00:00Z",
+        "note": "Sealed for publication. Version 1.0."
+      }
+    ]
+  }
+}

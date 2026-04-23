@@ -1,0 +1,223 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "385a2090-986c-44ca-9469-d04dffe844f7",
+    "title": "Surgical Consent Form — Appendectomy — [Patient: Redacted for demo]",
+    "created_at": "2026-04-23T00:28:50Z",
+    "updated_at": "2026-04-23T00:28:50Z",
+    "created_by": "Mr. A. Sharma, Consultant Surgeon (GMC 7134522)",
+    "organisation": "Royal Southfield Hospital NHS Foundation Trust",
+    "document_type": "surgical-consent",
+    "tags": [
+      "consent",
+      "surgical",
+      "appendectomy",
+      "time-limited"
+    ],
+    "expiry": "2026-04-24T00:28:50Z",
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      },
+      {
+        "code": "es",
+        "label": "Spanish",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [
+      {
+        "id": "patient",
+        "label": "Patient View"
+      },
+      {
+        "id": "clinician",
+        "label": "Clinician View (Restricted)"
+      }
+    ],
+    "permissions": {
+      "allow_copy": false,
+      "allow_print": true,
+      "allow_export": false,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "a4bd8782e71a",
+      "type": "heading",
+      "base_content": {
+        "text": "Informed Consent for Surgical Procedure",
+        "level": 1
+      },
+      "translations": {
+        "es": "Consentimiento Informado para Procedimiento Quirúrgico"
+      },
+      "clarity": {
+        "patient": {
+          "en": "Your Consent Form — Please read carefully before signing",
+          "es": "Su Formulario de Consentimiento — Lea atentamente antes de firmar"
+        },
+        "clinician": {
+          "en": "Consent Form FP/SURG-01 — Verify patient ID and allergies before theatre"
+        }
+      }
+    },
+    {
+      "id": "bd07191525da",
+      "type": "heading",
+      "base_content": {
+        "text": "Procedure",
+        "level": 2
+      },
+      "translations": {
+        "es": "Procedimiento"
+      }
+    },
+    {
+      "id": "56134c524c3e",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Laparoscopic appendectomy under general anaesthesia"
+      },
+      "translations": {
+        "es": "Apendicectomía laparoscópica bajo anestesia general"
+      },
+      "clarity": {
+        "patient": {
+          "en": "A keyhole operation to remove your appendix. You will be asleep under general anaesthetic throughout.",
+          "es": "Una operación de laparoscopía para extirpar su apéndice. Estará dormido bajo anestesia general."
+        },
+        "clinician": {
+          "en": "Lap appendectomy, GA. Theatre 3 booked 14:00. Anaesthetist: Dr. K. Osei. ASA Grade I. NBM from 06:00. Pre-op antibiotics: Co-amoxiclav 1.2g IV on induction."
+        }
+      }
+    },
+    {
+      "id": "5b2371726d54",
+      "type": "heading",
+      "base_content": {
+        "text": "Benefits and Purpose",
+        "level": 2
+      },
+      "translations": {
+        "es": "Beneficios y Propósito"
+      }
+    },
+    {
+      "id": "3de356ff24b8",
+      "type": "paragraph",
+      "base_content": {
+        "text": "To treat acute appendicitis and prevent perforation and peritonitis."
+      },
+      "translations": {
+        "es": "Para tratar la apendicitis aguda y prevenir la perforación y peritonitis."
+      },
+      "clarity": {
+        "patient": {
+          "en": "Your appendix is inflamed. Without surgery, it could burst, which is dangerous. This operation removes the appendix and resolves the problem.",
+          "es": "Su apéndice está inflamado. Sin cirugía podría romperse, lo cual es peligroso. Esta operación lo resuelve."
+        }
+      }
+    },
+    {
+      "id": "40d2291a709d",
+      "type": "heading",
+      "base_content": {
+        "text": "Risks",
+        "level": 2
+      },
+      "translations": {
+        "es": "Riesgos"
+      }
+    },
+    {
+      "id": "7e2422382db0",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Common (1 in 10): wound infection, temporary shoulder tip pain from gas. Uncommon (1 in 100): conversion to open surgery, bleeding. Rare (<1 in 1000): bowel injury, anaesthetic reaction."
+      },
+      "translations": {
+        "es": "Comunes (1 de 10): infección de herida, dolor temporal en el hombro. Poco comunes (1 de 100): conversión a cirugía abierta, sangrado. Raros (<1 de 1000): lesión intestinal, reacción anestésica."
+      }
+    },
+    {
+      "id": "b524165f2d4a",
+      "type": "heading",
+      "base_content": {
+        "text": "Your Rights",
+        "level": 2
+      },
+      "translations": {
+        "es": "Sus Derechos"
+      }
+    },
+    {
+      "id": "87946ea549e0",
+      "type": "paragraph",
+      "base_content": {
+        "text": "You may withdraw consent at any time before anaesthesia is administered. You have the right to ask questions and receive clear answers."
+      },
+      "translations": {
+        "es": "Puede retirar su consentimiento en cualquier momento antes de que se administre la anestesia."
+      }
+    },
+    {
+      "id": "566830e8ebac",
+      "type": "heading",
+      "base_content": {
+        "text": "Anaesthesia and Surgical Team — RESTRICTED TO CLINICAL STAFF"
+      },
+      "audience": [
+        "clinician"
+      ],
+      "clarity": {
+        "clinician": {
+          "en": "Lead Surgeon: Mr. A. Sharma (GMC 7134522). Registrar: Dr. T. Okafor (GMC 8823001). Anaesthetist: Dr. K. Osei (GMC 6612455). Scrub nurse: J. Patel. Theatre 3, Royal Southfield. Planned start: 14:00. Estimated duration: 45 min."
+        }
+      }
+    },
+    {
+      "id": "a9cf7653285f",
+      "type": "paragraph",
+      "base_content": {
+        "text": "NOTE: This consent document expires 24 hours from issue. If not used within this window, a new consent must be obtained. This document is a Universal Document™ (UDS) — sealed, tamper-evident, multilingual."
+      },
+      "translations": {
+        "es": "NOTA: Este documento de consentimiento expira 24 horas después de su emisión."
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-23T00:28:50Z",
+    "sealed_by": "Mr. A. Sharma (GMC 7134522)",
+    "hash": "f0ac854e3877a1a83a7c61a3529ab209aff968b565a8e97c4b26b0250e7476b0",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "Mr. A. Sharma (GMC 7134522)",
+        "timestamp": "2026-04-23T00:18:50Z",
+        "note": "Consent discussion completed with patient"
+      },
+      {
+        "event": "approved",
+        "actor": "Patient (Maria Santos, DOB 15/03/1978)",
+        "timestamp": "2026-04-23T00:25:50Z",
+        "note": "Patient confirmed understanding and verbal consent given"
+      },
+      {
+        "event": "sealed",
+        "actor": "Mr. A. Sharma (GMC 7134522)",
+        "timestamp": "2026-04-23T00:28:50Z",
+        "note": "Consent document sealed prior to theatre"
+      }
+    ]
+  }
+}
