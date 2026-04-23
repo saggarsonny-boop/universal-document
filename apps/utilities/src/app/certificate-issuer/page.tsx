@@ -1,0 +1,94 @@
+'use client'
+import { useState } from 'react'
+
+const CERT_TYPES = ['Completion','Achievement','Attendance','Competency','Accreditation','Training','Award','Other']
+
+export default function CertificateIssuer() {
+  const [certType, setCertType] = useState('')
+  const [customType, setCustomType] = useState('')
+  const [recipientName, setRecipientName] = useState('')
+  const [recipientEmail, setRecipientEmail] = useState('')
+  const [courseTitle, setCourseTitle] = useState('')
+  const [issuerName, setIssuerName] = useState('')
+  const [issuerOrg, setIssuerOrg] = useState('')
+  const [issueDate, setIssueDate] = useState('')
+  const [expiryDate, setExpiryDate] = useState('')
+  const [creditHours, setCreditHours] = useState('')
+  const [certId, setCertId] = useState('')
+  const [result, setResult] = useState<{ url: string; name: string } | null>(null)
+
+  const inp = { width: '100%', padding: '10px 14px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', background: '#fff', boxSizing: 'border-box' as const }
+  const lbl = { display: 'block' as const, fontSize: 11, fontWeight: 600 as const, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 6 }
+
+  const run = () => {
+    const now = new Date().toISOString()
+    const type = certType === 'Other' ? customType : certType
+    const id = certId || `CERT-${Date.now().toString(36).toUpperCase()}`
+    const doc = {
+      format: 'UDS', status: 'sealed',
+      title: `Certificate of ${type} — ${recipientName}`,
+      document_type: 'certificate',
+      certificate: {
+        certificate_id: id,
+        type,
+        recipient: { name: recipientName, email: recipientEmail || undefined },
+        course_title: courseTitle || undefined,
+        issuer: { name: issuerName || undefined, organisation: issuerOrg || undefined },
+        issue_date: issueDate || undefined,
+        expiry_date: expiryDate || undefined,
+        credit_hours: creditHours ? parseFloat(creditHours) : undefined,
+        status: 'valid',
+      },
+      provenance: { created_at: now, document_type: 'certificate', certificate_id: id },
+    }
+    const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' })
+    setResult({ url: URL.createObjectURL(blob), name: `cert-${recipientName.replace(/\s+/g,'-').toLowerCase()}-${id}.uds` })
+  }
+
+  const can = !certType || !recipientName || (certType === 'Other' && !customType)
+
+  return (
+    <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 24px' }}>
+      <a href="/" style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}>← All tools</a>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Certificate Issuer</h1>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
+          <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
+        </div>
+      </div>
+      <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 32, lineHeight: 1.6 }}>Issue verifiable certificates as sealed .uds documents with a unique certificate ID, recipient details, issuer, credit hours, and optional expiry.</p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
+        <div style={{ gridColumn: '1/-1' }}>
+          <label style={lbl}>Certificate type *</label>
+          <select value={certType} onChange={e => setCertType(e.target.value)} style={{ ...inp, cursor: 'pointer' }}>
+            <option value="">— Select —</option>
+            {CERT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+        {certType === 'Other' && <div style={{ gridColumn: '1/-1' }}><label style={lbl}>Specify</label><input style={inp} value={customType} onChange={e => setCustomType(e.target.value)} placeholder="Certificate type" /></div>}
+        <div><label style={lbl}>Recipient name *</label><input style={inp} value={recipientName} onChange={e => setRecipientName(e.target.value)} placeholder="Full name" /></div>
+        <div><label style={lbl}>Recipient email</label><input type="email" style={inp} value={recipientEmail} onChange={e => setRecipientEmail(e.target.value)} placeholder="email@example.com" /></div>
+        <div style={{ gridColumn: '1/-1' }}><label style={lbl}>Course / programme title</label><input style={inp} value={courseTitle} onChange={e => setCourseTitle(e.target.value)} placeholder="e.g. Advanced Data Analysis" /></div>
+        <div><label style={lbl}>Issuer name</label><input style={inp} value={issuerName} onChange={e => setIssuerName(e.target.value)} placeholder="Issuing person" /></div>
+        <div><label style={lbl}>Issuing organisation</label><input style={inp} value={issuerOrg} onChange={e => setIssuerOrg(e.target.value)} placeholder="Organisation" /></div>
+        <div><label style={lbl}>Issue date</label><input type="date" style={inp} value={issueDate} onChange={e => setIssueDate(e.target.value)} /></div>
+        <div><label style={lbl}>Expiry date</label><input type="date" style={inp} value={expiryDate} onChange={e => setExpiryDate(e.target.value)} /></div>
+        <div><label style={lbl}>Credit hours</label><input type="number" min="0" step="0.5" style={inp} value={creditHours} onChange={e => setCreditHours(e.target.value)} placeholder="e.g. 8" /></div>
+        <div><label style={lbl}>Certificate ID (auto-generated if blank)</label><input style={inp} value={certId} onChange={e => setCertId(e.target.value)} placeholder="CERT-XXXXX" /></div>
+      </div>
+
+      {result && (
+        <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+          <div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)' }}>Certificate issued ✓</div><div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{recipientName} · {certType === 'Other' ? customType : certType}</div></div>
+          <a href={result.url} download={result.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
+        </div>
+      )}
+      <button onClick={run} disabled={!!can} style={{ width: '100%', padding: '14px', background: can ? 'var(--ud-border)' : 'var(--ud-ink)', color: can ? 'var(--ud-muted)' : '#fff', border: 'none', borderRadius: 'var(--ud-radius)', fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-body)', cursor: can ? 'not-allowed' : 'pointer' }}>Issue Certificate</button>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+        Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
+      </div>
+    </div>
+  )
+}
