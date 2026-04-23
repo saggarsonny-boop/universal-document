@@ -256,6 +256,9 @@ function ProBadge() {
 }
 
 export default function CreatorPage() {
+  const [started, setStarted] = useState(false)
+  const [importDragging, setImportDragging] = useState(false)
+  const importRef = useRef<HTMLInputElement>(null)
   const [title, setTitle] = useState('')
   const [tags, setTags] = useState('')
   const [expiresAt, setExpiresAt] = useState('')
@@ -277,6 +280,17 @@ export default function CreatorPage() {
   const [audienceVersions, setAudienceVersions] = useState<string[]>([])
   const [customAudience, setCustomAudience] = useState('')
   const [showCustomInput, setShowCustomInput] = useState(false)
+
+  const handleImport = useCallback(async (file: File) => {
+    const name = file.name.replace(/\.[^.]+$/, '')
+    setTitle(name)
+    const text = await file.text().catch(() => '')
+    if (text.trim()) {
+      const lines = text.split('\n').filter(l => l.trim())
+      setBlocks(lines.map(l => ({ id: uid(), type: 'paragraph' as BlockType, html: l })))
+    }
+    setStarted(true)
+  }, [])
 
   useEffect(() => {
     const s = localStorage.getItem('ud_creator_session')
@@ -457,7 +471,42 @@ export default function CreatorPage() {
       <UDOnboarding engine="Creator" />
       {showAuth && <AuthModal onDone={() => { setShowAuth(false); fetchDocs() }} onClose={() => setShowAuth(false)} />}
       <div style={S.wrap}>
-        <div style={S.topBar}>
+
+        {!started && (
+          <div style={{ maxWidth: 680, margin: '0 auto', paddingTop: 32 }}>
+            <h1 style={{ ...S.h1, textAlign: 'center', marginBottom: 8 }}>UD Creator</h1>
+            <p style={{ textAlign: 'center', fontSize: 15, color: 'var(--muted)', marginBottom: 36 }}>Turn any file into a Universal Document™, or start fresh.</p>
+            <input ref={importRef} type="file" accept=".docx,.xlsx,.csv,.pdf,.txt,.md,.png,.jpg,.jpeg,.pptx" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleImport(f) }} />
+            <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 16, alignItems: 'stretch' }}>
+              <div
+                onDragOver={e => { e.preventDefault(); setImportDragging(true) }}
+                onDragLeave={() => setImportDragging(false)}
+                onDrop={e => { e.preventDefault(); setImportDragging(false); const f = e.dataTransfer.files[0]; if (f) handleImport(f) }}
+                onClick={() => importRef.current?.click()}
+                style={{ border: `2px dashed ${importDragging ? 'var(--gold)' : 'rgba(200,150,10,0.4)'}`, background: importDragging ? 'rgba(200,150,10,0.06)' : 'var(--surface)', borderRadius: 14, padding: '32px 24px', cursor: 'pointer', transition: 'all 0.2s' }}
+              >
+                <div style={{ fontSize: 28, marginBottom: 10 }}>📂</div>
+                <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>Import a file</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>Turn any existing document into a Universal Document™</div>
+                <div style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>.docx · .xlsx · .csv · .pdf · .txt · .md · .png · .jpg · .pptx</div>
+                <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)', fontWeight: 600 }}>Drag file here or click to browse →</div>
+              </div>
+              <div
+                onClick={() => setStarted(true)}
+                style={{ border: '1px solid var(--border)', background: 'var(--surface)', borderRadius: 14, padding: '32px 24px', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'center', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              >
+                <div style={{ fontSize: 28, marginBottom: 10 }}>✦</div>
+                <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>Start from scratch</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 20 }}>Plain text and headings only</div>
+                <div style={{ fontSize: 13, color: 'var(--gold)', fontWeight: 600 }}>Start blank →</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {started && (<><div style={S.topBar}>
           <h1 style={S.h1}>UD Creator / UD Editor</h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             {email ? (
@@ -801,7 +850,7 @@ export default function CreatorPage() {
             color: var(--muted);
             pointer-events: none;
           }
-        `}</style>
+        `}</style></>)}
       </div>
     </div>
   )
