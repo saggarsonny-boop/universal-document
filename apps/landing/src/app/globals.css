@@ -95,20 +95,20 @@ a:hover { color: var(--ud-teal); }
 /* Shared button primitives */
 .ud-btn-primary {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 24px; border-radius: 99px; border: none;
-  background: var(--ud-ink); color: #fff;
-  font-family: var(--font-body); font-size: 14px; font-weight: 500;
-  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 2px 8px rgba(30,45,61,0.18);
+  padding: 12px 24px; border-radius: 8px; border: none;
+  background: var(--ud-gold); color: #fff;
+  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(200,150,10,0.22);
 }
 .ud-btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(30,45,61,0.26);
+  background: #a67808;
+  box-shadow: 0 4px 16px rgba(200,150,10,0.32);
 }
 
 .ud-btn-secondary {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 24px; border-radius: 99px;
+  padding: 12px 24px; border-radius: 8px;
   border: 1px solid var(--ud-ink); background: transparent;
   color: var(--ud-ink);
   font-family: var(--font-body); font-size: 14px; font-weight: 500;

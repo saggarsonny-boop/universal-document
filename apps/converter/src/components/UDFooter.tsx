@@ -1,50 +1,52 @@
 'use client'
 
-const LINKS = [
-  { label: 'hive.baby',   href: 'https://hive.baby' },
-  { label: 'Contribute',  href: 'https://hive.baby/contribute' },
-  { label: 'Patrons',     href: 'https://hive.baby/patrons' },
-  { label: 'Privacy',     href: 'https://hive.baby/privacy' },
+const NAV_LINKS = [
+  { label: 'Reader',      href: 'https://reader.hive.baby' },
+  { label: 'Converter',   href: 'https://converter.hive.baby' },
+  { label: 'Creator',     href: 'https://creator.hive.baby' },
+  { label: 'Validator',   href: 'https://validator.hive.baby' },
+  { label: 'Utilities',   href: 'https://utilities.hive.baby' },
+  { label: 'White Paper', href: 'https://universaldocument.hive.baby' },
+  { label: 'Certified',   href: 'https://universaldocument.hive.baby/certified' },
 ]
 
 export default function UDFooter() {
   return (
     <footer style={{
       borderTop: '0.5px solid var(--ud-border)',
-      padding: '32px 24px',
+      padding: '40px 24px 32px',
       background: 'var(--ud-paper-2)',
       marginTop: 'auto',
     }}>
-      <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-        <p style={{
-          fontFamily: 'var(--font-body)', fontSize: 13,
-          fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4,
-        }}>Universal Document™ Incorporated</p>
-        <p style={{
-          fontFamily: 'var(--font-mono)', fontSize: 11,
-          color: 'var(--ud-muted)', marginBottom: 18,
-        }}>
-          <a href="https://universaldocument.solutions" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.solutions</a>
-          {' · '}
-          <a href="mailto:press@universaldocument.solutions" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>press@universaldocument.solutions</a>
-        </p>
-        <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
-          {LINKS.map(t => (
+      <div style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
+          {NAV_LINKS.map(t => (
             <a key={t.href} href={t.href} style={{
-              fontFamily: 'var(--font-mono)', fontSize: 11,
-              color: 'var(--ud-muted)', textDecoration: 'none',
+              fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 500,
+              color: 'var(--ud-muted)', textDecoration: 'none', transition: 'color 0.15s',
             }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--ud-ink)')}
             onMouseLeave={e => (e.currentTarget.style.color = 'var(--ud-muted)')}
             >{t.label}</a>
           ))}
         </div>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 6 }}>
-          Universal Document™ Standard 1.0 · CC BY 4.0 · April 2026
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginBottom: 10 }}>
+          <a href="mailto:hive@hive.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>hive@hive.baby</a>
+          {' · '}
+          <a href="https://universaldocument.hive.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.hive.baby</a>
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto' }}>
-          Universal Document™ is a pending trademark (Serial 99774346). The specification is released under CC BY 4.0 and may be implemented freely by any party.
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 4 }}>
+          Universal Document™ is a pending trademark (USPTO Serial No. 99774346)
         </p>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 16 }}>
+          © 2026 Universal Document Incorporated
+        </p>
+        <a href="https://hive.baby" style={{
+          fontSize: 18, textDecoration: 'none', opacity: 0.45, transition: 'opacity 0.15s', display: 'inline-block',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+        onMouseLeave={e => (e.currentTarget.style.opacity = '0.45')}
+        title="Back to Hive">🌍</a>
       </div>
     </footer>
   )
