@@ -68,7 +68,7 @@ export default function LandingPage() {
           fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 6vw, 60px)', fontWeight: 700,
           letterSpacing: '-0.02em', color: 'var(--ud-ink)', lineHeight: 1.15, marginBottom: 24,
         }}>
-          Universal Document™.<br />
+          Universal Document™<br />
           <span style={{ color: 'var(--ud-gold)' }}>For a universal world.</span>
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ud-muted)', maxWidth: 520, margin: '0 auto 40px', lineHeight: 1.7 }}>
@@ -160,23 +160,6 @@ export default function LandingPage() {
       <section style={{ maxWidth: 960, margin: '0 auto', padding: '56px 24px' }}>
         <p style={sectionLabel}>Two formats. One ecosystem.</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
-          <div style={{ background: 'var(--ud-ink)', borderRadius: 14, padding: 28 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-              <img src="/icons/uds.svg" width={36} height={44} alt="UDS" style={{ flexShrink: 0 }} />
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: '#fff' }}>UDS — Universal Document™ Sealed</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Sealed · Navy · Authoritative</div>
-              </div>
-            </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: 14 }}>
-              The final, sealed form. Structured, clarity-layered, and perfect for reading. Cannot be edited — only superseded.
-            </p>
-            {['Permanent hash', 'Chain of custody', 'Clarity layers', 'Multilingual ribbons', 'Expiry control'].map(f => (
-              <div key={f} style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                <span style={{ color: 'var(--ud-gold)', fontWeight: 700 }}>✓</span> {f}
-              </div>
-            ))}
-          </div>
           <div style={{ background: '#dbeafe', border: '1px solid #93c5fd', borderRadius: 14, padding: 28 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <img src="/icons/udr.svg" width={36} height={44} alt="UDR" style={{ flexShrink: 0 }} />
@@ -191,6 +174,23 @@ export default function LandingPage() {
             {['Section-level editing', 'Metadata management', 'Permission control', 'Version history', 'Export to UDS'].map(f => (
               <div key={f} style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-ink)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                 <span style={{ color: '#3b82f6', fontWeight: 700 }}>✓</span> {f}
+              </div>
+            ))}
+          </div>
+          <div style={{ background: 'var(--ud-ink)', borderRadius: 14, padding: 28 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <img src="/icons/uds.svg" width={36} height={44} alt="UDS" style={{ flexShrink: 0 }} />
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: '#fff' }}>UDS — Universal Document™ Sealed</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Sealed · Navy · Authoritative</div>
+              </div>
+            </div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: 14 }}>
+              The final, sealed form. Structured, clarity-layered, and perfect for reading. Cannot be edited — only superseded.
+            </p>
+            {['Permanent hash', 'Chain of custody', 'Clarity layers', 'Multilingual ribbons', 'Expiry control'].map(f => (
+              <div key={f} style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                <span style={{ color: 'var(--ud-gold)', fontWeight: 700 }}>✓</span> {f}
               </div>
             ))}
           </div>

@@ -40,8 +40,8 @@
   <text x="100" y="206"
     text-anchor="middle"
     font-family="'Playfair Display',Georgia,'Times New Roman',serif"
-    font-size="15" font-weight="700"
-    fill="#c8960a" letter-spacing="3">UNIVERSAL DOCUMENT<tspan font-size="9" dy="-5" letter-spacing="0" dx="1">&#x2122;</tspan></text>
+    font-size="12" font-weight="700"
+    fill="#c8960a" letter-spacing="1.5">UNIVERSAL DOCUMENT<tspan font-size="8" dy="-4" letter-spacing="0" dx="1">&#x2122;</tspan></text>
 
   <text x="100" y="225"
     text-anchor="middle"

@@ -3,6 +3,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import AutoDemo from './components/AutoDemo'
 import FirstVisitCard from './components/FirstVisitCard'
+import UDNav from '@/components/UDNav'
+import UDFooter from '@/components/UDFooter'
 import TooltipTour from './components/TooltipTour'
 import UDOnboarding from '@/components/UDOnboarding'
 
@@ -131,6 +133,8 @@ export default function ConverterPage() {
   const atLimit = !isPro && usage >= FREE_LIMIT
 
   return (
+    <>
+    <UDNav engine="UD Converter" />
     <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
       <UDOnboarding engine="Converter" />
       <AutoDemo />
@@ -305,21 +309,8 @@ export default function ConverterPage() {
         </div>
       )}
 
-      <div style={{ marginTop: 48, borderTop: '1px solid var(--ud-border)', paddingTop: 24, textAlign: 'center' }}>
-        <p style={{ fontSize: 11, color: 'var(--ud-border)', marginBottom: 12, letterSpacing: '0.05em' }}>
-          NO ADS · NO INVESTORS · NO AGENDA
-        </p>
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-          {[
-            ['UD Hub', 'https://reader.hive.baby'],
-            ['Pricing', '/pricing'],
-            ['Pro', '/pro'],
-            ['hive.baby', 'https://hive.baby'],
-          ].map(([label, href]) => (
-            <a key={label} href={href} style={{ fontSize: 12, color: 'var(--ud-muted)' }}>{label}</a>
-          ))}
-        </div>
-      </div>
     </main>
+    <UDFooter />
+  </>
   )
 }
