@@ -1,6 +1,18 @@
 'use client'
 import { useState } from 'react'
 
+const FORMAT_TOOLS = [
+  { slug: 'seal',             name: 'UD Seal',              icon: '🔏', desc: 'Convert a draft .udr into a sealed, tamper-evident .uds document.',              free: true  },
+  { slug: 'chain-of-custody', name: 'UD Chain of Custody',  icon: '🔗', desc: 'Parse and display the full provenance timeline of any Universal Document™.',      free: true  },
+  { slug: 'udz-zipper',       name: 'UDZ Zipper',           icon: '📦', desc: 'Bundle multiple .uds files into a single .udz archive with shared metadata.',      free: true  },
+  { slug: 'udz-unzipper',     name: 'UDZ Unzipper',         icon: '📂', desc: 'Extract all .uds files from a .udz bundle with integrity verification.',          free: true  },
+]
+
+const AI_TOOLS = [
+  { slug: 'translate',  name: 'UD Translate',  icon: '🌐', desc: 'Translate any Universal Document™ into another language using Claude. Embeds translation as a parallel language stream.', free: true, proLabel: 'AI' },
+  { slug: 'summarise',  name: 'UD Summarise',  icon: '✦',  desc: 'Generate a plain-language summary of any Universal Document™. Embedded as a Clarity Layer in the output file.',          free: true, proLabel: 'AI' },
+]
+
 /* Per-tool mini-animation: CSS keyframe name + rendered SVG/emoji sequence */
 const TOOLS = [
   {
@@ -234,6 +246,52 @@ export default function UtilitiesHub() {
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)' }}>{card.label}</span>
               </div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{card.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── UD Format Tools ─────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>UD Format Tools</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Seal · Bundle · Chain of Custody</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {FORMAT_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge ud-badge-success">FREE</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── AI-Powered ───────────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>AI-Powered</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Translate · Summarise · Classify · Clinical</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {AI_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-teal)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: 'var(--ud-teal-2)', color: 'var(--ud-teal)' }}>AI · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
             </a>
           ))}
         </div>
