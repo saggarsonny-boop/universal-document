@@ -214,7 +214,7 @@ function AuthModal({ onDone, onClose }: { onDone: () => void; onClose: () => voi
       <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 16, padding: '32px', width: '100%', maxWidth: 400, margin: '0 16px' }}>
         {!sent ? (
           <>
-            <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Save to cloud</h2>
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Save draft to account</h2>
             <p style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 20 }}>Enter your email — we'll send a magic link. No password needed.</p>
             <input
               type="email" value={email} onChange={e => setEmail(e.target.value)}
@@ -478,20 +478,6 @@ export default function CreatorPage() {
           </div>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto 1fr',
-          gap: 10,
-          marginBottom: 18,
-          fontSize: 11,
-          color: 'var(--muted)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em',
-        }}>
-          <div style={{ border: '1px dashed var(--border)', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>Left sidebar: sections</div>
-          <div style={{ border: '1px dashed var(--border)', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>Top bar: clarity layers</div>
-          <div style={{ border: '1px dashed var(--border)', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>Right sidebar: metadata</div>
-        </div>
 
         {docsOpen && savedDocs.length > 0 && (
           <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', marginBottom: 28 }}>
@@ -534,7 +520,7 @@ export default function CreatorPage() {
         </div>
 
         <div style={{ ...S.field, marginBottom: 18 }}>
-          <label style={S.label}>UD visual identity</label>
+          <label style={S.label}>Document type</label>
           <div style={{ display: 'inline-flex', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
             <button
               onClick={() => setDocState('UDR')}
@@ -566,21 +552,10 @@ export default function CreatorPage() {
             </button>
           </div>
           <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
-            {docState === 'UDS' ? 'Dark blue watermark (#003A8C) and sealed icon IDs are embedded during export.' : 'Light blue watermark (#4DA3FF) and editable icon IDs are embedded during export.'}
+            {docState === 'UDS' ? 'Sealed document — immutable once exported.' : 'Revisable draft — can be edited after export.'}
           </p>
         </div>
 
-        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 14px', marginBottom: 20 }}>
-          <div style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
-            Preview pane identity
-          </div>
-          <div style={{ fontSize: 13, color: 'var(--text)', display: 'grid', gap: 4 }}>
-            <div>State: {docState}</div>
-            <div>Watermark: {docState === 'UDS' ? 'dark_blue (#003A8C)' : 'light_blue (#4DA3FF)'}</div>
-            <div>Desktop icon id: {docState === 'UDS' ? '/icons/uds-file.svg' : '/icons/udr-file.svg'}</div>
-            <div>Finder/Explorer preview ids: {docState === 'UDS' ? '/icons/uds-file.svg' : '/icons/udr-file.svg'}</div>
-          </div>
-        </div>
 
         <div style={S.row}>
           <div style={S.field}>
@@ -738,7 +713,10 @@ export default function CreatorPage() {
           </div>
         </div>
 
-        <div style={S.section}>Content blocks</div>
+        <div style={{ ...S.section, display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span>Document content</span>
+          <span style={{ fontSize: 10, color: 'var(--muted)', fontWeight: 400, letterSpacing: 0 }}>H = Heading · P = Paragraph · L = List · D = Divider</span>
+        </div>
 
         {blocks.map(block => (
           <div key={block.id} style={S.blockWrap}>
@@ -799,7 +777,7 @@ export default function CreatorPage() {
             {exported ? '✓ Downloaded' : `Export .${docState.toLowerCase()} file`}
           </button>
           <button style={S.saveBtn(saveStatus)} onClick={saveDoc} disabled={saving}>
-            {saving ? 'Saving…' : saveStatus === 'saved' ? '✓ Saved' : saveStatus === 'error' ? 'Save failed' : docId ? 'Save changes' : 'Save to cloud'}
+            {saving ? 'Saving…' : saveStatus === 'saved' ? '✓ Saved' : saveStatus === 'error' ? 'Save failed' : docId ? 'Save changes' : 'Save draft to account'}
           </button>
         </div>
         {exported && (
@@ -816,9 +794,6 @@ export default function CreatorPage() {
           </div>
         )}
 
-        <div style={{ marginTop: 12, border: '1px dashed var(--border)', borderRadius: 8, padding: '9px 11px', fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: 'center' }}>
-          Bottom bar: version history and chain-of-custody
-        </div>
 
         <style>{`
           [contenteditable]:empty:before {
