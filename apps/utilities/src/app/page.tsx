@@ -438,6 +438,7 @@ export default function UtilitiesHub() {
           </a>
         ))}
       </div>
+      </div>
 
       {/* ── Security & Integrity ────────────────────── */}
       <div style={{ marginBottom: 48 }}>
