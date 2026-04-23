@@ -209,7 +209,33 @@ export default function UtilitiesHub() {
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Open · Convert · Create · Verify · Sign</span>
         </div>
         <div id="core-tools-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-          {/* Link cards added in next commit */}
+          {[
+            { label: 'UD Reader',    href: 'https://reader.hive.baby',    icon: '📖', desc: 'Open and read any Universal Document™ file.' },
+            { label: 'UD Converter', href: 'https://converter.hive.baby', icon: '⇄',  desc: 'Convert PDFs, DOCX, and more to UDS format.' },
+            { label: 'UD Creator',   href: 'https://creator.hive.baby',   icon: '✦',  desc: 'Author a new Universal Document™ from scratch.' },
+            { label: 'UD Validator', href: 'https://validator.hive.baby', icon: '✔',  desc: 'Verify a UDS file is authentic and spec-compliant.' },
+            { label: 'UD Sign',      href: 'https://signer.hive.baby',    icon: '✍',  desc: 'Cryptographically sign any Universal Document™.' },
+            { label: 'UD iSDK',      href: 'https://ud.hive.baby/isdk',   icon: '⌥',  desc: 'Integrate Universal Document™ into your app.' },
+          ].map(card => (
+            <a key={card.href} href={card.href} style={{
+              display: 'block', background: '#fff',
+              border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)',
+              padding: '18px 20px', textDecoration: 'none',
+              transition: 'border-color 0.2s, background 0.2s', cursor: 'pointer',
+              boxShadow: 'var(--ud-shadow)',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-gold-3)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-gold)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)'; }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                <div style={{ width: 34, height: 34, background: 'var(--ud-gold-3)', border: '1px solid var(--ud-gold)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>
+                  {card.icon}
+                </div>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)' }}>{card.label}</span>
+              </div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{card.desc}</p>
+            </a>
+          ))}
         </div>
       </div>
 
