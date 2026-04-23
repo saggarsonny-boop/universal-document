@@ -29,12 +29,12 @@ const TOOLS = [
     desc: 'Drag and drop to reorder pages visually.',
   },
   {
-    slug: 'protect',  name: 'UD Protect',         icon: '⊠',   color: '#1a3a6b',         free: true,
+    slug: 'protect',  name: 'UD Protect',         icon: '⊠',   color: 'var(--ud-ink)',   free: true,
     anim: 'protect',  animLabel: 'add password',
     desc: 'Add password protection to any PDF.',
   },
   {
-    slug: 'unlock',   name: 'UD Unlock',          icon: '⊟',   color: '#1a3a6b',         free: true,
+    slug: 'unlock',   name: 'UD Unlock',          icon: '⊟',   color: 'var(--ud-ink)',   free: true,
     anim: 'unlock',   animLabel: 'remove password',
     desc: 'Remove password from a PDF you own.',
   },
