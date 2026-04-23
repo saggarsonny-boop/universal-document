@@ -13,6 +13,7 @@ const AI_TOOLS = [
   { slug: 'summarise',           name: 'UD Summarise',           icon: '✦',  desc: 'Generate a plain-language summary embedded as a Clarity Layer in the output .uds file.',                               badge: 'AI'  as const },
   { slug: 'accessibility-check', name: 'UD Accessibility Check', icon: '♿', desc: 'Check any document against WCAG 2.1 and Section 508. Outputs a compliance report and remediated .uds file.',          badge: 'AI'  as const },
   { slug: 'classify',            name: 'UD Classify',            icon: '🏷', desc: 'Claude assigns Public / Internal / Confidential / Restricted classification with reasoning, embedded in metadata.',    badge: 'Pro' as const },
+  { slug: 'clinical-summary',   name: 'UD Clinical Summary',   icon: '🏥', desc: 'Two summaries from one clinical document: plain language for patients, structured clinical summary for professionals.', badge: 'Pro' as const },
 ]
 
 const COMING_SOON_TOOLS = [
