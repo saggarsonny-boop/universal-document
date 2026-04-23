@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 const FORMAT_TOOLS = [
   { slug: 'seal',             name: 'UD Seal',              icon: '🔏', desc: 'Convert a draft .udr into a sealed, tamper-evident .uds document.',              free: true  },
@@ -149,6 +149,48 @@ const TOOLS = [
   },
 ]
 
+const ALL_TOOLS_FLAT: { slug: string; name: string }[] = [
+  ...FORMAT_TOOLS.map(({slug,name})=>({slug,name})),
+  ...AI_TOOLS.map(({slug,name})=>({slug,name})),
+  ...LIFECYCLE_TOOLS.map(({slug,name})=>({slug,name})),
+  ...TOOLS.map(({slug,name})=>({slug,name})),
+  ...SECURITY_TOOLS.map(({slug,name})=>({slug,name})),
+  ...LEGAL_TOOLS.map(({slug,name})=>({slug,name})),
+  ...MEDIA_TOOLS.map(({slug,name})=>({slug,name})),
+  ...HEALTHCARE_TOOLS.map(({slug,name})=>({slug,name})),
+  ...GOVERNMENT_TOOLS.map(({slug,name})=>({slug,name})),
+  ...RESEARCH_TOOLS.map(({slug,name})=>({slug,name})),
+  ...EDUCATION_TOOLS.map(({slug,name})=>({slug,name})),
+  ...REAL_ESTATE_TOOLS.map(({slug,name})=>({slug,name})),
+  ...INSURANCE_TOOLS.map(({slug,name})=>({slug,name})),
+  ...FORMAT_CONVERSION_TOOLS.map(({slug,name})=>({slug,name})),
+]
+
+const FREE_NAV = [
+  {slug:'seal',name:'UD Seal'},{slug:'chain-of-custody',name:'UD Chain of Custody'},
+  {slug:'udz-zipper',name:'UDZ Zipper'},{slug:'udz-unzipper',name:'UDZ Unzipper'},
+  {slug:'expire',name:'UD Expire'},{slug:'revoke',name:'UD Revoke'},
+  {slug:'version-history',name:'UD Version History'},{slug:'audit-trail',name:'UD Audit Trail'},
+  {slug:'merge',name:'UD Merge'},{slug:'split',name:'UD Split'},
+  {slug:'compress',name:'UD Compress'},{slug:'extract-pages',name:'UD Extract Pages'},
+  {slug:'rearrange',name:'UD Rearrange'},{slug:'protect',name:'UD Protect'},
+  {slug:'unlock',name:'UD Unlock'},{slug:'watermark',name:'UD Watermark'},
+  {slug:'page-numbers',name:'UD Page Numbers'},{slug:'optimize',name:'UD Optimize'},
+  {slug:'pre-registration',name:'UD Pre-registration'},
+  {slug:'reformat',name:'UD Reformat'},{slug:'bates-stamp',name:'UD Bates Stamp'},{slug:'verify',name:'UD Verify'},
+]
+
+const SPECIALIST_CATS = [
+  {cat:'Healthcare', slugs:['clinical-summary','prescription','consent-manager','medication-list','emr-export']},
+  {cat:'Legal',      slugs:['legal-bundle','deposition-package']},
+  {cat:'Government', slugs:['foi-bundle','policy-publisher','certificate-issuer','regulatory-filing']},
+  {cat:'Finance',    slugs:['financial-statement']},
+  {cat:'Research',   slugs:['data-package']},
+  {cat:'Education',  slugs:['credential','transcript']},
+  {cat:'Real Estate',slugs:['smart-lease']},
+  {cat:'Insurance',  slugs:['insurance-policy','claims-package']},
+]
+
 function ToolAnim({ slug }: { slug: string }) {
   const s: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: 6, marginTop: 10 }
   const doc = (label?: string) => (
@@ -265,9 +307,119 @@ function ToolAnim({ slug }: { slug: string }) {
 
 export default function UtilitiesHub() {
   const [hovered, setHovered] = useState<string | null>(null)
+  const [freeOpen, setFreeOpen] = useState(false)
+  const [specialistOpen, setSpecialistOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchMsg, setSearchMsg] = useState('')
+  const [highlightSlug, setHighlightSlug] = useState<string | null>(null)
+  const freeRef = useRef<HTMLDivElement>(null)
+  const specRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (freeRef.current && !freeRef.current.contains(e.target as Node)) setFreeOpen(false)
+      if (specRef.current && !specRef.current.contains(e.target as Node)) setSpecialistOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  useEffect(() => {
+    if (!highlightSlug) return
+    const el = document.querySelector(`a[href="/${highlightSlug}"]`) as HTMLElement | null
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    el.style.outline = '2.5px solid var(--ud-gold)'
+    el.style.background = 'var(--ud-gold-3)'
+    const t = setTimeout(() => { el.style.outline = ''; el.style.background = ''; setHighlightSlug(null) }, 2500)
+    return () => clearTimeout(t)
+  }, [highlightSlug])
+
+  const handleSearch = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault()
+    const q = searchQuery.trim().toLowerCase()
+    if (!q) return
+    const match = ALL_TOOLS_FLAT.find(t =>
+      t.name.toLowerCase().includes(q) || t.slug.replace(/-/g, ' ').includes(q)
+    )
+    if (match) {
+      setHighlightSlug(match.slug)
+      setSearchQuery('')
+    } else {
+      try {
+        await fetch('https://support.hive.baby/api/inbound', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject: 'Utilities feedback', body: searchQuery, source: 'utilities.hive.baby' }),
+        })
+      } catch {}
+      setSearchMsg("Thanks — we'll look into that.")
+      setSearchQuery('')
+      setTimeout(() => setSearchMsg(''), 4000)
+    }
+  }, [searchQuery])
 
   return (
     <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 24px' }}>
+
+      {/* ── Nav bar: dropdowns + search ─────────────── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32, flexWrap: 'wrap' }}>
+
+        {/* Free Tools dropdown */}
+        <div ref={freeRef} style={{ position: 'relative' }}>
+          <button onClick={() => { setFreeOpen(o => !o); setSpecialistOpen(false) }} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: freeOpen ? 'var(--ud-teal-2)' : '#fff', border: `1px solid ${freeOpen ? 'var(--ud-teal)' : 'var(--ud-border)'}`, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 600, color: 'var(--ud-teal)', cursor: 'pointer' }}>
+            Free Tools <span style={{ fontSize: 9, marginLeft: 2 }}>{freeOpen ? '▲' : '▼'}</span>
+          </button>
+          {freeOpen && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', boxShadow: '0 8px 24px rgba(0,0,0,0.10)', zIndex: 200, minWidth: 230, maxHeight: 420, overflowY: 'auto', padding: '6px 0' }}>
+              {FREE_NAV.map(t => (
+                <a key={t.slug} href={`/${t.slug}`} style={{ display: 'block', padding: '7px 16px', fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-ink)', textDecoration: 'none' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '' }}
+                >{t.name}</a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Specialist Tools dropdown */}
+        <div ref={specRef} style={{ position: 'relative' }}>
+          <button onClick={() => { setSpecialistOpen(o => !o); setFreeOpen(false) }} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', background: specialistOpen ? 'var(--ud-gold-3)' : '#fff', border: `1px solid ${specialistOpen ? 'var(--ud-gold)' : 'var(--ud-border)'}`, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 600, color: 'var(--ud-gold)', cursor: 'pointer' }}>
+            Specialist Tools <span style={{ fontSize: 9, marginLeft: 2 }}>{specialistOpen ? '▲' : '▼'}</span>
+          </button>
+          {specialistOpen && (
+            <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', boxShadow: '0 8px 24px rgba(0,0,0,0.10)', zIndex: 200, minWidth: 260, maxHeight: 500, overflowY: 'auto', padding: '8px 0' }}>
+              {SPECIALIST_CATS.map(({cat, slugs}) => (
+                <div key={cat}>
+                  <div style={{ padding: '6px 16px 4px', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 600, color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{cat}</div>
+                  {slugs.map(slug => {
+                    const tool = ALL_TOOLS_FLAT.find(t => t.slug === slug)
+                    return tool ? (
+                      <a key={slug} href={`/${slug}`} style={{ display: 'block', padding: '6px 16px 6px 24px', fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-ink)', textDecoration: 'none' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-gold-3)' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '' }}
+                      >{tool.name}</a>
+                    ) : null
+                  })}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Search / ask box */}
+        <form onSubmit={handleSearch} style={{ flex: 1, display: 'flex', gap: 8, minWidth: 220 }}>
+          <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+            placeholder="Search tools or ask anything..."
+            style={{ flex: 1, padding: '8px 14px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-ink)', background: '#fff', outline: 'none' }}
+          />
+          <button type="submit" style={{ padding: '8px 16px', background: 'var(--ud-ink)', color: '#fff', border: 'none', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0 }}>→</button>
+        </form>
+      </div>
+
+      {searchMsg && (
+        <div style={{ marginBottom: 20, padding: '10px 16px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius)', fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-teal)' }}>{searchMsg}</div>
+      )}
+
       {/* Hero */}
       <div style={{ textAlign: 'center', marginBottom: 56 }}>
         <span className="ud-badge ud-badge-default" style={{ marginBottom: 20, display: 'inline-block' }}>
