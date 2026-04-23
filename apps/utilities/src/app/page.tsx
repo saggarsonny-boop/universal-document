@@ -1,7 +1,5 @@
 'use client'
 import { useState } from 'react'
-import UDNav from '@/components/UDNav'
-import UDFooter from '@/components/UDFooter'
 
 /* Per-tool mini-animation: CSS keyframe name + rendered SVG/emoji sequence */
 const TOOLS = [
@@ -190,8 +188,6 @@ export default function UtilitiesHub() {
   const [hovered, setHovered] = useState<string | null>(null)
 
   return (
-    <>
-    <UDNav engine="UD Utilities" />
     <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 24px' }}>
       {/* Hero */}
       <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -273,7 +269,5 @@ export default function UtilitiesHub() {
         </div>
       </div>
     </div>
-    <UDFooter />
-    </>
   )
 }

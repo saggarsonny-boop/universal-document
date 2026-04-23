@@ -3,8 +3,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import AutoDemo from './components/AutoDemo'
 import FirstVisitCard from './components/FirstVisitCard'
-import UDNav from '@/components/UDNav'
-import UDFooter from '@/components/UDFooter'
 import TooltipTour from './components/TooltipTour'
 import UDOnboarding from '@/components/UDOnboarding'
 
@@ -133,8 +131,6 @@ export default function ConverterPage() {
   const atLimit = !isPro && usage >= FREE_LIMIT
 
   return (
-    <>
-    <UDNav engine="UD Converter" />
     <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
       <UDOnboarding engine="Converter" />
       <AutoDemo />
@@ -150,9 +146,9 @@ export default function ConverterPage() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
           <a href="https://reader.hive.baby" style={{ fontSize: 13, color: 'var(--ud-muted)' }}>← UD Hub</a>
           <span style={{ color: 'var(--ud-border)' }}>·</span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>Converter</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)' }}>Converter</span>
           <span style={{ color: 'var(--ud-border)' }}>·</span>
-          <a href="/pricing" style={{ fontSize: 13, color: '#2563eb' }}>Pricing</a>
+          <a href="/pricing" style={{ fontSize: 13, color: 'var(--ud-teal)' }}>Pricing</a>
         </div>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: 12 }}>
           Convert to Universal Document™
@@ -162,12 +158,12 @@ export default function ConverterPage() {
         </p>
 
         <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-          <label style={{ fontSize: 12, color: '#4b5563', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <label style={{ fontSize: 12, color: 'var(--ud-muted)', display: 'flex', alignItems: 'center', gap: 8 }}>
             Utility
             <select
               value={utility}
               onChange={(e) => setUtility(e.target.value as (typeof UTILITY_OPTIONS)[number]['id'])}
-              style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: '6px 10px', fontSize: 12, color: '#111827', background: '#fff' }}
+              style={{ border: '1px solid var(--ud-border)', borderRadius: 8, padding: '6px 10px', fontSize: 12, color: 'var(--ud-ink)', background: '#fff' }}
             >
               {UTILITY_OPTIONS.map((option) => (
                 <option key={option.id} value={option.id}>{option.label}</option>
@@ -177,30 +173,30 @@ export default function ConverterPage() {
         </div>
 
         {!isPro && (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, background: atLimit ? '#fef2f2' : '#f3f4f6', border: `1px solid ${atLimit ? '#fecaca' : '#e5e7eb'}`, borderRadius: 20, padding: '6px 14px' }}>
-            <span style={{ fontSize: 12, color: atLimit ? '#dc2626' : '#6b7280' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, background: atLimit ? 'rgba(226,75,74,0.06)' : 'var(--ud-paper-2)', border: `1px solid ${atLimit ? 'rgba(226,75,74,0.25)' : 'var(--ud-border)'}`, borderRadius: 20, padding: '6px 14px' }}>
+            <span style={{ fontSize: 12, color: atLimit ? 'var(--ud-danger)' : 'var(--ud-muted)' }}>
               {usage}/{FREE_LIMIT} free conversions today
             </span>
             {atLimit && (
-              <a href="/pricing" style={{ fontSize: 12, fontWeight: 600, color: '#2563eb' }}>Upgrade →</a>
+              <a href="/pricing" style={{ fontSize: 12, fontWeight: 600, color: 'var(--ud-gold)' }}>Upgrade →</a>
             )}
           </div>
         )}
 
         {isPro && (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 16, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 20, padding: '6px 14px' }}>
-            <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600 }}>⚡ Pro — unlimited</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 16, background: 'var(--ud-teal-2)', border: '1px solid rgba(10,122,106,0.25)', borderRadius: 20, padding: '6px 14px' }}>
+            <span style={{ fontSize: 12, color: 'var(--ud-teal)', fontWeight: 600 }}>⚡ Pro — unlimited</span>
             <a href="/pro" style={{ fontSize: 12, color: 'var(--ud-muted)' }}>Manage →</a>
           </div>
         )}
       </div>
 
       {atLimit && state === 'idle' ? (
-        <div style={{ border: '1px solid #fecaca', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: '#fef2f2' }}>
+        <div style={{ border: '1px solid rgba(226,75,74,0.25)', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: 'rgba(226,75,74,0.06)' }}>
           <div style={{ fontSize: 40, marginBottom: 16 }}>🔒</div>
-          <p style={{ fontSize: 18, fontWeight: 700, color: '#dc2626', marginBottom: 8 }}>Daily limit reached</p>
+          <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ud-danger)', marginBottom: 8 }}>Daily limit reached</p>
           <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 24 }}>Free tier: {FREE_LIMIT} conversions per day. Resets at midnight.</p>
-          <a href="/pricing" style={{ display: 'inline-block', background: '#2563eb', color: '#fff', borderRadius: 8, padding: '12px 28px', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+          <a href="/pricing" style={{ display: 'inline-block', background: 'var(--ud-gold)', color: '#fff', borderRadius: 8, padding: '12px 28px', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
             Upgrade to Pro — $29/month
           </a>
         </div>
@@ -212,17 +208,17 @@ export default function ConverterPage() {
             onDragLeave={() => setIsDragging(false)}
             onClick={() => inputRef.current?.click()}
             style={{
-              border: `2px dashed ${isDragging ? '#2563eb' : '#d1d5db'}`,
+              border: `2px dashed ${isDragging ? 'var(--ud-teal)' : 'var(--ud-border)'}`,
               borderRadius: 16,
               padding: '56px 32px',
               textAlign: 'center',
               cursor: 'pointer',
-              background: isDragging ? '#eff6ff' : '#ffffff',
+              background: isDragging ? 'var(--ud-teal-2)' : '#ffffff',
               transition: 'all 0.15s',
             }}
           >
             <div style={{ fontSize: 40, marginBottom: 16 }}>📄</div>
-            <p style={{ fontSize: 16, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
+            <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 6 }}>
               Drop your file here
             </p>
             <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 12 }}>
@@ -253,30 +249,30 @@ export default function ConverterPage() {
           </div>
 
           {state === 'error' && (
-            <div style={{ marginTop: 16, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', fontSize: 14 }}>
-              <span style={{ color: '#dc2626' }}>{error}</span>
+            <div style={{ marginTop: 16, background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.25)', borderRadius: 10, padding: '14px 16px', fontSize: 14 }}>
+              <span style={{ color: 'var(--ud-danger)' }}>{error}</span>
               {error.includes('limit') && (
-                <a href="/pricing" style={{ marginLeft: 12, color: '#2563eb', fontSize: 13, fontWeight: 600 }}>Upgrade to Pro →</a>
+                <a href="/pricing" style={{ marginLeft: 12, color: 'var(--ud-gold)', fontSize: 13, fontWeight: 600 }}>Upgrade to Pro →</a>
               )}
-              <button onClick={reset} style={{ marginLeft: 12, color: '#2563eb', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}>Try again</button>
+              <button onClick={reset} style={{ marginLeft: 12, color: 'var(--ud-teal)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}>Try again</button>
             </div>
           )}
         </>
       ) : state === 'converting' ? (
-        <div style={{ border: '1px solid #e5e7eb', borderRadius: 16, padding: '56px 32px', textAlign: 'center', background: '#fff' }}>
-          <div style={{ width: 36, height: 36, border: '3px solid #e5e7eb', borderTopColor: '#2563eb', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 20px' }} />
-          <p style={{ fontSize: 15, color: '#374151', fontWeight: 500 }}>Converting {fileName}…</p>
+        <div style={{ border: '1px solid var(--ud-border)', borderRadius: 16, padding: '56px 32px', textAlign: 'center', background: '#fff' }}>
+          <div style={{ width: 36, height: 36, border: '3px solid var(--ud-border)', borderTopColor: 'var(--ud-gold)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 20px' }} />
+          <p style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 500 }}>Converting {fileName}…</p>
           <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>This usually takes a second or two.</p>
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
       ) : (
-        <div style={{ border: '1px solid #d1fae5', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: '#f0fdf4' }}>
+        <div style={{ border: '1px solid rgba(10,122,106,0.25)', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: 'var(--ud-teal-2)' }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
-          <p style={{ fontSize: 18, fontWeight: 700, color: '#065f46', marginBottom: 6 }}>Converted successfully</p>
-          <p style={{ fontSize: 14, color: '#047857', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
+          <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ud-teal)', marginBottom: 6 }}>Converted successfully</p>
+          <p style={{ fontSize: 14, color: 'var(--ud-teal)', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
           <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 28 }}>
             Open it in the{' '}
-            <a href="https://reader.hive.baby" style={{ color: '#2563eb' }}>UD Reader</a>.
+            <a href="https://reader.hive.baby" style={{ color: 'var(--ud-teal)' }}>UD Reader</a>.
           </p>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
             <a
@@ -298,19 +294,17 @@ export default function ConverterPage() {
       )}
 
       {!isPro && (
-        <div style={{ marginTop: 28, background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ marginTop: 28, background: 'var(--ud-gold-3)', border: '1px solid rgba(200,150,10,0.3)', borderRadius: 12, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: '#92400e', marginBottom: 4 }}>Need more?</p>
-            <p style={{ fontSize: 13, color: '#b45309' }}>Unlimited files · Batch ZIP · API access · Chain of custody</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4 }}>Need more?</p>
+            <p style={{ fontSize: 13, color: 'var(--ud-muted)' }}>Unlimited files · Batch ZIP · API access · Chain of custody</p>
           </div>
-          <a href="/pricing" style={{ background: '#f59e0b', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          <a href="/pricing" style={{ background: 'var(--ud-gold)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
             Pro — $29/mo →
           </a>
         </div>
       )}
 
     </main>
-    <UDFooter />
-  </>
   )
 }
