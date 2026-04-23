@@ -165,7 +165,7 @@ export default function LandingPage() {
               <img src="/icons/udr.svg" width={36} height={44} alt="UDR" style={{ flexShrink: 0 }} />
               <div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--ud-ink)' }}>UDR — Universal Document™ Revisable</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#3b82f6' }}>Editable · Light blue · Flexible</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#3b82f6' }}>Editable · Flexible</div>
               </div>
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-muted)', lineHeight: 1.7, marginBottom: 14 }}>
@@ -182,7 +182,7 @@ export default function LandingPage() {
               <img src="/icons/uds.svg" width={36} height={44} alt="UDS" style={{ flexShrink: 0 }} />
               <div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: '#fff' }}>UDS — Universal Document™ Sealed</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Sealed · Navy · Authoritative</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Sealed · Authoritative</div>
               </div>
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: 14 }}>
