@@ -61,7 +61,7 @@ function hashContent(input: string) {
   return `udhash_${(h >>> 0).toString(16).padStart(8, '0')}`
 }
 
-function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: string, requireAuth: boolean, state: DocState) {
+function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: string, requireAuth: boolean, state: DocState, selfDestruct = false, selfDestructViews = 1, audienceVersions: string[] = []) {
   const tagList = tags.split(',').map(t => t.trim()).filter(Boolean)
   const identity = getIdentity(state)
   const udBlocks = blocks.map(b => {
@@ -98,6 +98,8 @@ function buildUDS(title: string, tags: string, blocks: Block[], expiresAt: strin
       language_manifest: [],
       clarity_layer_manifest: [],
       permissions: { require_auth: requireAuth },
+      ...(selfDestruct ? { self_destruct: { enabled: true, after_views: selfDestructViews } } : {}),
+      ...(audienceVersions.length > 0 ? { audience_versions: audienceVersions } : {}),
     },
     blocks: udBlocks,
     ...(state === 'UDS' ? {
@@ -242,6 +244,17 @@ function AuthModal({ onDone, onClose }: { onDone: () => void; onClose: () => voi
   )
 }
 
+function ProBadge() {
+  return (
+    <span style={{
+      display: 'inline-block', background: 'var(--ud-gold-3)', color: 'var(--gold)',
+      fontSize: 9, fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.08em',
+      textTransform: 'uppercase' as const, padding: '2px 7px', borderRadius: 99, marginLeft: 6,
+      border: '1px solid rgba(200,150,10,0.3)', verticalAlign: 'middle',
+    }}>Pro</span>
+  )
+}
+
 export default function CreatorPage() {
   const [title, setTitle] = useState('')
   const [tags, setTags] = useState('')
@@ -259,6 +272,11 @@ export default function CreatorPage() {
   const [docId, setDocId] = useState<string | null>(null)
   const [docsOpen, setDocsOpen] = useState(false)
   const [docState, setDocState] = useState<DocState>('UDR')
+  const [selfDestruct, setSelfDestruct] = useState(false)
+  const [selfDestructViews, setSelfDestructViews] = useState<number>(1)
+  const [audienceVersions, setAudienceVersions] = useState<string[]>([])
+  const [customAudience, setCustomAudience] = useState('')
+  const [showCustomInput, setShowCustomInput] = useState(false)
 
   useEffect(() => {
     const s = localStorage.getItem('ud_creator_session')
@@ -283,7 +301,7 @@ export default function CreatorPage() {
   async function saveDoc() {
     if (!sessionId) { setShowAuth(true); return }
     setSaving(true); setSaveStatus('idle')
-    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth, docState)
+    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth, docState, selfDestruct, selfDestructViews, audienceVersions)
     try {
       if (docId) {
         await fetch(`/api/documents/${docId}`, {
@@ -336,6 +354,7 @@ export default function CreatorPage() {
     setBlocks([{ id: uid(), type: 'paragraph', html: '' }])
     setDocState('UDR')
     setDocId(null)
+    setSelfDestruct(false); setSelfDestructViews(1); setAudienceVersions([])
   }
 
   function signOut() {
@@ -384,7 +403,7 @@ export default function CreatorPage() {
   }
 
   function exportFile() {
-    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth, docState)
+    const doc = buildUDS(title, tags, blocks, expiresAt, requireAuth, docState, selfDestruct, selfDestructViews, audienceVersions)
     const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -565,14 +584,157 @@ export default function CreatorPage() {
 
         <div style={S.row}>
           <div style={S.field}>
-            <label style={S.label}>Expires at (optional)</label>
+            <label style={S.label}>When should this expire?</label>
             <input style={{ ...S.input, colorScheme: 'dark' }} type="date" value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>Leave blank for no expiry</div>
           </div>
-          <div style={{ ...S.field, display: 'flex', alignItems: 'flex-end', paddingBottom: '2px' }}>
+          <div style={{ ...S.field, display: 'flex', flexDirection: 'column' as const, justifyContent: 'flex-start', gap: 6 }}>
+            <label style={S.label}>Who can read this?</label>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
               <input type="checkbox" checked={requireAuth} onChange={e => setRequireAuth(e.target.checked)} />
-              <span style={{ fontSize: 13, color: 'var(--text)' }}>Require authentication to read</span>
+              <span style={{ fontSize: 13, color: 'var(--text)' }}>Require authentication</span>
             </label>
+            {requireAuth && <div style={{ fontSize: 11, color: 'var(--muted)' }}>Reader must sign in with a magic link.</div>}
+          </div>
+        </div>
+
+        {/* ── Pro Features ─────────────────────────────── */}
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 18px', marginBottom: 20 }}>
+          <div style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: 14 }}>
+            Pro features <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', background: 'rgba(200,150,10,0.1)', padding: '1px 6px', borderRadius: 99 }}>free during beta</span>
+          </div>
+
+          {/* Self-Destruct */}
+          <div style={{ marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', display: 'flex', alignItems: 'center' }}>
+                Self-destruct after reading?<ProBadge />
+              </div>
+              <button
+                onClick={() => setSelfDestruct(v => !v)}
+                style={{
+                  width: 40, height: 22, borderRadius: 11,
+                  background: selfDestruct ? 'var(--gold)' : 'var(--border)',
+                  border: 'none', cursor: 'pointer', position: 'relative' as const,
+                  flexShrink: 0, transition: 'background 0.2s',
+                }}
+              >
+                <span style={{
+                  position: 'absolute' as const, top: 3,
+                  left: selfDestruct ? 20 : 3,
+                  width: 16, height: 16, borderRadius: '50%', background: '#fff',
+                  transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+                }} />
+              </button>
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5 }}>
+              Document permanently invalidates itself after the set number of reads. Cannot be recovered.
+            </div>
+            {selfDestruct && (
+              <div style={{ marginTop: 10 }}>
+                <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 6 }}>Delete after how many views?</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
+                  {[1, 3, 10].map(n => (
+                    <button key={n} onClick={() => { setSelfDestructViews(n); setShowCustomInput(false) }}
+                      style={{
+                        background: selfDestructViews === n && !showCustomInput ? 'var(--gold)' : 'var(--surface)',
+                        color: selfDestructViews === n && !showCustomInput ? '#fff' : 'var(--text)',
+                        border: `1px solid ${selfDestructViews === n && !showCustomInput ? 'var(--gold)' : 'var(--border)'}`,
+                        borderRadius: 6, padding: '5px 12px', fontSize: 13, cursor: 'pointer',
+                      }}>{n} view{n !== 1 ? 's' : ''}</button>
+                  ))}
+                  <button onClick={() => setShowCustomInput(v => !v)}
+                    style={{
+                      background: showCustomInput ? 'var(--gold)' : 'var(--surface)',
+                      color: showCustomInput ? '#fff' : 'var(--text)',
+                      border: `1px solid ${showCustomInput ? 'var(--gold)' : 'var(--border)'}`,
+                      borderRadius: 6, padding: '5px 12px', fontSize: 13, cursor: 'pointer',
+                    }}>Custom</button>
+                </div>
+                {showCustomInput && (
+                  <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <input
+                      type="number" min={1} placeholder="e.g. 25"
+                      style={{ ...S.input, width: 100 }}
+                      onChange={e => { const v = parseInt(e.target.value); if (v > 0) setSelfDestructViews(v) }}
+                    />
+                    <span style={{ fontSize: 12, color: 'var(--muted)' }}>views</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div style={{ borderTop: '1px solid var(--border)', margin: '2px 0 16px' }} />
+
+          {/* Audience Rewrite */}
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 6, display: 'flex', alignItems: 'center' }}>
+              Audience versions<ProBadge />
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10, lineHeight: 1.5 }}>
+              Generate the same content rewritten for different audiences. Each version is embedded in the same file and gets its own tab in the Reader.
+            </div>
+            {audienceVersions.length > 0 && (
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const, marginBottom: 10 }}>
+                {audienceVersions.map(a => (
+                  <span key={a} style={{
+                    background: 'rgba(200,150,10,0.1)', color: 'var(--gold)',
+                    border: '1px solid rgba(200,150,10,0.25)', borderRadius: 99,
+                    padding: '3px 10px', fontSize: 12, display: 'flex', alignItems: 'center', gap: 5,
+                  }}>
+                    {a}
+                    <button onClick={() => setAudienceVersions(vs => vs.filter(v => v !== a))}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gold)', fontSize: 14, padding: 0, lineHeight: 1 }}>×</button>
+                  </span>
+                ))}
+              </div>
+            )}
+            <select
+              value=""
+              onChange={e => {
+                const val = e.target.value
+                if (val === '__custom__') { setShowCustomInput(false); return }
+                if (val && !audienceVersions.includes(val)) setAudienceVersions(vs => [...vs, val])
+                e.target.value = ''
+              }}
+              style={{ ...S.input, cursor: 'pointer' }}
+            >
+              <option value="" disabled>+ Add audience version</option>
+              {['Child (age 8–10)', 'Child (age 11–14)', 'Plain English (adult)', 'Clinical / Medical', 'Legal', 'Technical / Developer', 'Executive summary'].filter(a => !audienceVersions.includes(a)).map(a => (
+                <option key={a} value={a}>{a}</option>
+              ))}
+              <option value="__custom__">Custom audience…</option>
+            </select>
+            <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
+              <input
+                placeholder="Custom audience (e.g. Teenager)"
+                value={customAudience}
+                onChange={e => setCustomAudience(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && customAudience.trim() && !audienceVersions.includes(customAudience.trim())) {
+                    setAudienceVersions(vs => [...vs, customAudience.trim()])
+                    setCustomAudience('')
+                  }
+                }}
+                style={{ ...S.input, fontSize: 13 }}
+              />
+              <button
+                onClick={() => {
+                  if (customAudience.trim() && !audienceVersions.includes(customAudience.trim())) {
+                    setAudienceVersions(vs => [...vs, customAudience.trim()])
+                    setCustomAudience('')
+                  }
+                }}
+                style={{ background: 'var(--gold)', color: '#fff', border: 'none', borderRadius: 6, padding: '0 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' as const }}
+              >Add</button>
+            </div>
+            {audienceVersions.length > 0 && (
+              <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8 }}>
+                Claude rewrites content for each audience automatically on export.
+              </div>
+            )}
           </div>
         </div>
 
