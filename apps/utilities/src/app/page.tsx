@@ -198,12 +198,28 @@ export default function UtilitiesHub() {
           UD Utilities
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ud-muted)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
-          Thirteen tools for every document operation. Free forever at the base tier.
+          Everything you need for every document operation. Free at the base tier.
         </p>
       </div>
 
-      {/* Tool Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+      {/* ── Core Tools ──────────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Core Tools</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Open · Convert · Create · Verify · Sign</span>
+        </div>
+        <div id="core-tools-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {/* Link cards added in next commit */}
+        </div>
+      </div>
+
+      {/* ── Document Operations ─────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Document Operations</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Merge · Split · Compress · OCR · Protect · Watermark</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
         {TOOLS.map(tool => (
           <a
             key={tool.slug}
