@@ -48,7 +48,10 @@ const HEALTHCARE_TOOLS = [
 ]
 
 const GOVERNMENT_TOOLS = [
-  { slug: 'foi-bundle', name: 'UD FOI Bundle', icon: '🏛', desc: 'Package FOI response documents into a .udz bundle with completeness statement and redaction log.',               badge: 'Pro'  as const },
+  { slug: 'foi-bundle',         name: 'UD FOI Bundle',         icon: '🏛', desc: 'Package FOI response documents into a .udz bundle with completeness statement and redaction log.',  badge: 'Pro' as const },
+  { slug: 'policy-publisher',   name: 'UD Policy Publisher',   icon: '📋', desc: 'Publish versioned organisational policies as sealed .uds documents with effective date and review date.', badge: 'Pro' as const },
+  { slug: 'certificate-issuer', name: 'UD Certificate Issuer', icon: '🎓', desc: 'Issue verifiable certificates as sealed .uds documents with unique ID, recipient, and optional expiry.', badge: 'Pro' as const },
+  { slug: 'regulatory-filing',  name: 'UD Regulatory Filing',  icon: '📁', desc: 'Create sealed compliance filing records with regulator, entity reference, reporting period, and jurisdiction.', badge: 'Pro' as const },
 ]
 
 /* Per-tool mini-animation: CSS keyframe name + rendered SVG/emoji sequence */
