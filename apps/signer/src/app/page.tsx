@@ -1,576 +1,186 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
-import { PDFDocument } from 'pdf-lib'
+const FEATURES = [
+  {
+    icon: '🔐',
+    title: 'Mathematical tamper evidence',
+    body: 'Not an audit trail PDF. A SHA-256 hash of your document is embedded at signing. Any modification — even a single character — is detectable instantly.',
+  },
+  {
+    icon: '⛓',
+    title: 'Blockchain provenance',
+    body: 'Your signature record is designed to be written to a permanent public ledger at the moment of signing. Not a centralised audit trail. A mathematical fact.',
+  },
+  {
+    icon: '📄',
+    title: 'Works on everything',
+    body: 'PDF, Word, Excel, CSV, images, and Universal Document™ files. If it\'s a file, UD Signer can sign it. No format lock-in.',
+  },
+]
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+const COMPARISON = [
+  ['Mathematical tamper proof',    true,  false, false],
+  ['Blockchain provenance',        true,  false, false],
+  ['Works on all file formats',    true,  false, false],
+  ['Native document expiration',   true,  false, false],
+  ['Native revocation',            true,  false, false],
+  ['No lock-in (open format)',     true,  false, false],
+  ['Free tier',                    '3/mo', 'Trial', 'Trial'],
+  ['Pro price',                    '$12/mo', '$15+/mo', '$15+/mo'],
+]
 
-type FileFormat = 'uds' | 'udr' | 'pdf' | 'docx' | 'other'
-type Phase = 'idle' | 'ready' | 'signing' | 'done' | 'error'
+const COL_HEADERS = ['Feature', 'UD Signer', 'DocuSign', 'Adobe Sign']
 
-interface UDJSONDoc {
-  state?: string
-  metadata?: {
-    id?: string
-    title?: string
-    revoked?: boolean
-    visual_identity?: Record<string, unknown>
-    [key: string]: unknown
-  }
-  manifest?: {
-    signatures?: Array<{ by: string; at: string; reason?: string; hash: string }>
-    revocation?: { revoked_at: string; reason: string }
-    [key: string]: unknown
-  }
-  blocks?: unknown[]
-  [key: string]: unknown
+function Check({ val }: { val: boolean | string }) {
+  if (val === true)  return <span style={{ color: '#0a7a6a', fontWeight: 700, fontSize: 16 }}>✓</span>
+  if (val === false) return <span style={{ color: '#d1d5db', fontSize: 16 }}>✗</span>
+  return <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>{val}</span>
 }
 
-interface UDSigRecord {
-  format: 'udsig'
-  version: '0.1.0'
-  document: { filename: string; type: string; size: number; sha256: string }
-  signatures: Array<{ by: string; at: string; reason: string; hash: string }>
-  revocation?: { revoked_at: string; reason: string }
-}
-
-// ─── Utilities ────────────────────────────────────────────────────────────────
-
-async function sha256Hex(buffer: BufferSource): Promise<string> {
-  const hash = await crypto.subtle.digest('SHA-256', buffer)
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('')
-}
-
-function detectFormat(filename: string): FileFormat {
-  const ext = filename.split('.').pop()?.toLowerCase() ?? ''
-  if (ext === 'uds') return 'uds'
-  if (ext === 'udr') return 'udr'
-  if (ext === 'pdf') return 'pdf'
-  if (ext === 'docx' || ext === 'doc') return 'docx'
-  return 'other'
-}
-
-function formatLabel(fmt: FileFormat): string {
-  return { uds: 'UDS', udr: 'UDR', pdf: 'PDF', docx: 'DOCX', other: 'File' }[fmt]
-}
-
-function formatBadgeClass(fmt: FileFormat): string {
-  return { uds: 'ud-badge-gold', udr: 'ud-badge-default', pdf: 'ud-badge-success', docx: 'ud-badge-default', other: 'ud-badge-default' }[fmt]
-}
-
-function download(content: string | Uint8Array<ArrayBufferLike>, filename: string, mime: string) {
-  const blob = new Blob([content as BlobPart], { type: mime })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  a.click()
-  URL.revokeObjectURL(url)
-}
-
-function baseName(filename: string): string {
-  return filename.replace(/\.[^.]+$/, '')
-}
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
-export default function SignerPage() {
-  const [phase, setPhase] = useState<Phase>('idle')
-  const [file, setFile] = useState<File | null>(null)
-  const [format, setFormat] = useState<FileFormat>('other')
-  const [signer, setSigner] = useState('')
-  const [reason, setReason] = useState('')
-  const [revReason, setRevReason] = useState('')
-  const [error, setError] = useState('')
-  const [isDragging, setIsDragging] = useState(false)
-  const [results, setResults] = useState<Array<{ label: string; filename: string; content: string | Uint8Array<ArrayBufferLike>; mime: string }>>([])
-  const fileRef = useRef<HTMLInputElement>(null)
-
-  const loadFile = useCallback((f: File) => {
-    setFile(f)
-    setFormat(detectFormat(f.name))
-    setPhase('ready')
-    setError('')
-    setResults([])
-  }, [])
-
-  const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-    const f = e.dataTransfer.files[0]
-    if (f) loadFile(f)
-  }, [loadFile])
-
-  async function readBuffer(): Promise<ArrayBuffer> {
-    return new Promise((res, rej) => {
-      const r = new FileReader()
-      r.onload = () => res(r.result as ArrayBuffer)
-      r.onerror = rej
-      r.readAsArrayBuffer(file!)
-    })
-  }
-
-  async function readText(): Promise<string> {
-    return new Promise((res, rej) => {
-      const r = new FileReader()
-      r.onload = () => res(r.result as string)
-      r.onerror = rej
-      r.readAsText(file!)
-    })
-  }
-
-  async function buildSidecar(buf: ArrayBuffer, existingSigs: UDSigRecord['signatures'] = []): Promise<UDSigRecord> {
-    const hash = await sha256Hex(buf)
-    const sigHash = await sha256Hex(new TextEncoder().encode(signer + Date.now()))
-    return {
-      format: 'udsig',
-      version: '0.1.0',
-      document: {
-        filename: file!.name,
-        type: format,
-        size: file!.size,
-        sha256: hash,
-      },
-      signatures: [
-        ...existingSigs,
-        {
-          by: signer.trim(),
-          at: new Date().toISOString(),
-          reason: reason.trim() || 'approval',
-          hash: `udsig_${sigHash.slice(0, 16)}`,
-        },
-      ],
-    }
-  }
-
-  // ─── Sign UDR (keep as UDR) ──────────────────────────────────────────────
-
-  async function signUDR() {
-    if (!file || !signer.trim()) { setError('Signer name or email is required.'); return }
-    setPhase('signing'); setError('')
-    try {
-      const text = await readText()
-      const doc: UDJSONDoc = JSON.parse(text)
-      const buf = await readBuffer()
-      const hash = await sha256Hex(buf)
-      const sigHash = await sha256Hex(new TextEncoder().encode(signer + hash))
-
-      const signed: UDJSONDoc = {
-        ...doc,
-        state: 'UDR',
-        manifest: {
-          ...doc.manifest,
-          signatures: [
-            ...(doc.manifest?.signatures ?? []),
-            {
-              by: signer.trim(),
-              at: new Date().toISOString(),
-              reason: reason.trim() || 'approval',
-              hash: `udsig_${sigHash.slice(0, 16)}`,
-            },
-          ],
-        },
-      }
-      const out = JSON.stringify(signed, null, 2)
-      const sidecar = await buildSidecar(buf, [])
-      setResults([
-        { label: 'Signed UDR', filename: `${baseName(file.name)}.udr`, content: out, mime: 'application/json' },
-        { label: '.udsig companion', filename: `${baseName(file.name)}.udsig`, content: JSON.stringify(sidecar, null, 2), mime: 'application/json' },
-      ])
-      setPhase('done')
-    } catch (e) {
-      setError(`Error: ${e instanceof Error ? e.message : String(e)}`)
-      setPhase('ready')
-    }
-  }
-
-  // ─── Seal UDR → UDS ──────────────────────────────────────────────────────
-
-  async function sealUDS() {
-    if (!file || !signer.trim()) { setError('Signer name or email is required.'); return }
-    setPhase('signing'); setError('')
-    try {
-      const text = await readText()
-      const doc: UDJSONDoc = JSON.parse(text)
-      const buf = await readBuffer()
-      const hash = await sha256Hex(buf)
-      const sigHash = await sha256Hex(new TextEncoder().encode(signer + hash))
-
-      const sealed: UDJSONDoc = {
-        ...doc,
-        state: 'UDS',
-        metadata: {
-          ...doc.metadata,
-          visual_identity: {
-            watermark_tone: 'dark_blue',
-            watermark_hex: '#1d4ed8',
-            icon: {
-              desktop: 'uds-icon-dark-blue',
-              finder_preview: 'uds-finder-dark-blue',
-              explorer_preview: 'uds-explorer-dark-blue',
-              preview_pane: 'uds-pane-dark-blue',
-            },
-          },
-        },
-        manifest: {
-          ...doc.manifest,
-          signatures: [
-            ...(doc.manifest?.signatures ?? []),
-            {
-              by: signer.trim(),
-              at: new Date().toISOString(),
-              reason: reason.trim() || 'sealed',
-              hash: `udsig_${sigHash.slice(0, 16)}`,
-            },
-          ],
-        },
-      }
-      const out = JSON.stringify(sealed, null, 2)
-      const sidecar = await buildSidecar(buf)
-      setResults([
-        { label: 'Sealed UDS', filename: `${baseName(file.name)}.uds`, content: out, mime: 'application/json' },
-        { label: '.udsig companion', filename: `${baseName(file.name)}.udsig`, content: JSON.stringify(sidecar, null, 2), mime: 'application/json' },
-      ])
-      setPhase('done')
-    } catch (e) {
-      setError(`Error: ${e instanceof Error ? e.message : String(e)}`)
-      setPhase('ready')
-    }
-  }
-
-  // ─── Add signature to UDS ─────────────────────────────────────────────────
-
-  async function addSigUDS() {
-    if (!file || !signer.trim()) { setError('Signer name or email is required.'); return }
-    setPhase('signing'); setError('')
-    try {
-      const text = await readText()
-      const doc: UDJSONDoc = JSON.parse(text)
-      const buf = await readBuffer()
-      const hash = await sha256Hex(buf)
-      const sigHash = await sha256Hex(new TextEncoder().encode(signer + hash))
-
-      const updated: UDJSONDoc = {
-        ...doc,
-        manifest: {
-          ...doc.manifest,
-          signatures: [
-            ...(doc.manifest?.signatures ?? []),
-            {
-              by: signer.trim(),
-              at: new Date().toISOString(),
-              reason: reason.trim() || 'co-signed',
-              hash: `udsig_${sigHash.slice(0, 16)}`,
-            },
-          ],
-        },
-      }
-      const out = JSON.stringify(updated, null, 2)
-      const sidecar = await buildSidecar(buf)
-      setResults([
-        { label: 'Updated UDS', filename: `${baseName(file.name)}.uds`, content: out, mime: 'application/json' },
-        { label: '.udsig companion', filename: `${baseName(file.name)}.udsig`, content: JSON.stringify(sidecar, null, 2), mime: 'application/json' },
-      ])
-      setPhase('done')
-    } catch (e) {
-      setError(`Error: ${e instanceof Error ? e.message : String(e)}`)
-      setPhase('ready')
-    }
-  }
-
-  // ─── Sign PDF ─────────────────────────────────────────────────────────────
-
-  async function signPDF() {
-    if (!file || !signer.trim()) { setError('Signer name or email is required.'); return }
-    setPhase('signing'); setError('')
-    try {
-      const buf = await readBuffer()
-      const pdfDoc = await PDFDocument.load(buf)
-      const now = new Date().toISOString()
-      const sigHash = await sha256Hex(new TextEncoder().encode(signer + now))
-      const sigId = `udsig_${sigHash.slice(0, 16)}`
-
-      pdfDoc.setAuthor(signer.trim())
-      pdfDoc.setKeywords([
-        `signed:${now}`,
-        `signer:${signer.trim()}`,
-        `reason:${reason.trim() || 'approval'}`,
-        `ref:${sigId}`,
-      ])
-      pdfDoc.setProducer('UD Signer — signer.hive.baby')
-      pdfDoc.setCreator('Universal Document™ Ecosystem')
-
-      const signedBytes = await pdfDoc.save()
-      const sidecar = await buildSidecar(buf)
-
-      setResults([
-        { label: 'Signed PDF', filename: `${baseName(file.name)}-signed.pdf`, content: signedBytes, mime: 'application/pdf' },
-        { label: '.udsig companion', filename: `${baseName(file.name)}.udsig`, content: JSON.stringify(sidecar, null, 2), mime: 'application/json' },
-      ])
-      setPhase('done')
-    } catch (e) {
-      setError(`Error: ${e instanceof Error ? e.message : String(e)}`)
-      setPhase('ready')
-    }
-  }
-
-  // ─── Sign any other format (sidecar only) ────────────────────────────────
-
-  async function signSidecar() {
-    if (!file || !signer.trim()) { setError('Signer name or email is required.'); return }
-    setPhase('signing'); setError('')
-    try {
-      const buf = await readBuffer()
-      const sidecar = await buildSidecar(buf)
-      setResults([
-        { label: '.udsig companion', filename: `${baseName(file.name)}.udsig`, content: JSON.stringify(sidecar, null, 2), mime: 'application/json' },
-      ])
-      setPhase('done')
-    } catch (e) {
-      setError(`Error: ${e instanceof Error ? e.message : String(e)}`)
-      setPhase('ready')
-    }
-  }
-
-  // ─── Revoke ───────────────────────────────────────────────────────────────
-
-  async function revokeDoc() {
-    if (!file) return
-    setPhase('signing'); setError('')
-    try {
-      const text = await readText()
-      const doc: UDJSONDoc = JSON.parse(text)
-      const revoked: UDJSONDoc = {
-        ...doc,
-        metadata: { ...doc.metadata, revoked: true },
-        manifest: {
-          ...doc.manifest,
-          revocation: {
-            revoked_at: new Date().toISOString(),
-            reason: revReason.trim() || 'issuer_revoked',
-          },
-        },
-      }
-      const out = JSON.stringify(revoked, null, 2)
-      const ext = format === 'uds' ? 'uds' : 'udr'
-      setResults([
-        { label: 'Revoked document', filename: `${baseName(file.name)}-revoked.${ext}`, content: out, mime: 'application/json' },
-      ])
-      setPhase('done')
-    } catch (e) {
-      setError(`Error: ${e instanceof Error ? e.message : String(e)}`)
-      setPhase('ready')
-    }
-  }
-
-  // ─── Render ───────────────────────────────────────────────────────────────
-
-  const canRevoke = format === 'uds' || format === 'udr'
-  const isBusy = phase === 'signing'
-
+export default function SignerHome() {
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 24px 80px' }}>
+    <div style={{ background: 'var(--ud-paper)' }}>
 
-      {/* Header */}
-      <div style={{ marginBottom: 36 }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 10, letterSpacing: '-0.02em' }}>
-          UD Signer
+      {/* ── Hero ──────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '80px 24px 64px', textAlign: 'center' }}>
+        <span style={{
+          display: 'inline-block', marginBottom: 20,
+          fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 500,
+          letterSpacing: '0.12em', textTransform: 'uppercase',
+          padding: '4px 14px', borderRadius: 99,
+          background: 'var(--ud-gold-3)', color: 'var(--ud-gold)',
+          border: '1px solid var(--ud-gold)',
+        }}>
+          UD Signer · Universal Document™
+        </span>
+
+        <h1 style={{
+          fontFamily: 'var(--font-display)', fontSize: 'clamp(36px,6vw,60px)',
+          fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--ud-ink)',
+          lineHeight: 1.05, marginBottom: 24,
+        }}>
+          Sign anything.<br />Prove everything.
         </h1>
-        <p style={{ color: 'var(--ud-muted)', fontSize: 15, lineHeight: 1.6, maxWidth: 560 }}>
-          Sign any document — PDF, DOCX, UDS, UDR, or any file. Generates a cryptographic{' '}
-          <code style={{ fontFamily: 'var(--font-mono)', fontSize: 13, background: 'var(--ud-paper-3)', padding: '1px 6px', borderRadius: 4 }}>.udsig</code>{' '}
-          companion file as verifiable proof. Free forever.
+
+        <p style={{
+          fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ud-muted)',
+          lineHeight: 1.7, maxWidth: 560, margin: '0 auto 40px',
+        }}>
+          The only document signing tool with mathematical tamper evidence,
+          blockchain provenance, and native revocation.
+          Free for 3 signatures/month.
         </p>
+
+        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/sign" style={{
+            padding: '14px 28px', background: 'var(--ud-ink)', color: '#fff',
+            fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 600,
+            borderRadius: 'var(--ud-radius)', textDecoration: 'none',
+            transition: 'opacity 0.15s',
+          }}>
+            Sign a document →
+          </a>
+          <a href="/verify" style={{
+            padding: '14px 28px', background: '#fff', color: 'var(--ud-ink)',
+            fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 600,
+            borderRadius: 'var(--ud-radius)', textDecoration: 'none',
+            border: '1px solid var(--ud-border)',
+            transition: 'border-color 0.15s',
+          }}>
+            Verify a signature →
+          </a>
+        </div>
       </div>
 
-      {/* Drop zone */}
-      <div
-        className={`ud-drop-zone${isDragging ? ' active' : ''}`}
-        style={{ marginBottom: 28 }}
-        onClick={() => fileRef.current?.click()}
-        onDragOver={e => { e.preventDefault(); setIsDragging(true) }}
-        onDragLeave={() => setIsDragging(false)}
-        onDrop={onDrop}
-      >
-        <input
-          ref={fileRef}
-          type="file"
-          style={{ display: 'none' }}
-          onChange={e => { const f = e.target.files?.[0]; if (f) loadFile(f) }}
-        />
-        {file ? (
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 6 }}>
-              <span className={`ud-badge ${formatBadgeClass(format)}`}>{formatLabel(format)}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-ink)', fontWeight: 500 }}>{file.name}</span>
-            </div>
-            <p style={{ fontSize: 12, color: 'var(--ud-muted)' }}>{(file.size / 1024).toFixed(1)} KB · click to change</p>
-          </div>
-        ) : (
-          <div>
-            <div style={{ fontSize: 32, marginBottom: 10 }}>🔏</div>
-            <p style={{ fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4 }}>Drop any document here</p>
-            <p style={{ fontSize: 13, color: 'var(--ud-muted)' }}>PDF · DOCX · UDS · UDR · TXT · CSV · any file</p>
-          </div>
-        )}
-      </div>
-
-      {/* Signer fields */}
-      {phase !== 'idle' && (
-        <div className="ud-card ud-fade-in" style={{ marginBottom: 20 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
-            <div>
-              <label style={{ display: 'block', fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                Signer name / email *
-              </label>
-              <input
-                value={signer}
-                onChange={e => setSigner(e.target.value)}
-                placeholder="Jane Smith or jane@example.com"
-                style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', background: '#fff', outline: 'none' }}
-                onFocus={e => (e.target.style.borderColor = 'var(--ud-teal)')}
-                onBlur={e => (e.target.style.borderColor = 'var(--ud-border)')}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                Reason (optional)
-              </label>
-              <input
-                value={reason}
-                onChange={e => setReason(e.target.value)}
-                placeholder="approval, witnessed, co-signed…"
-                style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', background: '#fff', outline: 'none' }}
-                onFocus={e => (e.target.style.borderColor = 'var(--ud-teal)')}
-                onBlur={e => (e.target.style.borderColor = 'var(--ud-border)')}
-              />
-            </div>
-          </div>
-
-          {/* Action buttons per format */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            {format === 'udr' && (
-              <>
-                <button className="ud-btn-secondary" onClick={signUDR} disabled={isBusy}>
-                  ✍️ Sign (keep as UDR)
-                </button>
-                <button className="ud-btn-primary" onClick={sealUDS} disabled={isBusy}>
-                  🔒 Sign & Seal as UDS
-                </button>
-              </>
-            )}
-            {format === 'uds' && (
-              <button className="ud-btn-primary" onClick={addSigUDS} disabled={isBusy}>
-                ✍️ Add Signature
-              </button>
-            )}
-            {format === 'pdf' && (
-              <button className="ud-btn-primary" onClick={signPDF} disabled={isBusy}>
-                ✍️ Sign PDF
-              </button>
-            )}
-            {(format === 'docx' || format === 'other') && (
-              <button className="ud-btn-primary" onClick={signSidecar} disabled={isBusy}>
-                ✍️ Generate .udsig
-              </button>
-            )}
-          </div>
-
-          {/* Revoke section */}
-          {canRevoke && (
-            <div style={{ marginTop: 20, paddingTop: 18, borderTop: '0.5px solid var(--ud-border)' }}>
-              <p style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 10, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                Revocation
+      {/* ── Feature cards ─────────────────────────────────────────── */}
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 24px 80px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          {FEATURES.map(f => (
+            <div key={f.title} style={{
+              padding: '28px 24px',
+              background: '#fff',
+              border: '1px solid var(--ud-border)',
+              borderRadius: 'var(--ud-radius-lg)',
+              boxShadow: 'var(--ud-shadow)',
+            }}>
+              <div style={{ fontSize: 28, marginBottom: 14 }}>{f.icon}</div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 10 }}>
+                {f.title}
+              </h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-muted)', lineHeight: 1.6 }}>
+                {f.body}
               </p>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-                <input
-                  value={revReason}
-                  onChange={e => setRevReason(e.target.value)}
-                  placeholder="Revocation reason (optional)"
-                  style={{ flex: '1 1 200px', padding: '9px 12px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', background: '#fff', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = 'var(--ud-danger)')}
-                  onBlur={e => (e.target.style.borderColor = 'var(--ud-border)')}
-                />
-                <button className="ud-btn-danger" onClick={revokeDoc} disabled={isBusy}>
-                  🚫 Revoke document
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Error */}
-      {error && (
-        <div style={{ background: 'rgba(226,75,74,0.08)', border: '1px solid rgba(226,75,74,0.3)', borderRadius: 'var(--ud-radius)', padding: '12px 16px', marginBottom: 20, fontSize: 14, color: 'var(--ud-danger)' }}>
-          {error}
-        </div>
-      )}
-
-      {/* Busy */}
-      {isBusy && (
-        <div style={{ textAlign: 'center', padding: '24px 0', color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', fontSize: 13 }}>
-          Signing…
-        </div>
-      )}
-
-      {/* Results */}
-      {phase === 'done' && results.length > 0 && (
-        <div className="ud-fade-in">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-            <span style={{ fontSize: 20 }}>✅</span>
-            <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 600 }}>Signed. Download your files.</p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {results.map((r, i) => (
-              <div key={i} className="ud-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '14px 18px' }}>
-                <div>
-                  <p style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>{r.label}</p>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>{r.filename}</p>
-                </div>
-                <button
-                  className="ud-btn-primary"
-                  style={{ padding: '8px 18px', fontSize: 13, flexShrink: 0 }}
-                  onClick={() => download(r.content, r.filename, r.mime)}
-                >
-                  Download
-                </button>
-              </div>
-            ))}
-          </div>
-          <button
-            style={{ marginTop: 20, background: 'none', border: 'none', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline' }}
-            onClick={() => { setPhase('ready'); setResults([]) }}
-          >
-            Sign another document
-          </button>
-        </div>
-      )}
-
-      {/* What is .udsig */}
-      {phase === 'idle' && (
-        <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-          {[
-            { icon: '📄', title: 'PDF', body: 'Embeds signer metadata into the PDF and generates a .udsig companion.' },
-            { icon: '📝', title: 'DOCX / any file', body: 'Generates a .udsig JSON companion with SHA-256 hash and signature record.' },
-            { icon: '📋', title: 'UDR', body: 'Sign and keep as UDR — or sign and seal into a UDS in one step.' },
-            { icon: '🔒', title: 'UDS', body: 'Add co-signatures to an already-sealed Universal Document™.' },
-          ].map(c => (
-            <div key={c.title} className="ud-card" style={{ padding: '20px 18px' }}>
-              <div style={{ fontSize: 22, marginBottom: 8 }}>{c.icon}</div>
-              <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 6 }}>{c.title}</p>
-              <p style={{ fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{c.body}</p>
             </div>
           ))}
         </div>
-      )}
+      </div>
 
-      {/* Free forever note */}
-      <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>
-        UD Signer is free forever. No account required. Files never leave your browser.
-      </p>
+      {/* ── Comparison table ──────────────────────────────────────── */}
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '0 24px 96px' }}>
+        <h2 style={{
+          fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700,
+          color: 'var(--ud-ink)', letterSpacing: '-0.02em',
+          textAlign: 'center', marginBottom: 36,
+        }}>
+          Why not DocuSign?
+        </h2>
+
+        <div style={{ border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', overflow: 'hidden', boxShadow: 'var(--ud-shadow)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ background: 'var(--ud-ink)' }}>
+                {COL_HEADERS.map((h, i) => (
+                  <th key={h} style={{
+                    padding: '14px 20px', textAlign: i === 0 ? 'left' : 'center',
+                    fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600,
+                    color: i === 1 ? '#c8960a' : 'rgba(255,255,255,0.7)',
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                  }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARISON.map((row, ri) => (
+                <tr key={ri} style={{ background: ri % 2 === 0 ? '#fff' : 'var(--ud-paper-2)', borderBottom: ri < COMPARISON.length - 1 ? '1px solid var(--ud-border)' : 'none' }}>
+                  <td style={{ padding: '13px 20px', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', fontWeight: 500 }}>
+                    {String(row[0])}
+                  </td>
+                  {[row[1], row[2], row[3]].map((val, ci) => (
+                    <td key={ci} style={{ padding: '13px 20px', textAlign: 'center' }}>
+                      <Check val={val as boolean | string} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p style={{ marginTop: 16, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>
+          Prices shown are approximate. DocuSign and Adobe Sign pricing varies by plan.
+        </p>
+      </div>
+
+      {/* ── CTA footer ────────────────────────────────────────────── */}
+      <div style={{
+        background: 'var(--ud-ink)', padding: '64px 24px',
+        textAlign: 'center',
+      }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, color: '#fff', marginBottom: 16, letterSpacing: '-0.02em' }}>
+          Ready to sign?
+        </h2>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'rgba(255,255,255,0.65)', marginBottom: 32, lineHeight: 1.6 }}>
+          3 signatures free every month. No account. No credit card.
+        </p>
+        <a href="/sign" style={{
+          padding: '14px 32px', background: '#c8960a', color: '#fff',
+          fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 700,
+          borderRadius: 'var(--ud-radius)', textDecoration: 'none',
+        }}>
+          Sign a document →
+        </a>
+      </div>
+
     </div>
   )
 }
