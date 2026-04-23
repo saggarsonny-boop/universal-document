@@ -54,6 +54,32 @@ const GOVERNMENT_TOOLS = [
   { slug: 'regulatory-filing',  name: 'UD Regulatory Filing',  icon: '📁', desc: 'Create sealed compliance filing records with regulator, entity reference, reporting period, and jurisdiction.', badge: 'Pro' as const },
 ]
 
+const RESEARCH_TOOLS = [
+  { slug: 'financial-statement', name: 'UD Financial Statement', icon: '📊', desc: 'Seal financial statements as .uds with entity, period, preparer, and optional CSV data import.',       badge: 'Pro' as const },
+  { slug: 'pre-registration',    name: 'UD Pre-registration',    icon: '🔬', desc: 'Timestamp research hypotheses before data collection with FNV-1a integrity hash. Always free.',        badge: 'FREE' as const },
+  { slug: 'data-package',        name: 'UD Data Package',        icon: '🗂', desc: 'Bundle research datasets with DOI, licence, authors, and institution into a .udz data package.',        badge: 'Pro' as const },
+]
+
+const EDUCATION_TOOLS = [
+  { slug: 'credential',  name: 'UD Credential',  icon: '🏅', desc: 'Issue verifiable credentials (licences, certifications) as sealed .uds with optional expiry.',          badge: 'Pro' as const },
+  { slug: 'transcript',  name: 'UD Transcript',  icon: '🎓', desc: 'Generate academic transcripts with dynamic course entries, grade, credits, and institution seal.',         badge: 'Pro' as const },
+]
+
+const REAL_ESTATE_TOOLS = [
+  { slug: 'smart-lease', name: 'UD Smart Lease', icon: '🏠', desc: 'Create sealed lease agreements with landlord, tenant, property, rent, and term. Expires on lease end date.', badge: 'Pro' as const },
+]
+
+const INSURANCE_TOOLS = [
+  { slug: 'insurance-policy', name: 'UD Insurance Policy', icon: '🛡', desc: 'Sealed insurance policy .uds with type, premium, excess, coverage, and automatic expiry on end date.',  badge: 'Pro' as const },
+  { slug: 'claims-package',   name: 'UD Claims Package',   icon: '📋', desc: 'Bundle claim form, incident report, and evidence into a .udz with chain-of-custody proof.',           badge: 'Pro' as const },
+]
+
+const FORMAT_CONVERSION_TOOLS = [
+  { slug: 'reformat',    name: 'UD Reformat',    icon: '⇄',  desc: 'Convert any Universal Document™ between .uds, .udr, and plain JSON. Strip layers or provenance.',          badge: 'FREE' as const },
+  { slug: 'bates-stamp', name: 'UD Bates Stamp', icon: '🔢', desc: 'Apply sequential Bates numbers to multiple documents. Output: .udz bundle with live range preview.',        badge: 'FREE' as const },
+  { slug: 'verify',      name: 'UD Verify',      icon: '✔',  desc: '8-point document checker: format, expiry, revocation, provenance, integrity, and clarity layers.',          badge: 'FREE' as const },
+]
+
 /* Per-tool mini-animation: CSS keyframe name + rendered SVG/emoji sequence */
 const TOOLS = [
   {
@@ -520,6 +546,121 @@ export default function UtilitiesHub() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
                 <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Research & Science ──────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Research &amp; Science</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Financial Statements · Pre-registration · Data Packages</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {RESEARCH_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: tool.badge === 'FREE' ? 'var(--ud-teal-2)' : 'var(--ud-gold-3)', color: tool.badge === 'FREE' ? 'var(--ud-teal)' : 'var(--ud-gold)' }}>{tool.badge}{tool.badge !== 'FREE' ? ' · Beta' : ''}</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Education ───────────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Education</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Credentials · Transcripts</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {EDUCATION_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Real Estate ─────────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Real Estate</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Leases · Tenancy agreements</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {REAL_ESTATE_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Insurance ───────────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Insurance</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Policies · Claims · Chain-of-custody</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {INSURANCE_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Format Conversion ───────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Format Conversion &amp; Verification</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Reformat · Bates Stamp · Verify</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {FORMAT_CONVERSION_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge ud-badge-success">FREE</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
