@@ -105,6 +105,24 @@ export default function LegalBundle() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Legal Bundle differs from Relativity and Concordance</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Enterprise e-discovery platforms cost thousands per month and require IT setup. UD Legal Bundle runs in your browser with zero installation and zero cost.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Relativity / Concordance', body: 'Enterprise e-discovery platforms designed for large litigation teams. Per-GB pricing, IT infrastructure requirements, steep learning curves. A sole practitioner or small firm pays enterprise rates for features they don\'t need.' },
+            { title: 'Manual PDF bundling with Adobe Acrobat', body: 'Manual Bates stamping in Acrobat requires Pro licence, multiple steps, and produces a flat PDF. No privilege log template, no chain of custody, no machine-readable structure for downstream review tools.' },
+            { title: 'UD Legal Bundle — structured .udz output', body: 'The output .udz contains each document with its Bates number embedded in metadata, a cover sheet, and a privilege log template pre-populated with every document. Structured and queryable — not a flat PDF stack.' },
+            { title: 'UD Legal Bundle — browser-only, zero cost', body: 'Runs entirely in your browser. No upload to any server. No account. No per-GB charge. Suitable for sole practitioners, barristers, paralegals, and in-house counsel who need a bundle fast.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
