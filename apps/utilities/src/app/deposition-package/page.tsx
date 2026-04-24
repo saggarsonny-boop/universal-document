@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 export default function DepositionPackage() {
   const [transcript, setTranscript] = useState<File | null>(null)
@@ -124,6 +126,7 @@ export default function DepositionPackage() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="deposition-package" tips={tourSteps['deposition-package']} />
     </div>
   )
 }

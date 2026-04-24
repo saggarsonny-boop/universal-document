@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface Med { name: string; dose: string; frequency: string; prescriber: string; startDate: string; expiryDays: string }
 const BLANK: Med = { name: '', dose: '', frequency: '', prescriber: '', startDate: '', expiryDays: '' }
@@ -107,6 +109,7 @@ export default function MedicationList() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="medication-list" tips={tourSteps['medication-list']} />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface ParsedEMR { patient?: Record<string, unknown>; diagnoses?: { code?: string; description: string }[]; medications?: { name: string; dose: string; frequency: string }[]; allergies?: string[]; patient_summary?: string; clinical_summary?: string; source_format?: string }
 
@@ -113,6 +115,7 @@ export default function EMRExport() {
       <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Analysis by Claude. This is not medical advice. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+      <TooltipTour engineId="emr-export" tips={tourSteps['emr-export']} />
     </div>
   )
 }

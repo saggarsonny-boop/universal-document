@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface ClinicalResult {
   patient_summary: string
@@ -163,6 +165,7 @@ export default function ClinicalSummary() {
         Analysis powered by Claude. This is not medical advice. Always consult a qualified clinician.<br />
         Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+      <TooltipTour engineId="clinical-summary" tips={tourSteps['clinical-summary']} />
     </div>
   )
 }

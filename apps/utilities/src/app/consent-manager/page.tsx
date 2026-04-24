@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 const CONSENT_TYPES = ['Surgical procedure','Diagnostic investigation','Research participation','Data processing','Treatment plan','Medication administration','Photography/recording','Other']
 const LANGS = ['English','Spanish','French','German','Arabic','Mandarin','Polish','Urdu']
@@ -112,6 +114,7 @@ export default function ConsentManager() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="consent-manager" tips={tourSteps['consent-manager']} />
     </div>
   )
 }

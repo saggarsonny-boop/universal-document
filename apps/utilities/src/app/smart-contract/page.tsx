@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 const CONTRACT_TYPES = ['Service Agreement', 'NDA', 'Employment', 'Licensing', 'Purchase', 'Custom']
 
@@ -201,6 +203,7 @@ export default function SmartContract() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="smart-contract" tips={tourSteps['smart-contract']} />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface LogEntry {
   id: number
@@ -203,6 +205,7 @@ export default function PrivilegeLog() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="privilege-log" tips={tourSteps['privilege-log']} />
     </div>
   )
 }
