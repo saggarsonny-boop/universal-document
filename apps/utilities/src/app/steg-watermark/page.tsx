@@ -85,6 +85,24 @@ export default function StegWatermark() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Mark detectable by UD Validator. Runs in your browser. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Steg Watermark differs from visible watermarks and DRM</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Visible watermarks degrade the document and are stripped easily. DRM prevents access entirely. UD Steg Watermark proves ownership without affecting how the document looks or reads.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Visible watermark overlaid on content', body: 'Degrades readability and is removed in seconds with a screenshot, crop, or background-removal tool. Provides no cryptographic proof — just a visual deterrent that sophisticated infringers ignore.' },
+            { title: 'DRM / locked document', body: 'Prevents viewing without authorisation — but also prevents legitimate sharing, printing, and archival. Creates friction for authorised recipients and fails completely if the DRM platform shuts down.' },
+            { title: 'UD Steg Watermark — invisible SHA-256 mark', body: 'A SHA-256 hash of your ownership claim is embedded in the document\'s structured metadata, invisible to readers. The document reads and shares identically to an unmarked version.' },
+            { title: 'UD Steg Watermark — UD Validator verification', body: 'Any copy of the document — however it was distributed or renamed — can be verified in UD Validator. The embedded mark either matches your ownership claim or it doesn\'t. No dispute, just a hash comparison.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
