@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface Event { label: string; at: string; by?: string; detail?: string; hash?: string; category: string }
 const CAT_COLOR: Record<string, string> = { provenance: 'var(--ud-teal)', security: 'var(--ud-gold)', ai: '#6b5adf', lifecycle: 'var(--ud-danger)', content: 'var(--ud-muted)' }
@@ -129,6 +131,7 @@ export default function AuditTrail() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="audit-trail" tips={tourSteps['audit-trail']} />
     </div>
   )
 }
