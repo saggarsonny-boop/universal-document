@@ -334,6 +334,40 @@ export async function convertPdf(buffer: Buffer, fileName: string): Promise<UDDo
   })
 }
 
+export async function convertXlsx(buffer: Buffer, fileName: string): Promise<UDDocument> {
+  const XLSX = await import('xlsx')
+  const workbook = XLSX.read(buffer, { type: 'buffer' })
+  const now = new Date().toISOString()
+  const blocks: UDBlock[] = []
+
+  for (const sheetName of workbook.SheetNames) {
+    blocks.push({
+      id: slugId(), type: 'heading',
+      base_content: { text: sheetName, level: 2 },
+      provenance: { source: fileName, imported_from: fileName, imported_at: now },
+    })
+    const sheet = workbook.Sheets[sheetName]
+    const csv = XLSX.utils.sheet_to_csv(sheet)
+    const rows = csv.split('\n').map(l => l.trim()).filter(Boolean).map(l => l.split(',').map(c => c.trim()))
+    if (rows.length > 0) {
+      const [header, ...body] = rows
+      blocks.push({
+        id: slugId(), type: 'list',
+        base_content: { header, rows: body },
+        provenance: { source: fileName, imported_from: fileName, imported_at: now },
+      })
+    }
+  }
+
+  return buildUDDocument({
+    title: fileName.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+    blocks: blocks.length ? blocks : textToBlocks(`Empty spreadsheet: ${fileName}`, fileName),
+    documentType: 'spreadsheet',
+    sourceFileName: fileName,
+    state: 'UDS',
+  })
+}
+
 export async function convertImage(fileName: string): Promise<UDDocument> {
   const content = [
     `Image input imported: ${fileName}`,

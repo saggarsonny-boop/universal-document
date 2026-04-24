@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt } from '@/lib/convert'
+import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx } from '@/lib/convert'
 import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     const fileName = file.name
     const ext = fileName.split('.').pop()?.toLowerCase()
-    const allowedTypes = ['pdf', 'docx', 'txt', 'md', 'csv', 'html', 'png', 'jpg', 'jpeg', 'webp', 'gif']
+    const allowedTypes = ['pdf', 'docx', 'xlsx', 'txt', 'md', 'csv', 'html', 'png', 'jpg', 'jpeg', 'webp', 'gif']
 
     if (!ext || !allowedTypes.includes(ext)) {
       return NextResponse.json(
@@ -84,6 +84,8 @@ export async function POST(req: NextRequest) {
 
     if (ext === 'docx') {
       doc = await convertDocx(buffer, fileName)
+    } else if (ext === 'xlsx') {
+      doc = await convertXlsx(buffer, fileName)
     } else if (ext === 'html') {
       const rawHtml = buffer.toString('utf-8')
       const pre = preprocessForUD({ fileName, baseText: rawHtml.replace(/<[^>]+>/g, ' '), utility })
