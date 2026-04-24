@@ -39,8 +39,8 @@ export default function TooltipTour({ tips }: Props) {
         style={{
           position: 'fixed', bottom: 24, left: 24, zIndex: 50,
           background: 'rgba(17,24,39,0.85)', border: '1px solid rgba(107,114,128,0.3)',
-          borderRadius: 20, padding: '6px 11px', color: '#6b7280',
-          fontSize: 12, fontWeight: 700, cursor: 'pointer',
+          borderRadius: 20, padding: '6px 11px', color: 'var(--ud-muted)',
+          fontSize: 13, fontWeight: 700, cursor: 'pointer',
           fontFamily: 'inherit', backdropFilter: 'blur(4px)',
           lineHeight: 1,
         }}
@@ -75,7 +75,7 @@ export default function TooltipTour({ tips }: Props) {
               ))}
             </div>
 
-            <div style={{ fontSize: 11, color: '#c8960a', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
+            <div style={{ fontSize: 13, color: '#c8960a', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
               {tip.label}
             </div>
             <div style={{ fontSize: 14, color: '#e2e8f0', lineHeight: 1.6, marginBottom: 20 }}>

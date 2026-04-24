@@ -35,7 +35,7 @@ export default function UDNav({ engine }: { engine: string }) {
       <nav style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
         {TOOLS.filter(t => t.key !== engine).map(t => (
           <a key={t.href} href={t.href} style={{
-            fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ud-muted)',
+            fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)',
             fontWeight: 500, textDecoration: 'none', transition: 'color 0.15s',
           }}
           onMouseEnter={e => (e.currentTarget.style.color = 'var(--ud-ink)')}

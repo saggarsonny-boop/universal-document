@@ -158,12 +158,12 @@ export default function ConverterPage() {
         </p>
 
         <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-          <label style={{ fontSize: 12, color: 'var(--ud-muted)', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <label style={{ fontSize: 13, color: 'var(--ud-muted)', display: 'flex', alignItems: 'center', gap: 8 }}>
             Utility
             <select
               value={utility}
               onChange={(e) => setUtility(e.target.value as (typeof UTILITY_OPTIONS)[number]['id'])}
-              style={{ border: '1px solid var(--ud-border)', borderRadius: 8, padding: '6px 10px', fontSize: 12, color: 'var(--ud-ink)', background: '#fff' }}
+              style={{ border: '1px solid var(--ud-border)', borderRadius: 8, padding: '6px 10px', fontSize: 13, color: 'var(--ud-ink)', background: '#fff' }}
             >
               {UTILITY_OPTIONS.map((option) => (
                 <option key={option.id} value={option.id}>{option.label}</option>
@@ -174,19 +174,19 @@ export default function ConverterPage() {
 
         {!isPro && (
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, background: atLimit ? 'rgba(226,75,74,0.06)' : 'var(--ud-paper-2)', border: `1px solid ${atLimit ? 'rgba(226,75,74,0.25)' : 'var(--ud-border)'}`, borderRadius: 20, padding: '6px 14px' }}>
-            <span style={{ fontSize: 12, color: atLimit ? 'var(--ud-danger)' : 'var(--ud-muted)' }}>
+            <span style={{ fontSize: 13, color: atLimit ? 'var(--ud-danger)' : 'var(--ud-muted)' }}>
               {usage}/{FREE_LIMIT} free conversions today
             </span>
             {atLimit && (
-              <a href="/pricing" style={{ fontSize: 12, fontWeight: 600, color: 'var(--ud-gold)' }}>Upgrade →</a>
+              <a href="/pricing" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-gold)' }}>Upgrade →</a>
             )}
           </div>
         )}
 
         {isPro && (
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 16, background: 'var(--ud-teal-2)', border: '1px solid rgba(10,122,106,0.25)', borderRadius: 20, padding: '6px 14px' }}>
-            <span style={{ fontSize: 12, color: 'var(--ud-teal)', fontWeight: 600 }}>⚡ Pro — unlimited</span>
-            <a href="/pro" style={{ fontSize: 12, color: 'var(--ud-muted)' }}>Manage →</a>
+            <span style={{ fontSize: 13, color: 'var(--ud-teal)', fontWeight: 600 }}>⚡ Pro — unlimited</span>
+            <a href="/pro" style={{ fontSize: 13, color: 'var(--ud-muted)' }}>Manage →</a>
           </div>
         )}
       </div>

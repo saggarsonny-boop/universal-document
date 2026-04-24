@@ -10,7 +10,7 @@ export default function ISDKPage() {
     card: { background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: '24px 28px', marginBottom: 20, boxShadow: 'var(--ud-shadow)' } as React.CSSProperties,
     h2: { fontSize: 18, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)', marginBottom: 12 } as React.CSSProperties,
     pre: { background: 'var(--ud-ink)', color: '#e2e8f0', borderRadius: 'var(--ud-radius)', padding: '18px 20px', fontSize: 13, fontFamily: 'var(--font-mono)', overflowX: 'auto' as const, lineHeight: 1.7, marginTop: 8 } as React.CSSProperties,
-    label: { fontSize: 11, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 4, display: 'block' as const } as React.CSSProperties,
+    label: { fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 4, display: 'block' as const } as React.CSSProperties,
   }
 
   const features = [
@@ -87,7 +87,7 @@ reader.addEventListener('ud:revoked', () => console.log('Revoked'))`}</pre>
         <div style={{ overflowX: 'auto' as const }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 13, fontFamily: 'var(--font-mono)' }}>
             <thead><tr style={{ borderBottom: '1px solid var(--ud-border)' }}>
-              {['Attribute','Type','Default','Description'].map(h => <th key={h} style={{ textAlign: 'left' as const, padding: '8px 12px', color: 'var(--ud-muted)', fontWeight: 600, fontSize: 11, textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>{h}</th>)}
+              {['Attribute','Type','Default','Description'].map(h => <th key={h} style={{ textAlign: 'left' as const, padding: '8px 12px', color: 'var(--ud-muted)', fontWeight: 600, fontSize: 13, textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>{h}</th>)}
             </tr></thead>
             <tbody>
               {[
@@ -109,7 +109,7 @@ reader.addEventListener('ud:revoked', () => console.log('Revoked'))`}</pre>
         </div>
       </div>
 
-      <div style={{ marginTop: 32, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', textAlign: 'center' }}>
+      <div style={{ marginTop: 32, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', textAlign: 'center' }}>
         Apache 2.0 · Universal Document™ is a pending trademark · <a href="mailto:hive@hive.baby" style={{ color: 'var(--ud-teal)' }}>hive@hive.baby</a>
       </div>
     </div>

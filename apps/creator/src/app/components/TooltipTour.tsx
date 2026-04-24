@@ -47,7 +47,7 @@ export default function TooltipTour() {
           background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 12, padding: '16px 18px', maxWidth: 280, boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
         }}>
-          <div style={{ fontSize: 10, color: 'var(--muted)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
+          <div style={{ fontSize: 13, color: 'var(--muted)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
             {step + 1}/{TIPS.length} — {TIPS[step].label}
           </div>
           <p style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6, marginBottom: 14 }}>
@@ -55,10 +55,10 @@ export default function TooltipTour() {
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
             {step < TIPS.length - 1
-              ? <button onClick={() => setStep(s => (s ?? 0) + 1)} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Next →</button>
-              : <button onClick={dismiss} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Done</button>
+              ? <button onClick={() => setStep(s => (s ?? 0) + 1)} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Next →</button>
+              : <button onClick={dismiss} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Done</button>
             }
-            <button onClick={dismiss} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 7, padding: '8px 12px', fontSize: 12, cursor: 'pointer' }}>✕</button>
+            <button onClick={dismiss} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 7, padding: '8px 12px', fontSize: 13, cursor: 'pointer' }}>✕</button>
           </div>
         </div>
       )}

@@ -81,23 +81,23 @@ const S = {
     background: active ? 'rgba(212,175,55,0.04)' : 'var(--surface)',
   }),
   dropText: { fontSize: '15px', color: 'var(--muted)', marginBottom: '8px' } as React.CSSProperties,
-  dropHint: { fontSize: '12px', color: 'rgba(100,116,139,0.6)' } as React.CSSProperties,
+  dropHint: { fontSize: '13px', color: 'rgba(100,116,139,0.6)' } as React.CSSProperties,
   btn: { marginTop: '16px', background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', padding: '8px 20px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' } as React.CSSProperties,
   card: { background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '12px', padding: '28px 28px 24px', marginTop: '32px' } as React.CSSProperties,
   statusRow: { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' } as React.CSSProperties,
   badge: (ok: boolean): React.CSSProperties => ({
-    display: 'inline-block', padding: '4px 12px', borderRadius: '20px', fontSize: '12px', fontWeight: 700,
+    display: 'inline-block', padding: '4px 12px', borderRadius: '20px', fontSize: '13px', fontWeight: 700,
     background: ok ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
     color: ok ? 'var(--green)' : 'var(--red)',
   }),
   title: { fontSize: '18px', fontWeight: 600, color: 'var(--text)' } as React.CSSProperties,
   grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' } as React.CSSProperties,
   stat: { background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: '8px', padding: '14px 16px' } as React.CSSProperties,
-  statLabel: { fontSize: '11px', color: 'var(--muted)', marginBottom: '4px', textTransform: 'uppercase' as const, letterSpacing: '0.06em' },
+  statLabel: { fontSize: '13px', color: 'var(--muted)', marginBottom: '4px', textTransform: 'uppercase' as const, letterSpacing: '0.06em' },
   statValue: { fontSize: '16px', fontWeight: 600, color: 'var(--text)' } as React.CSSProperties,
   errorList: { marginTop: '20px', borderTop: '1px solid var(--border)', paddingTop: '16px' } as React.CSSProperties,
   errorItem: { fontSize: '13px', color: 'var(--red)', marginBottom: '6px', display: 'flex', gap: '8px' } as React.CSSProperties,
-  reset: { marginTop: '24px', background: 'none', border: 'none', color: 'var(--muted)', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' } as React.CSSProperties,
+  reset: { marginTop: '24px', background: 'none', border: 'none', color: 'var(--muted)', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' } as React.CSSProperties,
 }
 
 export default function ValidatorPage() {
@@ -205,13 +205,13 @@ export default function ValidatorPage() {
             {meta?.tags && meta.tags.length > 0 && (
               <div style={{ marginBottom: '16px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                 {meta.tags.map((t) => (
-                  <span key={t} style={{ fontSize: '11px', padding: '3px 10px', borderRadius: '12px', background: 'rgba(212,175,55,0.1)', color: 'var(--gold-dim)' }}>{t}</span>
+                  <span key={t} style={{ fontSize: '13px', padding: '3px 10px', borderRadius: '12px', background: 'rgba(212,175,55,0.1)', color: 'var(--gold-dim)' }}>{t}</span>
                 ))}
               </div>
             )}
 
             {meta?.created_at && (
-              <p style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '4px' }}>
+              <p style={{ fontSize: '13px', color: 'var(--muted)', marginBottom: '4px' }}>
                 Created: {new Date(meta.created_at).toLocaleString()}
               </p>
             )}

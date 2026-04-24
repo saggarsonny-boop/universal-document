@@ -29,7 +29,7 @@ export default function PageNumbers() {
                     padding: '6px 12px', fontSize: 13, fontWeight: 600,
                     background: position === p ? 'rgba(0,58,140,0.3)' : 'rgba(255,255,255,0.05)',
                     border: `1px solid ${position === p ? 'rgba(0,58,140,0.5)' : 'rgba(255,255,255,0.1)'}`,
-                    borderRadius: 6, color: position === p ? '#4DA3FF' : '#8892a4',
+                    borderRadius: 6, color: position === p ? '#4DA3FF' : 'var(--ud-muted)',
                     cursor: 'pointer', textTransform: 'capitalize',
                   }}
                 >

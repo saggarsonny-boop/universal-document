@@ -28,7 +28,7 @@ export default function Watermark() {
                     padding: '4px 10px', fontSize: 13, fontWeight: 600,
                     background: watermarkText === preset ? 'rgba(0,58,140,0.3)' : 'rgba(255,255,255,0.05)',
                     border: `1px solid ${watermarkText === preset ? 'rgba(0,58,140,0.5)' : 'rgba(255,255,255,0.1)'}`,
-                    borderRadius: 6, color: watermarkText === preset ? '#4DA3FF' : '#8892a4',
+                    borderRadius: 6, color: watermarkText === preset ? '#4DA3FF' : 'var(--ud-muted)',
                     cursor: 'pointer',
                   }}
                 >

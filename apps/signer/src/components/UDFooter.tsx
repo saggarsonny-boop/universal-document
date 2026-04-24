@@ -21,7 +21,7 @@ export default function UDFooter() {
           fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4,
         }}>Universal Document™ Incorporated</p>
         <p style={{
-          fontFamily: 'var(--font-mono)', fontSize: 11,
+          fontFamily: 'var(--font-mono)', fontSize: 13,
           color: 'var(--ud-muted)', marginBottom: 18,
         }}>
           <a href="https://universaldocument.solutions" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.solutions</a>
@@ -31,7 +31,7 @@ export default function UDFooter() {
         <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
           {LINKS.map(t => (
             <a key={t.href} href={t.href} style={{
-              fontFamily: 'var(--font-mono)', fontSize: 11,
+              fontFamily: 'var(--font-mono)', fontSize: 13,
               color: 'var(--ud-muted)', textDecoration: 'none',
             }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--ud-ink)')}
@@ -39,10 +39,10 @@ export default function UDFooter() {
             >{t.label}</a>
           ))}
         </div>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 6 }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', marginBottom: 6 }}>
           Universal Document™ Standard 1.0 · CC BY 4.0 · April 2026
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto' }}>
           Universal Document™ is a pending trademark (Serial 99774346). The specification is released under CC BY 4.0 and may be implemented freely by any party.
         </p>
       </div>

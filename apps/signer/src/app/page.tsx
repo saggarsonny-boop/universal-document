@@ -34,8 +34,8 @@ const COL_HEADERS = ['Feature', 'UD Signer', 'DocuSign', 'Adobe Sign']
 
 function Check({ val }: { val: boolean | string }) {
   if (val === true)  return <span style={{ color: '#0a7a6a', fontWeight: 700, fontSize: 16 }}>✓</span>
-  if (val === false) return <span style={{ color: '#d1d5db', fontSize: 16 }}>✗</span>
-  return <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>{val}</span>
+  if (val === false) return <span style={{ color: 'var(--ud-muted)', fontSize: 16 }}>✗</span>
+  return <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>{val}</span>
 }
 
 export default function SignerHome() {
@@ -46,7 +46,7 @@ export default function SignerHome() {
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '80px 24px 64px', textAlign: 'center' }}>
         <span style={{
           display: 'inline-block', marginBottom: 20,
-          fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 500,
+          fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 500,
           letterSpacing: '0.12em', textTransform: 'uppercase',
           padding: '4px 14px', borderRadius: 99,
           background: 'var(--ud-gold-3)', color: 'var(--ud-gold)',
@@ -133,7 +133,7 @@ export default function SignerHome() {
                 {COL_HEADERS.map((h, i) => (
                   <th key={h} style={{
                     padding: '14px 20px', textAlign: i === 0 ? 'left' : 'center',
-                    fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600,
+                    fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600,
                     color: i === 1 ? '#c8960a' : 'rgba(255,255,255,0.7)',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                   }}>{h}</th>
@@ -157,7 +157,7 @@ export default function SignerHome() {
           </table>
         </div>
 
-        <p style={{ marginTop: 16, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>
+        <p style={{ marginTop: 16, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>
           Prices shown are approximate. DocuSign and Adobe Sign pricing varies by plan.
         </p>
       </div>

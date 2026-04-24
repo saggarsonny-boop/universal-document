@@ -406,7 +406,7 @@ export default function SignerPage() {
               <span className={`ud-badge ${formatBadgeClass(format)}`}>{formatLabel(format)}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-ink)', fontWeight: 500 }}>{file.name}</span>
             </div>
-            <p style={{ fontSize: 12, color: 'var(--ud-muted)' }}>{(file.size / 1024).toFixed(1)} KB · click to change</p>
+            <p style={{ fontSize: 13, color: 'var(--ud-muted)' }}>{(file.size / 1024).toFixed(1)} KB · click to change</p>
           </div>
         ) : (
           <div>
@@ -422,7 +422,7 @@ export default function SignerPage() {
         <div className="ud-card ud-fade-in" style={{ marginBottom: 20 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              <label style={{ display: 'block', fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 Signer name / email *
               </label>
               <input
@@ -435,7 +435,7 @@ export default function SignerPage() {
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              <label style={{ display: 'block', fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 Reason (optional)
               </label>
               <input
@@ -481,7 +481,7 @@ export default function SignerPage() {
           {/* Revoke section */}
           {canRevoke && (
             <div style={{ marginTop: 20, paddingTop: 18, borderTop: '0.5px solid var(--ud-border)' }}>
-              <p style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 10, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              <p style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 10, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 Revocation
               </p>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -528,7 +528,7 @@ export default function SignerPage() {
               <div key={i} className="ud-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '14px 18px' }}>
                 <div>
                   <p style={{ fontWeight: 500, fontSize: 14, marginBottom: 2 }}>{r.label}</p>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>{r.filename}</p>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>{r.filename}</p>
                 </div>
                 <button
                   className="ud-btn-primary"
@@ -568,7 +568,7 @@ export default function SignerPage() {
       )}
 
       {/* Free forever note */}
-      <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>
+      <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>
         UD Signer is free forever. No account required. Files never leave your browser.
       </p>
     </div>

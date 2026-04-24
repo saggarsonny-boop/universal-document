@@ -183,7 +183,7 @@ function FormatToolbar({ onBold, onItalic, onLink, onUnlink }: {
       <button style={{ ...btn, fontWeight: 700 }} onMouseDown={e => { e.preventDefault(); onBold() }} title="Bold (Ctrl+B)">B</button>
       <button style={{ ...btn, fontStyle: 'italic' }} onMouseDown={e => { e.preventDefault(); onItalic() }} title="Italic (Ctrl+I)">I</button>
       <button style={btn} onMouseDown={e => { e.preventDefault(); onLink() }} title="Add link">⌘K</button>
-      <button style={{ ...btn, fontSize: 11, color: 'var(--muted)' }} onMouseDown={e => { e.preventDefault(); onUnlink() }} title="Remove link">unlink</button>
+      <button style={{ ...btn, fontSize: 13, color: 'var(--muted)' }} onMouseDown={e => { e.preventDefault(); onUnlink() }} title="Remove link">unlink</button>
     </div>
   )
 }
@@ -222,7 +222,7 @@ function AuthModal({ onDone, onClose }: { onDone: () => void; onClose: () => voi
               onKeyDown={e => e.key === 'Enter' && send()}
               style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 14px', color: 'var(--text)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
             />
-            {err && <p style={{ fontSize: 12, color: '#f87171', marginTop: 8 }}>{err}</p>}
+            {err && <p style={{ fontSize: 13, color: '#f87171', marginTop: 8 }}>{err}</p>}
             <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
               <button onClick={send} disabled={!email || loading}
                 style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 8, padding: '10px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
@@ -473,11 +473,11 @@ export default function CreatorPage() {
     wrap: { maxWidth: '760px', margin: '0 auto', padding: '48px 24px 80px' } as React.CSSProperties,
     topBar: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32, flexWrap: 'wrap' as const, gap: 12 },
     h1: { fontSize: 32, fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' } as React.CSSProperties,
-    label: { display: 'block', fontSize: '11px', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' as const, letterSpacing: '0.06em' },
+    label: { display: 'block', fontSize: '13px', color: 'var(--muted)', marginBottom: '6px', textTransform: 'uppercase' as const, letterSpacing: '0.06em' },
     input: { width: '100%', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', padding: '10px 14px', color: 'var(--text)', fontSize: '14px', outline: 'none', boxSizing: 'border-box' as const },
     row: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' } as React.CSSProperties,
     field: { marginBottom: '20px' } as React.CSSProperties,
-    section: { fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: '12px', marginTop: '32px' },
+    section: { fontSize: '13px', color: 'var(--muted)', textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: '12px', marginTop: '32px' },
     blockWrap: { background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', marginBottom: '8px', overflow: 'hidden' } as React.CSSProperties,
     blockInner: { display: 'flex', gap: 0 } as React.CSSProperties,
     blockType: { padding: '10px 10px', background: 'rgba(255,255,255,0.02)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column' as const, gap: '4px', alignItems: 'center', justifyContent: 'center' },
@@ -485,12 +485,12 @@ export default function CreatorPage() {
       background: active ? 'rgba(212,175,55,0.15)' : 'none',
       border: active ? '1px solid rgba(212,175,55,0.3)' : '1px solid transparent',
       color: active ? 'var(--gold)' : 'var(--muted)',
-      borderRadius: '4px', padding: '3px 6px', cursor: 'pointer', fontSize: '10px', whiteSpace: 'nowrap',
+      borderRadius: '4px', padding: '3px 6px', cursor: 'pointer', fontSize: '13px', whiteSpace: 'nowrap',
     }),
     textarea: { flex: 1, background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontSize: '14px', padding: '12px 14px', resize: 'none' as const, minHeight: '60px', fontFamily: 'inherit', lineHeight: '1.6' },
     delBtn: { background: 'none', border: 'none', color: 'rgba(239,68,68,0.4)', cursor: 'pointer', padding: '10px 10px', fontSize: '16px', alignSelf: 'center' as const, flexShrink: 0 },
     addRow: { display: 'flex', gap: '8px', marginTop: '4px' } as React.CSSProperties,
-    addBtn: { background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: '6px', padding: '6px 12px', cursor: 'pointer', fontSize: '12px' } as React.CSSProperties,
+    addBtn: { background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: '6px', padding: '6px 12px', cursor: 'pointer', fontSize: '13px' } as React.CSSProperties,
     actionRow: { display: 'flex', gap: 10, marginTop: 32, flexWrap: 'wrap' as const },
     exportBtn: { background: 'var(--gold)', color: '#000', border: 'none', borderRadius: '8px', padding: '12px 24px', fontSize: '14px', fontWeight: 700, cursor: 'pointer' } as React.CSSProperties,
     saveBtn: (status: string): React.CSSProperties => ({
@@ -523,7 +523,7 @@ export default function CreatorPage() {
                 <div style={{ fontSize: 28, marginBottom: 10 }}>{importLoading ? '⏳' : '📂'}</div>
                 <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>{importLoading ? 'Converting…' : 'Import a file'}</div>
                 <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>{importLoading ? 'Sending to UD Converter — please wait' : 'Turn any existing document into a Universal Document™'}</div>
-                <div style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>.docx · .xlsx · .csv · .pdf · .txt · .md · .png · .jpg · .pptx</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>.docx · .xlsx · .csv · .pdf · .txt · .md · .png · .jpg · .pptx</div>
                 {!importLoading && <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)', fontWeight: 600 }}>Drag file here or click to browse →</div>}
               </div>
               <div
@@ -555,8 +555,8 @@ export default function CreatorPage() {
                   style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 8, padding: '7px 14px', fontSize: 13, cursor: 'pointer' }}>
                   My docs {savedDocs.length > 0 ? `(${savedDocs.length})` : ''}
                 </button>
-                <span style={{ fontSize: 12, color: 'var(--muted)' }}>{email}</span>
-                <button onClick={signOut} style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: 12, cursor: 'pointer' }}>Sign out</button>
+                <span style={{ fontSize: 13, color: 'var(--muted)' }}>{email}</span>
+                <button onClick={signOut} style={{ background: 'none', border: 'none', color: 'var(--muted)', fontSize: 13, cursor: 'pointer' }}>Sign out</button>
               </>
             ) : (
               <button onClick={() => setShowAuth(true)}
@@ -571,9 +571,9 @@ export default function CreatorPage() {
         {docsOpen && savedDocs.length > 0 && (
           <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: '16px', marginBottom: 28 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <span style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Saved documents</span>
+              <span style={{ fontSize: 13, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Saved documents</span>
               <button onClick={() => { resetEditor(); setDocsOpen(false) }}
-                style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer' }}>
+                style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 6, padding: '4px 10px', fontSize: 13, cursor: 'pointer' }}>
                 + New document
               </button>
             </div>
@@ -584,7 +584,7 @@ export default function CreatorPage() {
                     style={{ background: 'none', border: 'none', color: 'var(--text)', fontSize: 14, cursor: 'pointer', padding: 0, textAlign: 'left', fontWeight: 500 }}>
                     {doc.title || 'Untitled'}
                   </button>
-                  <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 2 }}>
+                  <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>
                     {new Date(doc.updated_at).toLocaleDateString()}
                   </div>
                 </div>
@@ -620,7 +620,7 @@ export default function CreatorPage() {
                 background: docState === 'UDR' ? 'rgba(96,165,250,0.18)' : 'transparent',
                 color: docState === 'UDR' ? '#93c5fd' : 'var(--muted)',
                 fontWeight: 700,
-                fontSize: 12,
+                fontSize: 13,
               }}
             >
               UDR editable
@@ -634,13 +634,13 @@ export default function CreatorPage() {
                 background: docState === 'UDS' ? 'rgba(37,99,235,0.18)' : 'transparent',
                 color: docState === 'UDS' ? '#60a5fa' : 'var(--muted)',
                 fontWeight: 700,
-                fontSize: 12,
+                fontSize: 13,
               }}
             >
               UDS sealed
             </button>
           </div>
-          <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
+          <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 8 }}>
             {docState === 'UDS' ? 'Sealed document — immutable once exported.' : 'Revisable draft — can be edited after export.'}
           </p>
         </div>
@@ -650,7 +650,7 @@ export default function CreatorPage() {
           <div style={S.field}>
             <label style={S.label}>When should this expire?</label>
             <input style={{ ...S.input, colorScheme: 'dark' }} type="date" value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
-            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>Leave blank for no expiry</div>
+            <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Leave blank for no expiry</div>
           </div>
           <div style={{ ...S.field, display: 'flex', flexDirection: 'column' as const, justifyContent: 'flex-start', gap: 6 }}>
             <label style={S.label}>Who can read this?</label>
@@ -658,14 +658,14 @@ export default function CreatorPage() {
               <input type="checkbox" checked={requireAuth} onChange={e => setRequireAuth(e.target.checked)} />
               <span style={{ fontSize: 13, color: 'var(--text)' }}>Require authentication</span>
             </label>
-            {requireAuth && <div style={{ fontSize: 11, color: 'var(--muted)' }}>Reader must sign in with a magic link.</div>}
+            {requireAuth && <div style={{ fontSize: 13, color: 'var(--muted)' }}>Reader must sign in with a magic link.</div>}
           </div>
         </div>
 
         {/* ── Pro Features ─────────────────────────────── */}
         <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 18px', marginBottom: 20 }}>
-          <div style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: 14 }}>
-            Pro features <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--gold)', background: 'rgba(200,150,10,0.1)', padding: '1px 6px', borderRadius: 99 }}>free during beta</span>
+          <div style={{ fontSize: 13, color: 'var(--muted)', textTransform: 'uppercase' as const, letterSpacing: '0.06em', marginBottom: 14 }}>
+            Pro features <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--gold)', background: 'rgba(200,150,10,0.1)', padding: '1px 6px', borderRadius: 99 }}>free during beta</span>
           </div>
 
           {/* Self-Destruct */}
@@ -691,12 +691,12 @@ export default function CreatorPage() {
                 }} />
               </button>
             </div>
-            <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5 }}>
+            <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5 }}>
               Document permanently invalidates itself after the set number of reads. Cannot be recovered.
             </div>
             {selfDestruct && (
               <div style={{ marginTop: 10 }}>
-                <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 6 }}>Delete after how many views?</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 6 }}>Delete after how many views?</div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' as const }}>
                   {[1, 3, 10].map(n => (
                     <button key={n} onClick={() => { setSelfDestructViews(n); setShowCustomInput(false) }}
@@ -722,7 +722,7 @@ export default function CreatorPage() {
                       style={{ ...S.input, width: 100 }}
                       onChange={e => { const v = parseInt(e.target.value); if (v > 0) setSelfDestructViews(v) }}
                     />
-                    <span style={{ fontSize: 12, color: 'var(--muted)' }}>views</span>
+                    <span style={{ fontSize: 13, color: 'var(--muted)' }}>views</span>
                   </div>
                 )}
               </div>
@@ -737,7 +737,7 @@ export default function CreatorPage() {
             <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 6, display: 'flex', alignItems: 'center' }}>
               Audience versions<ProBadge />
             </div>
-            <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10, lineHeight: 1.5 }}>
+            <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 10, lineHeight: 1.5 }}>
               Generate the same content rewritten for different audiences. Each version is embedded in the same file and gets its own tab in the Reader.
             </div>
             {audienceVersions.length > 0 && (
@@ -746,7 +746,7 @@ export default function CreatorPage() {
                   <span key={a} style={{
                     background: 'rgba(200,150,10,0.1)', color: 'var(--gold)',
                     border: '1px solid rgba(200,150,10,0.25)', borderRadius: 99,
-                    padding: '3px 10px', fontSize: 12, display: 'flex', alignItems: 'center', gap: 5,
+                    padding: '3px 10px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 5,
                   }}>
                     {a}
                     <button onClick={() => setAudienceVersions(vs => vs.filter(v => v !== a))}
@@ -795,7 +795,7 @@ export default function CreatorPage() {
               >Add</button>
             </div>
             {audienceVersions.length > 0 && (
-              <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 8 }}>
                 Claude rewrites content for each audience automatically on export.
               </div>
             )}
@@ -804,7 +804,7 @@ export default function CreatorPage() {
 
         <div style={{ ...S.section, display: 'flex', alignItems: 'center', gap: 14 }}>
           <span>Document content</span>
-          <span style={{ fontSize: 10, color: 'var(--muted)', fontWeight: 400, letterSpacing: 0 }}>H = Heading · P = Paragraph · L = List · D = Divider</span>
+          <span style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 400, letterSpacing: 0 }}>H = Heading · P = Paragraph · L = List · D = Divider</span>
         </div>
 
         {blocks.map(block => (

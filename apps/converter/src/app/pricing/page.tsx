@@ -30,7 +30,7 @@ export default function PricingPage() {
 
         {/* Free */}
         <div style={card.base}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-muted)', marginBottom: 16 }}>Free</p>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-muted)', marginBottom: 16 }}>Free</p>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 4 }}>$0</p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 28 }}>Always. No card required.</p>
           {[
@@ -53,7 +53,7 @@ export default function PricingPage() {
 
         {/* Pro Monthly */}
         <div style={card.featured}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-gold)', marginBottom: 16 }}>Pro</p>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-gold)', marginBottom: 16 }}>Pro</p>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, color: '#fff', marginBottom: 4 }}>$29<span style={{ fontSize: 16, fontWeight: 400, opacity: 0.7 }}>/month</span></p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 28 }}>Or $249/year — save $99.</p>
           {[
@@ -74,7 +74,7 @@ export default function PricingPage() {
             background: 'var(--ud-gold)', borderRadius: 8, textDecoration: 'none',
             fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14, color: '#fff',
           }}>Get Pro →</a>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginTop: 10 }}>Annual billing available at checkout.</p>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginTop: 10 }}>Annual billing available at checkout.</p>
         </div>
 
       </div>

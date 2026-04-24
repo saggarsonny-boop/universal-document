@@ -13,9 +13,9 @@ interface ProState {
 const C = {
   page: { minHeight: '100vh', background: '#f9fafb', padding: '56px 24px 80px' } as React.CSSProperties,
   wrap: { maxWidth: 560, margin: '0 auto' } as React.CSSProperties,
-  back: { fontSize: 13, color: '#6b7280', display: 'block', marginBottom: 32 } as React.CSSProperties,
+  back: { fontSize: 13, color: 'var(--ud-muted)', display: 'block', marginBottom: 32 } as React.CSSProperties,
   h1: { fontSize: 28, fontWeight: 700, color: '#111827', marginBottom: 8 } as React.CSSProperties,
-  sub: { fontSize: 14, color: '#6b7280', marginBottom: 40 } as React.CSSProperties,
+  sub: { fontSize: 14, color: 'var(--ud-muted)', marginBottom: 40 } as React.CSSProperties,
   card: { background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '24px 28px', marginBottom: 20 } as React.CSSProperties,
   cardTitle: { fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 16, textTransform: 'uppercase' as const, letterSpacing: '0.06em' },
   keyBox: { background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8, padding: '12px 14px', fontFamily: 'monospace', fontSize: 14, color: '#111827', wordBreak: 'break-all' as const, marginBottom: 12 },
@@ -23,8 +23,8 @@ const C = {
   secondaryBtn: { background: '#fff', color: '#374151', border: '1px solid #d1d5db', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 500, cursor: 'pointer' } as React.CSSProperties,
   input: { width: '100%', border: '1px solid #d1d5db', borderRadius: 8, padding: '10px 14px', fontSize: 14, outline: 'none', marginBottom: 12 } as React.CSSProperties,
   label: { fontSize: 13, color: '#374151', fontWeight: 500, display: 'block', marginBottom: 6 },
-  codeBlock: { background: '#1e293b', color: '#e2e8f0', borderRadius: 8, padding: '14px 16px', fontFamily: 'monospace', fontSize: 12, overflow: 'auto', marginBottom: 12 } as React.CSSProperties,
-  warning: { fontSize: 12, color: '#d97706', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 6, padding: '8px 12px', marginBottom: 12 } as React.CSSProperties,
+  codeBlock: { background: '#1e293b', color: '#e2e8f0', borderRadius: 8, padding: '14px 16px', fontFamily: 'monospace', fontSize: 13, overflow: 'auto', marginBottom: 12 } as React.CSSProperties,
+  warning: { fontSize: 13, color: '#d97706', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 6, padding: '8px 12px', marginBottom: 12 } as React.CSSProperties,
 }
 
 export default function ProPage() {
@@ -120,7 +120,7 @@ export default function ProPage() {
               <input style={C.input} type="email" value={emailInput} onChange={e => setEmailInput(e.target.value)} placeholder="you@example.com" required />
               <button type="submit" style={C.btn}>Access Pro</button>
             </form>
-            <p style={{ marginTop: 16, fontSize: 13, color: '#9ca3af' }}>
+            <p style={{ marginTop: 16, fontSize: 13, color: 'var(--ud-muted)' }}>
               Not subscribed yet? <a href="/pricing" style={{ color: '#2563eb' }}>View pricing →</a>
             </p>
           </div>
@@ -156,13 +156,13 @@ export default function ProPage() {
             </>
           ) : state.keyPrefix ? (
             <>
-              <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 12 }}>Key prefix: <code style={{ fontFamily: 'monospace' }}>{state.keyPrefix}…</code></p>
-              <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 12 }}>Full key not shown — regenerate to get a new one.</p>
+              <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 12 }}>Key prefix: <code style={{ fontFamily: 'monospace' }}>{state.keyPrefix}…</code></p>
+              <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 12 }}>Full key not shown — regenerate to get a new one.</p>
               <button style={C.btn} onClick={generateKey} disabled={generating}>{generating ? 'Generating…' : 'Generate new key'}</button>
             </>
           ) : (
             <>
-              <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 16 }}>No API key yet. Generate one to start using the Pro API.</p>
+              <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 16 }}>No API key yet. Generate one to start using the Pro API.</p>
               <button style={C.btn} onClick={generateKey} disabled={generating}>{generating ? 'Generating…' : 'Generate API key'}</button>
             </>
           )}
@@ -185,7 +185,7 @@ export default function ProPage() {
 
         <div style={C.card}>
           <div style={C.cardTitle}>Subscription</div>
-          <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 16 }}>Manage billing, update payment method, or cancel.</p>
+          <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 16 }}>Manage billing, update payment method, or cancel.</p>
           <a href="https://billing.stripe.com/p/login/test_placeholder" target="_blank" rel="noopener noreferrer" style={{ ...C.secondaryBtn, display: 'inline-block', textDecoration: 'none' }}>
             Manage billing →
           </a>
@@ -193,7 +193,7 @@ export default function ProPage() {
 
         <div style={{ textAlign: 'center', marginTop: 24 }}>
           <button
-            style={{ background: 'none', border: 'none', fontSize: 13, color: '#9ca3af', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', fontSize: 13, color: 'var(--ud-muted)', cursor: 'pointer' }}
             onClick={() => { localStorage.removeItem('converter_pro_email'); window.location.reload() }}
           >
             Sign out

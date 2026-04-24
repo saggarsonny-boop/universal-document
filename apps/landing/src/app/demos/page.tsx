@@ -52,7 +52,7 @@ export default function DemosPage() {
       {/* Header */}
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '72px 24px 48px', textAlign: 'center' }}>
         <div style={{
-          display: 'inline-block', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em',
+          display: 'inline-block', fontSize: 13, fontWeight: 600, letterSpacing: '0.12em',
           textTransform: 'uppercase', padding: '4px 14px', borderRadius: 20, marginBottom: 24,
           background: 'var(--ud-gold-3)', border: '1px solid rgba(200,150,10,0.3)', color: 'var(--ud-gold)',
           fontFamily: 'var(--font-mono)',
@@ -96,7 +96,7 @@ export default function DemosPage() {
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 2 }}>
                     {demo.title}
                   </div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginBottom: 10 }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 10 }}>
                     {demo.subtitle}
                   </div>
                   <p style={{ fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.6, margin: '0 0 12px' }}>
@@ -105,7 +105,7 @@ export default function DemosPage() {
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
                     {demo.tags.map(tag => (
                       <span key={tag} style={{
-                        fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 600,
+                        fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600,
                         padding: '2px 8px', borderRadius: 8,
                         background: 'var(--ud-paper-2)', color: 'var(--ud-muted)',
                         border: '0.5px solid var(--ud-border)',
@@ -148,7 +148,7 @@ export default function DemosPage() {
           marginTop: 48, padding: '24px 28px', background: 'var(--ud-paper-2)',
           border: '0.5px solid var(--ud-border)', borderRadius: 12,
         }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, color: 'var(--ud-gold)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>How to use these files</p>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, color: 'var(--ud-gold)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>How to use these files</p>
           <ol style={{ paddingLeft: 18, margin: 0 }}>
             {[
               'Download a .uds file using the button above.',

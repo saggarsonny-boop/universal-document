@@ -47,14 +47,14 @@ export default function AutoDemo() {
   return (
     <div onClick={dismiss} style={{ position:'fixed',inset:0,zIndex:100,background:'rgba(3,7,18,0.88)',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',justifyContent:'center',padding:'24px',opacity:phase==='fading'?0:1,transition:'opacity 0.6s',pointerEvents:phase==='fading'?'none':'auto' }}>
       <div onClick={e=>e.stopPropagation()} style={{ width:'100%',maxWidth:'440px',display:'flex',flexDirection:'column',gap:'14px' }}>
-        <div style={{ fontSize:'11px',letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(251,191,36,0.45)',textAlign:'center' }}>Here's how it works</div>
+        <div style={{ fontSize:'13px',letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(251,191,36,0.45)',textAlign:'center' }}>Here's how it works</div>
         <div style={{ background:'rgba(17,24,39,0.95)',border:'1px solid rgba(107,114,128,0.4)',borderRadius:'10px',padding:'14px 16px',fontSize:'15px',color:'#f9fafb',minHeight:'50px' }}>
           {typed || <span style={{color:'rgba(107,114,128,0.6)'}}>Drop a file to convert…</span>}
           {phase==='typing' && <span style={{ display:'inline-block',width:'2px',height:'15px',background:'#fbbf24',marginLeft:'1px',verticalAlign:'middle',animation:'blink 0.7s step-end infinite' }}/>}
         </div>
         {phase==='result' && (
           <div style={{ background:'rgba(17,24,39,0.95)',border:'1px solid rgba(107,114,128,0.25)',borderRadius:'12px',padding:'20px 22px',animation:'demoIn 0.4s ease' }}>
-            <div style={{ fontSize:'11px',color:'rgba(251,191,36,0.5)',letterSpacing:'0.08em',marginBottom:'12px' }}>CONVERTED</div>
+            <div style={{ fontSize:'13px',color:'rgba(251,191,36,0.5)',letterSpacing:'0.08em',marginBottom:'12px' }}>CONVERTED</div>
             {Object.entries(DEMO_RESULT).map(([k,v]) => (
               <div key={k} style={{ display:'flex',justifyContent:'space-between',padding:'7px 0',borderBottom:'1px solid rgba(75,85,99,0.2)',fontSize:'13px' }}>
                 <span style={{color:'rgba(156,163,175,0.7)',textTransform:'capitalize'}}>{k.replace('_',' ')}</span>
@@ -63,7 +63,7 @@ export default function AutoDemo() {
             ))}
           </div>
         )}
-        <button onClick={dismiss} style={{ alignSelf:'center',background:'none',border:'1px solid rgba(107,114,128,0.3)',borderRadius:'100px',padding:'8px 24px',color:'rgba(107,114,128,0.6)',fontSize:'12px',fontFamily:'inherit',cursor:'pointer' }}>Got it — let me try</button>
+        <button onClick={dismiss} style={{ alignSelf:'center',background:'none',border:'1px solid rgba(107,114,128,0.3)',borderRadius:'100px',padding:'8px 24px',color:'rgba(107,114,128,0.6)',fontSize:'13px',fontFamily:'inherit',cursor:'pointer' }}>Got it — let me try</button>
       </div>
       <style>{`@keyframes demoIn{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}`}</style>
     </div>

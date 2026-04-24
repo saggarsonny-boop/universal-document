@@ -41,7 +41,7 @@ const INSTITUTIONS = [
 ]
 
 const divider = { border: 'none', borderTop: '1px solid var(--ud-border)', margin: '0 24px' } as React.CSSProperties
-const sectionLabel = { fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: 'var(--ud-muted)', marginBottom: 32, textAlign: 'center' as const }
+const sectionLabel = { fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: 'var(--ud-muted)', marginBottom: 32, textAlign: 'center' as const }
 
 export default function LandingPage() {
   const [activeStep, setActiveStep] = useState<string | null>(null)
@@ -53,7 +53,7 @@ export default function LandingPage() {
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '80px 24px 64px', textAlign: 'center' }}>
         <img src="/icons/ud-mark-uds.png" width={120} height={120} alt="Universal Document" style={{ display: 'block', margin: '0 auto 32px', borderRadius: 8 }} />
         <div style={{
-          display: 'inline-block', fontSize: 11, fontWeight: 600, letterSpacing: '0.12em',
+          display: 'inline-block', fontSize: 13, fontWeight: 600, letterSpacing: '0.12em',
           textTransform: 'uppercase', padding: '4px 14px', borderRadius: 20, marginBottom: 28,
           background: 'var(--ud-gold-3)', border: '1px solid rgba(200,150,10,0.3)', color: 'var(--ud-gold)',
           fontFamily: 'var(--font-mono)',
@@ -113,7 +113,7 @@ export default function LandingPage() {
             { key: 'native', label: 'Native', steps: LIFECYCLE_NATIVE },
           ].map(({ key, label, steps }) => (
             <div key={key} style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center', gap: 0 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' as const, width: 56, textAlign: 'right' as const, marginRight: 16, flexShrink: 0 }}>{label}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' as const, width: 56, textAlign: 'right' as const, marginRight: 16, flexShrink: 0 }}>{label}</span>
               {steps.map((step, i) => (
                 <div key={`${key}-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
                   <div
@@ -128,7 +128,7 @@ export default function LandingPage() {
                     }}
                   >
                     <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 700, color: activeStep === `${key}-${i}` ? '#fff' : 'var(--ud-ink)', marginBottom: 2 }}>{step.label}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: activeStep === `${key}-${i}` ? 'rgba(255,255,255,0.7)' : 'var(--ud-muted)' }}>{step.sub}</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: activeStep === `${key}-${i}` ? 'rgba(255,255,255,0.7)' : 'var(--ud-muted)' }}>{step.sub}</div>
                   </div>
                   {i < steps.length - 1 && (
                     <div style={{ width: 20, height: 1, background: 'var(--ud-border-2)', margin: '0 2px', position: 'relative' }}>
@@ -139,11 +139,11 @@ export default function LandingPage() {
               ))}
             </div>
           ))}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginTop: 8, textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginTop: 8, textAlign: 'center' }}>
             UD Reader opens all UDS &amp; UDR files — it is not a conversion step
           </p>
         </div>
-        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)', marginTop: 20 }}>
+        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginTop: 20 }}>
           Every UDS spreads the ecosystem · Every UDR builds the ecosystem · Every user becomes a node
         </p>
       </section>
@@ -159,7 +159,7 @@ export default function LandingPage() {
               <img src="/icons/udr.svg" width={36} height={44} alt="UDR" style={{ flexShrink: 0 }} />
               <div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--ud-ink)' }}>UDR — Universal Document™ Revisable</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#3b82f6' }}>Revisable &amp; Reviewable (Mutable/Editable)</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: '#3b82f6' }}>Revisable &amp; Reviewable (Mutable/Editable)</div>
               </div>
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-muted)', lineHeight: 1.7, marginBottom: 14 }}>
@@ -176,7 +176,7 @@ export default function LandingPage() {
               <img src="/icons/uds.svg" width={36} height={44} alt="UDS" style={{ flexShrink: 0 }} />
               <div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: '#fff' }}>UDS — Universal Document™ Sealed</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>Secured &amp; Sealed (Immutable)</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>Secured &amp; Sealed (Immutable)</div>
               </div>
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, marginBottom: 14 }}>
@@ -207,7 +207,7 @@ export default function LandingPage() {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5, marginBottom: 12 }}>{tool.desc}</div>
               <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
+                fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.08em',
                 textTransform: 'uppercase', padding: '2px 8px', borderRadius: 8,
                 background: 'var(--ud-gold-3)', color: 'var(--ud-gold)',
               }}>● Live</span>
@@ -243,9 +243,9 @@ export default function LandingPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, textAlign: 'left', maxWidth: 800, margin: '0 auto' }}>
           {INSTITUTIONS.map(card => (
             <div key={card.label} style={{ background: '#fff', border: '0.5px solid var(--ud-border)', borderRadius: 12, padding: 20, boxShadow: 'var(--ud-shadow)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ud-gold)', marginBottom: 8 }}>{card.label}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ud-gold)', marginBottom: 8 }}>{card.label}</div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 8 }}>{card.title}</div>
-              <div style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{card.desc}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{card.desc}</div>
             </div>
           ))}
         </div>

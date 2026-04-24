@@ -93,7 +93,7 @@ export default function Verify() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
         {/* .udsig file */}
         <div>
-          <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontWeight: 600 }}>
+          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontWeight: 600 }}>
             .udsig file <span style={{ color: 'var(--ud-danger)' }}>*</span>
           </div>
           <div
@@ -104,13 +104,13 @@ export default function Verify() {
             onClick={() => sigRef.current?.click()}
           >
             <input ref={sigRef} type="file" accept=".udsig" style={{ display: 'none' }} onChange={e => setSigFile(e.target.files?.[0] ?? null)} />
-            {sigFile ? <div style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>📋 {sigFile.name}</div> : <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>Drop .udsig here<br />or click to browse</div>}
+            {sigFile ? <div style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>📋 {sigFile.name}</div> : <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>Drop .udsig here<br />or click to browse</div>}
           </div>
         </div>
 
         {/* Original document (optional) */}
         <div>
-          <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontWeight: 600 }}>
+          <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontWeight: 600 }}>
             Original document <span style={{ color: 'var(--ud-muted)' }}>(optional)</span>
           </div>
           <div
@@ -121,7 +121,7 @@ export default function Verify() {
             onClick={() => docRef.current?.click()}
           >
             <input ref={docRef} type="file" style={{ display: 'none' }} onChange={e => setDocFile(e.target.files?.[0] ?? null)} />
-            {docFile ? <div style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>📄 {docFile.name}</div> : <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>Drop original doc here<br />to verify hash</div>}
+            {docFile ? <div style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>📄 {docFile.name}</div> : <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>Drop original doc here<br />to verify hash</div>}
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function Verify() {
             <div style={{ width: 40, height: 40, borderRadius: '50%', background: sc.text, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: '#fff', fontWeight: 700, flexShrink: 0 }}>{sc.emoji}</div>
             <div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: sc.text }}>{overallStatus}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginTop: 2 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginTop: 2 }}>
                 {result.hashMatch === true ? 'Document hash matches — no tampering detected' :
                  result.hashMatch === false ? 'Document hash does not match — file may have been modified' :
                  'No original document provided — signature records only'}
@@ -146,15 +146,15 @@ export default function Verify() {
           {/* Signature records */}
           {(result.record.signatures ?? []).length > 0 && (
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontWeight: 600 }}>Signatures</div>
+              <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontWeight: 600 }}>Signatures</div>
               {result.record.signatures!.map((sig, i) => (
                 <div key={i} style={{ background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '12px 14px', marginBottom: 8 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: 'var(--ud-ink)' }}>{sig.by ?? '—'}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>{fmt(sig.at)}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>{fmt(sig.at)}</span>
                   </div>
-                  {sig.reason && <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>Reason: {sig.reason}</div>}
-                  {sig.hash && <div style={{ fontSize: 10, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', marginTop: 6, wordBreak: 'break-all', opacity: 0.7 }}>{sig.hash}</div>}
+                  {sig.reason && <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>Reason: {sig.reason}</div>}
+                  {sig.hash && <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', marginTop: 6, wordBreak: 'break-all', opacity: 0.7 }}>{sig.hash}</div>}
                 </div>
               ))}
             </div>
@@ -170,8 +170,8 @@ export default function Verify() {
                 ['SHA-256', result.record.document.sha256?.slice(0, 20) + '…'],
               ].filter(([,v]) => v).map(([label, value]) => (
                 <div key={label as string}>
-                  <div style={{ fontSize: 10, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>{label}</div>
-                  <div style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-ink)', wordBreak: 'break-all' }}>{value}</div>
+                  <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>{label}</div>
+                  <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-ink)', wordBreak: 'break-all' }}>{value}</div>
                 </div>
               ))}
             </div>
@@ -180,7 +180,7 @@ export default function Verify() {
           {result.revoked && result.record.revocation && (
             <div style={{ marginTop: 16, padding: '12px 14px', background: 'rgba(226,75,74,0.12)', border: '1px solid rgba(226,75,74,0.3)', borderRadius: 'var(--ud-radius)' }}>
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ud-danger)', marginBottom: 4 }}>Document revoked</div>
-              <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>
+              <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>
                 Revoked at: {fmt(result.record.revocation.revoked_at)}<br />
                 Reason: {result.record.revocation.reason}
               </div>
@@ -193,7 +193,7 @@ export default function Verify() {
         {pass === null ? 'Verify Signature' : 'Verify Again'}
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Verification runs entirely in your browser. No data is sent to any server.
         Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
