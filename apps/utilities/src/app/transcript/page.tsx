@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface CourseEntry { code: string; title: string; credits: string; grade: string; year: string }
 const BLANK_COURSE: CourseEntry = { code: '', title: '', credits: '', grade: '', year: '' }
@@ -126,6 +128,7 @@ export default function Transcript() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="transcript" tips={tourSteps['transcript']} />
     </div>
   )
 }

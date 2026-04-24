@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 const CRED_TYPES = ['Medical Licence','Engineering Registration','Legal Practising Certificate','Teaching Qualification','Nursing Registration','Solicitor Admission','Accountancy Licence','Architect Registration','Pharmacy Registration','Pilot Licence','Other']
 
@@ -107,6 +109,7 @@ export default function Credential() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="credential" tips={tourSteps['credential']} />
     </div>
   )
 }

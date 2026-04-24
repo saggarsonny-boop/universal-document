@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 export default function FOIBundle() {
   const [files, setFiles] = useState<File[]>([])
@@ -104,6 +106,7 @@ export default function FOIBundle() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="foi-bundle" tips={tourSteps['foi-bundle']} />
     </div>
   )
 }

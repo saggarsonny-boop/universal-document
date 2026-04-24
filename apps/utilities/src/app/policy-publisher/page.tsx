@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 const POLICY_TYPES = ['Acceptable Use','Privacy','Data Retention','Information Security','Remote Work','Code of Conduct','Expense','Procurement','Change Management','Other']
 const AUDIENCES = ['All staff','Management','IT department','Finance','HR','Contractors','Customers','Public']
@@ -122,6 +124,7 @@ export default function PolicyPublisher() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="policy-publisher" tips={tourSteps['policy-publisher']} />
     </div>
   )
 }
