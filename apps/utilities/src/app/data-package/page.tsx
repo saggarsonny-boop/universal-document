@@ -96,6 +96,24 @@ export default function DataPackage() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Data Package differs from Zenodo, Figshare, and OSF</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Repository platforms host your data. UD Data Package embeds methodology and provenance inside the bundle — so the package is reproducibility-ready even if the platform shuts down.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Zenodo / Figshare / OSF', body: 'Excellent platforms for data sharing — but the repository is the verification mechanism. If the DOI resolves to nothing or the platform is decommissioned, there\'s no way to verify provenance from the data files alone.' },
+            { title: 'ZIP file with README', body: 'Common practice. No structured metadata, no machine-readable licensing terms, no cryptographic proof the data hasn\'t been altered after collection. A reviewer must trust the depositor.' },
+            { title: 'UD Data Package — provenance inside the bundle', body: 'Methodology, collection date, licensing, and contributor details are structured metadata inside the .udz — not a separate README that can be lost or edited. The bundle is self-describing.' },
+            { title: 'UD Data Package — tamper-evident data integrity', body: 'The package is sealed at creation time. Any modification to the data files, methodology, or licensing terms after sealing is detectable. Independent verification requires no platform access.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
