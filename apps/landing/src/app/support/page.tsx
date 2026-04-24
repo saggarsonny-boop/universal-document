@@ -1,9 +1,8 @@
 'use client'
 
-// TODO: update these with buy.stripe.com links after running create-support-products.js
-const SUPPORT_LINK_MONTHLY = 'https://support.hive.baby'
-const SUPPORT_LINK_ANNUAL  = 'https://support.hive.baby'
-const SUPPORT_LINK_ONETIME = 'https://support.hive.baby'
+const SUPPORT_LINK_MONTHLY = 'https://buy.stripe.com/plink_1TPtaOPIZtoQZOG19n2Qfbmf'
+const SUPPORT_LINK_ANNUAL  = 'https://buy.stripe.com/plink_1TPtaPPIZtoQZOG1SMN0h5A9'
+const SUPPORT_LINK_ONETIME = 'https://buy.stripe.com/plink_1TPtaQPIZtoQZOG1VDe0ZG85'
 
 const options = [
   {
