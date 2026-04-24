@@ -245,6 +245,46 @@ export default function Home() {
           Universal Document™ · iSDF v0.1.0 · The Hive Engines · Free forever
         </div>
 
+        {/* Comparison section */}
+        <div style={{ marginTop: '4rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem', textAlign: 'center' }}>
+            Why UD Reader replaces your PDF viewer
+          </h2>
+          <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center', marginBottom: '2rem', lineHeight: 1.6 }}>
+            PDF viewers open flat files. UD Reader opens structured, living documents with embedded intelligence.
+          </p>
+          <div style={{ display: 'grid', gap: '1rem' }}>
+            {[
+              {
+                title: 'Adobe Reader / browser PDF viewer',
+                body: 'Opens a flat image of a document. No structure, no layers, no metadata you can act on. Cannot tell you if the document has expired, been tampered with, or who it was intended for.',
+              },
+              {
+                title: 'UD Reader — tamper verification',
+                body: 'Every .uds file carries its seal hash. UD Reader checks it on open and shows you the result — intact, modified, or unverified — before you read a single word.',
+              },
+              {
+                title: 'UD Reader — expiry & audience switching',
+                body: 'Documents can carry expiry dates and audience-specific clarity layers. UD Reader shows you whether a document is still valid and lets you switch between patient, clinician, and legal views in one tap.',
+              },
+              {
+                title: 'UD Reader — multilingual & chain of custody',
+                body: 'If a document contains translated versions, switch language without leaving the reader. Chain-of-custody provenance — who created, converted, or sealed the file — is visible in a single panel.',
+              },
+            ].map((card) => (
+              <div key={card.title} style={{
+                background: 'var(--ud-paper-2)',
+                border: '1px solid var(--ud-border)',
+                borderRadius: '0.75rem',
+                padding: '1.25rem',
+              }}>
+                <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+                <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   )
