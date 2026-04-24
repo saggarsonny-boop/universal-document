@@ -85,6 +85,24 @@ export default function DynamicWatermark() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Dynamic Watermark differs from Digify and visible PDF watermarks</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Visible watermarks are removed in seconds with an image editor. DRM platforms require subscriptions and viewer apps. UD Dynamic Watermark embeds identity into the document's own structure.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Visible PDF watermark', body: 'Rendered as text or image on each page. Removable in Adobe Acrobat, online PDF editors, or screenshot-and-OCR workflows. Provides identification after the fact — not prevention.' },
+            { title: 'Digify / Vitrium document DRM', body: 'Subscription platforms requiring recipients to open documents in a proprietary viewer. If the platform is unavailable, recipients can\'t open the document. Per-user and per-document pricing models.' },
+            { title: 'UD Dynamic Watermark — metadata-level identity', body: 'Watermark fields (recipient, date, access level) are written into the document\'s sealed metadata. The identity mark is present even if the visual content is copied — because it\'s in the structure, not the rendering.' },
+            { title: 'UD Dynamic Watermark — tamper-evident from embedding', body: 'The document is re-sealed after watermarking. Any attempt to modify the recipient name or access level breaks the seal — detectable by UD Reader. The original watermark is cryptographically locked in.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
