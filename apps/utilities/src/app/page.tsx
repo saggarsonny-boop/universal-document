@@ -39,9 +39,10 @@ const LEGAL_TOOLS = [
 ]
 
 const MEDIA_TOOLS = [
-  { slug: 'audio-embed',  name: 'UD Audio Embed',  icon: '🎙', desc: 'Embed an audio file (mp3, wav, m4a) as a base64 media object inside a .uds document.',                     badge: 'Pro'  as const },
-  { slug: 'video-embed',  name: 'UD Video Embed',  icon: '🎬', desc: 'Embed a video file (mp4, mov, webm) as a base64 media object inside a .uds document. Max 200 MB.',          badge: 'Pro'  as const },
-  { slug: 'media-sync',   name: 'UD Media Sync',   icon: '⏱', desc: 'AI-generated timestamp sync points align document text with audio or video media.',                          badge: 'AI'   as const },
+  { slug: 'audio-embed',         name: 'UD Audio Embed',         icon: '🎙', desc: 'Embed an audio file (mp3, wav, m4a) as a base64 media object inside a .uds document.',                                                            badge: 'Pro'     as const },
+  { slug: 'video-embed',         name: 'UD Video Embed',         icon: '🎬', desc: 'Embed a video file (mp4, mov, webm) as a base64 media object inside a .uds document. Max 200 MB.',                                                badge: 'Pro'     as const },
+  { slug: 'media-sync',          name: 'UD Media Sync',          icon: '⏱', desc: 'AI-generated timestamp sync points align document text with audio or video media.',                                                                badge: 'AI'      as const },
+  { slug: 'media-sync-advanced', name: 'UD Media Sync Advanced', icon: '⏱', desc: 'Bidirectional sync between document and media. Chapter markers navigate both directions. Claude auto-generates chapters from document structure.', badge: 'Premium' as const },
 ]
 
 const HEALTHCARE_TOOLS = [
@@ -647,7 +648,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Media</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Audio · Video · Sync</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Audio · Video · Sync · Chapter Markers</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {MEDIA_TOOLS.map(tool => (
@@ -657,7 +658,7 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: tool.badge === 'AI' ? 'var(--ud-teal-2)' : 'var(--ud-gold-3)', color: tool.badge === 'AI' ? 'var(--ud-teal)' : 'var(--ud-gold)' }}>{tool.badge} · Beta</span>
+                <span className="ud-badge" style={{ background: tool.badge === 'AI' ? 'var(--ud-teal-2)' : tool.badge === 'Premium' ? 'rgba(124,58,237,0.1)' : 'var(--ud-gold-3)', color: tool.badge === 'AI' ? 'var(--ud-teal)' : tool.badge === 'Premium' ? '#7c3aed' : 'var(--ud-gold)' }}>{tool.badge} · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
