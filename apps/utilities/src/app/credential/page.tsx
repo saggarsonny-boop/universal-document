@@ -89,6 +89,24 @@ export default function Credential() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Credential differs from PDF certificates and Credly badges</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF credentials can be edited in any image tool. Credly badges require a live platform. UD Credential embeds proof inside the file itself — verifiable offline, forever.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF diploma or certificate', body: 'Standard format — and the easiest to forge. No way for an employer to verify authenticity without calling the institution directly. No expiry tracking for time-limited licences or CPD requirements.' },
+            { title: 'Credly / LinkedIn credential badge', body: 'Platform-dependent. Verification requires Credly\'s servers to be live and the issuer to maintain an active account. Revocation depends on the issuer remembering to revoke.' },
+            { title: 'UD Credential — issuer seal inside the file', body: 'Issuer name, issue date, credential type, and holder details are sealed into the .uds with a tamper-evident hash. Any employer with UD Reader can verify authenticity in under 10 seconds.' },
+            { title: 'UD Credential — expiry for time-limited qualifications', body: 'Professional licences, first aid certificates, and CPD requirements all expire. UD Credential carries expiry as structured metadata — UD Reader shows holders and employers the exact days remaining.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
