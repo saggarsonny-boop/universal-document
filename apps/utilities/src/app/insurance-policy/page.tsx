@@ -95,6 +95,24 @@ export default function InsurancePolicy() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Insurance Policy differs from PDF policy documents and legacy systems</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF insurance policies have coverage details buried in paragraphs. Legacy systems lock data in proprietary formats. UD Insurance Policy makes coverage metadata machine-readable and portable.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF insurance policy from insurer', body: 'Coverage limits, exclusions, and expiry date are in formatted paragraphs — not structured fields. Brokers and risk managers extract these manually into spreadsheets for portfolio management.' },
+            { title: 'Legacy policy administration systems', body: 'Proprietary platforms that lock data in vendor-specific formats. Switching insurers or brokers often means manually re-entering policy data — no portable, structured export.' },
+            { title: 'UD Insurance Policy — structured coverage metadata', body: 'Coverage type, limits, exclusions, premium, and expiry are structured fields readable by any system. Risk managers can aggregate portfolio data without manual extraction.' },
+            { title: 'UD Insurance Policy — expiry alert in the document', body: 'Expiry date is a metadata field, not a line of text. UD Reader flags approaching expiry immediately on open. No separate calendar reminder or spreadsheet tracker required.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
