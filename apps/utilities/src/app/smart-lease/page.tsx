@@ -105,6 +105,24 @@ export default function SmartLease() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Smart Lease differs from PDF leases and DocuSign</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF leases are flat documents. Term end dates, rent review dates, and break clause windows live in paragraphs — not queryable metadata. UD Smart Lease makes these machine-readable.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF lease agreement', body: 'Standard format for residential and commercial leases. Term dates, rent review dates, and break clause windows are buried in paragraphs. No automatic expiry notification, no machine-readable structure.' },
+            { title: 'DocuSign / Adobe Sign on a lease', body: 'Captures signatures on a flat PDF. The executed document has no queryable expiry, no break clause date field, no structured rent schedule. You need a separate CRM to manage lease milestones.' },
+            { title: 'UD Smart Lease — term and break dates as metadata', body: 'Start date, end date, rent review dates, and break clause windows are structured metadata fields. Property management systems can read them directly without parsing document text.' },
+            { title: 'UD Smart Lease — signature-ready for UD Signer', body: 'The output .uds includes signature placeholders for landlord and tenant. Open in UD Signer to apply tamper-evident signatures — no DocuSign subscription, no per-document fee.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
