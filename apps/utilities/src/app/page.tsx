@@ -207,6 +207,8 @@ const FREE_NAV = [
   {slug:'page-numbers',name:'UD Page Numbers'},{slug:'optimize',name:'UD Optimize'},
   {slug:'pre-registration',name:'UD Pre-registration'},
   {slug:'reformat',name:'UD Reformat'},{slug:'bates-stamp',name:'UD Bates Stamp'},{slug:'verify',name:'UD Verify'},
+  {slug:'proof',name:'UD Proof'},{slug:'time-capsule',name:'UD Time Capsule'},
+  {slug:'will',name:'UD Will'},{slug:'notarize',name:'UD Notarize'},
 ]
 
 const SPECIALIST_CATS = [
