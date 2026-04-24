@@ -95,6 +95,24 @@ export default function Prescription() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         This is not medical advice. Always consult a qualified clinician. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Prescription differs from a PDF or EPS form</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF prescriptions are flat images. EPS is locked to NHS infrastructure. UD Prescription is a structured, machine-readable record that carries its own rules.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF prescription', body: 'A scanned or printed form. No machine-readable fields, no expiry, no language switching. Pharmacists read it by eye. Any copy looks identical to the original — no tamper evidence.' },
+            { title: 'EPS (Electronic Prescribing Service)', body: 'UK-only, NHS-only. Requires GP system integration and a Smartcard. Not available to private prescribers, international clinicians, or clinics outside the NHS EPS network.' },
+            { title: 'UD Prescription — automatic expiry', body: 'Every .uds prescription carries a 30-day expiry date in structured metadata. UD Reader surfaces this immediately on open — no manual date-checking required.' },
+            { title: 'UD Prescription — multilingual patient streams', body: 'Generate patient-facing instructions in up to 10 languages within a single file. The patient reads their language; the pharmacist reads English. One document, not ten translations.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
