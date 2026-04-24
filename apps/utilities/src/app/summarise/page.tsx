@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 export default function Summarise() {
   const [file, setFile] = useState<File | null>(null)
@@ -129,6 +131,7 @@ export default function Summarise() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="summarise" tips={tourSteps['summarise']} />
     </div>
   )
 }

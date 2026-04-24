@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 function DropSlot({
   label, file, onFile, hint,
@@ -150,6 +152,7 @@ export default function ComparePage() {
         Files processed in memory only. Not stored. ·{' '}
         <a href="https://ud.hive.baby" style={{ color: 'var(--ud-muted)' }}>Universal Document™</a>
       </div>
+      <TooltipTour engineId="compare" tips={tourSteps['compare']} />
     </div>
   )
 }

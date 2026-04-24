@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface Check {
   id: string; label: string; status: 'PASS' | 'FAIL' | 'CANNOT_ASSESS'; wcag: string; note: string
@@ -131,6 +133,7 @@ export default function AccessibilityCheck() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="accessibility-check" tips={tourSteps['accessibility-check']} />
     </div>
   )
 }

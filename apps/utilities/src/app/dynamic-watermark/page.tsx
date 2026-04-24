@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 export default function DynamicWatermark() {
   const [file, setFile] = useState<File | null>(null)
@@ -103,6 +105,7 @@ export default function DynamicWatermark() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="dynamic-watermark" tips={tourSteps['dynamic-watermark']} />
     </div>
   )
 }

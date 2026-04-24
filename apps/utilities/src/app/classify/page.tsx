@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 interface ClassifyResult {
   classification: 'PUBLIC' | 'INTERNAL' | 'CONFIDENTIAL' | 'RESTRICTED'
@@ -140,6 +142,7 @@ export default function Classify() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="classify" tips={tourSteps['classify']} />
     </div>
   )
 }
