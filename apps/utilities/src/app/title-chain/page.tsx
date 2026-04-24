@@ -182,6 +182,24 @@ export default function TitleChain() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Title Chain differs from paper abstracts and conveyancing software</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Paper title abstracts are flat and fragile. Conveyancing platforms require firm licences. UD Title Chain creates a structured, tamper-evident ownership history anyone can verify.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Paper title abstract', body: 'A handwritten or typed list of deeds and instruments. No structured data, no hash, no proof the chain hasn\'t been altered or a link inserted retrospectively. Trusted only because the solicitor produced it.' },
+            { title: 'Conveyancing software (Osprey, Leap, LEAP)', body: 'Practice management tools for law firms. Not available to property managers, title companies, or self-represented buyers. Require subscription and training for what is often a one-time property transaction task.' },
+            { title: 'UD Title Chain — structured ownership history', body: 'Each ownership period — owner name, dates, instrument type, document reference — is a structured record in the .udz index. Queryable, sortable, and readable without any specialist software.' },
+            { title: 'UD Title Chain — tamper-evident bundle', body: 'The complete chain is sealed at creation time. Any modification to the ownership sequence — adding, removing, or reordering entries — is detectable. Independent verification requires only UD Reader.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
