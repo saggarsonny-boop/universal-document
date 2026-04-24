@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 const MAX_BYTES = 200 * 1024 * 1024
 
@@ -115,6 +117,7 @@ export default function VideoEmbed() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="video-embed" tips={tourSteps['video-embed']} />
     </div>
   )
 }

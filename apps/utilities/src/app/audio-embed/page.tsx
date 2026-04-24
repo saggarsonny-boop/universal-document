@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 const MAX_BYTES = 50 * 1024 * 1024
 
@@ -108,6 +110,7 @@ export default function AudioEmbed() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="audio-embed" tips={tourSteps['audio-embed']} />
     </div>
   )
 }

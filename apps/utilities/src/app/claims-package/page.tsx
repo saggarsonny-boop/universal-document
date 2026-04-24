@@ -1,5 +1,7 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 export default function ClaimsPackage() {
   const [claimRef, setClaimRef] = useState('')
@@ -117,6 +119,7 @@ export default function ClaimsPackage() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="claims-package" tips={tourSteps['claims-package']} />
     </div>
   )
 }

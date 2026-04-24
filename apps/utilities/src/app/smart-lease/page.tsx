@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import TooltipTour from '@/components/TooltipTour'
+import { tourSteps } from '@/lib/tourSteps'
 
 export default function SmartLease() {
   const [landlordName, setLandlordName] = useState('')
@@ -123,6 +125,7 @@ export default function SmartLease() {
           ))}
         </div>
       </div>
+      <TooltipTour engineId="smart-lease" tips={tourSteps['smart-lease']} />
     </div>
   )
 }
