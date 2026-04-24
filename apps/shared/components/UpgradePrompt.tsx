@@ -106,8 +106,35 @@ export default function UpgradePrompt({ toolName, requiredTier, whatProUnlocks }
         </>
       )}
 
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginBottom: 28 }}>
         No ads. No investors. No agenda.
+      </div>
+
+      {/* Support add-on */}
+      <div style={{ borderTop: '1px solid var(--ud-border)', paddingTop: 20 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>
+          Priority Support — optional add-on
+        </div>
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 10 }}>
+          {[
+            { label: '$1.99/mo', href: STRIPE_PRICES.ud_support_monthly?.paymentLink ?? 'https://support.hive.baby', sub: 'Monthly' },
+            { label: '$19/yr',   href: STRIPE_PRICES.ud_support_annual?.paymentLinkAnnual ?? 'https://support.hive.baby', sub: 'Annual' },
+            { label: '$5',       href: STRIPE_PRICES.ud_support_onetime?.paymentLink ?? 'https://support.hive.baby', sub: 'One-time' },
+          ].map(opt => (
+            <a key={opt.label} href={opt.href} target="_blank" rel="noopener noreferrer" style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              padding: '10px 16px', background: '#fff', border: '1px solid var(--ud-border)',
+              borderRadius: 'var(--ud-radius)', textDecoration: 'none', minWidth: 80,
+              transition: 'border-color 0.15s',
+            }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--ud-ink)' }}>{opt.label}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)', marginTop: 2 }}>{opt.sub}</span>
+            </a>
+          ))}
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)' }}>
+          Human response within 24 hours on any UD tool or engine
+        </div>
       </div>
     </div>
   )

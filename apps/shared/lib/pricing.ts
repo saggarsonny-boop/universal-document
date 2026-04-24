@@ -99,6 +99,24 @@ export const STRIPE_PRICES: Record<string, {
     paymentLink:      'https://buy.stripe.com/plink_1TPtJAPIZtoQZOG1ZYGK1xRK',
     paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJIPIZtoQZOG1b3pvm940',
   },
+  // Support add-ons — run create-support-products.js then fill in price IDs + buy.stripe.com links
+  ud_support_monthly: {
+    name: 'UD Support Monthly',
+    amount: 1.99,
+    monthly:     '',
+    paymentLink: 'https://support.hive.baby',
+  },
+  ud_support_annual: {
+    name: 'UD Support Annual',
+    amount: 19,
+    annual:           '',
+    paymentLinkAnnual:'https://support.hive.baby',
+  },
+  ud_support_onetime: {
+    name: 'UD Support One-Time',
+    amount: 5,
+    paymentLink: 'https://support.hive.baby',
+  },
 }
 
 export const TIER_HIERARCHY = [

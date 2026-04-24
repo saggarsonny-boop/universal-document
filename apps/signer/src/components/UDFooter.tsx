@@ -42,8 +42,14 @@ export default function UDFooter() {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', marginBottom: 6 }}>
           Universal Document™ Standard 1.0 · CC BY 4.0 · April 2026
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 16px' }}>
           Universal Document™ is a pending trademark (Serial 99774346). The specification is released under CC BY 4.0 and may be implemented freely by any party.
+        </p>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>
+          Need help?{' '}
+          <a href="https://support.hive.baby" style={{ color: 'var(--ud-teal)', textDecoration: 'none', fontWeight: 600 }}>
+            Priority Support — from $1.99/mo →
+          </a>
         </p>
       </div>
     </footer>
