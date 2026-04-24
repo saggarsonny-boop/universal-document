@@ -90,6 +90,24 @@ export default function AudioEmbed() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. Audio encoded as base64. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Audio Embed differs from PDF attachments and cloud audio links</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDFs can attach files, but attachments are stripped by email clients and cloud storage. Cloud audio links break when the hosting service changes. UD Audio Embed makes the audio inseparable from the document.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF with audio attachment', body: 'Acrobat Pro can attach files to PDFs, but most email clients strip attachments on PDF forwarding, and cloud storage often ignores embedded attachments. The audio is the first thing to get lost.' },
+            { title: 'Hyperlink to cloud audio (SoundCloud, Google Drive)', body: 'The link works until the hosting service changes permissions, the account is deleted, or the file is moved. A document created today may have broken audio in two years.' },
+            { title: 'UD Audio Embed — audio encoded inside the document', body: 'The audio is base64-encoded and written directly into the .uds file\'s metadata. There is no separate file, no external link, no hosting dependency. The audio is as permanent as the document itself.' },
+            { title: 'UD Audio Embed — playable in UD Reader', body: 'UD Reader surfaces embedded audio as a playback element directly in the document view. Recipients don\'t need a separate audio player — open the .uds and the audio is there.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
