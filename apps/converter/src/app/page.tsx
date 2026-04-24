@@ -305,6 +305,24 @@ export default function ConverterPage() {
         </div>
       )}
 
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Converter differs from iLovePDF, Smallpdf, and Adobe Acrobat</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Most converters flatten your document into a new format and discard structure. UD Converter preserves headings, sections, and provenance metadata inside a structured .uds file that the full UD ecosystem can read.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'iLovePDF / Smallpdf — file format converters', body: 'These tools convert between PDF and Word. They flatten layout but discard semantic structure: headings become styled text, sections lose meaning, and provenance is not recorded. The output is a different format, not a richer document.' },
+            { title: 'Adobe Acrobat — PDF-centric ecosystem', body: 'Acrobat converts to PDF and back. It preserves visual fidelity well but locks you into the PDF ecosystem — proprietary, expensive, and with no machine-readable document structure that other tools can parse programmatically.' },
+            { title: 'UD Converter — structure-preserving conversion', body: 'UD Converter extracts headings, paragraphs, and metadata from DOCX, PDF, TXT, and Markdown and writes them into a structured .uds file. Sections remain sections. The output is semantically navigable, not just visually similar.' },
+            { title: 'UD Converter — provenance metadata on every file', body: 'Every converted file records when it was created, from what source format, and with what tool. This chain-of-custody metadata is embedded inside the .uds structure — not in a sidecar file, not in a database, not lost after export.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </main>
   )
 }

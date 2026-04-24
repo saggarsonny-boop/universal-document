@@ -9,13 +9,17 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], vari
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Universal Document™ Converter',
-  description: 'Universal Document™ Converter — convert DOCX, TXT, and Markdown to .uds format. Free forever.',
+  title: 'UD Converter — Convert DOCX, PDF, TXT, and Markdown to Universal Document™ Format',
+  description: 'Convert Word documents, PDFs, plain text, and Markdown into structured .uds or .udr files. Preserves structure, adds provenance metadata, and enables the full UD ecosystem. Free forever.',
+  keywords: 'convert DOCX to UDS, convert PDF to universal document, Word document converter, Markdown to document, document format converter, iLovePDF alternative, Smallpdf alternative, Adobe Acrobat converter alternative, document structure converter, universal document format',
   icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://converter.hive.baby'),
   openGraph: {
-    title: 'Universal Document™ Converter',
-    description: 'Convert any file to Universal Document™ format. Free forever.',
+    title: 'UD Converter — Convert DOCX, PDF, TXT, and Markdown to Universal Document™ Format',
+    description: 'Convert Word, PDF, TXT, and Markdown to structured .uds files with provenance metadata. Free forever.',
+    url: 'https://converter.hive.baby',
+    siteName: 'Universal Document™',
+    type: 'website',
   },
 }
 
