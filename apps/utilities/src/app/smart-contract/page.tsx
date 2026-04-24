@@ -183,6 +183,24 @@ export default function SmartContract() {
       <div style={{ marginTop: 16, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Smart Contract differs from DocuSign and Word templates</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>DocuSign captures signatures on flat PDFs. Word templates have no expiry enforcement. UD Smart Contract creates a machine-readable contract that knows when it expires.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'DocuSign / Adobe Sign', body: 'Captures a signature image on a flat PDF. The contract has no machine-readable expiry, no auto-renewal tracking, and no structured party metadata. You can\'t query it for "all contracts expiring this month" without a separate database.' },
+            { title: 'Word / Google Docs template', body: 'A document with blank fields. No structure, no expiry enforcement, no tamper evidence. Two parties can produce different "final" versions with no way to verify which is authoritative.' },
+            { title: 'UD Smart Contract — expiry and renewal in metadata', body: 'Expiry date and auto-renewal clause are structured metadata fields — not just words in a paragraph. UD Reader surfaces expiry status immediately on open. Renewable contracts flag approaching renewal dates.' },
+            { title: 'UD Smart Contract — signature-ready for UD Signer', body: 'The output .uds includes cryptographic signature placeholders for both parties. Open in UD Signer to apply tamper-evident signatures — no third-party platform required, no per-document charge.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
