@@ -1,6 +1,7 @@
 'use client'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import UDOnboarding from '@/components/UDOnboarding'
+import TooltipTour from '@/app/components/TooltipTour'
 
 type BlockType = 'heading' | 'paragraph' | 'list' | 'divider'
 type DocState = 'UDR' | 'UDS'
@@ -892,6 +893,7 @@ export default function CreatorPage() {
           }
         `}</style></>)}
       </div>
+      <TooltipTour />
     </div>
   )
 }

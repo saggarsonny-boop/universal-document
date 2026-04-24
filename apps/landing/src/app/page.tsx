@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import LifecycleAnimation from '@/components/LifecycleAnimation'
+import TooltipTour from '@/components/TooltipTour'
 
 const TOOLS = [
   { name: 'UD Converter',  desc: 'Turn any file into UDS. DOCX, TXT, MD, CSV — instant.',               url: 'https://converter.hive.baby',  status: 'live', icon: '📄' },
@@ -325,6 +326,12 @@ export default function LandingPage() {
         }}>View patrons →</a>
       </section>
 
+      <TooltipTour engineId="ud-landing" tips={[
+        { label: 'What is .uds?', text: 'A sealed, tamper-evident document. Signed with a cryptographic hash. Readable offline. Expires automatically. No platform required.' },
+        { label: 'What is .udr?', text: 'The editable draft format. Write and revise in UD Creator. Seal to .uds when ready. Full version history built in.' },
+        { label: 'UD Ecosystem', text: 'Six free tools: Converter turns any file into .uds. Reader opens them. Creator writes them. Validator checks them. Utilities transforms them. Signer signs them.' },
+        { label: 'Try a demo file', text: 'Scroll down to "Try a demo file" — download a sample .uds and open it in UD Reader to see clarity layers, expiry detection, and tamper-evidence in action.' },
+      ]} />
     </div>
   )
 }

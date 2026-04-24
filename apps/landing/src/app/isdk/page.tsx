@@ -1,3 +1,6 @@
+'use client'
+import TooltipTour from '@/components/TooltipTour'
+
 export default function ISDKPage() {
   const code = `<script src="https://ud.hive.baby/isdk/ud-isdk.js"></script>
 <ud-reader src="your-document.uds"></ud-reader>
@@ -112,6 +115,13 @@ reader.addEventListener('ud:revoked', () => console.log('Revoked'))`}</pre>
       <div style={{ marginTop: 32, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', textAlign: 'center' }}>
         Apache 2.0 · Universal Document™ is a pending trademark · <a href="mailto:hive@hive.baby" style={{ color: 'var(--ud-teal)' }}>hive@hive.baby</a>
       </div>
+
+      <TooltipTour engineId="ud-isdk" tips={[
+        { label: 'What is the iSDK?', text: 'A JavaScript web component that embeds the full UD Reader in any webpage. Three lines of HTML. No build step. No backend. No account.' },
+        { label: 'Three-line embed', text: 'Add the script tag, drop in <ud-reader src="...">, link the stylesheet. The component handles rendering, expiry, revocation, and clarity layers automatically.' },
+        { label: 'JavaScript API', text: 'Control the reader programmatically: load(), setLayer(), getMetadata(). Listen to ud:loaded, ud:expired, and ud:revoked events.' },
+        { label: 'Attributes', text: 'Configure via HTML attributes: src (file path), theme (light/dark/auto), lang (language code), show-chain (provenance panel), readonly.' },
+      ]} />
     </div>
   )
 }
