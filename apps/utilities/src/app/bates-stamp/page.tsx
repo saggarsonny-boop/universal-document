@@ -107,6 +107,24 @@ export default function BatesStamp() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Bates Stamp differs from Adobe Acrobat Bates</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Adobe Acrobat Bates numbering burns numbers onto PDF pages. UD Bates Stamp writes numbers into structured document metadata — queryable, not just visible.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Adobe Acrobat Bates numbering', body: 'Requires Acrobat Pro licence ($239/year). Burns numbers visually onto PDF pages as rendered text. The number is part of the image — not a queryable metadata field. Changing a number requires re-rendering the page.' },
+            { title: 'Manual numbering in Word or by hand', body: 'Error-prone, non-sequential numbering is a common source of discovery sanctions. No verification that the range is continuous or that documents haven\'t been renumbered after production.' },
+            { title: 'UD Bates Stamp — metadata-embedded numbers', body: 'Bates numbers are written into each document\'s structured metadata, not just printed on the page. The number can be read by any review tool, validated against the bundle index, and verified as unchanged.' },
+            { title: 'UD Bates Stamp — continuous range verification', body: 'The .udz bundle index records the full Bates range at creation time. UD Legal Bundle Verify can subsequently confirm the range is intact and no documents have been added, removed, or renumbered.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
