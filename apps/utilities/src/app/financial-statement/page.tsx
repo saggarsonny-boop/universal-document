@@ -117,6 +117,24 @@ export default function FinancialStatement() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Financial Statement differs from PDF and Excel</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF financials are flat and unverifiable. Excel files can be changed without trace. UD Financial Statement creates a structured, tamper-evident record with chain of custody.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF financial statement', body: 'A printed or exported PDF. No structured data fields, no machine-readable period or entity metadata. An auditor or investor can\'t verify it hasn\'t been modified after the preparer signed off.' },
+            { title: 'Excel / Google Sheets', body: 'Editable after distribution. Cell formulas can be changed, figures amended, and dates altered with no audit trail. XLSX revision history is easily deleted and not cryptographically signed.' },
+            { title: 'UD Financial Statement — structured period and entity metadata', body: 'Reporting period, entity name, preparer, and auditor status are structured fields — not text in a header. Any compliance tool, investor portal, or accounting system can read them programmatically.' },
+            { title: 'UD Financial Statement — tamper-evident from preparation', body: 'The statement is sealed at the point of preparation. Any change to figures, dates, or entity details after sealing is detectable by UD Reader — providing independent assurance to auditors and investors.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
