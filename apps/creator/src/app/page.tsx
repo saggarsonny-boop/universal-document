@@ -280,17 +280,52 @@ export default function CreatorPage() {
   const [audienceVersions, setAudienceVersions] = useState<string[]>([])
   const [customAudience, setCustomAudience] = useState('')
   const [showCustomInput, setShowCustomInput] = useState(false)
+  const [importLoading, setImportLoading] = useState(false)
+  const [importError, setImportError] = useState('')
+
+  const BINARY_EXTS = ['docx', 'pdf', 'xlsx', 'csv', 'png', 'jpg', 'jpeg', 'pptx']
 
   const handleImport = useCallback(async (file: File) => {
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? ''
     const name = file.name.replace(/\.[^.]+$/, '')
     setTitle(name)
-    const text = await file.text().catch(() => '')
-    if (text.trim()) {
-      const lines = text.split('\n').filter(l => l.trim())
-      setBlocks(lines.map(l => ({ id: uid(), type: 'paragraph' as BlockType, html: l })))
+    setImportError('')
+
+    if (BINARY_EXTS.includes(ext)) {
+      setImportLoading(true)
+      try {
+        const form = new FormData()
+        form.append('file', file)
+        const res = await fetch('https://converter.hive.baby/api/convert', { method: 'POST', body: form })
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.error || `Converter returned ${res.status}`)
+        }
+        const uds = await res.json()
+        if (uds.metadata?.title) setTitle(uds.metadata.title)
+        const imported: Block[] = (uds.blocks ?? [])
+          .map((b: Record<string, unknown>) => {
+            const content = (b.base_content as Record<string, unknown> | undefined) ?? {}
+            const html = String(content.text ?? content.html ?? '').trim()
+            const type: BlockType = b.type === 'heading' ? 'heading' : 'paragraph'
+            return { id: uid(), type, html }
+          })
+          .filter((b: Block) => b.html)
+        if (imported.length) setBlocks(imported)
+      } catch (e) {
+        setImportError(e instanceof Error ? e.message : 'Import failed')
+      } finally {
+        setImportLoading(false)
+      }
+    } else {
+      const text = await file.text().catch(() => '')
+      if (text.trim()) {
+        const lines = text.split('\n').filter(l => l.trim())
+        setBlocks(lines.map(l => ({ id: uid(), type: 'paragraph' as BlockType, html: l })))
+      }
     }
     setStarted(true)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const s = localStorage.getItem('ud_creator_session')
@@ -485,11 +520,11 @@ export default function CreatorPage() {
                 onClick={() => importRef.current?.click()}
                 style={{ border: `2px dashed ${importDragging ? 'var(--gold)' : 'rgba(200,150,10,0.4)'}`, background: importDragging ? 'rgba(200,150,10,0.06)' : 'var(--surface)', borderRadius: 14, padding: '32px 24px', cursor: 'pointer', transition: 'all 0.2s' }}
               >
-                <div style={{ fontSize: 28, marginBottom: 10 }}>📂</div>
-                <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>Import a file</div>
-                <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>Turn any existing document into a Universal Document™</div>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>{importLoading ? '⏳' : '📂'}</div>
+                <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>{importLoading ? 'Converting…' : 'Import a file'}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>{importLoading ? 'Sending to UD Converter — please wait' : 'Turn any existing document into a Universal Document™'}</div>
                 <div style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>.docx · .xlsx · .csv · .pdf · .txt · .md · .png · .jpg · .pptx</div>
-                <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)', fontWeight: 600 }}>Drag file here or click to browse →</div>
+                {!importLoading && <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)', fontWeight: 600 }}>Drag file here or click to browse →</div>}
               </div>
               <div
                 onClick={() => setStarted(true)}
@@ -503,6 +538,11 @@ export default function CreatorPage() {
                 <div style={{ fontSize: 13, color: 'var(--gold)', fontWeight: 600 }}>Start blank →</div>
               </div>
             </div>
+            {importError && (
+              <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(226,75,74,0.08)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 8, fontSize: 13, color: '#c0392b' }}>
+                Import failed: {importError}
+              </div>
+            )}
           </div>
         )}
 
