@@ -113,6 +113,24 @@ export default function AccessibilityCheck() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Analysis powered by Claude claude-opus-4-5. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Accessibility Check differs from CommonLook and PDF checkers</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF accessibility checkers flag structural tags and contrast ratios. UD Accessibility Check audits the document's actual content and language against WCAG 2.1 criteria — and embeds the report in the file.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'CommonLook / Adobe Accessibility Checker', body: 'Structural PDF accessibility tools — they check for tagged headings, alt text, and reading order. They don\'t audit whether the language is plain enough for WCAG 3.1.5 (Reading Level) or whether content is comprehensible.' },
+            { title: 'Manual WCAG audit', body: 'Expert accessibility consultants audit documents against WCAG 2.1 success criteria. Thorough but expensive and slow — not practical for routine document checking before publication.' },
+            { title: 'UD Accessibility Check — content-level WCAG audit', body: 'Claude assesses the document\'s language, structure, and content against WCAG 2.1 and Section 508 criteria. Each criterion is assessed as PASS, FAIL, or CANNOT_ASSESS with a specific note.' },
+            { title: 'UD Accessibility Check — report embedded in the document', body: 'The accessibility report is embedded as structured metadata in the output .uds. The document carries its own audit record — auditors, editors, and publishers can retrieve it from the file at any time.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
