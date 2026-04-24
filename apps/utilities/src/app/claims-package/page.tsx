@@ -99,6 +99,24 @@ export default function ClaimsPackage() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Claims Package differs from email submission and insurer portals</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Claims submitted by email have no chain of custody. Insurer portals accept uploads but don't give you a verifiable record of what you submitted and when. UD Claims Package does both.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Email claim submission', body: 'Common but fragile. No structured bundle, no chain of custody, no proof of what was submitted and when. In a disputed claim, the claimant has no independent tamper-evident record of the original submission.' },
+            { title: 'Insurer claims portal upload', body: 'Documents uploaded to a portal are in the insurer\'s system — not yours. If the portal is unavailable or the claim is disputed after system changes, you may not be able to retrieve your original submission.' },
+            { title: 'UD Claims Package — structured bundle with incident record', body: 'Claim form, incident report, and evidence are bundled into a single .udz with structured incident metadata — date, location, description, witnesses — readable by claims management systems.' },
+            { title: 'UD Claims Package — submission timestamp in chain of custody', body: 'The bundle is sealed at submission time with a hash. In a disputed claim timeline, the sealed package provides independent proof of what was submitted and when, regardless of what the insurer\'s system shows.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
