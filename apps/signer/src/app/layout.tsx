@@ -9,13 +9,17 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], vari
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'UD Signer — Sign any document. Free forever.',
-  description: 'Sign PDFs, DOCX, UDS, UDR, and any file format. Generate cryptographic .udsig companion files. Free forever.',
+  title: 'UD Signer — Cryptographically Sign Any Document. Free Forever.',
+  description: 'Sign PDFs, DOCX, .uds, .udr, and any file format with a tamper-evident cryptographic signature. Generates a .udsig companion proof file. No account required. Free forever.',
+  keywords: 'document signing, cryptographic document signature, digital signature free, sign PDF online, tamper-evident document, document integrity proof, DocuSign alternative, Adobe Sign alternative, electronic signature tool, document hash signature',
   icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://signer.hive.baby'),
   openGraph: {
-    title: 'UD Signer — Universal Document™ Signing',
-    description: 'Sign any document format. Generate .udsig companion proofs. Free forever.',
+    title: 'UD Signer — Cryptographically Sign Any Document. Free Forever.',
+    description: 'Sign any file format with a tamper-evident cryptographic signature. Generates a .udsig proof companion. No account required.',
+    url: 'https://signer.hive.baby',
+    siteName: 'Universal Document™',
+    type: 'website',
   },
 }
 

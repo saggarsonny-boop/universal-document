@@ -181,6 +181,24 @@ export default function SignerHome() {
         </a>
       </div>
 
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '3rem 24px 0' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Signer differs from DocuSign, Adobe Sign, and HelloSign</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>E-signature platforms are workflow tools — they manage routing, reminders, and audit trails inside their platform. UD Signer is a cryptographic proof tool — the signature travels with the document, not in a third-party database.</p>
+        <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
+          {[
+            { title: 'DocuSign / Adobe Sign — platform-hosted signatures', body: 'Signatures are stored in the provider\'s database. If the provider shuts down, changes their API, or loses your account, the signature record is gone. Verification requires the originating platform to still be operational.' },
+            { title: 'HelloSign / PandaDoc — workflow-first e-signatures', body: 'These tools excel at routing documents for signature. But the "signature" is a platform attestation, not a cryptographic proof. There is no way to verify the document independently — you need the platform to vouch for it.' },
+            { title: 'UD Signer — platform-independent cryptographic proof', body: 'UD Signer generates a SHA-256 hash of your document and produces a .udsig companion file containing the signature, timestamp, and optional identity claim. Verification works with any hash tool — no platform dependency, no account required.' },
+            { title: 'UD Signer — the proof travels with the document', body: 'The .udsig file stays alongside the document. Anyone with the document and its companion .udsig can verify integrity without contacting UD Signer, the UD ecosystem, or any third party. Truly portable tamper-evidence.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   )
 }
