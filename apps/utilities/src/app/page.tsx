@@ -27,6 +27,7 @@ const SECURITY_TOOLS = [
   { slug: 'dynamic-watermark', name: 'UD Dynamic Watermark', icon: '💧', desc: 'Embed recipient name, email, and organisation as a persistent watermark in any .uds document.',       badge: 'Pro'  as const },
   { slug: 'steg-watermark',    name: 'UD Steg Watermark',    icon: '🔐', desc: 'Embed a cryptographic ownership mark (SHA-256) invisibly in document metadata.',                     badge: 'Pro'  as const },
   { slug: 'audit-trail',       name: 'UD Audit Trail',       icon: '📜', desc: 'Extract and visualise the complete event timeline from any Universal Document™.',                     badge: 'FREE' as const },
+  { slug: 'highlight',         name: 'UD Highlight',         icon: '🖊', desc: 'Embed structural highlights in any document. Tamper-evident and inseparable from the file — unlike PDF annotation layers that can be stripped.', badge: 'Pro' as const },
 ]
 
 const LEGAL_TOOLS = [
