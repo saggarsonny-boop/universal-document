@@ -16,14 +16,22 @@
   --ud-teal-2:   #e0f5f0;
   --ud-border:   #e0ddd6;
   --ud-border-2: #d0cdc6;
-  --ud-muted:    #6b7280;
-  --ud-danger:   #e24b4a;
-  --ud-success:  #1d9e75;
+  --ud-muted:     #4b5563;    /* WCAG AA ≥4.5:1 on ud-paper */
+  --ud-gold-text: #a07008;    /* gold for text on light backgrounds */
+  --ud-danger:    #e24b4a;
+  --ud-success:   #1d9e75;
 
   /* Typography */
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body:    'DM Sans', system-ui, sans-serif;
   --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  /* Typography scale — WCAG minimums */
+  --ud-text-base: 16px;
+  --ud-text-sm:   14px;
+  --ud-text-xs:   13px;
+  --ud-lh-body:   1.6;
+  --ud-lh-para:   1.7;
 
   /* Shape */
   --ud-radius:    8px;
@@ -119,13 +127,13 @@ a:hover { color: var(--ud-teal); }
 /* Shared badge */
 .ud-badge {
   display: inline-block;
-  font-family: var(--font-mono); font-size: 10px;
+  font-family: var(--font-mono); font-size: 13px;
   font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
   padding: 3px 10px; border-radius: 99px;
 }
 .ud-badge-default  { background: var(--ud-paper-3); color: var(--ud-ink); }
 .ud-badge-success  { background: var(--ud-teal-2);  color: var(--ud-teal); }
-.ud-badge-gold     { background: var(--ud-gold-3);  color: var(--ud-gold); }
+.ud-badge-gold     { background: var(--ud-gold-3);  color: var(--ud-gold-text); }
 .ud-badge-pending  { background: var(--ud-paper-2); color: var(--ud-muted); }
 .ud-badge-danger   { background: rgba(226,75,74,0.1); color: var(--ud-danger); }
 
@@ -217,7 +225,7 @@ a:hover { color: var(--ud-teal); }
   border-radius: 999px;
   background: var(--ud-paper-2);
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--ud-muted);
   animation: jitter 0.55s ease-in-out infinite;
 }
