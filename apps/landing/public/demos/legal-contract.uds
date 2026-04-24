@@ -42,7 +42,7 @@
       },
       {
         "type": "heading",
-        "text": "The parties intend to explore a potential commercial collaboration. In connection with that exploration, each party may disclose confidential information to the other. TERM EXTENDED TO 10 YEARS. This Agreement governs that disclosure."
+        "text": "1. Purpose"
       },
       {
         "type": "paragraph",
@@ -98,6 +98,6 @@
     "created": "2026-04-24T09:00:00.000Z",
     "hash": "sha256-47b87bf847bb02405f09a14d400131c8189312afccd2411c838efe6d00e08c50",
     "source": "demo",
-    "blockchain": "demo-1745485200003"
+    "blockchain": "demo-1745485200002"
   }
 }

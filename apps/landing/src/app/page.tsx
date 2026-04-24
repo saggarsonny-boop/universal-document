@@ -274,6 +274,44 @@ export default function LandingPage() {
 
       <hr style={divider} />
 
+      {/* Try a demo file */}
+      <section style={{ maxWidth: 760, margin: '0 auto', padding: '56px 24px', textAlign: 'center' }}>
+        <p style={sectionLabel}>Try a demo file</p>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ud-muted)', maxWidth: 520, margin: '0 auto 32px', lineHeight: 1.7 }}>
+          Download a sample .uds file and open it in UD Reader to see clarity layers, metadata, expiry, and tamper detection in action.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, textAlign: 'left', marginBottom: 20 }}>
+          {[
+            { file: 'pharmacy-prescription.uds', icon: '💊', label: 'Pharmacy Prescription', desc: 'Multilingual (EN/ES/AR) · Confidential · Expiring · Patient + Pharmacist clarity layers' },
+            { file: 'clinical-consent.uds',      icon: '🏥', label: 'Surgical Consent Form', desc: 'EN/FR · Patient plain-English layer + Clinician medical-detail layer · Revocable' },
+            { file: 'legal-contract.uds',        icon: '📋', label: 'NDA — Acme Corp & Beta Ltd', desc: 'England & Wales · 2-year term · Confidential · Signed by two parties' },
+            { file: 'tampered-contract.uds',     icon: '⚠️', label: 'Tampered Contract (try validating)', desc: 'Same NDA — content altered after sealing. Hash mismatch. Open in UD Validator to see FAIL.' },
+          ].map(({ file, icon, label, desc }) => (
+            <a
+              key={file}
+              href={`/demos/${file}`}
+              download={file}
+              style={{
+                display: 'block', textDecoration: 'none',
+                background: '#fff', border: '0.5px solid var(--ud-border)',
+                borderRadius: 12, padding: '18px 20px', boxShadow: 'var(--ud-shadow)',
+              }}
+            >
+              <div style={{ fontSize: 22, marginBottom: 8 }}>{icon}</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 4 }}>{label}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5, marginBottom: 10 }}>{desc}</div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-gold)', fontWeight: 600 }}>↓ {file}</span>
+            </a>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="https://reader.hive.baby" style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', textDecoration: 'none', padding: '8px 16px', border: '1px solid var(--ud-border)', borderRadius: 8 }}>Open in UD Reader →</a>
+          <a href="https://validator.hive.baby" style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', textDecoration: 'none', padding: '8px 16px', border: '1px solid var(--ud-border)', borderRadius: 8 }}>Validate in UD Validator →</a>
+        </div>
+      </section>
+
+      <hr style={divider} />
+
       {/* Open */}
       <section style={{ maxWidth: 640, margin: '0 auto', padding: '56px 24px', textAlign: 'center' }}>
         <p style={{ ...sectionLabel, marginBottom: 16 }}>Open. Free. Yours.</p>
