@@ -111,6 +111,24 @@ export default function AuditTrail() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Audit Trail differs from SharePoint and DocuSign audit logs</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Platform audit logs live inside the platform — deletable by admins, unavailable if you leave the service. UD Audit Trail extracts provenance into a tamper-evident record you own.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'SharePoint / OneDrive version history', body: 'Audit logs are stored in the platform. A SharePoint admin can delete or purge them. If your organisation migrates off SharePoint, the audit history doesn\'t follow. You don\'t own the log.' },
+            { title: 'DocuSign audit certificate', body: 'DocuSign appends an audit certificate PDF to signed documents — but only for signature events. Document creation, translation, classification, and access events aren\'t captured.' },
+            { title: 'UD Audit Trail — all provenance events in one place', body: 'Every event embedded in a .uds file — creation, sealing, translation, classification, summarisation, clinical processing, media sync — is extracted into a single structured timeline.' },
+            { title: 'UD Audit Trail — sealed and independent', body: 'The audit record is itself a sealed .uds file with a tamper-evident hash. It\'s independent of any platform, stored wherever you choose, and verifiable without internet access.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
