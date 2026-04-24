@@ -9,13 +9,16 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], vari
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Universal Document™',
-  description: 'Universal Document™ — the next-generation document format. AI-native, semantic, expiring, multilingual.',
+  title: 'Universal Document™ — The AI-Native, Structured Document Format. Open. Free. PDF Successor.',
+  description: 'Universal Document™ (.uds) is an open, AI-native document format with structured sections, embedded provenance, cryptographic signing, expiry dates, and multilingual support. The modern successor to PDF. Free forever.',
+  keywords: 'universal document format, UDS file format, AI native document, structured document format, PDF successor, PDF alternative, document format open standard, tamper-evident document format, expiring document, multilingual document format, document provenance, semantic document',
   icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://ud.hive.baby'),
   openGraph: {
-    title: 'Universal Document™',
-    description: 'Universal Document™ — the next-generation document format. AI-native. Semantic. Expiring. Multilingual.',
+    title: 'Universal Document™ — The AI-Native, Structured Document Format. Open. Free. PDF Successor.',
+    description: 'Universal Document™ (.uds) — structured, tamper-evident, AI-native. The open document format for the age of AI. Free forever.',
+    url: 'https://ud.hive.baby',
+    siteName: 'Universal Document™',
     type: 'website',
   },
 }

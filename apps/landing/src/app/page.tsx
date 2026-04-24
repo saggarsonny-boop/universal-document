@@ -253,6 +253,27 @@ export default function LandingPage() {
 
       <hr style={divider} />
 
+      {/* SEO comparison section */}
+      <section style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--ud-ink)', marginBottom: '0.5rem' }}>How Universal Document™ differs from PDF, DOCX, and JSON</h2>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--ud-muted)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Each existing format was optimised for one purpose. PDF for print, DOCX for editing, JSON for data transfer. Universal Document™ was designed to handle all three at once — with provenance, expiry, and AI-readability built in from the start.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF — excellent for print, opaque to machines', body: 'PDF captures layout perfectly. But extract the text, and you lose structure. A heading is indistinguishable from bold body text. A table is a grid of positioned characters. AI systems must guess semantic structure from visual heuristics — an inherently fragile process.' },
+            { title: 'DOCX — editable but not portable', body: 'DOCX has heading styles and paragraph structure, but no provenance, no expiry, no tamper-evidence, and wildly inconsistent rendering across applications. It\'s a working format — not an archival one, and not one you\'d trust for legal, clinical, or regulatory purposes.' },
+            { title: 'Universal Document™ — semantic structure as a first-class feature', body: '.uds files define their own sections with typed headings, body paragraphs, metadata blocks, and code regions. Any compliant implementation can parse the structure without rendering it. AI can work directly on the section graph rather than reconstructing it from visual layout.' },
+            { title: 'Universal Document™ — provenance, expiry, and signing built in', body: 'Every .uds file optionally carries: who created it, when, with what version of what tool; an expiry date after which it should be re-validated; and a cryptographic hash for tamper-evidence via .udsig. These are not bolted on — they are part of the base format specification.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <hr style={divider} />
+
       {/* Open */}
       <section style={{ maxWidth: 640, margin: '0 auto', padding: '56px 24px', textAlign: 'center' }}>
         <p style={{ ...sectionLabel, marginBottom: 16 }}>Open. Free. Yours.</p>
