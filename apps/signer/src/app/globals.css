@@ -115,6 +115,12 @@ a:hover { color: var(--ud-teal); }
 .ud-badge-gold     { background: var(--ud-gold-3);  color: var(--ud-gold-text); }
 .ud-badge-danger   { background: rgba(226,75,74,0.1); color: var(--ud-danger); }
 
+/* Semantic accessibility classes */
+.ud-card-desc    { font-size: 15px; color: #374151;       line-height: var(--ud-lh-para); }
+.ud-compare-text { font-size: 15px; color: var(--ud-ink); line-height: var(--ud-lh-para); }
+.ud-form-label   { font-size: 14px; color: var(--ud-ink); font-weight: 500; display: block; }
+.ud-footer-text  { font-size: 13px; color: var(--ud-muted); }
+
 .ud-drop-zone {
   border: 1.5px dashed var(--ud-border-2);
   border-radius: var(--ud-radius-xl);
