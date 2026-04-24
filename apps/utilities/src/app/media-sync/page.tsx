@@ -82,6 +82,24 @@ export default function MediaSync() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Analysis powered by Claude claude-opus-4-5. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Media Sync differs from manual timestamping and transcription tools</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Manual timestamp tables become outdated when the media is re-edited. Transcription tools go one direction. UD Media Sync creates bidirectional alignment between document and media.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Manual timestamp table in a Word document', body: 'A separate document listing paragraph → timestamp mappings. Becomes stale the moment the media is re-edited. No machine-readable structure, no bidirectional navigation, no way to click a paragraph and jump to that moment.' },
+            { title: 'Otter.ai / Descript transcription', body: 'Transcription tools go one direction — audio → text. They don\'t align an existing document (notes, report, research) with media. You get a new transcript, not alignment with what you already wrote.' },
+            { title: 'UD Media Sync — AI-generated sync points', body: 'Claude estimates timestamps based on content density and typical speech rate (~140 wpm). Each section of the document is mapped to a media timestamp and the mapping is embedded in the .uds metadata.' },
+            { title: 'UD Media Sync — sync points travel with the document', body: 'The timestamp alignment is part of the document itself — not a separate file or database. Any UD Reader implementation can use the sync metadata to enable paragraph-click-to-seek functionality.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
