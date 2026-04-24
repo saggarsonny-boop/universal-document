@@ -111,6 +111,24 @@ export default function Summarise() {
         Summarisation powered by Claude claude-opus-4-5. Summary embedded as a Clarity Layer in the output .uds file.
         Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Summarise differs from ChatGPT and Adobe AI summarisation</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>ChatGPT gives you a text response. Adobe gives you a sidebar note. UD Summarise embeds the summary permanently inside the document as a Clarity Layer you can switch on any time.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'ChatGPT / Claude.ai summarisation', body: 'Paste your text, get a summary in the chat. The summary lives in the chat history — not in the document. Forward the document to anyone else and the summary is gone.' },
+            { title: 'Adobe Acrobat AI Assistant', body: 'Summary appears as a sidebar in Acrobat. Requires Adobe subscription. The summary isn\'t embedded in the PDF — it\'s generated on demand from Adobe\'s servers each time.' },
+            { title: 'UD Summarise — summary embedded as Clarity Layer', body: 'The AI-generated summary is written into the .uds document as a Clarity Layer — a structured metadata field that travels with the file. Anyone who opens the document in UD Reader can switch to the summary view.' },
+            { title: 'UD Summarise — audience-specific layers', body: 'Different summary types — executive, plain language, patient-facing — can be embedded as separate layers. A clinician reads the clinical summary; a patient reads the plain language version. One document, multiple audiences.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
