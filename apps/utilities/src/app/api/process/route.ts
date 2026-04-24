@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib'
+import JSZip from 'jszip'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -55,18 +56,19 @@ export async function POST(req: NextRequest) {
     if (tool === 'split') {
       const src = await loadPdf(files[0])
       const total = src.getPageCount()
-      // Return first page as demo; real split = zip of individual pages
-      // For now output each page as separate PDF combined into one response blob
-      // We'll do single-page extraction as an example; full zip requires JSZip
-      const out = await PDFDocument.create()
-      const [page] = await out.copyPages(src, [0])
-      out.addPage(page)
-      // Full implementation: return zip. For now return page 1 with note.
-      const bytes = await out.save()
-      return new Response(bytes as unknown as BodyInit, {
+      const zip = new JSZip()
+      for (let i = 0; i < total; i++) {
+        const singlePage = await PDFDocument.create()
+        const [copied] = await singlePage.copyPages(src, [i])
+        singlePage.addPage(copied)
+        const pageBytes = await singlePage.save()
+        zip.file(`page-${String(i + 1).padStart(3, '0')}.pdf`, pageBytes)
+      }
+      const zipBytes = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' })
+      return new Response(new Uint8Array(zipBytes) as unknown as BodyInit, {
         headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="ud-split-page1-of-${total}.pdf"`,
+          'Content-Type': 'application/zip',
+          'Content-Disposition': `attachment; filename="ud-split-${total}-pages.zip"`,
         },
       })
     }

@@ -274,21 +274,57 @@ export async function convertCsv(text: string, fileName: string): Promise<UDDocu
 }
 
 export async function convertPdf(buffer: Buffer, fileName: string): Promise<UDDocument> {
-  // Lightweight PDF fallback extractor: keeps printable text chunks for normalization.
-  const raw = buffer.toString('latin1')
-  const text = raw
-    .replace(/\r/g, '\n')
-    .replace(/\([^)]{1,400}\)/g, (match) => match.slice(1, -1))
-    .replace(/[^\x20-\x7E\n]/g, ' ')
-    .replace(/\s{2,}/g, ' ')
-  const normalized = text
-    .split('\n')
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .slice(0, 500)
-    .join('\n')
+  let extractedText = ''
 
-  const blocks = textToBlocks(normalized || `PDF content imported from ${fileName}`, fileName)
+  try {
+    // Use pdfjs-dist for real text extraction
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const pdfjsLib: any = await import('pdfjs-dist/legacy/build/pdf.mjs')
+    pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+
+    const data = new Uint8Array(buffer)
+    const loadingTask = pdfjsLib.getDocument({
+      data,
+      useWorkerFetch: false,
+      isEvalSupported: false,
+      useSystemFonts: true,
+      disableFontFace: true,
+    })
+    const pdfDoc = await loadingTask.promise
+    const pageParts: string[] = []
+
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+      const page = await pdfDoc.getPage(i)
+      const content = await page.getTextContent()
+      const pageText = content.items
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((item: any) => typeof item.str === 'string')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((item: any) => item.str)
+        .join(' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim()
+      if (pageText) pageParts.push(pageText)
+    }
+
+    extractedText = pageParts.join('\n').trim()
+  } catch (err) {
+    console.warn('pdfjs-dist extraction failed, using regex fallback:', err)
+    // Regex fallback for malformed or encrypted PDFs
+    const raw = buffer.toString('latin1')
+    extractedText = raw
+      .replace(/\r/g, '\n')
+      .replace(/\([^)]{1,400}\)/g, (m) => m.slice(1, -1))
+      .replace(/[^\x20-\x7E\n]/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean)
+      .slice(0, 500)
+      .join('\n')
+  }
+
+  const blocks = textToBlocks(extractedText || `PDF content imported from ${fileName}`, fileName)
   return buildUDDocument({
     title: fileName.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
     blocks,

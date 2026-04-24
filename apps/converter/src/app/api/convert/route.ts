@@ -16,14 +16,21 @@ function getIp(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await ensureSchema()
+    // DB is optional — if unavailable, conversion still works without rate limiting
+    let dbAvailable = true
+    try {
+      await ensureSchema()
+    } catch (dbErr) {
+      console.warn('DB unavailable, proceeding without rate limiting:', dbErr)
+      dbAvailable = false
+    }
 
     const apiKey = req.headers.get('x-api-key')
     let proUser: { email: string; prefix: string } | null = null
 
-    if (apiKey) {
-      proUser = await validateApiKey(apiKey)
-      if (!proUser) {
+    if (apiKey && dbAvailable) {
+      proUser = await validateApiKey(apiKey).catch(() => null)
+      if (proUser === null && apiKey) {
         return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 403 })
       }
     }
@@ -49,22 +56,26 @@ export async function POST(req: NextRequest) {
     const utilityInput = formData.get('utility')?.toString() ?? 'optimize'
     const utility: UDUtilityId = isUDUtility(utilityInput) ? utilityInput : 'optimize'
 
-    if (!proUser) {
+    if (!proUser && dbAvailable) {
       if (file.size > MAX_FREE_BYTES) {
         return NextResponse.json(
           { error: 'File exceeds 10 MB free tier limit. Upgrade to Pro for larger files.', upgrade: true },
           { status: 413 }
         )
       }
-      const ipHash = hashIp(getIp(req))
-      const usage = await getFreeUsage(ipHash)
-      if (usage >= FREE_DAILY_LIMIT) {
-        return NextResponse.json(
-          { error: `Free tier limit: ${FREE_DAILY_LIMIT} files per day. Upgrade to Pro for unlimited conversions.`, upgrade: true, used: usage, limit: FREE_DAILY_LIMIT },
-          { status: 429 }
-        )
+      try {
+        const ipHash = hashIp(getIp(req))
+        const usage = await getFreeUsage(ipHash)
+        if (usage >= FREE_DAILY_LIMIT) {
+          return NextResponse.json(
+            { error: `Free tier limit: ${FREE_DAILY_LIMIT} files per day. Upgrade to Pro for unlimited conversions.`, upgrade: true, used: usage, limit: FREE_DAILY_LIMIT },
+            { status: 429 }
+          )
+        }
+        await incrementFreeUsage(ipHash)
+      } catch (usageErr) {
+        console.warn('Rate limiting unavailable:', usageErr)
       }
-      await incrementFreeUsage(ipHash)
     }
 
     const arrayBuffer = await file.arrayBuffer()
@@ -115,7 +126,9 @@ export async function POST(req: NextRequest) {
     if (proUser) {
       const outputId = uuidv4()
       doc.metadata.id = outputId
-      await logCustody({ email: proUser.email, apiKeyPrefix: proUser.prefix, fileName, fileSize: file.size, outputId })
+      logCustody({ email: proUser.email, apiKeyPrefix: proUser.prefix, fileName, fileSize: file.size, outputId }).catch(err =>
+        console.warn('Custody log failed:', err)
+      )
     }
 
     const outputName = fileName.replace(/\.[^.]+$/, '.uds')

@@ -13,14 +13,18 @@ const MAX_FILES = 50
 
 export async function POST(req: NextRequest) {
   try {
-    await ensureSchema()
+    try {
+      await ensureSchema()
+    } catch (dbErr) {
+      console.warn('DB unavailable in batch route:', dbErr)
+    }
 
     const apiKey = req.headers.get('x-api-key')
     if (!apiKey) {
       return NextResponse.json({ error: 'API key required. Include X-API-Key header.' }, { status: 401 })
     }
 
-    const proUser = await validateApiKey(apiKey)
+    const proUser = await validateApiKey(apiKey).catch(() => null)
     if (!proUser) {
       return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 403 })
     }
