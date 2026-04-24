@@ -82,7 +82,7 @@ export default function UDZUnzipper() {
       </a>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UDZ Unzipper</h1>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>FREE</span>
+        <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>FREE</span>
       </div>
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 32, lineHeight: 1.6 }}>
         Extract all .uds files from a .udz bundle. Verifies bundle integrity and shows a file count report before download.
@@ -98,8 +98,8 @@ export default function UDZUnzipper() {
         <input ref={inputRef} type="file" accept=".udz" style={{ display: 'none' }} onChange={e => handleFile(e.target.files?.[0] ?? null)} />
         {file ? (
           <div>
-            <div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 4 }}>📦 {file.name} <span style={{ color: 'var(--ud-muted)', fontSize: 12 }}>({(file.size / 1024).toFixed(0)} KB)</span></div>
-            <div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
+            <div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 4 }}>📦 {file.name} <span style={{ color: 'var(--ud-muted)', fontSize: 13 }}>({(file.size / 1024).toFixed(0)} KB)</span></div>
+            <div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
           </div>
         ) : (
           <div>
@@ -117,7 +117,7 @@ export default function UDZUnzipper() {
           <div style={{ fontSize: 13, fontWeight: 700, color: report.pass ? 'var(--ud-teal)' : 'var(--ud-danger)', fontFamily: 'var(--font-body)', marginBottom: 8 }}>
             Integrity Report: {report.pass ? 'PASS ✓' : 'MISMATCH ⚠'}
           </div>
-          <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
             <span>Expected files: {report.expectedCount}</span>
             <span>Found: {report.fileCount}</span>
             <span>{report.pass ? 'Bundle intact' : 'File count mismatch'}</span>
@@ -129,7 +129,7 @@ export default function UDZUnzipper() {
         <div style={{ marginBottom: 24 }}>
           <div style={{ padding: '14px 18px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', marginBottom: 16 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 4 }}>{bundle.title || 'Untitled Bundle'}</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', display: 'flex', gap: 16 }}>
+            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', display: 'flex', gap: 16 }}>
               {bundle.created_at && <span>Created: {fmt(bundle.created_at)}</span>}
               <span>{bundle.docs.length} document{bundle.docs.length !== 1 ? 's' : ''}</span>
             </div>
@@ -139,10 +139,10 @@ export default function UDZUnzipper() {
             {bundle.docs.map((d, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: i % 2 === 0 ? '#fff' : 'var(--ud-paper-2)', borderBottom: i < bundle.docs.length - 1 ? '1px solid var(--ud-border)' : 'none', gap: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', minWidth: 20 }}>{i + 1}</span>
+                  <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', minWidth: 20 }}>{i + 1}</span>
                   <span style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)' }}>📄 {d.filename}</span>
                 </div>
-                <a href={d.downloadUrl} download={d.filename} style={{ fontSize: 12, color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textDecoration: 'none', whiteSpace: 'nowrap', padding: '4px 10px', border: '1px solid var(--ud-teal)', borderRadius: 6 }}>
+                <a href={d.downloadUrl} download={d.filename} style={{ fontSize: 13, color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textDecoration: 'none', whiteSpace: 'nowrap', padding: '4px 10px', border: '1px solid var(--ud-teal)', borderRadius: 6 }}>
                   Download
                 </a>
               </div>
@@ -159,7 +159,7 @@ export default function UDZUnzipper() {
         Extract Bundle
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Processed entirely in your browser. No data is sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="udz-unzipper" tips={tourSteps['udz-unzipper']} />

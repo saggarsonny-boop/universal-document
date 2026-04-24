@@ -74,7 +74,7 @@ export default function Verify() {
       <a href="/" style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}>← All tools</a>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Verify</h1>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Free</span>
+        <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Free</span>
       </div>
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 32, lineHeight: 1.6 }}>Verify any Universal Document™ file. Checks format, expiry, revocation status, provenance, integrity manifest, and clarity layers. Runs entirely in your browser.</p>
 
@@ -82,7 +82,7 @@ export default function Verify() {
         onDragOver={e => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)} onDrop={onDrop} onClick={() => inputRef.current?.click()}>
         <input ref={inputRef} type="file" accept=".uds,.udr,.udz,.json" style={{ display: 'none' }} onChange={e => handleFile(e.target.files?.[0] ?? null)} />
         {file ? <div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>📄 {file.name} · <span style={{ color: 'var(--ud-teal)' }}>Click to replace</span></div>
-          : <><div style={{ fontSize: 28, marginBottom: 8 }}>✔</div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>Drop a .uds, .udr, or .udz file</div><div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>Verified locally — nothing uploaded</div></>}
+          : <><div style={{ fontSize: 28, marginBottom: 8 }}>✔</div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>Drop a .uds, .udr, or .udz file</div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>Verified locally — nothing uploaded</div></>}
       </div>
 
       {error && <div style={{ padding: '12px 16px', background: 'rgba(226,75,74,0.08)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-danger)', fontFamily: 'var(--font-body)', marginBottom: 20 }}>{error}</div>}
@@ -104,12 +104,12 @@ export default function Verify() {
                   <span style={{ fontSize: 14, color: statusColor(c.pass) }}>{c.pass ? '✓' : '✗'}</span>
                   <span style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)' }}>{c.label}</span>
                 </div>
-                {c.detail && <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{c.detail}</span>}
+                {c.detail && <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{c.detail}</span>}
               </div>
             ))}
             {result.hasClarityLayers && (
               <div style={{ padding: '10px 14px', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)' }}>
-                <span style={{ color: 'var(--ud-teal)', marginRight: 8 }}>✓</span>Clarity layers: <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>{result.layerNames.join(' · ')}</span>
+                <span style={{ color: 'var(--ud-teal)', marginRight: 8 }}>✓</span>Clarity layers: <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>{result.layerNames.join(' · ')}</span>
               </div>
             )}
           </div>
@@ -117,7 +117,7 @@ export default function Verify() {
       )}
 
       <button onClick={run} disabled={!file} style={{ width: '100%', padding: '14px', background: !file ? 'var(--ud-border)' : 'var(--ud-ink)', color: !file ? 'var(--ud-muted)' : '#fff', border: 'none', borderRadius: 'var(--ud-radius)', fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-body)', cursor: !file ? 'not-allowed' : 'pointer' }}>Verify Document</button>
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="verify" tips={tourSteps['verify']} />

@@ -16,7 +16,7 @@ export default function ExtractPages() {
         extraData={{ pages }}
         extraFields={
           <div>
-            <label style={{ display: 'block', fontSize: 13, color: '#8892a4', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 8 }}>
               Pages to extract (e.g. 1-3, 5, 8-10)
             </label>
             <input

@@ -22,7 +22,7 @@ export default function UDFooter() {
         <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 24 }}>
           {NAV_LINKS.map(t => (
             <a key={t.href} href={t.href} style={{
-              fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 500,
+              fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 500,
               color: 'var(--ud-muted)', textDecoration: 'none', transition: 'color 0.15s',
             }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--ud-ink)')}
@@ -30,15 +30,15 @@ export default function UDFooter() {
             >{t.label}</a>
           ))}
         </div>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginBottom: 10 }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 10 }}>
           <a href="mailto:hive@hive.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>hive@hive.baby</a>
           {' · '}
           <a href="https://universaldocument.hive.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.hive.baby</a>
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 4 }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 4 }}>
           Universal Document™ is a pending trademark (USPTO Serial No. 99774346)
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 16 }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 16 }}>
           © 2026 Universal Document Incorporated
         </p>
         <a href="https://hive.baby" style={{

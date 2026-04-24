@@ -21,8 +21,8 @@ export default function TitleChain() {
   const [result, setResult] = useState<{ url: string; name: string } | null>(null)
 
   const inp: React.CSSProperties = { width: '100%', padding: '10px 14px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', background: '#fff', boxSizing: 'border-box' }
-  const lbl: React.CSSProperties = { display: 'block', fontSize: 11, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }
-  const sectionHead: React.CSSProperties = { fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, marginTop: 24 }
+  const lbl: React.CSSProperties = { display: 'block', fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }
+  const sectionHead: React.CSSProperties = { fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, marginTop: 24 }
 
   const INSTRUMENT_TYPES = ['Warranty Deed', 'Quitclaim Deed', 'Grant Deed', 'Bargain and Sale Deed', 'Special Warranty Deed', 'Sheriff\'s Deed', 'Trustee\'s Deed', 'Deed of Trust', 'Mortgage', 'Probate Transfer', 'Foreclosure', 'Other']
 
@@ -101,7 +101,7 @@ export default function TitleChain() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Title Chain</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: '#1e2d3d', color: '#fff', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Enterprise</span>
+          <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: '#1e2d3d', color: '#fff', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Enterprise</span>
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function TitleChain() {
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 8, lineHeight: 1.6 }}>
         Generate a .udz title chain archive — a sealed bundle recording the complete chain of ownership for a property, with provenance and chain-of-custody metadata for every transfer.
       </p>
-      <div style={{ fontSize: 12, color: 'var(--ud-danger)', marginBottom: 28, padding: '8px 12px', background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)' }}>
+      <div style={{ fontSize: 13, color: 'var(--ud-danger)', marginBottom: 28, padding: '8px 12px', background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)' }}>
         This is not legal advice. Always consult a qualified title examiner or solicitor before relying on any title chain document.
       </div>
 
@@ -129,15 +129,15 @@ export default function TitleChain() {
       {/* Ownership history */}
       <div style={{ ...sectionHead, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span>Ownership History</span>
-        <button onClick={addEntry} style={{ background: 'none', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '4px 12px', fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)', cursor: 'pointer' }}>+ Add entry</button>
+        <button onClick={addEntry} style={{ background: 'none', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '4px 12px', fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)', cursor: 'pointer' }}>+ Add entry</button>
       </div>
 
       {entries.map((entry, idx) => (
         <div key={entry.id} style={{ marginBottom: 16, padding: '16px 18px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', position: 'relative' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
             Entry {idx + 1}
             {entries.length > 1 && (
-              <button onClick={() => removeEntry(entry.id)} style={{ float: 'right', background: 'none', border: 'none', color: 'var(--ud-danger)', cursor: 'pointer', fontSize: 12, fontFamily: 'var(--font-body)' }}>Remove</button>
+              <button onClick={() => removeEntry(entry.id)} style={{ float: 'right', background: 'none', border: 'none', color: 'var(--ud-danger)', cursor: 'pointer', fontSize: 13, fontFamily: 'var(--font-body)' }}>Remove</button>
             )}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -171,7 +171,7 @@ export default function TitleChain() {
         <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, marginBottom: 20 }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)' }}>Title chain created ✓</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{entries.length} {entries.length === 1 ? 'entry' : 'entries'} · {propertyAddress.slice(0, 40)}</div>
+            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{entries.length} {entries.length === 1 ? 'entry' : 'entries'} · {propertyAddress.slice(0, 40)}</div>
           </div>
           <a href={result.url} download={result.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .udz →</a>
         </div>
@@ -181,7 +181,7 @@ export default function TitleChain() {
         Generate Title Chain Archive
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
@@ -196,8 +196,8 @@ export default function TitleChain() {
             { title: 'UD Title Chain — tamper-evident bundle', body: 'The complete chain is sealed at creation time. Any modification to the ownership sequence — adding, removing, or reordering entries — is detectable. Independent verification requires only UD Reader.' },
           ].map(card => (
             <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
-              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
-              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+              <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', lineHeight: 1.7 }}>{card.body}</div>
             </div>
           ))}
         </div>

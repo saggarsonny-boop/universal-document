@@ -51,9 +51,9 @@ function LegacyIcon({ label, x, y, jitter }: { label: string; x: number; y: numb
       border: '1px solid rgba(255,255,255,0.12)',
       borderRadius: 6,
       padding: '6px 10px',
-      fontSize: 10,
+      fontSize: 13,
       fontWeight: 700,
-      color: '#8892a4',
+      color: 'var(--ud-muted)',
       letterSpacing: '0.06em',
       animation: `chaos-jitter 0.3s ease infinite alternate`,
       animationDelay: `${jitter * 0.1}s`,
@@ -137,7 +137,7 @@ export default function LifecycleAnimation({ autoPlay = true }: { autoPlay?: boo
               {LEGACY_ICONS.map(label => (
                 <div key={label} style={{
                   background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 4, padding: '3px 8px', fontSize: 10, fontWeight: 700, color: '#8892a4',
+                  borderRadius: 4, padding: '3px 8px', fontSize: 13, fontWeight: 700, color: 'var(--ud-muted)',
                 }}>{label}</div>
               ))}
             </div>
@@ -236,7 +236,7 @@ export default function LifecycleAnimation({ autoPlay = true }: { autoPlay?: boo
             }}>
               {['Sections', 'Metadata', 'Permissions', 'Clarity Layers'].map(item => (
                 <div key={item} style={{
-                  fontSize: 11, fontWeight: 600, color: '#4DA3FF',
+                  fontSize: 13, fontWeight: 600, color: '#4DA3FF',
                   padding: '4px 10px', background: 'rgba(77,163,255,0.1)',
                   borderRadius: 4,
                 }}>{item}</div>
@@ -258,7 +258,7 @@ export default function LifecycleAnimation({ autoPlay = true }: { autoPlay?: boo
                 position: 'absolute', left: node.x, top: node.y,
                 background: node.color,
                 borderRadius: 20, padding: '4px 12px',
-                fontSize: 11, fontWeight: 700, color: '#fff',
+                fontSize: 13, fontWeight: 700, color: '#fff',
                 animation: `float-in 0.4s ease ${i * 0.1}s both`,
               }}>
                 {node.label}
@@ -298,7 +298,7 @@ export default function LifecycleAnimation({ autoPlay = true }: { autoPlay?: boo
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: '#4DA3FF', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#4DA3FF', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>
             {frame.label}
           </div>
           <div style={{ fontSize: 14, color: '#e2e8f0' }}>{frame.caption}</div>
@@ -307,9 +307,9 @@ export default function LifecycleAnimation({ autoPlay = true }: { autoPlay?: boo
           <button
             onClick={() => setPlaying(p => !p)}
             style={{
-              padding: '6px 14px', fontSize: 12, fontWeight: 600,
+              padding: '6px 14px', fontSize: 13, fontWeight: 600,
               background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 6, color: '#8892a4', cursor: 'pointer',
+              borderRadius: 6, color: 'var(--ud-muted)', cursor: 'pointer',
             }}
           >
             {playing ? '⏸' : '▶'}

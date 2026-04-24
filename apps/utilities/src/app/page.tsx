@@ -198,13 +198,13 @@ const SPECIALIST_CATS = [
 ]
 
 function ToolAnim({ slug }: { slug: string }) {
-  const s: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: 6, marginTop: 10 }
+  const s: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: 6, marginTop: 10 }
   const doc = (label?: string) => (
     <div style={{ width: 22, height: 28, background: 'var(--ud-paper-3)', border: '1px solid var(--ud-border)', borderRadius: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 8, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>
       {label || 'pdf'}
     </div>
   )
-  const arrow = <span style={{ fontSize: 11, color: 'var(--ud-muted)' }}>→</span>
+  const arrow = <span style={{ fontSize: 13, color: 'var(--ud-muted)' }}>→</span>
 
   const anims: Record<string, React.ReactNode> = {
     merge: (
@@ -257,7 +257,7 @@ function ToolAnim({ slug }: { slug: string }) {
       <div style={s}>
         <div style={{ width: 28, height: 28, background: 'var(--ud-paper-3)', border: '1px solid var(--ud-border)', borderRadius: 3, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>🖼</div>
         {arrow}
-        <div style={{ fontSize: 11, color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', animation: 'ud-rise 1.2s ease infinite alternate' }}>abc</div>
+        <div style={{ fontSize: 13, color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', animation: 'ud-rise 1.2s ease infinite alternate' }}>abc</div>
       </div>
     ),
     watermark: (
@@ -396,7 +396,7 @@ export default function UtilitiesHub() {
             <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', boxShadow: '0 8px 24px rgba(0,0,0,0.10)', zIndex: 200, minWidth: 260, maxHeight: 500, overflowY: 'auto', padding: '8px 0' }}>
               {SPECIALIST_CATS.map(({cat, slugs}) => (
                 <div key={cat}>
-                  <div style={{ padding: '6px 16px 4px', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 600, color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{cat}</div>
+                  <div style={{ padding: '6px 16px 4px', fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{cat}</div>
                   {slugs.map(slug => {
                     const tool = ALL_TOOLS_FLAT.find(t => t.slug === slug)
                     return tool ? (
@@ -443,7 +443,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Core Tools</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Open · Convert · Create · Verify · Sign</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Open · Convert · Create · Verify · Sign</span>
         </div>
         <div id="core-tools-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {[
@@ -480,7 +480,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>UD Format Tools</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Seal · Bundle · Chain of Custody</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Seal · Bundle · Chain of Custody</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {FORMAT_TOOLS.map(tool => (
@@ -503,7 +503,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>AI-Powered</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Translate · Summarise · Classify · Clinical</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Translate · Summarise · Classify · Clinical</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {AI_TOOLS.map(tool => (
@@ -526,7 +526,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Lifecycle &amp; Governance</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Expire · Revoke · Version History · Metadata Editor</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Expire · Revoke · Version History · Metadata Editor</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {LIFECYCLE_TOOLS.map(tool => (
@@ -546,7 +546,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Document Operations</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Merge · Split · Compress · OCR · Protect · Watermark</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Merge · Split · Compress · OCR · Protect · Watermark</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
         {TOOLS.map(tool => (
@@ -602,7 +602,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Security &amp; Integrity</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Watermark · Ownership · Audit Trail</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Watermark · Ownership · Audit Trail</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {SECURITY_TOOLS.map(tool => (
@@ -625,7 +625,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Legal</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Bates numbering · Deposition · Privilege Log · Smart Contract · Bundle Verify</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Bates numbering · Deposition · Privilege Log · Smart Contract · Bundle Verify</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {LEGAL_TOOLS.map(tool => (
@@ -635,7 +635,7 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
@@ -648,7 +648,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Media</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Audio · Video · Sync · Chapter Markers</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Audio · Video · Sync · Chapter Markers</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {MEDIA_TOOLS.map(tool => (
@@ -671,7 +671,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Healthcare</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Prescription · Consent · Medication · EMR</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Prescription · Consent · Medication · EMR</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {HEALTHCARE_TOOLS.map(tool => (
@@ -681,7 +681,7 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>{tool.badge} · Beta</span>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>{tool.badge} · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
@@ -694,7 +694,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Government &amp; Public Sector</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>FOI · Policy · Regulatory</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>FOI · Policy · Regulatory</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {GOVERNMENT_TOOLS.map(tool => (
@@ -704,7 +704,7 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
@@ -717,7 +717,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Research &amp; Science</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Financial Statements · Pre-registration · Data Packages</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Financial Statements · Pre-registration · Data Packages</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {RESEARCH_TOOLS.map(tool => (
@@ -740,7 +740,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Education</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Credentials · Transcripts</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Credentials · Transcripts</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {EDUCATION_TOOLS.map(tool => (
@@ -750,7 +750,7 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
@@ -763,7 +763,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Real Estate</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Leases · Title Chain</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Leases · Title Chain</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {REAL_ESTATE_TOOLS.map(tool => (
@@ -775,7 +775,7 @@ export default function UtilitiesHub() {
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
                 {tool.badge === 'Ent'
                   ? <span className="ud-badge" style={{ background: '#1e2d3d', color: '#fff' }}>Enterprise · Beta</span>
-                  : <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>}
+                  : <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>}
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
@@ -788,7 +788,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Insurance</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Policies · Claims · Chain-of-custody</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Policies · Claims · Chain-of-custody</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {INSURANCE_TOOLS.map(tool => (
@@ -798,7 +798,7 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
@@ -811,7 +811,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Format Conversion &amp; Verification</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Reformat · Bates Stamp · Verify</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Reformat · Bates Stamp · Verify</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {FORMAT_CONVERSION_TOOLS.map(tool => (
@@ -842,8 +842,8 @@ export default function UtilitiesHub() {
             { title: 'UD Utilities — specialised tools for real workflows', body: 'Legal bundle assembler, privilege log generator, deposition package, medical prescription form, consent manager, medication list, research pre-registration — these are not generic document tools. They are built for specific professional workflows that generic utilities cannot address.' },
           ].map(card => (
             <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
-              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
-              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+              <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', lineHeight: 1.7 }}>{card.body}</div>
             </div>
           ))}
         </div>

@@ -51,7 +51,7 @@ export default function MediaSyncAdvanced() {
   }
 
   const inp: React.CSSProperties = { width: '100%', padding: '9px 12px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-ink)', background: '#fff', boxSizing: 'border-box' }
-  const lbl: React.CSSProperties = { display: 'block', fontSize: 11, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 5 }
+  const lbl: React.CSSProperties = { display: 'block', fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 5 }
   const dropBase = (active: boolean): React.CSSProperties => ({ border: `1.5px dashed ${active ? 'var(--ud-teal)' : 'var(--ud-border-2)'}`, borderRadius: 'var(--ud-radius-xl)', padding: '28px 20px', textAlign: 'center', cursor: 'pointer', background: active ? 'var(--ud-teal-2)' : 'var(--ud-paper-2)', transition: 'border-color 0.2s, background 0.2s' })
 
   return (
@@ -61,7 +61,7 @@ export default function MediaSyncAdvanced() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Media Sync Advanced</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'rgba(124,58,237,0.1)', color: '#7c3aed', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Premium</span>
+          <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'rgba(124,58,237,0.1)', color: '#7c3aed', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Premium</span>
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
       </div>
@@ -87,8 +87,8 @@ export default function MediaSyncAdvanced() {
           <label style={{ ...lbl, marginBottom: 8 }}>Audio / Video (optional)</label>
           <div style={dropBase(mediaDragging)} onDragOver={e => { e.preventDefault(); setMediaDragging(true) }} onDragLeave={() => setMediaDragging(false)} onDrop={onMediaDrop} onClick={() => mediaRef.current?.click()}>
             <input ref={mediaRef} type="file" accept=".mp3,.wav,.m4a,.mp4,.mov,audio/*,video/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) setMediaFile(f) }} />
-            {mediaFile ? <div style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>🎞 {mediaFile.name.slice(0, 28)}<div style={{ fontSize: 11, color: 'var(--ud-muted)', marginTop: 4 }}>{(mediaFile.size / 1024 / 1024).toFixed(1)} MB</div></div>
-              : <div><div style={{ fontSize: 24, marginBottom: 8 }}>🎞</div><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>Drop media file</div><div style={{ fontSize: 11, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>mp3 · wav · m4a · mp4 · mov · 500 MB max</div></div>}
+            {mediaFile ? <div style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>🎞 {mediaFile.name.slice(0, 28)}<div style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 4 }}>{(mediaFile.size / 1024 / 1024).toFixed(1)} MB</div></div>
+              : <div><div style={{ fontSize: 24, marginBottom: 8 }}>🎞</div><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>Drop media file</div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>mp3 · wav · m4a · mp4 · mov · 500 MB max</div></div>}
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@ export default function MediaSyncAdvanced() {
       <div style={{ marginBottom: 28 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
           <label style={{ ...lbl, marginBottom: 0 }}>Chapter markers (optional — auto-generated if omitted)</label>
-          <button onClick={addMarker} style={{ background: 'none', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '4px 12px', fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)', cursor: 'pointer' }}>+ Add marker</button>
+          <button onClick={addMarker} style={{ background: 'none', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '4px 12px', fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)', cursor: 'pointer' }}>+ Add marker</button>
         </div>
         {markers.map((m, idx) => (
           <div key={m.id} style={{ display: 'grid', gridTemplateColumns: '100px 1fr 1fr auto', gap: 10, alignItems: 'flex-end', marginBottom: 8 }}>
@@ -116,7 +116,7 @@ export default function MediaSyncAdvanced() {
           <div style={{ height: 4, background: 'var(--ud-border)', borderRadius: 99, overflow: 'hidden' }}>
             <div style={{ height: '100%', width: '60%', background: '#7c3aed', borderRadius: 99, animation: 'ud-bounce 1.4s ease-in-out infinite' }} />
           </div>
-          <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Analyzing document structure and generating chapter sync…</div>
+          <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Analyzing document structure and generating chapter sync…</div>
         </div>
       )}
 
@@ -125,17 +125,17 @@ export default function MediaSyncAdvanced() {
           {/* Chapters */}
           {result.chapters?.length > 0 && (
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>
                 {result.chapters.length} chapters · {result.total_duration_estimate} estimated
               </div>
               <div style={{ display: 'grid', gap: 8 }}>
                 {result.chapters.map((ch, i) => (
                   <div key={i} style={{ display: 'flex', gap: 14, padding: '12px 16px', background: '#fff', border: '1px solid var(--ud-border)', borderLeft: '3px solid #7c3aed', borderRadius: 'var(--ud-radius)' }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#7c3aed', minWidth: 48, flexShrink: 0 }}>{ch.timestamp}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#7c3aed', minWidth: 48, flexShrink: 0 }}>{ch.timestamp}</div>
                     <div>
                       <div style={{ fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)' }}>{ch.title}</div>
-                      {ch.document_section && <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginTop: 2 }}>§ {ch.document_section}</div>}
-                      {ch.synopsis && <div style={{ fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', marginTop: 4, lineHeight: 1.4 }}>{ch.synopsis}</div>}
+                      {ch.document_section && <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginTop: 2 }}>§ {ch.document_section}</div>}
+                      {ch.synopsis && <div style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', marginTop: 4, lineHeight: 1.4 }}>{ch.synopsis}</div>}
                     </div>
                   </div>
                 ))}
@@ -145,7 +145,7 @@ export default function MediaSyncAdvanced() {
 
           {/* Sync points count */}
           {result.sync_points?.length > 0 && (
-            <div style={{ padding: '10px 14px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 16 }}>
+            <div style={{ padding: '10px 14px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginBottom: 16 }}>
               {result.sync_points.length} paragraph sync points embedded · Method: {result.sync_method}
             </div>
           )}
@@ -154,7 +154,7 @@ export default function MediaSyncAdvanced() {
             <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)' }}>Advanced sync embedded ✓</div>
-                <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{udsBlob.name}</div>
+                <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{udsBlob.name}</div>
               </div>
               <a href={udsBlob.url} download={udsBlob.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
             </div>
@@ -183,14 +183,14 @@ export default function MediaSyncAdvanced() {
               <span style={{ fontSize: 18, lineHeight: '1', flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)', marginBottom: 4 }}>{item.title}</div>
-                <p style={{ fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{item.body}</p>
+                <p style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{item.body}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Powered by Claude. Sync data embedded in .uds — no external service required. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="media-sync-advanced" tips={tourSteps['media-sync-advanced']} />

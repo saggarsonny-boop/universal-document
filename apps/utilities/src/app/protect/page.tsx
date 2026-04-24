@@ -16,7 +16,7 @@ export default function Protect() {
         extraData={{ password }}
         extraFields={
           <div>
-            <label style={{ display: 'block', fontSize: 13, color: '#8892a4', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 8 }}>
               Password
             </label>
             <input
@@ -30,7 +30,7 @@ export default function Protect() {
                 borderRadius: 8, color: '#f1f5f9', fontSize: 14, outline: 'none',
               }}
             />
-            <p style={{ fontSize: 12, color: '#4a5568', marginTop: 6 }}>
+            <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>
               Files are processed in-memory. Your password is never stored.
             </p>
           </div>

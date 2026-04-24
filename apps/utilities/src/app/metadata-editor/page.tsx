@@ -91,7 +91,7 @@ export default function MetadataEditor() {
   }
 
   const fieldStyle = { width: '100%', padding: '10px 14px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)' as const, fontSize: 14, color: 'var(--ud-ink)', background: '#fff', boxSizing: 'border-box' as const }
-  const labelStyle = { display: 'block' as const, fontSize: 12, fontWeight: 600 as const, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 8 }
+  const labelStyle = { display: 'block' as const, fontSize: 13, fontWeight: 600 as const, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase' as const, letterSpacing: '0.08em', marginBottom: 8 }
 
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 24px' }}>
@@ -99,7 +99,7 @@ export default function MetadataEditor() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Metadata Editor</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
+          <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function MetadataEditor() {
         onDragOver={e => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)} onDrop={onDrop} onClick={() => !docJson ? inputRef.current?.click() : undefined}>
         <input ref={inputRef} type="file" accept=".uds,.udr" style={{ display: 'none' }} onChange={e => handleFile(e.target.files?.[0] ?? null)} />
         {file
-          ? <div><div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>✏️ {file.name}</div><div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 6, fontFamily: 'var(--font-body)', cursor: 'pointer' }} onClick={e => { e.stopPropagation(); inputRef.current?.click() }}>Click to replace file</div></div>
+          ? <div><div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>✏️ {file.name}</div><div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 6, fontFamily: 'var(--font-body)', cursor: 'pointer' }} onClick={e => { e.stopPropagation(); inputRef.current?.click() }}>Click to replace file</div></div>
           : <div><div style={{ fontSize: 32, marginBottom: 12 }}>✏️</div><div style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 600, marginBottom: 6, fontFamily: 'var(--font-body)' }}>Drop your .uds file here</div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>or click to browse · .uds .udr</div></div>}
       </div>
 
@@ -142,7 +142,7 @@ export default function MetadataEditor() {
           <div style={{ marginBottom: 24 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <label style={{ ...labelStyle, marginBottom: 0 }}>Custom fields</label>
-              <button onClick={addCustomField} style={{ fontSize: 12, fontFamily: 'var(--font-mono)', color: 'var(--ud-teal)', background: 'none', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius)', padding: '4px 10px', cursor: 'pointer' }}>+ Add field</button>
+              <button onClick={addCustomField} style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-teal)', background: 'none', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius)', padding: '4px 10px', cursor: 'pointer' }}>+ Add field</button>
             </div>
             {meta.custom.map((c, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: 10, marginBottom: 10, alignItems: 'center' }}>
@@ -155,7 +155,7 @@ export default function MetadataEditor() {
 
           {result && (
             <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-              <div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>Metadata updated ✓</div><div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{result.name}</div></div>
+              <div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>Metadata updated ✓</div><div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{result.name}</div></div>
               <a href={result.url} download={result.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
             </div>
           )}
@@ -172,7 +172,7 @@ export default function MetadataEditor() {
         </div>
       )}
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs entirely in your browser. No data is sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="metadata-editor" tips={tourSteps['metadata-editor']} />

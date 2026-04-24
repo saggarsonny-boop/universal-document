@@ -88,7 +88,7 @@ export default function Highlight() {
   }
 
   const inp: React.CSSProperties = { width: '100%', padding: '10px 14px', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-ink)', background: '#fff', boxSizing: 'border-box' }
-  const lbl: React.CSSProperties = { display: 'block', fontSize: 11, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }
+  const lbl: React.CSSProperties = { display: 'block', fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }
 
   const validEntries = entries.filter(e => e.text.trim()).length
   const can = !file || validEntries === 0
@@ -100,7 +100,7 @@ export default function Highlight() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Highlight</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
+          <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
       </div>
@@ -124,7 +124,7 @@ export default function Highlight() {
         {file ? (
           <div>
             <div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 4 }}>📄 {file.name}</div>
-            <div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
+            <div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
           </div>
         ) : (
           <div>
@@ -152,7 +152,7 @@ export default function Highlight() {
               }}
             />
           ))}
-          <span style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', alignSelf: 'center' }}>
+          <span style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', alignSelf: 'center' }}>
             {COLORS.find(c => c.hex === selectedColor)?.name}
           </span>
         </div>
@@ -161,19 +161,19 @@ export default function Highlight() {
       {/* Highlight entries */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <label style={{ ...lbl, marginBottom: 0 }}>Highlight entries</label>
-        <button onClick={addEntry} style={{ background: 'none', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '4px 12px', fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)', cursor: 'pointer' }}>+ Add</button>
+        <button onClick={addEntry} style={{ background: 'none', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: '4px 12px', fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)', cursor: 'pointer' }}>+ Add</button>
       </div>
 
       {entries.map((entry, idx) => (
         <div key={entry.id} style={{ marginBottom: 12, padding: '14px 16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderLeft: `4px solid ${entry.color}`, borderRadius: 'var(--ud-radius-lg)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Highlight {idx + 1}</span>
+            <span style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Highlight {idx + 1}</span>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {COLORS.map(c => (
                 <button key={c.hex} onClick={() => updateEntry(entry.id, 'color', c.hex)} title={c.name} style={{ width: 20, height: 20, borderRadius: 4, background: c.hex, border: entry.color === c.hex ? '2px solid var(--ud-ink)' : '1px solid transparent', cursor: 'pointer', outline: 'none', flexShrink: 0 }} />
               ))}
               {entries.length > 1 && (
-                <button onClick={() => removeEntry(entry.id)} style={{ background: 'none', border: 'none', color: 'var(--ud-danger)', cursor: 'pointer', fontSize: 12, fontFamily: 'var(--font-body)', padding: '0 4px' }}>Remove</button>
+                <button onClick={() => removeEntry(entry.id)} style={{ background: 'none', border: 'none', color: 'var(--ud-danger)', cursor: 'pointer', fontSize: 13, fontFamily: 'var(--font-body)', padding: '0 4px' }}>Remove</button>
               )}
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function Highlight() {
         <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, marginBottom: 20 }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)' }}>Highlights embedded ✓</div>
-            <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{validEntries} structural {validEntries === 1 ? 'highlight' : 'highlights'} · {file?.name}</div>
+            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{validEntries} structural {validEntries === 1 ? 'highlight' : 'highlights'} · {file?.name}</div>
           </div>
           <a href={result.url} download={result.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
         </div>
@@ -221,14 +221,14 @@ export default function Highlight() {
               <span style={{ fontSize: 18, lineHeight: '1', flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)', marginBottom: 4 }}>{item.title}</div>
-                <p style={{ fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{item.body}</p>
+                <p style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{item.body}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="highlight" tips={tourSteps['highlight']} />

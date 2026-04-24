@@ -101,7 +101,7 @@ export default function ToolPage({
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 8, lineHeight: 1.6 }}>{desc}</p>
       {freeLabel && (
         <span style={{
-          display: 'inline-block', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em',
+          display: 'inline-block', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em',
           padding: '3px 10px', borderRadius: 99,
           background: 'var(--ud-teal-2)', color: 'var(--ud-teal)',
           fontFamily: 'var(--font-mono)', textTransform: 'uppercase',
@@ -138,10 +138,10 @@ export default function ToolPage({
           <div>
             {files.map((f, i) => (
               <div key={i} style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 4 }}>
-                📄 {f.name} <span style={{ color: 'var(--ud-muted)', fontSize: 12 }}>({(f.size / 1024).toFixed(0)} KB)</span>
+                📄 {f.name} <span style={{ color: 'var(--ud-muted)', fontSize: 13 }}>({(f.size / 1024).toFixed(0)} KB)</span>
               </div>
             ))}
-            <div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
+            <div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
           </div>
         ) : (
           <div>
@@ -165,7 +165,7 @@ export default function ToolPage({
           <div style={{ height: 4, background: 'var(--ud-border)', borderRadius: 99, overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${progress}%`, background: 'var(--ud-teal)', borderRadius: 99, transition: 'width 0.3s ease' }} />
           </div>
-          <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Processing…</div>
+          <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Processing…</div>
         </div>
       )}
 
@@ -192,7 +192,7 @@ export default function ToolPage({
           borderRadius: 'var(--ud-radius-lg)',
           padding: 20, marginBottom: 20,
         }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', marginBottom: 10, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             Result
           </div>
           <pre style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-mono)', lineHeight: 1.7, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
@@ -213,7 +213,7 @@ export default function ToolPage({
         }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>Ready to download</div>
-            <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>{result.name}</div>
+            <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>{result.name}</div>
           </div>
           <a
             href={result.url}
@@ -262,7 +262,7 @@ export default function ToolPage({
         background: 'var(--ud-paper-2)',
         border: '1px solid var(--ud-border)',
         borderRadius: 'var(--ud-radius)',
-        fontSize: 12, color: 'var(--ud-muted)',
+        fontSize: 13, color: 'var(--ud-muted)',
         fontFamily: 'var(--font-body)',
         textAlign: 'center',
       }}>

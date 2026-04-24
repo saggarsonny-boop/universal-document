@@ -37,18 +37,18 @@ function DropSlot({
       }}
     >
       <input ref={ref} type="file" accept=".pdf" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) onFile(f) }} />
-      <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-muted)', marginBottom: 12 }}>{label}</div>
+      <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-muted)', marginBottom: 12 }}>{label}</div>
       {file ? (
         <>
           <div style={{ fontSize: 28, marginBottom: 8 }}>📄</div>
           <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4, wordBreak: 'break-word', maxWidth: 180 }}>{file.name}</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>{(file.size / 1024).toFixed(0)} KB · click to replace</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>{(file.size / 1024).toFixed(0)} KB · click to replace</div>
         </>
       ) : (
         <>
           <div style={{ fontSize: 40, marginBottom: 12, animation: 'ud-bounce 2.4s ease-in-out infinite' }}>📄</div>
           <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4 }}>Drop PDF here</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>{hint}</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>{hint}</div>
         </>
       )}
     </div>
@@ -105,8 +105,8 @@ export default function ComparePage() {
         <DropSlot label="Document A — Original" file={fileA} onFile={setFileA} hint="the baseline" />
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 4px', flexShrink: 0 }}>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
-            color: 'var(--ud-border-2)', letterSpacing: '0.05em',
+            fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700,
+            color: 'var(--ud-muted)', letterSpacing: '0.05em',
             writingMode: 'vertical-rl' as const, textOrientation: 'mixed' as const,
           }}>VS</div>
         </div>
@@ -124,13 +124,13 @@ export default function ComparePage() {
           <div style={{ height: 3, background: 'var(--ud-paper-3)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ height: '100%', background: 'var(--ud-ink)', width: `${progress}%`, transition: 'width 0.4s ease', borderRadius: 4 }} />
           </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginTop: 6 }}>Comparing documents…</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>Comparing documents…</div>
         </div>
       )}
 
       {diff && (
         <div className="ud-card" style={{ marginBottom: 24 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, color: 'var(--ud-teal)', marginBottom: 12, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, color: 'var(--ud-teal)', marginBottom: 12, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
             Comparison result
           </div>
           <pre style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-ink)', lineHeight: 1.7, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
@@ -148,7 +148,7 @@ export default function ComparePage() {
         {processing ? 'Comparing…' : ready ? 'Compare documents →' : 'Upload both documents above to compare'}
       </button>
 
-      <div style={{ marginTop: 32, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', textAlign: 'center' }}>
+      <div style={{ marginTop: 32, fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', textAlign: 'center' }}>
         Files processed in memory only. Not stored. ·{' '}
         <a href="https://ud.hive.baby" style={{ color: 'var(--ud-muted)' }}>Universal Document™</a>
       </div>

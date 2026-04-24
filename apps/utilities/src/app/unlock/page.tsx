@@ -16,7 +16,7 @@ export default function Unlock() {
         extraData={{ password }}
         extraFields={
           <div>
-            <label style={{ display: 'block', fontSize: 13, color: '#8892a4', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 8 }}>
               Current password
             </label>
             <input

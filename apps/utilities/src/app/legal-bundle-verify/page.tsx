@@ -161,7 +161,7 @@ export default function LegalBundleVerify() {
   }
 
   const pass = (v: boolean) => (
-    <span style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 99, background: v ? 'rgba(34,84,61,0.1)' : 'rgba(226,75,74,0.1)', color: v ? '#22543d' : 'var(--ud-danger)' }}>
+    <span style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 99, background: v ? 'rgba(34,84,61,0.1)' : 'rgba(226,75,74,0.1)', color: v ? '#22543d' : 'var(--ud-danger)' }}>
       {v ? '✓ PASS' : '✗ FAIL'}
     </span>
   )
@@ -170,7 +170,7 @@ export default function LegalBundleVerify() {
     const ok = v === 'PASS' || v === 'INTACT' || v === 'VERIFIED'
     const na = v === 'NOT_APPLICABLE'
     return (
-      <span style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 99, background: na ? 'rgba(107,114,128,0.1)' : ok ? 'rgba(34,84,61,0.1)' : 'rgba(226,75,74,0.1)', color: na ? 'var(--ud-muted)' : ok ? '#22543d' : 'var(--ud-danger)' }}>
+      <span style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 99, background: na ? 'rgba(107,114,128,0.1)' : ok ? 'rgba(34,84,61,0.1)' : 'rgba(226,75,74,0.1)', color: na ? 'var(--ud-muted)' : ok ? '#22543d' : 'var(--ud-danger)' }}>
         {na ? '– N/A' : ok ? `✓ ${v}` : `✗ ${v}`}
       </span>
     )
@@ -183,7 +183,7 @@ export default function LegalBundleVerify() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Legal Bundle Verify</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
+          <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
       </div>
@@ -206,7 +206,7 @@ export default function LegalBundleVerify() {
         {file ? (
           <div>
             <div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 4 }}>📦 {file.name}</div>
-            <div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
+            <div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
           </div>
         ) : (
           <div>
@@ -224,7 +224,7 @@ export default function LegalBundleVerify() {
           <div style={{ height: 4, background: 'var(--ud-border)', borderRadius: 99, overflow: 'hidden' }}>
             <div style={{ height: '100%', width: '60%', background: 'var(--ud-teal)', borderRadius: 99, animation: 'ud-bounce 1.4s ease-in-out infinite' }} />
           </div>
-          <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Verifying bundle integrity…</div>
+          <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Verifying bundle integrity…</div>
         </div>
       )}
 
@@ -237,8 +237,8 @@ export default function LegalBundleVerify() {
               {pass(result.bundleIntegrity === 'PASS')}
             </div>
             {result.bundleTitle && <div style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', marginTop: 6 }}>{result.bundleTitle}</div>}
-            {result.createdAt && <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginTop: 4 }}>Created: {new Date(result.createdAt).toLocaleString()}</div>}
-            {result.producedBy && <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Produced by: {result.producedBy}</div>}
+            {result.createdAt && <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginTop: 4 }}>Created: {new Date(result.createdAt).toLocaleString()}</div>}
+            {result.producedBy && <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Produced by: {result.producedBy}</div>}
           </div>
 
           {/* Detail rows */}
@@ -267,10 +267,10 @@ export default function LegalBundleVerify() {
               <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '12px 16px', background: '#fff', gap: 16 }}>
                 <div>
                   <div style={{ fontSize: 13, fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--ud-ink)' }}>{row.label}</div>
-                  {row.sub && <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginTop: 2 }}>{row.sub}</div>}
+                  {row.sub && <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', marginTop: 2 }}>{row.sub}</div>}
                 </div>
                 {row.raw ? status(row.raw) : (
-                  <span style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 99, background: row.ok ? 'rgba(34,84,61,0.1)' : 'rgba(226,75,74,0.1)', color: row.ok ? '#22543d' : 'var(--ud-danger)', flexShrink: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', padding: '2px 10px', borderRadius: 99, background: row.ok ? 'rgba(34,84,61,0.1)' : 'rgba(226,75,74,0.1)', color: row.ok ? '#22543d' : 'var(--ud-danger)', flexShrink: 0 }}>
                     {row.value}
                   </span>
                 )}
@@ -281,15 +281,15 @@ export default function LegalBundleVerify() {
           {/* Issues */}
           {result.issues.length > 0 && (
             <div style={{ padding: '14px 16px', background: 'rgba(226,75,74,0.05)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-danger)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Issues detected</div>
+              <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--ud-danger)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Issues detected</div>
               {result.issues.map((issue, i) => (
-                <div key={i} style={{ fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-danger)', marginBottom: 4 }}>⚑ {issue}</div>
+                <div key={i} style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-danger)', marginBottom: 4 }}>⚑ {issue}</div>
               ))}
             </div>
           )}
 
           {result.bundleIntegrity === 'PASS' && (
-            <div style={{ marginTop: 12, padding: '12px 16px', background: 'rgba(34,84,61,0.06)', border: '1px solid rgba(34,84,61,0.2)', borderRadius: 'var(--ud-radius)', fontSize: 12, fontFamily: 'var(--font-body)', color: '#22543d' }}>
+            <div style={{ marginTop: 12, padding: '12px 16px', background: 'rgba(34,84,61,0.06)', border: '1px solid rgba(34,84,61,0.2)', borderRadius: 'var(--ud-radius)', fontSize: 13, fontFamily: 'var(--font-body)', color: '#22543d' }}>
               This verification report confirms the bundle is complete and untampered as of {new Date().toLocaleString()}. Suitable for inclusion in discovery correspondence.
             </div>
           )}
@@ -300,7 +300,7 @@ export default function LegalBundleVerify() {
         {processing ? 'Verifying…' : 'Verify Bundle'}
       </button>
 
-      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs entirely in your browser. The bundle is never uploaded to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
@@ -315,8 +315,8 @@ export default function LegalBundleVerify() {
             { title: 'UD Legal Bundle Verify — chain of custody audit', body: 'Checks each document\'s provenance metadata for chain-of-custody fields. Documents with missing or broken provenance are flagged individually — the overall bundle integrity verdict is clearly displayed.' },
           ].map(card => (
             <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
-              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
-              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+              <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', lineHeight: 1.7 }}>{card.body}</div>
             </div>
           ))}
         </div>

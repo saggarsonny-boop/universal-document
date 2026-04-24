@@ -109,7 +109,7 @@ export default function ChainOfCustody() {
       </a>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Chain of Custody</h1>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>FREE</span>
+        <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>FREE</span>
       </div>
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 32, lineHeight: 1.6 }}>
         Parse a Universal Document™ file and display its full provenance timeline — created, sealed, modified, expired, and revoked events with timestamps and hashes.
@@ -126,7 +126,7 @@ export default function ChainOfCustody() {
         {file ? (
           <div>
             <div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 4 }}>📄 {file.name}</div>
-            <div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
+            <div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div>
           </div>
         ) : (
           <div>
@@ -144,8 +144,8 @@ export default function ChainOfCustody() {
           <div style={{ padding: '14px 18px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', marginBottom: 24 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{docMeta.title}</div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              {docMeta.format && <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Format: {docMeta.format}</span>}
-              {docMeta.status && <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: docMeta.status === 'sealed' ? 'var(--ud-gold)' : docMeta.status === 'revoked' ? 'var(--ud-danger)' : 'var(--ud-teal)' }}>Status: {docMeta.status}</span>}
+              {docMeta.format && <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Format: {docMeta.format}</span>}
+              {docMeta.status && <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: docMeta.status === 'sealed' ? 'var(--ud-gold)' : docMeta.status === 'revoked' ? 'var(--ud-danger)' : 'var(--ud-teal)' }}>Status: {docMeta.status}</span>}
             </div>
           </div>
 
@@ -159,10 +159,10 @@ export default function ChainOfCustody() {
                   <div style={{ padding: '12px 16px', background: c.bg, border: `1px solid var(--ud-border)`, borderRadius: 'var(--ud-radius)', }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
                       <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: c.text }}>{evt.label}</span>
-                      {evt.timestamp && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', whiteSpace: 'nowrap' }}>{fmt(evt.timestamp)}</span>}
+                      {evt.timestamp && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)', whiteSpace: 'nowrap' }}>{fmt(evt.timestamp)}</span>}
                     </div>
-                    {evt.detail && <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>{evt.detail}</div>}
-                    {evt.hash && <div style={{ fontSize: 11, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', marginTop: 6, wordBreak: 'break-all', opacity: 0.7 }}>{evt.hash}</div>}
+                    {evt.detail && <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 4 }}>{evt.detail}</div>}
+                    {evt.hash && <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', marginTop: 6, wordBreak: 'break-all', opacity: 0.7 }}>{evt.hash}</div>}
                   </div>
                 </div>
               )
@@ -175,7 +175,7 @@ export default function ChainOfCustody() {
         Show Chain of Custody
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Processed entirely in your browser. No data is sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="chain-of-custody" tips={tourSteps['chain-of-custody']} />

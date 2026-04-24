@@ -16,7 +16,7 @@ export default function Rearrange() {
         extraData={{ order }}
         extraFields={
           <div>
-            <label style={{ display: 'block', fontSize: 13, color: '#8892a4', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontSize: 13, color: 'var(--ud-muted)', marginBottom: 8 }}>
               New page order (e.g. 3,1,2,4 — leave blank to reverse)
             </label>
             <input

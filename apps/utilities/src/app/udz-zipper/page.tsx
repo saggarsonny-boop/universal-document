@@ -76,7 +76,7 @@ export default function UDZZipper() {
 
   const field = (label: string, node: React.ReactNode) => (
     <div style={{ marginBottom: 16 }}>
-      <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>{label}</label>
       {node}
     </div>
   )
@@ -89,7 +89,7 @@ export default function UDZZipper() {
       </a>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UDZ Zipper</h1>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>FREE</span>
+        <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>FREE</span>
       </div>
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 32, lineHeight: 1.6 }}>
         Bundle multiple Universal Document™ files into a single .udz archive. Add a shared title, description, and optional expiration date.
@@ -113,9 +113,9 @@ export default function UDZZipper() {
           {files.map((f, i) => (
             <div key={f.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', background: i % 2 === 0 ? '#fff' : 'var(--ud-paper-2)', borderBottom: i < files.length - 1 ? '1px solid var(--ud-border)' : 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', minWidth: 20 }}>{i + 1}</span>
+                <span style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', minWidth: 20 }}>{i + 1}</span>
                 <span style={{ fontSize: 13, fontFamily: 'var(--font-body)', color: 'var(--ud-ink)' }}>📄 {f.name}</span>
-                <span style={{ fontSize: 11, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>({(f.size / 1024).toFixed(0)} KB)</span>
+                <span style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>({(f.size / 1024).toFixed(0)} KB)</span>
               </div>
               <button onClick={() => remove(f.name)} style={{ background: 'none', border: 'none', color: 'var(--ud-danger)', cursor: 'pointer', fontSize: 16, lineHeight: 1, padding: '2px 6px', borderRadius: 4 }}>×</button>
             </div>
@@ -124,7 +124,7 @@ export default function UDZZipper() {
       )}
 
       <div style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: '20px 20px 8px', marginBottom: 24 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>Bundle Details</div>
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>Bundle Details</div>
         {field('Bundle Title', <input style={inputStyle} value={bundleTitle} onChange={e => setBundleTitle(e.target.value)} placeholder="e.g. Q1 2026 Reports" />)}
         {field('Description (optional)', <input style={inputStyle} value={bundleDesc} onChange={e => setBundleDesc(e.target.value)} placeholder="What this bundle contains" />)}
         {field('Shared Expiration (optional)', <input style={{ ...inputStyle, colorScheme: 'light' }} type="date" value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />)}
@@ -136,7 +136,7 @@ export default function UDZZipper() {
         <div style={{ padding: '16px 20px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, gap: 16 }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>Bundle created — {result.count} documents ✓</div>
-            <div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>{result.name}</div>
+            <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>{result.name}</div>
           </div>
           <a href={result.url} download={result.name} style={{ padding: '10px 20px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .udz →</a>
         </div>
@@ -146,7 +146,7 @@ export default function UDZZipper() {
         {files.length === 0 ? 'Add .uds files to bundle' : `Create .udz Bundle (${files.length} file${files.length !== 1 ? 's' : ''})`}
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Processed entirely in your browser. No data is sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
       <TooltipTour engineId="udz-zipper" tips={tourSteps['udz-zipper']} />

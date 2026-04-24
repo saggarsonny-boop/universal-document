@@ -53,7 +53,7 @@ export default function AccessibilityCheck() {
       <a href="/" style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 32 }}>← All tools</a>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)' }}>UD Accessibility Check</h1>
-        <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>AI · Free during beta</span>
+        <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-teal-2)', color: 'var(--ud-teal)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>AI · Free during beta</span>
       </div>
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 32, lineHeight: 1.6 }}>
         Check any document against WCAG 2.1 and Section 508. Covers alt text, heading hierarchy, colour contrast, reading order, and 6 more criteria. If the input is a .uds file, the report is embedded as a Clarity Layer in the output.
@@ -63,13 +63,13 @@ export default function AccessibilityCheck() {
         onDragOver={e => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)} onDrop={onDrop} onClick={() => inputRef.current?.click()}>
         <input ref={inputRef} type="file" accept=".uds,.udr,.pdf,.txt,.docx" style={{ display: 'none' }} onChange={e => handleFile(e.target.files?.[0] ?? null)} />
         {file
-          ? <div><div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>♿ {file.name}</div><div style={{ fontSize: 12, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div></div>
+          ? <div><div style={{ fontSize: 14, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)' }}>♿ {file.name}</div><div style={{ fontSize: 13, color: 'var(--ud-teal)', marginTop: 8, fontFamily: 'var(--font-body)' }}>Click or drop to replace</div></div>
           : <div><div style={{ fontSize: 32, marginBottom: 12 }}>♿</div><div style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 600, marginBottom: 6, fontFamily: 'var(--font-body)' }}>Drop your document here</div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>or click to browse · .uds .pdf .txt</div></div>}
       </div>
 
       {error && <div style={{ padding: '12px 16px', background: 'rgba(226,75,74,0.08)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-danger)', fontFamily: 'var(--font-body)', marginBottom: 20 }}>{error}</div>}
 
-      {processing && <div style={{ marginBottom: 20 }}><div style={{ height: 4, background: 'var(--ud-border)', borderRadius: 99, overflow: 'hidden' }}><div style={{ height: '100%', width: '60%', background: 'var(--ud-teal)', borderRadius: 99, animation: 'ud-bounce 1.4s ease-in-out infinite' }} /></div><div style={{ fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Checking against WCAG 2.1 and Section 508…</div></div>}
+      {processing && <div style={{ marginBottom: 20 }}><div style={{ height: 4, background: 'var(--ud-border)', borderRadius: 99, overflow: 'hidden' }}><div style={{ height: '100%', width: '60%', background: 'var(--ud-teal)', borderRadius: 99, animation: 'ud-bounce 1.4s ease-in-out infinite' }} /></div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginTop: 8 }}>Checking against WCAG 2.1 and Section 508…</div></div>}
 
       {report && (
         <div style={{ marginBottom: 24 }}>
@@ -83,8 +83,8 @@ export default function AccessibilityCheck() {
               const s = STATUS_STYLE[c.status] ?? STATUS_STYLE.CANNOT_ASSESS
               return (
                 <div key={c.id} style={{ padding: '12px 14px', background: s.bg, border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, fontFamily: 'var(--font-mono)', color: s.color, minWidth: 36, paddingTop: 2 }}>{s.label}</span>
-                  <div><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>{c.label}</div><div style={{ fontSize: 11, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>{c.note}</div><div style={{ fontSize: 10, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', marginTop: 4 }}>WCAG {c.wcag}</div></div>
+                  <span style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)', color: s.color, minWidth: 36, paddingTop: 2 }}>{s.label}</span>
+                  <div><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>{c.label}</div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>{c.note}</div><div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', marginTop: 4 }}>WCAG {c.wcag}</div></div>
                 </div>
               )
             })}
@@ -92,7 +92,7 @@ export default function AccessibilityCheck() {
 
           {report.remediation_steps.length > 0 && (
             <div style={{ padding: '16px 18px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', marginBottom: 16 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>Remediation steps</div>
+              <div style={{ fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>Remediation steps</div>
               <ol style={{ margin: 0, paddingLeft: 18 }}>
                 {report.remediation_steps.map((s, i) => <li key={i} style={{ fontSize: 13, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', lineHeight: 1.6, marginBottom: 4 }}>{s}</li>)}
               </ol>
@@ -101,7 +101,7 @@ export default function AccessibilityCheck() {
 
           {udsBlob && (
             <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-              <div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>Report embedded in .uds ✓</div><div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{udsBlob.name}</div></div>
+              <div><div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)', marginBottom: 2 }}>Report embedded in .uds ✓</div><div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>{udsBlob.name}</div></div>
               <a href={udsBlob.url} download={udsBlob.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
             </div>
           )}
@@ -112,7 +112,7 @@ export default function AccessibilityCheck() {
         {processing ? 'Checking…' : 'Run Accessibility Check'}
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Analysis powered by Claude claude-opus-4-5. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
@@ -127,8 +127,8 @@ export default function AccessibilityCheck() {
             { title: 'UD Accessibility Check — report embedded in the document', body: 'The accessibility report is embedded as structured metadata in the output .uds. The document carries its own audit record — auditors, editors, and publishers can retrieve it from the file at any time.' },
           ].map(card => (
             <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
-              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
-              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+              <div style={{ fontWeight: 600, fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '15px', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', lineHeight: 1.7 }}>{card.body}</div>
             </div>
           ))}
         </div>
