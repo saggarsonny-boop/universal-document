@@ -830,6 +830,25 @@ export default function UtilitiesHub() {
         </div>
       </div>
 
+      {/* SEO comparison section */}
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Utilities differs from iLovePDF, Smallpdf, and Adobe Acrobat Online</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Online document tools typically do format conversion. UD Utilities go further: AI-powered analysis, legal and medical specialisations, cryptographic integrity, and tools that embed intelligence into the document structure itself.</p>
+        <div style={{ display: 'grid', gap: '1rem', marginBottom: '2rem' }}>
+          {[
+            { title: 'iLovePDF / Smallpdf — format utilities only', body: 'These tools handle PDF merge, split, compress, and convert. They are excellent at what they do but limited to format manipulation. There are no AI tools, no legal bundle assemblers, no medical form generators, no cryptographic signing, and no structured document output.' },
+            { title: 'Adobe Acrobat Online — PDF-ecosystem tools', body: 'Adobe\'s online tools are polished but locked to the PDF ecosystem. Every operation produces a PDF. There is no structured document output, no AI summarisation, no research pre-registration, and no way to embed media or provenance metadata in a machine-readable format.' },
+            { title: 'UD Utilities — AI-powered document intelligence', body: '30+ tools use Claude AI for tasks that require understanding: summarise a document, classify its type, translate it, check accessibility, generate a media sync timeline, or extract clinical data. The output is enriched structured data, not just a reformatted file.' },
+            { title: 'UD Utilities — specialised tools for real workflows', body: 'Legal bundle assembler, privilege log generator, deposition package, medical prescription form, consent manager, medication list, research pre-registration — these are not generic document tools. They are built for specific professional workflows that generic utilities cannot address.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* UD Ecosystem bar */}
       <div style={{
         marginTop: 64, padding: '24px',
