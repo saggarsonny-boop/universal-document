@@ -472,5 +472,218 @@ export const tourSteps: Record<string, TourStep[]> = {
     { label: 'Generate button', text: 'Creates an ICH E6(R3) compliant .udz TMF bundle with blockchain provenance on every document.' },
   ],
 
+  // ── Identity & Trust ─────────────────────────────────────────────────────────
+
+  'identity-document': [
+    { label: 'Personal information', text: 'Fill in your name, profession, employer, and contact details. Only fields you complete are sealed.' },
+    { label: 'Credentials & licences', text: 'Add your professional licences and qualifications, one per line. These become queryable data in the .uds.' },
+    { label: 'Generate', text: 'Creates a SHA-256 sealed .uds identity record. Share it directly — recipients verify without a central database.' },
+    { label: 'Verify', text: 'Use UD Verify to check any identity document has not been altered since sealing.' },
+  ],
+  'job-application': [
+    { label: 'Application details', text: 'Enter the role and company you are applying to, plus your personal details.' },
+    { label: 'Documents', text: 'Upload your CV, cover letter, and any supporting certificates. Each is sealed individually.' },
+    { label: 'Bundle', text: 'All documents are bundled into a single tamper-evident .udz package with an index.' },
+    { label: 'Share', text: 'Send the .udz to the employer. They can verify qualifications without contacting institutions.' },
+  ],
+  'reference-letter': [
+    { label: 'Referee details', text: 'Enter the referee name, title, and organisation. These are sealed into the letter.' },
+    { label: 'Subject', text: 'Add the person being referenced and the context — job, course, or general character reference.' },
+    { label: 'Letter content', text: 'Write the reference text. Once sealed it cannot be altered.' },
+    { label: 'Download', text: 'Creates a .uds reference letter. The recipient verifies it without contacting the referee.' },
+  ],
+  'statement': [
+    { label: 'Statement type', text: 'Choose the type: formal statement, public apology, press release, or personal declaration.' },
+    { label: 'Content', text: 'Write your statement. This is the version that will be cryptographically sealed.' },
+    { label: 'Seal', text: 'The statement is SHA-256 hashed and blockchain timestamped. It cannot be backdated.' },
+    { label: 'Share', text: 'Share the .uds. Anyone can verify the statement has not been altered since the stated time.' },
+  ],
+  'consent-form': [
+    { label: 'Consent type', text: 'Choose from photo consent, model release, data processing, research participation, or custom.' },
+    { label: 'Parties', text: 'Enter the consenting party and the requesting organisation or individual.' },
+    { label: 'Terms', text: 'Describe what is being consented to. Be specific — vague consent is unenforceable.' },
+    { label: 'Generate', text: 'Creates a GDPR-compliant .uds consent form with a tamper-evident timestamp.' },
+  ],
+
+  // ── Finance & Commerce ───────────────────────────────────────────────────────
+
+  'receipt': [
+    { label: 'Transaction details', text: 'Enter the purchase date, merchant, items, and total. Multiple line items are each stored as structured data.' },
+    { label: 'Seal', text: 'Creates a tamper-evident .uds receipt. Cannot be altered after sealing — no more disputed transactions.' },
+    { label: 'Verify', text: 'Use UD Verify to check any receipt has not been altered since issue.' },
+    { label: 'Use cases', text: 'Expense claims, warranty records, legal disputes, insurance claims. The receipt that actually holds up.' },
+  ],
+  'event-ticket': [
+    { label: 'Event details', text: 'Enter the event name, date, venue, and ticket type. Expiry is set to the event date automatically.' },
+    { label: 'Batch size', text: 'Generate one ticket or multiple. Each ticket gets a unique hash — no two are identical.' },
+    { label: 'Validate', text: 'Use UD Validator at the door to verify each ticket. No special app needed — works in any browser.' },
+    { label: 'Download', text: 'Tickets download as .uds files or a .udz batch. Email them to attendees.' },
+  ],
+  'insurance-claim-consumer': [
+    { label: 'Incident details', text: 'Describe the incident with date, location, and what happened. This text is sealed at submission time.' },
+    { label: 'Evidence', text: 'Upload photos, receipts, and supporting documents. Each is SHA-256 hashed and bundled.' },
+    { label: 'Claim summary', text: 'Enter the claimed amount and policy reference. These are sealed into the claim record.' },
+    { label: 'Bundle', text: 'Creates a tamper-evident .udz claims bundle with a reference number. Submit to your insurer.' },
+  ],
+  'debt-acknowledgment': [
+    { label: 'Parties', text: 'Enter the debtor and creditor names and addresses. Both are sealed into the acknowledgment.' },
+    { label: 'Debt details', text: 'Specify the amount, currency, original debt date, and agreed repayment terms.' },
+    { label: 'Terms', text: 'Add repayment schedule, interest rate (if any), and what happens on default.' },
+    { label: 'Seal', text: 'Creates a .uds debt acknowledgment. Neither party can later claim the terms were different.' },
+  ],
+  'freelance-agreement': [
+    { label: 'Parties', text: 'Enter client and freelancer details. Both parties are sealed into the agreement.' },
+    { label: 'Scope', text: 'Describe the work, deliverables, and revision limits clearly. Vague scope causes disputes.' },
+    { label: 'Terms', text: 'Set payment amount, schedule, IP ownership, and confidentiality terms.' },
+    { label: 'Generate', text: 'Creates a governed .uds freelance agreement. Expiry on project end date.' },
+  ],
+
+  // ── Civic & Community ────────────────────────────────────────────────────────
+
+  'petition': [
+    { label: 'Petition text', text: 'Write the petition text. This is sealed at the moment the first signature is added and cannot be changed.' },
+    { label: 'Target', text: 'Specify who the petition is addressed to and what outcome you are requesting.' },
+    { label: 'Sign', text: 'Each signatory signs the same cryptographic version. Mathematical proof the text was never altered.' },
+    { label: 'Bundle', text: 'Creates a .udz petition bundle with the sealed petition text and all signature records.' },
+  ],
+
+  // ── Healthcare Suite additions ────────────────────────────────────────────────
+
+  'medical-history': [
+    { label: 'Patient details', text: 'Enter the patient name, DOB, blood type, allergies, and emergency contact.' },
+    { label: 'Medical history', text: 'Add conditions, medications, procedures, vaccinations, and family history. Each is structured data.' },
+    { label: 'Audience layers', text: 'The .uds has three layers: patient (plain English), emergency responder (key facts), and specialist (clinical detail).' },
+    { label: 'Generate', text: 'Creates a tamper-evident .uds medical history. Use UD Reader to view it in any language.' },
+  ],
+
+  // ── Real Estate additions ─────────────────────────────────────────────────────
+
+  'rental-agreement': [
+    { label: 'Property details', text: 'Enter the property address, type, and rental period dates.' },
+    { label: 'Parties', text: 'Add host and guest names. Both are sealed into the agreement with their responsibilities.' },
+    { label: 'Terms', text: 'Set the nightly rate, security deposit, house rules, and check-in/check-out times.' },
+    { label: 'Generate', text: 'Creates a .uds short-term rental agreement. Expiry on checkout date.' },
+  ],
+  'tenancy-deposit': [
+    { label: 'Check-in mode', text: 'Document property condition at the start of tenancy with photos, descriptions, and meter readings.' },
+    { label: 'Check-out mode', text: 'Document condition at end of tenancy. The tool compares against check-in record automatically.' },
+    { label: 'Evidence', text: 'Upload photos for each room. All photos are SHA-256 hashed at inspection time.' },
+    { label: 'Bundle', text: 'Creates a .udz with inspection report and comparison. Prevents deposit disputes.' },
+  ],
+
+  // ── Trust & Proof additions ───────────────────────────────────────────────────
+
+  'separation-agreement': [
+    { label: 'Parties', text: 'Enter both parties\' names and addresses. These are sealed into the agreement.' },
+    { label: 'Assets', text: 'List shared assets, property, and agreed division. Be specific — vague terms cause disputes.' },
+    { label: 'Arrangements', text: 'Add child arrangements, maintenance terms, and any other agreed conditions.' },
+    { label: 'Generate', text: 'Creates a .uds separation agreement. Neither party can later claim terms were different.' },
+  ],
+  'power-of-attorney': [
+    { label: 'POA type', text: 'Choose: General, Lasting (LPA), Financial, or Medical. Each has different legal requirements.' },
+    { label: 'Donor', text: 'The person granting authority. Their name and capacity statement are sealed into the document.' },
+    { label: 'Attorney', text: 'The person granted authority. Add their name, relationship, and scope of powers.' },
+    { label: 'Generate', text: 'Creates a structured .uds POA draft. This is a starting point — always have it reviewed by a solicitor.' },
+  ],
+
+  // ── Research & Science additions ──────────────────────────────────────────────
+
+  'academic-paper': [
+    { label: 'Paper details', text: 'Enter the title, authors, abstract, and journal or preprint server.' },
+    { label: 'Citations', text: 'Add citations as structured data — author, title, DOI. Each becomes a queryable reference object.' },
+    { label: 'Sections', text: 'Upload the paper sections. Figures and supplementary materials are bundled as first-class content.' },
+    { label: 'Generate', text: 'Creates a .uds academic paper or .udz bundle with supplementary materials.' },
+  ],
+  'grant-application': [
+    { label: 'Grant details', text: 'Enter the grant name, funder, submission deadline, and amount requested.' },
+    { label: 'Application', text: 'Write or paste the application text. This is sealed with a tamper-evident timestamp.' },
+    { label: 'Supporting documents', text: 'Upload CVs, preliminary data, letters of support. All bundled into the .udz.' },
+    { label: 'Submit', text: 'Creates a .uds application with tamper-evident timestamp proving on-time submission.' },
+  ],
+
+  // ── Governance Suite additions ────────────────────────────────────────────────
+
+  'safety-report': [
+    { label: 'Incident type', text: 'Choose: workplace accident, near miss, equipment failure, adverse event, or environmental incident.' },
+    { label: 'Details', text: 'Describe what happened, when, where, and who was involved. This is sealed at time of writing.' },
+    { label: 'Evidence', text: 'Upload photos, CCTV stills, equipment logs. All hashed and bundled.' },
+    { label: 'Generate', text: 'Creates a legally defensible .uds safety report sealed at the time of incident reporting.' },
+  ],
+  'esg-report': [
+    { label: 'Scope', text: 'Select emission scopes (1, 2, 3), reporting period, and framework (GRI, TCFD, CSRD).' },
+    { label: 'Data', text: 'Enter emissions data, energy use, water, waste, and social metrics as structured data objects.' },
+    { label: 'Carbon credits', text: 'Optional: issue carbon credit certificates with expiry and revocation when retired.' },
+    { label: 'Generate', text: 'Creates a tamper-evident .uds ESG report. Blockchain provenance prevents greenwashing.' },
+  ],
+
+  // ── Legal Suite additions ─────────────────────────────────────────────────────
+
+  'sports-contract': [
+    { label: 'Contract type', text: 'Choose: player transfer, agent agreement, sponsorship, image rights, or employment contract.' },
+    { label: 'Parties', text: 'Add player, club, agent, and any third parties. All sealed into the contract.' },
+    { label: 'Terms', text: 'Enter fee, duration, salary, performance clauses, and termination conditions.' },
+    { label: 'Compliance', text: 'Select the governing body (FIFA, UEFA, Premier League, etc.) for compliance metadata.' },
+  ],
+
+  // ── Dynamic Documents ─────────────────────────────────────────────────────────
+
+  'living-document': [
+    { label: 'Document type', text: 'Choose: living policy, living contract, living research protocol, or custom.' },
+    { label: 'Initial version', text: 'Write or paste the initial content. This becomes Version 1.0 — the tamper-evident baseline.' },
+    { label: 'Versioning', text: 'Each edit creates a new version with full attribution and diff from previous version.' },
+    { label: 'Snapshot', text: 'Export any version as a sealed .uds snapshot. The entire history is preserved in the .udr.' },
+  ],
+
+  // ── Engines 101-108 ───────────────────────────────────────────────────────────
+
+  'signing-workflow': [
+    { label: 'Upload document', text: 'Upload the .uds or PDF to be signed. The document hash is locked — it cannot change between signatories.' },
+    { label: 'Signatories', text: 'Add signatories in order (sequential) or all at once (parallel). Each gets a unique signing link.' },
+    { label: 'Track', text: 'See who has signed, who is pending, and when each signature was added.' },
+    { label: 'Complete', text: 'Final .uds contains all signatures with chain of custody. Blockchain provenance on each signature.' },
+  ],
+  'training-record': [
+    { label: 'Training details', text: 'Enter the training title, provider, date, and version of the training material.' },
+    { label: 'Completion', text: 'Add the learner name, assessment score, and completion date.' },
+    { label: 'Certificate', text: 'Creates a tamper-evident .uds training certificate. Cannot be backdated.' },
+    { label: 'Bulk', text: 'Enterprise: upload a CSV to issue hundreds of certificates at once.' },
+  ],
+  'document-vault': [
+    { label: 'Upload', text: 'Upload .uds files to your vault. Assign to departments and add access controls.' },
+    { label: 'Audit trail', text: 'Every view, download, and modification is recorded automatically.' },
+    { label: 'Expiry alerts', text: 'Documents with expiry dates trigger review alerts before they lapse.' },
+    { label: 'Search', text: 'Full-text search across all sealed documents in your vault.' },
+  ],
+  'capture': [
+    { label: 'Upload files', text: 'Upload multiple PDFs or images. Claude classifies each document automatically.' },
+    { label: 'Classification', text: 'Each document is assigned a type, metadata, and access classification.' },
+    { label: 'Bundle', text: 'All classified documents are archived as a governed .udz bundle.' },
+    { label: 'Report', text: 'Processing report shows classification decisions and any documents needing manual review.' },
+  ],
+  'proposal': [
+    { label: 'Sections', text: 'Write executive summary, detailed proposal, and pricing. Each becomes a separate audience layer.' },
+    { label: 'Branding', text: 'Add your company name and logo. These appear in the executive layer.' },
+    { label: 'Expiry', text: 'Set a proposal expiry date. The .uds is locked after this date.' },
+    { label: 'Track', text: 'UD Signer integration lets you track when the proposal is opened and signed.' },
+  ],
+  'pdf-editor': [
+    { label: 'Upload PDF', text: 'Upload any PDF. The text layer is extracted and displayed for editing.' },
+    { label: 'Edit', text: 'Click on any text to edit it. Changes are tracked as structured edits.' },
+    { label: 'Annotate', text: 'Add comments, highlights, and form fields on top of existing content.' },
+    { label: 'Export', text: 'Output as edited PDF or convert to .uds for tamper-evident archiving.' },
+  ],
+  'contract-lifecycle': [
+    { label: 'Create', text: 'Start with UD Smart Contract for the initial template.' },
+    { label: 'Negotiate', text: 'Use UD Living Document for tracked redlines and version history.' },
+    { label: 'Sign', text: 'UD Signing Workflow manages sequential or parallel signature collection.' },
+    { label: 'Store & monitor', text: 'UD Document Vault stores the signed contract. UD Contract Intelligence monitors renewal dates.' },
+  ],
+  'document-intelligence': [
+    { label: 'Upload document', text: 'Upload any .uds, .udz, or PDF. Claude reads and understands the full content.' },
+    { label: 'Ask questions', text: 'Ask anything: "What are the payment terms?" or "List all obligations on Party B."' },
+    { label: 'Structured output', text: 'Get parties, key dates, obligations, risks, and anomalies as structured .uds data.' },
+    { label: 'Export', text: 'Download the intelligence report as a .uds for your records.' },
+  ],
+
 }
 
