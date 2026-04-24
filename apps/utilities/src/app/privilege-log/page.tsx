@@ -185,6 +185,24 @@ export default function PrivilegeLog() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Privilege Log differs from a spreadsheet or Relativity</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Privilege logs built in Excel have no tamper evidence and no chain of custody. UD Privilege Log seals entries into a verifiable record.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Excel / spreadsheet privilege log', body: 'Industry standard but legally fragile. No tamper evidence — any cell can be changed after the fact with no record. Opposing counsel can challenge authenticity. No hash, no seal, no chain of custody.' },
+            { title: 'Relativity / Logikcull', body: 'Enterprise platforms for large matters. Privilege logging requires setting up review workflows, assigning tags, and exporting — multiple steps for what should be a simple form.' },
+            { title: 'UD Privilege Log — sealed chain of custody', body: 'Each privilege log entry and the producing party details are written into a .uds file and sealed with a tamper-evident hash. The log can be verified as unmodified by opposing counsel or the court.' },
+            { title: 'UD Privilege Log — FRCP-aligned structure', body: 'Fields map to Federal Rule 26(b)(5) requirements: document type, date, author, recipients, privilege basis, and description. Structured output can be ingested by any review platform or printed for submission.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
