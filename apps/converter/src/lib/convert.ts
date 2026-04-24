@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs'
 
 export interface UDBlock {
   id: string
@@ -273,44 +275,32 @@ export async function convertCsv(text: string, fileName: string): Promise<UDDocu
   })
 }
 
+async function extractTextFromPDF(buffer: Buffer): Promise<string> {
+  const data = new Uint8Array(buffer)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ;(pdfjsLib as any).GlobalWorkerOptions.workerSrc = ''
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const doc = await (pdfjsLib as any).getDocument({ data }).promise
+  let fullText = ''
+  for (let i = 1; i <= doc.numPages; i++) {
+    const page = await doc.getPage(i)
+    const content = await page.getTextContent()
+    const pageText = content.items
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((item: any) => item.str)
+      .join(' ')
+    fullText += pageText + '\n'
+  }
+  return fullText
+}
+
 export async function convertPdf(buffer: Buffer, fileName: string): Promise<UDDocument> {
   let extractedText = ''
 
   try {
-    // Use pdfjs-dist for real text extraction
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pdfjsLib: any = await import('pdfjs-dist/legacy/build/pdf.mjs')
-    pdfjsLib.GlobalWorkerOptions.workerSrc = ''
-
-    const data = new Uint8Array(buffer)
-    const loadingTask = pdfjsLib.getDocument({
-      data,
-      useWorkerFetch: false,
-      isEvalSupported: false,
-      useSystemFonts: true,
-      disableFontFace: true,
-    })
-    const pdfDoc = await loadingTask.promise
-    const pageParts: string[] = []
-
-    for (let i = 1; i <= pdfDoc.numPages; i++) {
-      const page = await pdfDoc.getPage(i)
-      const content = await page.getTextContent()
-      const pageText = content.items
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .filter((item: any) => typeof item.str === 'string')
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((item: any) => item.str)
-        .join(' ')
-        .replace(/\s{2,}/g, ' ')
-        .trim()
-      if (pageText) pageParts.push(pageText)
-    }
-
-    extractedText = pageParts.join('\n').trim()
+    extractedText = await extractTextFromPDF(buffer)
   } catch (err) {
     console.warn('pdfjs-dist extraction failed, using regex fallback:', err)
-    // Regex fallback for malformed or encrypted PDFs
     const raw = buffer.toString('latin1')
     extractedText = raw
       .replace(/\r/g, '\n')
