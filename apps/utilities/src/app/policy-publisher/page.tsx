@@ -104,6 +104,24 @@ export default function PolicyPublisher() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Policy Publisher differs from SharePoint and PolicyStat</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>SharePoint stores policies as files with no structural enforcement. PolicyStat requires subscription and IT setup. UD Policy Publisher creates a self-contained, verifiable policy record instantly.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'SharePoint / intranet document library', body: 'Policies stored as Word or PDF files. Version history relies on SharePoint\'s own metadata — not embedded in the document. If the file is downloaded and shared, version and review date information is lost.' },
+            { title: 'PolicyStat / MedTrainer', body: 'Healthcare-specific policy management platforms. Require subscription, implementation, and training. More than most organisations need for creating a single structured policy document.' },
+            { title: 'UD Policy Publisher — review date in structured metadata', body: 'Mandatory review date is a structured field inside the .uds — not a word in a paragraph. UD Reader surfaces "review due" immediately on open. Policies can be filtered by review date without a database.' },
+            { title: 'UD Policy Publisher — version and owner embedded', body: 'Policy version number, approving authority, and owner are part of the document\'s sealed metadata. Anyone who receives the file can verify who published it, when, and whether it\'s been modified since.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
