@@ -1,6 +1,7 @@
 'use client'
 import { useState, useCallback } from 'react'
 import UDOnboarding from '@/components/UDOnboarding'
+import TooltipTour from '@/components/TooltipTour'
 
 interface UDBlock {
   id: string
@@ -253,6 +254,12 @@ export default function ValidatorPage() {
         </div>
       </div>
 
+      <TooltipTour engineId="validator" tips={[
+        { label: 'Open a file', text: 'Drag and drop any .uds, .udr, or .udz file, or click to browse. Validation runs entirely in your browser.' },
+        { label: 'Seal check', text: 'The SHA-256 hash inside the document is re-calculated against the current content. Any modification breaks the seal.' },
+        { label: 'Metadata', text: 'View the original title, author, dates, and source file name preserved inside the document structure.' },
+        { label: 'No data sent', text: 'Your document never leaves your device. No server, no log, no account.' },
+      ]} />
     </div>
   )
 }

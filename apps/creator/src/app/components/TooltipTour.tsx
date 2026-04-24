@@ -1,5 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+const GLOBAL_KEY = 'hive_ud_tour_dismissed'
 
 const TIPS = [
   { label: 'Block types', text: 'H = heading, P = paragraph, L = list, D = divider. Click the letters to switch.' },
@@ -9,13 +11,26 @@ const TIPS = [
 ]
 
 export default function TooltipTour() {
-  const [open, setOpen] = useState(false)
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState<number | null>(null)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (typeof window !== 'undefined' && !localStorage.getItem(GLOBAL_KEY)) {
+        setStep(0)
+      }
+    }, 1200)
+    return () => clearTimeout(timer)
+  }, [])
+
+  function dismiss() {
+    if (typeof window !== 'undefined') localStorage.setItem(GLOBAL_KEY, '1')
+    setStep(null)
+  }
 
   return (
     <>
       <button
-        onClick={() => { setOpen(true); setStep(0) }}
+        onClick={() => setStep(0)}
         style={{
           position: 'fixed', bottom: 28, left: 28, zIndex: 200,
           width: 36, height: 36, borderRadius: '50%',
@@ -26,7 +41,7 @@ export default function TooltipTour() {
         title="Tour"
       >?</button>
 
-      {open && (
+      {step !== null && (
         <div style={{
           position: 'fixed', bottom: 76, left: 28, zIndex: 201,
           background: 'var(--surface)', border: '1px solid var(--border)',
@@ -40,10 +55,10 @@ export default function TooltipTour() {
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
             {step < TIPS.length - 1
-              ? <button onClick={() => setStep(s => s + 1)} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Next →</button>
-              : <button onClick={() => setOpen(false)} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Done</button>
+              ? <button onClick={() => setStep(s => (s ?? 0) + 1)} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Next →</button>
+              : <button onClick={dismiss} style={{ flex: 1, background: 'var(--gold)', color: '#000', border: 'none', borderRadius: 7, padding: '8px', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Done</button>
             }
-            <button onClick={() => setOpen(false)} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 7, padding: '8px 12px', fontSize: 12, cursor: 'pointer' }}>✕</button>
+            <button onClick={dismiss} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 7, padding: '8px 12px', fontSize: 12, cursor: 'pointer' }}>✕</button>
           </div>
         </div>
       )}

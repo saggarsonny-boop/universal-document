@@ -1,4 +1,5 @@
 'use client'
+import TooltipTour from '@/components/TooltipTour'
 
 const FEATURES = [
   {
@@ -199,6 +200,12 @@ export default function SignerHome() {
         </div>
       </div>
 
+      <TooltipTour engineId="signer" tips={[
+        { label: 'Sign a document', text: 'Attach your identity to any .uds or .udr file. The signature is embedded in the document metadata.' },
+        { label: 'Tamper evidence', text: 'A SHA-256 hash is calculated at signing. Any change to the document after signing is mathematically detectable.' },
+        { label: 'Verify a signature', text: 'Use the Verify tab to confirm a signature is intact and the document unchanged since signing.' },
+        { label: 'Beta access', text: 'All Pro features are free during beta. No account required.' },
+      ]} />
     </div>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import UDOnboarding from '@/components/UDOnboarding'
+import TooltipTour from '@/components/TooltipTour'
 import type { UDDocument } from '@/lib/types'
 import { validateUDDocument } from '@/lib/validator'
 import DocumentViewer from '@/components/DocumentViewer'
@@ -286,6 +287,12 @@ export default function Home() {
         </div>
 
       </div>
+      <TooltipTour engineId="reader" tips={[
+        { label: 'Open a file', text: 'Drag a .uds or .udr file to open it. The document renders with full formatting preserved.' },
+        { label: 'Sealed documents', text: '.uds files show a tamper-evident seal indicator. Green = intact. Red = the document has been modified since sealing.' },
+        { label: 'Block structure', text: 'Universal Documents use structured blocks — headings, paragraphs, lists, tables — not visual layout.' },
+        { label: 'No data sent', text: 'Reading runs locally. Your document never leaves your device.' },
+      ]} />
     </div>
   )
 }
