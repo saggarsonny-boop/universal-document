@@ -1,75 +1,103 @@
 /**
  * Shared pricing library for Universal Document™ ecosystem.
- * Price IDs are populated after Stripe products are created via API.
- * Run: node scripts/create-stripe-products.js to populate.
+ * Live Stripe price IDs and payment links — created April 24 2026.
  */
 
-export const STRIPE_PRICES: Record<string, { monthly?: string; annual?: string; name: string; amount: number }> = {
+export const STRIPE_PRICES: Record<string, {
+  name: string
+  amount: number
+  monthly?: string
+  annual?: string
+  paymentLink?: string
+  paymentLinkAnnual?: string
+}> = {
   ud_solo: {
     name: 'UD Solo',
     amount: 9,
-    monthly: process.env.STRIPE_PRICE_UD_SOLO_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_UD_SOLO_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ2PIZtoQZOG1cOYsKZbI',
+    annual:           'price_1TPtJAPIZtoQZOG1ywp29gzN',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ2PIZtoQZOG177D6wf7J',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJBPIZtoQZOG1CuZkmRMd',
   },
   ud_pro: {
     name: 'UD Pro',
     amount: 29,
-    monthly: process.env.STRIPE_PRICE_UD_PRO_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_UD_PRO_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ2PIZtoQZOG13GimEZoi',
+    annual:           'price_1TPtJBPIZtoQZOG1j18iDp3z',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ3PIZtoQZOG14zH50WxQ',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJBPIZtoQZOG1xErmXCuK',
   },
   ud_premium: {
     name: 'UD Premium',
     amount: 49,
-    monthly: process.env.STRIPE_PRICE_UD_PREMIUM_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_UD_PREMIUM_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ3PIZtoQZOG1ejTmihTM',
+    annual:           'price_1TPtJCPIZtoQZOG1ASGfg1O9',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ3PIZtoQZOG1wF9TTsCp',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJCPIZtoQZOG15WraIbzd',
   },
   enterprise_starter: {
     name: 'Enterprise Starter',
     amount: 199,
-    monthly: process.env.STRIPE_PRICE_ENT_STARTER_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_ENT_STARTER_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ4PIZtoQZOG11t2dnSJJ',
+    annual:           'price_1TPtJCPIZtoQZOG1MpqZIpyr',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ4PIZtoQZOG1FUuTbD5w',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJDPIZtoQZOG1j0ObWbtt',
   },
   enterprise_pro: {
     name: 'Enterprise Pro',
     amount: 499,
-    monthly: process.env.STRIPE_PRICE_ENT_PRO_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_ENT_PRO_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ5PIZtoQZOG1NUp56tn2',
+    annual:           'price_1TPtJDPIZtoQZOG114P0ImlG',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ5PIZtoQZOG1t5WrmjrP',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJEPIZtoQZOG1HkIrIPeW',
   },
   enterprise_scale: {
     name: 'Enterprise Scale',
     amount: 999,
-    monthly: process.env.STRIPE_PRICE_ENT_SCALE_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_ENT_SCALE_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ5PIZtoQZOG1L0rL7Gx5',
+    annual:           'price_1TPtJEPIZtoQZOG18n4tb0ON',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ6PIZtoQZOG1lexZUI2A',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJEPIZtoQZOG1XHCGfiWA',
   },
   csdk_lite: {
     name: 'cSDK Lite',
     amount: 499,
-    monthly: process.env.STRIPE_PRICE_CSDK_LITE_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_CSDK_LITE_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ6PIZtoQZOG1JcEY2AT6',
+    annual:           'price_1TPtJFPIZtoQZOG1WGXr4Scj',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ7PIZtoQZOG16VqZIpFB',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJFPIZtoQZOG1Mv5SlnWv',
   },
   csdk_pro: {
     name: 'cSDK Pro',
     amount: 999,
-    monthly: process.env.STRIPE_PRICE_CSDK_PRO_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_CSDK_PRO_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ7PIZtoQZOG1pwqaxVFI',
+    annual:           'price_1TPtJGPIZtoQZOG10iywTn7v',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ7PIZtoQZOG1V27uHCF6',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJGPIZtoQZOG1LBCRGgm4',
   },
   csdk_scale: {
     name: 'cSDK Scale',
     amount: 2999,
-    monthly: process.env.STRIPE_PRICE_CSDK_SCALE_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_CSDK_SCALE_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ8PIZtoQZOG1s9aQdYx8',
+    annual:           'price_1TPtJGPIZtoQZOG1ihxNgWEV',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ8PIZtoQZOG17Sc5upCq',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJHPIZtoQZOG1LQu7FQCI',
   },
   ud_signer_solo: {
     name: 'UD Signer Solo',
     amount: 12,
-    monthly: process.env.STRIPE_PRICE_SIGNER_SOLO_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_SIGNER_SOLO_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ9PIZtoQZOG1JD3wXRXF',
+    annual:           'price_1TPtJHPIZtoQZOG1r79Lfort',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJ9PIZtoQZOG1A4bgIZ5c',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJIPIZtoQZOG1bmJGldYr',
   },
   ud_signer_business: {
     name: 'UD Signer Business',
     amount: 29,
-    monthly: process.env.STRIPE_PRICE_SIGNER_BIZ_MONTHLY ?? '',
-    annual:  process.env.STRIPE_PRICE_SIGNER_BIZ_ANNUAL  ?? '',
+    monthly:          'price_1TPtJ9PIZtoQZOG1mUwO7bEg',
+    annual:           'price_1TPtJIPIZtoQZOG13xr6j9Rg',
+    paymentLink:      'https://buy.stripe.com/plink_1TPtJAPIZtoQZOG1ZYGK1xRK',
+    paymentLinkAnnual:'https://buy.stripe.com/plink_1TPtJIPIZtoQZOG1b3pvm940',
   },
 }
 
@@ -107,10 +135,16 @@ export function hasAccess(userTier: string, requiredTiers: string[]): boolean {
   // Post-beta: return requiredTiers.some(t => tierIndex(userTier) >= tierIndex(t))
 }
 
-export function getUpgradeUrl(requiredTier: string): string {
-  const price = STRIPE_PRICES[requiredTier]
+export function getPaymentLink(tier: string, interval: 'monthly' | 'annual' = 'monthly'): string {
+  const price = STRIPE_PRICES[tier]
   if (!price) return 'https://ud.hive.baby/pricing'
-  return `https://ud.hive.baby/pricing?plan=${requiredTier}`
+  return interval === 'annual'
+    ? (price.paymentLinkAnnual ?? price.paymentLink ?? 'https://ud.hive.baby/pricing')
+    : (price.paymentLink ?? 'https://ud.hive.baby/pricing')
+}
+
+export function getUpgradeUrl(requiredTier: string): string {
+  return getPaymentLink(requiredTier, 'monthly')
 }
 
 export function formatPrice(tier: string, interval: 'monthly' | 'annual' = 'monthly'): string {

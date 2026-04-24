@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { STRIPE_PRICES, formatPrice } from '../lib/pricing'
+import { STRIPE_PRICES, formatPrice, getPaymentLink } from '../lib/pricing'
 
 interface UpgradePromptProps {
   toolName: string
@@ -11,6 +11,7 @@ interface UpgradePromptProps {
 export default function UpgradePrompt({ toolName, requiredTier, whatProUnlocks }: UpgradePromptProps) {
   const [interval, setInterval] = useState<'monthly' | 'annual'>('monthly')
   const price = STRIPE_PRICES[requiredTier]
+  const checkoutUrl = getPaymentLink(requiredTier, interval)
 
   return (
     <div style={{
@@ -47,9 +48,9 @@ export default function UpgradePrompt({ toolName, requiredTier, whatProUnlocks }
         ✦ FREE DURING BETA — no account required
       </div>
 
-      {/* Interval toggle */}
       {price && (
         <>
+          {/* Interval toggle */}
           <div style={{ display: 'flex', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', padding: 3, marginBottom: 16, width: 'fit-content', margin: '0 auto 16px' }}>
             {(['monthly', 'annual'] as const).map(iv => (
               <button
@@ -83,7 +84,9 @@ export default function UpgradePrompt({ toolName, requiredTier, whatProUnlocks }
           </div>
 
           <a
-            href={`https://ud.hive.baby/pricing?plan=${requiredTier}&interval=${interval}`}
+            href={checkoutUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'block',
               padding: '13px',
