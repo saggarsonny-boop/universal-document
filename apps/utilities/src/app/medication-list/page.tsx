@@ -89,6 +89,24 @@ export default function MedicationList() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         This is not medical advice. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Medication List differs from an EHR module or PDF printout</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>EHR medication lists are locked inside hospital systems. PDF printouts go stale the moment they leave the printer. UD Medication List travels with the patient and carries its own rules.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'EHR medication module (Epic, EMIS, SystmOne)', body: 'Accurate within one system. The moment a patient moves between practices, hospitals, or countries, the medication record doesn\'t follow. Reconciliation happens by fax or phone.' },
+            { title: 'PDF medication printout', body: 'A flat snapshot. No machine-readable fields, no expiry dates on individual drugs, no structured dose or frequency data. Outdated the moment it leaves the printer.' },
+            { title: 'UD Medication List — per-drug expiry', body: 'Each medication entry carries its own start date and duration in structured metadata. UD Reader surfaces drugs approaching expiry before anyone acts on an outdated record.' },
+            { title: 'UD Medication List — shareable across care settings', body: 'A .uds file is a self-contained record. A GP, hospital, pharmacist, or carer in any country can open it in UD Reader — no system access, no login, no integration required.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
