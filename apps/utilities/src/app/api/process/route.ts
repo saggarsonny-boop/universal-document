@@ -3,7 +3,7 @@ import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib'
 import JSZip from 'jszip'
 
 export const runtime = 'nodejs'
-export const maxDuration = 60
+export const maxDuration = 90
 
 async function loadPdf(file: File): Promise<PDFDocument> {
   const buf = await file.arrayBuffer()
@@ -248,18 +248,38 @@ export async function POST(req: NextRequest) {
 
     // ── OCR (AI via Anthropic) ────────────────────────────────────────────────
     if (tool === 'ocr') {
+      const file = files[0]
+      const buf = await file.arrayBuffer()
+      const isImage = file.type.startsWith('image/')
+
+      if (isImage) {
+        // Tesseract.js: genuine OCR on scanned images (PNG, JPG, TIFF, BMP, etc.)
+        const { createWorker } = await import('tesseract.js')
+        const worker = await createWorker('eng')
+        try {
+          const { data: { text, confidence } } = await worker.recognize(Buffer.from(buf))
+          await worker.terminate()
+          const extracted = text.trim() || 'No text found in image'
+          return NextResponse.json({
+            text: `[Tesseract OCR · confidence: ${Math.round(confidence)}%]\n\n${extracted}`,
+          })
+        } catch (e) {
+          await worker.terminate()
+          throw e
+        }
+      }
+
+      // PDF: use Claude API (handles selectable text and scanned pages via vision)
       const apiKey = process.env.ANTHROPIC_API_KEY
       if (!apiKey) return NextResponse.json({ error: 'OCR not configured' }, { status: 503 })
-
-      const buf = await files[0].arrayBuffer()
       const base64 = Buffer.from(buf).toString('base64')
-      const mime = files[0].type || 'application/pdf'
 
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'x-api-key': apiKey,
           'anthropic-version': '2023-06-01',
+          'anthropic-beta': 'pdfs-2024-09-25',
           'content-type': 'application/json',
         },
         body: JSON.stringify({
@@ -268,8 +288,8 @@ export async function POST(req: NextRequest) {
           messages: [{
             role: 'user',
             content: [
-              { type: 'document', source: { type: 'base64', media_type: mime, data: base64 } },
-              { type: 'text', text: 'Extract all text from this document. Preserve structure and formatting where possible. Return only the extracted text, no commentary.' },
+              { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } },
+              { type: 'text', text: 'Extract all text from this PDF. Preserve structure and formatting where possible. Return only the extracted text, no commentary.' },
             ],
           }],
         }),

@@ -6,8 +6,8 @@ export default function OCR() {
     <ToolPage
       tool="ocr"
       name="UD OCR"
-      desc="Extract text from scanned PDFs and images using Claude AI. Preserves document structure."
-      acceptTypes=".pdf,.png,.jpg,.jpeg,.tiff,.tif"
+      desc="Extract text from scanned documents and images. Images (PNG, JPG, TIFF) use Tesseract OCR. PDFs use Claude AI vision — works on both selectable and scanned pages."
+      acceptTypes=".pdf,.png,.jpg,.jpeg,.tiff,.tif,.bmp,.webp"
       freeLabel="AI · Free tier: 5/day"
     />
   )
