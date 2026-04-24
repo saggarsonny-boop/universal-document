@@ -32,6 +32,17 @@ export default function UDNav({ engine }: { engine: string }) {
         </a>
       </div>
       <nav style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
+        <button
+          onClick={() => { if (typeof window !== 'undefined') { localStorage.removeItem('hive_ud_tour_dismissed'); window.location.reload() } }}
+          title="Show help"
+          style={{
+            width: 20, height: 20, borderRadius: '50%', background: 'none',
+            border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.35)',
+            fontSize: 11, fontWeight: 700, cursor: 'pointer', padding: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            lineHeight: 1, fontFamily: 'inherit', flexShrink: 0,
+          }}
+        >?</button>
         {TOOLS.filter(t => t.key !== engine).map(t => (
           <a key={t.href} href={t.href} style={{
             fontFamily: 'var(--font-body)', fontSize: 13,
