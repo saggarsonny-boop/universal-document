@@ -50,9 +50,12 @@ export default function ClinicalSummary() {
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
       </div>
-      <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 8, lineHeight: 1.6 }}>
-        Two summaries from one clinical document: a plain-language version for patients, and a structured clinical summary for healthcare professionals. Both embedded as Clarity Layers in the output .uds.
+      <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 12, lineHeight: 1.6 }}>
+        One clinical document, two plain-language layers: a health-literacy-optimised patient summary, and a structured clinical summary for the treating team. Both are embedded as Clarity Layers in the output .uds file — so the dual-audience record travels with the document, not in a separate system.
       </p>
+      <div style={{ fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 20, lineHeight: 1.6, padding: '12px 16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)' }}>
+        Built for discharge summaries, clinic letters, and EHR exports where both patient understanding and NHS document governance are required. Unlike Dragon Medical or Nuance — which do voice-to-text only — this tool reads any existing document and generates structured output.
+      </div>
       <div style={{ fontSize: 12, color: 'var(--ud-danger)', fontFamily: 'var(--font-body)', marginBottom: 32, padding: '8px 12px', background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)' }}>
         This is not medical advice. Summaries are AI-generated and must be reviewed by a qualified clinician before use.
       </div>
@@ -132,8 +135,32 @@ export default function ClinicalSummary() {
         {processing ? 'Generating…' : 'Generate Clinical Summary'}
       </button>
 
-      <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
-        Analysis powered by Claude claude-opus-4-5. This is not medical advice. Always consult a qualified clinician.<br />
+      {/* Comparison */}
+      <div style={{ marginTop: 48, paddingTop: 40, borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)', marginBottom: 6 }}>How UD Clinical Summary differs</h2>
+        <p style={{ fontSize: 14, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', marginBottom: 20, lineHeight: 1.6 }}>
+          Clinical summarization already exists — but no other tool embeds both the patient-facing and clinician-facing versions inside the original document as a governed record.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+          {[
+            { icon: '📋', title: 'Manual summarization', body: 'Clinicians writing discharge summaries manually takes 20–40 minutes per patient. Quality is inconsistent. UD Clinical Summary generates both versions in under 30 seconds from the source document.' },
+            { icon: '🎙', title: 'Dragon Medical / Nuance', body: 'Voice-to-text tools transcribe speech but cannot summarise existing documents. They produce a single voice note, not a dual-audience structured summary embedded in a file.' },
+            { icon: '💬', title: 'ChatGPT', body: 'ChatGPT can summarise text pasted into a chat window, but the output lives in a conversation thread — not embedded in the document, not tamper-evident, not shareable as a file.' },
+            { icon: '📄', title: 'UD Clinical Summary', body: 'Both the plain-language patient version and the structured clinical professional version are embedded as named Clarity Layers in the .uds output. They travel with the document permanently.' },
+          ].map(item => (
+            <div key={item.title} style={{ padding: '16px 18px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 18, lineHeight: '1', flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)', marginBottom: 4 }}>{item.title}</div>
+                <p style={{ fontSize: 12, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', lineHeight: 1.5, margin: 0 }}>{item.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
+        Analysis powered by Claude. This is not medical advice. Always consult a qualified clinician.<br />
         Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
     </div>
