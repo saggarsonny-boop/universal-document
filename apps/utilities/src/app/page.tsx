@@ -32,6 +32,7 @@ const SECURITY_TOOLS = [
 const LEGAL_TOOLS = [
   { slug: 'legal-bundle',      name: 'UD Legal Bundle',      icon: '⚖️', desc: 'Bates-numbered .udz bundle with cover sheet and privilege log. Output: .udz bundle.',               badge: 'Pro'  as const },
   { slug: 'deposition-package',name: 'UD Deposition Package',icon: '📁', desc: 'Package a deposition transcript with exhibits into a .udz bundle with exhibit index.',              badge: 'Pro'  as const },
+  { slug: 'privilege-log',     name: 'UD Privilege Log',     icon: '🔒', desc: 'Generate a tamper-evident privilege log .uds with attorney-client, work product, and common interest entries and chain of custody.', badge: 'Pro' as const },
 ]
 
 const MEDIA_TOOLS = [
@@ -183,7 +184,7 @@ const FREE_NAV = [
 
 const SPECIALIST_CATS = [
   {cat:'Healthcare', slugs:['clinical-summary','prescription','consent-manager','medication-list','emr-export']},
-  {cat:'Legal',      slugs:['legal-bundle','deposition-package']},
+  {cat:'Legal',      slugs:['legal-bundle','deposition-package','privilege-log']},
   {cat:'Government', slugs:['foi-bundle','policy-publisher','certificate-issuer','regulatory-filing']},
   {cat:'Finance',    slugs:['financial-statement']},
   {cat:'Research',   slugs:['data-package']},
@@ -620,7 +621,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Legal</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Bates numbering · Deposition · .udz bundles</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Bates numbering · Deposition · Privilege Log · .udz bundles</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {LEGAL_TOOLS.map(tool => (
