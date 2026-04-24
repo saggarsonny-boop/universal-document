@@ -94,6 +94,24 @@ export default function ConsentManager() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         This is not medical or legal advice. Always consult a qualified clinician. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Consent Manager differs from DocuSign and Veeva</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>General e-signature platforms handle signatures. They don't model consent-specific rules like procedure-linked expiry or multilingual patient comprehension.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'DocuSign / Adobe Sign', body: 'General e-signature platforms. They capture a signature but don\'t model consent semantics — no procedure-linked expiry, no multilingual patient streams, no awareness that consent lapses if a procedure date changes.' },
+            { title: 'Veeva Vault / paper consent forms', body: 'Enterprise systems require institution-wide deployment and IT integration. Paper forms have no expiry enforcement and no audit trail without manual scanning.' },
+            { title: 'UD Consent Manager — procedure-linked expiry', body: 'Consent expiry is tied directly to the procedure date — automatically set to 7 days post-procedure. UD Reader surfaces this immediately, so no one acts on stale consent.' },
+            { title: 'UD Consent Manager — multilingual patient comprehension', body: 'Generate consent in up to 8 languages within a single .uds file. The patient reads their language; the clinician reads the structured English record. Comprehension and compliance in one document.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
