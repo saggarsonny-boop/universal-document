@@ -397,4 +397,80 @@ export const tourSteps: Record<string, TourStep[]> = {
     PROVENANCE,
   ],
 
+  // ── Trust & Proof ────────────────────────────────────────────────────────────
+
+  'proof': [
+    { label: 'Upload zone', text: 'Upload any file or paste text — your document, idea, code, or creative work.' },
+    { label: 'Description field', text: 'Add a title describing what you\'re proving. This becomes part of the permanent record.' },
+    { label: 'Generate button', text: 'Click to seal. A SHA-256 hash and blockchain timestamp are embedded in your proof file instantly.' },
+    { label: 'Download', text: 'Your .uds proof file contains mathematical evidence this content existed right now. Open it in UD Validator to verify.' },
+  ],
+  'time-capsule': [
+    { label: 'Content input', text: 'Write your message or upload a file — a letter, document, or anything you want to preserve.' },
+    { label: 'Unlock date', text: 'Choose when this capsule opens. Tomorrow, next year, or fifty years from now.' },
+    { label: 'Recipient/message', text: 'Add an optional message shown to anyone who opens the file before the unlock date.' },
+    { label: 'Seal button', text: 'Your capsule is sealed with a blockchain timestamp. Share the file — it stays locked until the date you chose.' },
+  ],
+  'will': [
+    { label: 'Testator details', text: 'Enter your full name, date of birth, and address. These identify the document as yours.' },
+    { label: 'Beneficiaries', text: 'Add each beneficiary with their name, relationship, and share or specific bequest.' },
+    { label: 'Review date', text: 'Set a review date (default 5 years). The document expires on this date as a reminder to update it.' },
+    { label: 'Generate button', text: 'Creates a sealed .uds with both plain-English and formal legal language layers. Not a substitute for legal advice.' },
+  ],
+  'notarize': [
+    { label: 'Upload zone', text: 'Upload the document you want to self-certify or prepare for Remote Online Notarization.' },
+    { label: 'Function selector', text: 'Choose self-certification (cryptographic tamper evidence) or preparation for a licensed RON service.' },
+    { label: 'Declarant details', text: 'Enter your name and the certification statement. These are embedded in the .uds output.' },
+    { label: 'Generate button', text: 'Creates your certified .uds with SHA-256 hash, timestamp, and certification layer embedded.' },
+  ],
+
+  // ── Governance Suite ─────────────────────────────────────────────────────────
+
+  'contract-intelligence': [
+    { label: 'Upload', text: 'Upload any contract — PDF, Word, or Universal Document™ format.' },
+    { label: 'Type selector', text: 'Select contract type to help Claude focus on the right clauses.' },
+    { label: 'Analyse button', text: 'Claude reads the full contract and extracts every key date, obligation, and risk flag.' },
+    { label: 'Output', text: 'Your .uds file contains the original contract plus structured metadata — renewal dates, deadlines, obligations all queryable.' },
+  ],
+  'policy-attestation': [
+    { label: 'Policy upload', text: 'Upload the policy document employees are attesting to. The hash of this exact version is embedded.' },
+    { label: 'Employee details', text: 'Enter the employee name, email, and optional department. These appear in the attestation record.' },
+    { label: 'Attestation statement', text: 'The pre-filled statement can be edited. Whatever is shown here is what the employee is attesting to.' },
+    { label: 'Create button', text: 'Creates a .udz bundle containing the policy and the attestation record — both tamper-evident.' },
+  ],
+  'board-pack': [
+    { label: 'Meeting details', text: 'Enter the board meeting title, date, and company name. Expiry auto-sets to meeting date plus 7 days.' },
+    { label: 'Document uploads', text: 'Upload each board paper with its section number, classification, and author.' },
+    { label: 'Generate button', text: 'Each paper is sealed as .uds and bundled into a governed .udz board pack with auto-expiry.' },
+    PROVENANCE,
+  ],
+  'due-diligence-room': [
+    { label: 'Transaction details', text: 'Enter the transaction name or code and select the transaction type.' },
+    { label: 'Document sections', text: 'Upload documents into standard due diligence sections: Corporate, Financial, Legal, IP, HR, Regulatory.' },
+    { label: 'Expiry date', text: 'Set the deal closing date. All documents expire automatically — no manual cleanup needed.' },
+    { label: 'Generate button', text: 'Creates a governed .udz data room with dynamic watermarking, audit trail, and chain of custody.' },
+  ],
+  'regulatory-change-tracker': [
+    { label: 'Document input', text: 'Paste the URL of a regulatory document or upload it directly.' },
+    { label: 'Regulator selector', text: 'Select the regulator (FDA, FCA, EMA, NHS, etc.) to apply the right classification metadata.' },
+    { label: 'Check frequency', text: 'Set how often to check for changes: daily, weekly, or monthly.' },
+    { label: 'Output', text: 'When a change is detected, you receive a .uds diff showing exactly what changed — added, removed, and altered text.' },
+  ],
+  'whistleblower-package': [
+    { label: 'Evidence upload', text: 'Upload your evidence files. When anonymous mode is on, no identity metadata is captured.' },
+    { label: 'Incident description', text: 'Describe the incident in your own words. This is sealed with a blockchain timestamp.' },
+    { label: 'Anonymous toggle', text: 'On by default. When enabled, no IP address or identity information is recorded.' },
+    { label: 'Submit button', text: 'You receive a reference number and a .udz copy of your submission. The organisation receives the encrypted package.' },
+  ],
+
+  // ── Healthcare Suite ─────────────────────────────────────────────────────────
+
+  'clinical-trial-master-file': [
+    { label: 'Trial details', text: 'Enter the trial title, protocol number, sponsor, and principal investigator.' },
+    { label: 'TMF sections', text: 'Upload documents into standard DIA TMF Reference Model sections. Each is sealed as .uds with GCP classification.' },
+    { label: 'Phase selector', text: 'Select the trial phase (I/II/III/IV). This appears in ICH GCP compliance metadata.' },
+    { label: 'Generate button', text: 'Creates an ICH E6(R3) compliant .udz TMF bundle with blockchain provenance on every document.' },
+  ],
+
 }
+

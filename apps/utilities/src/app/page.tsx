@@ -86,6 +86,26 @@ const FORMAT_CONVERSION_TOOLS = [
   { slug: 'verify',      name: 'UD Verify',      icon: '✔',  desc: '8-point document checker: format, expiry, revocation, provenance, integrity, and clarity layers.',          badge: 'FREE' as const },
 ]
 
+const TRUST_PROOF_TOOLS = [
+  { slug: 'proof',        name: 'UD Proof',        icon: '🔏', desc: 'Cryptographic proof of existence. SHA-256 hash + blockchain timestamp. Free for 3/month.',                badge: 'Free · 3/month' as const },
+  { slug: 'time-capsule', name: 'UD Time Capsule', icon: '⏳', desc: 'Seal any message or document with a future unlock date. Letters to children, future self, business plans.', badge: 'Free · 1/month' as const },
+  { slug: 'will',         name: 'UD Will',         icon: '📜', desc: 'Create a structured will or advance directive as a tamper-evident .uds with dual audience layers.',        badge: 'Free · 1 basic' as const },
+  { slug: 'notarize',     name: 'UD Notarize',     icon: '✍️', desc: 'Self-certify any document cryptographically or prepare it for Remote Online Notarization.',              badge: 'Free · 3/month' as const },
+]
+
+const GOVERNANCE_SUITE_TOOLS = [
+  { slug: 'contract-intelligence',    name: 'UD Contract Intelligence',    icon: '📋', desc: 'AI extracts key dates, obligations, and risk flags from any contract. Never miss a renewal.',            badge: 'Pro'        as const },
+  { slug: 'policy-attestation',       name: 'UD Policy Attestation',       icon: '✔',  desc: 'Tamper-evident employee policy read-and-sign records. GDPR, SOX, ISO 27001 compliant.',                 badge: 'Pro'        as const },
+  { slug: 'board-pack',               name: 'UD Board Pack',               icon: '🏛', desc: 'Governed board meeting document packages as .udz. Auto-expiry after meeting. Chain of custody.',         badge: 'Enterprise' as const },
+  { slug: 'due-diligence-room',       name: 'UD Due Diligence Room',       icon: '🔍', desc: 'Virtual data room as a governed .udz bundle. Dynamic watermarking, audit trails, auto-expiry.',          badge: 'Enterprise' as const },
+  { slug: 'regulatory-change-tracker', name: 'UD Regulatory Change Tracker', icon: '📡', desc: 'Monitor FDA, FCA, NHS documents for changes. Structured diff shows exactly what changed.',           badge: 'Enterprise' as const },
+  { slug: 'whistleblower-package',    name: 'UD Whistleblower Package',    icon: '🔒', desc: 'Anonymous secure evidence submission with blockchain proof. EU Whistleblowing Directive compliant.',     badge: 'Enterprise' as const },
+]
+
+const HEALTHCARE_SUITE_TOOLS = [
+  { slug: 'clinical-trial-master-file', name: 'UD Clinical Trial Master File', icon: '🧪', desc: 'ICH E6(R3) GCP compliant Trial Master File as a governed .udz archive. Replaces Veeva Vault for smaller sponsors.', badge: 'Enterprise' as const },
+]
+
 /* Per-tool mini-animation: CSS keyframe name + rendered SVG/emoji sequence */
 const TOOLS = [
   {
@@ -170,6 +190,9 @@ const ALL_TOOLS_FLAT: { slug: string; name: string }[] = [
   ...REAL_ESTATE_TOOLS.map(({slug,name})=>({slug,name})),
   ...INSURANCE_TOOLS.map(({slug,name})=>({slug,name})),
   ...FORMAT_CONVERSION_TOOLS.map(({slug,name})=>({slug,name})),
+  ...TRUST_PROOF_TOOLS.map(({slug,name})=>({slug,name})),
+  ...GOVERNANCE_SUITE_TOOLS.map(({slug,name})=>({slug,name})),
+  ...HEALTHCARE_SUITE_TOOLS.map(({slug,name})=>({slug,name})),
 ]
 
 const FREE_NAV = [
@@ -187,14 +210,16 @@ const FREE_NAV = [
 ]
 
 const SPECIALIST_CATS = [
-  {cat:'Healthcare', slugs:['clinical-summary','prescription','consent-manager','medication-list','emr-export']},
-  {cat:'Legal',      slugs:['legal-bundle','deposition-package','privilege-log','smart-contract','legal-bundle-verify']},
-  {cat:'Government', slugs:['foi-bundle','policy-publisher','certificate-issuer','regulatory-filing']},
-  {cat:'Finance',    slugs:['financial-statement']},
-  {cat:'Research',   slugs:['data-package']},
-  {cat:'Education',  slugs:['credential','transcript']},
-  {cat:'Real Estate',slugs:['smart-lease','title-chain']},
-  {cat:'Insurance',  slugs:['insurance-policy','claims-package']},
+  {cat:'Healthcare',       slugs:['clinical-summary','prescription','consent-manager','medication-list','emr-export','clinical-trial-master-file']},
+  {cat:'Legal',            slugs:['legal-bundle','deposition-package','privilege-log','smart-contract','legal-bundle-verify','contract-intelligence']},
+  {cat:'Governance',       slugs:['policy-attestation','board-pack','due-diligence-room','regulatory-change-tracker','whistleblower-package']},
+  {cat:'Trust & Proof',    slugs:['proof','time-capsule','will','notarize']},
+  {cat:'Government',       slugs:['foi-bundle','policy-publisher','certificate-issuer','regulatory-filing']},
+  {cat:'Finance',          slugs:['financial-statement']},
+  {cat:'Research',         slugs:['data-package']},
+  {cat:'Education',        slugs:['credential','transcript']},
+  {cat:'Real Estate',      slugs:['smart-lease','title-chain']},
+  {cat:'Insurance',        slugs:['insurance-policy','claims-package']},
 ]
 
 function ToolAnim({ slug }: { slug: string }) {
@@ -799,6 +824,77 @@ export default function UtilitiesHub() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
                 <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Trust & Proof ───────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Trust &amp; Proof</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Proof · Time Capsule · Will · Notarize</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {TRUST_PROOF_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-teal-2)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-teal)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: 'var(--ud-teal-2)', color: 'var(--ud-teal)' }}>{tool.badge}</span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Governance Suite ─────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Governance Suite</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Contract Intelligence · Attestation · Board Pack · Due Diligence · Whistleblower</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {GOVERNANCE_SUITE_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-gold-3)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-gold)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                {tool.badge === 'Pro'
+                  ? <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)' }}>Pro · Beta</span>
+                  : <span className="ud-badge" style={{ background: '#1e2d3d', color: '#fff' }}>Enterprise · Beta</span>}
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Healthcare Suite ─────────────────────────── */}
+      <div style={{ marginBottom: 48 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Healthcare Suite</h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-muted)' }}>Clinical Trial Master File</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+          {HEALTHCARE_SUITE_TOOLS.map(tool => (
+            <a key={tool.slug} href={`/${tool.slug}`} style={{ display: 'block', background: '#fff', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius-lg)', padding: 22, textDecoration: 'none', cursor: 'pointer', boxShadow: 'var(--ud-shadow)', transition: 'border-color 0.2s, background 0.2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--ud-gold-3)'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-gold)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fff'; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--ud-border)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
+                <span className="ud-badge" style={{ background: '#1e2d3d', color: '#fff' }}>Enterprise · Beta</span>
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
