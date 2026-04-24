@@ -24,12 +24,7 @@ export default function UDNav({ engine }: { engine: string }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a href="https://hive.baby" style={{ textDecoration: 'none', fontSize: 18, lineHeight: '1' }}>🌍</a>
         <a href="https://ud.hive.baby" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-          <div style={{
-            width: 28, height: 28, background: '#c8960a', borderRadius: 5,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'Georgia, serif', fontWeight: 700, fontSize: 11, color: '#fff',
-            flexShrink: 0,
-          }}>UD</div>
+          <img src="/icons/ud-mark-uds.png" width={32} height={32} alt="Universal Document" style={{ borderRadius: 5, flexShrink: 0 }} />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 17,
             color: '#ffffff', letterSpacing: '-0.01em',
