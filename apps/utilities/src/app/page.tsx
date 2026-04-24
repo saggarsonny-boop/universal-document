@@ -66,7 +66,8 @@ const EDUCATION_TOOLS = [
 ]
 
 const REAL_ESTATE_TOOLS = [
-  { slug: 'smart-lease', name: 'UD Smart Lease', icon: '🏠', desc: 'Create sealed lease agreements with landlord, tenant, property, rent, and term. Expires on lease end date.', badge: 'Pro' as const },
+  { slug: 'smart-lease',  name: 'UD Smart Lease',  icon: '🏠', desc: 'Create sealed lease agreements with landlord, tenant, property, rent, and term. Expires on lease end date.', badge: 'Pro' as const },
+  { slug: 'title-chain',  name: 'UD Title Chain',  icon: '🏛', desc: 'Generate a .udz title chain archive recording the complete chain of ownership for a property with provenance metadata.', badge: 'Ent' as const },
 ]
 
 const INSURANCE_TOOLS = [
@@ -187,7 +188,7 @@ const SPECIALIST_CATS = [
   {cat:'Finance',    slugs:['financial-statement']},
   {cat:'Research',   slugs:['data-package']},
   {cat:'Education',  slugs:['credential','transcript']},
-  {cat:'Real Estate',slugs:['smart-lease']},
+  {cat:'Real Estate',slugs:['smart-lease','title-chain']},
   {cat:'Insurance',  slugs:['insurance-policy','claims-package']},
 ]
 
@@ -757,7 +758,7 @@ export default function UtilitiesHub() {
       <div style={{ marginBottom: 48 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 20 }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: 'var(--ud-ink)' }}>Real Estate</h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Leases · Tenancy agreements</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)' }}>Leases · Title Chain</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
           {REAL_ESTATE_TOOLS.map(tool => (
@@ -767,7 +768,9 @@ export default function UtilitiesHub() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ width: 40, height: 40, background: 'var(--ud-ink)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>{tool.icon}</div>
-                <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>
+                {tool.badge === 'Ent'
+                  ? <span className="ud-badge" style={{ background: '#1e2d3d', color: '#fff' }}>Enterprise · Beta</span>
+                  : <span className="ud-badge" style={{ background: 'var(--ud-gold-3)', color: 'var(--ud-gold)' }}>Pro · Beta</span>}
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--ud-ink)', marginBottom: 6 }}>{tool.name}</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)', lineHeight: 1.5 }}>{tool.desc}</div>
