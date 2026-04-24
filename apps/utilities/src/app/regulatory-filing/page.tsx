@@ -106,6 +106,24 @@ export default function RegulatoryFiling() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Regulatory Filing differs from EDGAR, FDA eSub, and email tracking</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Regulatory portals accept submissions but don't give you a tamper-evident record of what you filed and when. UD Regulatory Filing creates that record, independent of the regulator's system.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'EDGAR / FDA eSub / FCA Connect portals', body: 'Regulator portals accept the submission but the confirmation you receive is an email or screen acknowledgement — not a structured, verifiable record of exactly what was filed, by whom, on what date.' },
+            { title: 'Email tracking and folder archives', body: 'Compliance teams store submission confirmations in email folders. These can be deleted, modified, or misattributed. No cryptographic proof that the confirmation hasn\'t been altered after receipt.' },
+            { title: 'UD Regulatory Filing — structured submission record', body: 'Filing reference, submission date, regulator name, filing type, and submitting entity are structured metadata fields — not just text in an email. The record is queryable and machine-readable.' },
+            { title: 'UD Regulatory Filing — independent tamper-evident proof', body: 'The filing record is sealed at creation time with a hash independent of the regulator\'s system. In a dispute about whether a filing was made on time, the sealed record provides independent cryptographic evidence.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
