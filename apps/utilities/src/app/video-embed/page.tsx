@@ -97,6 +97,24 @@ export default function VideoEmbed() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. Video encoded as base64. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Video Embed differs from YouTube links and PDF video attachments</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>YouTube links go dead. PDF video attachments are stripped by email clients. UD Video Embed makes the video a permanent, inseparable part of the document.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'YouTube embed link in a document', body: 'Works while the video is live. The moment the channel is deleted, the video is made private, or YouTube changes embed policies, the document has a broken embed. No control, no permanence.' },
+            { title: 'PDF video attachment', body: 'Acrobat Pro supports video annotations, but most PDF viewers strip them on open. Email gateways filter them as security risks. The video rarely survives document forwarding.' },
+            { title: 'UD Video Embed — video encoded inside the document', body: 'The video is base64-encoded and written into the .uds file\'s metadata. No external hosting, no platform dependency. The video is as permanent as the text — it goes wherever the document goes.' },
+            { title: 'UD Video Embed — playable in UD Reader', body: 'UD Reader renders embedded video inline in the document view. Recipients open the .uds and the video is there, ready to play — no separate player, no YouTube account, no internet connection required.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
