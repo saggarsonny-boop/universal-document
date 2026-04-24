@@ -86,6 +86,24 @@ export default function FOIBundle() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD FOI Bundle differs from SharePoint and email attachments</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>FOI responses assembled from shared drives or email have no structured redaction index and no tamper-evident audit trail. UD FOI Bundle creates a verifiable, self-contained response package.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'SharePoint / shared drive assembly', body: 'Documents scattered across folders, manually zipped and emailed. No structured index of what was withheld and under which exemption. No chain of custody proving the response hasn\'t been modified after dispatch.' },
+            { title: 'PDF bundle with manual redaction log', body: 'A separate spreadsheet lists redacted items. The log can\'t be verified against the documents, can be edited after submission, and doesn\'t travel with the bundle when forwarded to the Information Commissioner.' },
+            { title: 'UD FOI Bundle — structured exemption log', body: 'Each withheld or redacted item is recorded with its exemption basis in structured metadata inside the .udz. The log is machine-readable, verifiable, and cannot be separated from the response bundle.' },
+            { title: 'UD FOI Bundle — tamper-evident dispatch record', body: 'The bundle is sealed with a hash at creation time. If the response is disputed, the original bundle can be verified as unmodified since the response date — useful for ICO appeals and judicial review.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
