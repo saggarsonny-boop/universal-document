@@ -122,6 +122,24 @@ export default function Classify() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Analysis powered by Claude claude-opus-4-5. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Classify differs from Microsoft Purview and manual labelling</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Microsoft Purview requires Microsoft 365 and IT policy configuration. Manual classification depends on individual judgement. UD Classify gives AI-reasoned classification in seconds, embedded in the document.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Microsoft Purview Information Protection', body: 'Enterprise information classification platform tied to Microsoft 365. Requires Azure AD, policy configuration, and IT deployment. Not available for standalone documents outside the Microsoft ecosystem.' },
+            { title: 'Manual classification', body: 'Relies on the document creator to assess sensitivity correctly. Inconsistent across teams, subject to anchoring bias, and produces no reasoning trail for audit purposes.' },
+            { title: 'UD Classify — AI reasoning with classification', body: 'Claude reads the document content and returns a classification (PUBLIC / INTERNAL / CONFIDENTIAL / RESTRICTED) with a specific reasoning trail explaining which content drove the classification decision.' },
+            { title: 'UD Classify — label embedded in the document', body: 'The classification label and reasoning are embedded as structured metadata in the output .uds. Any downstream system — DLP, review platform, or document management system — can read the classification without re-processing the content.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
