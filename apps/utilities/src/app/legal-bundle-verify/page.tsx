@@ -301,6 +301,24 @@ export default function LegalBundleVerify() {
       <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs entirely in your browser. The bundle is never uploaded to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Legal Bundle Verify differs from manual bundle checking</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Manually checking that a bundle is complete, correctly numbered, and unmodified takes hours. UD Legal Bundle Verify does it in seconds, entirely in your browser.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'Manual bundle audit', body: 'A paralegal counts documents, checks Bates ranges on each page, and cross-references the index — a process that takes hours on large productions and is prone to human error under deadline pressure.' },
+            { title: 'No equivalent tool exists', body: 'There is no standalone, free tool for verifying that a .udz legal bundle is intact. Enterprise platforms like Relativity include review tools, but not for independent verification by receiving counsel.' },
+            { title: 'UD Legal Bundle Verify — Bates sequence check', body: 'Reads the bundle index and every document\'s Bates number metadata. Confirms the sequence is unbroken from start to finish. Flags any gap, duplication, or out-of-sequence document immediately.' },
+            { title: 'UD Legal Bundle Verify — chain of custody audit', body: 'Checks each document\'s provenance metadata for chain-of-custody fields. Documents with missing or broken provenance are flagged individually — the overall bundle integrity verdict is clearly displayed.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
