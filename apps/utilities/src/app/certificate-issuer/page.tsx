@@ -89,6 +89,24 @@ export default function CertificateIssuer() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 12, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
+
+      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Certificate Issuer differs from PDF certificates and Credly</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF certificates can be forged in seconds. Credly badges require platform accounts. UD certificates are tamper-evident and verifiable by anyone with no account required.</p>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {[
+            { title: 'PDF certificate', body: 'The most common format — and the easiest to forge. Anyone with Photoshop can produce an identical-looking certificate. There\'s no way for an employer or regulator to verify it hasn\'t been altered.' },
+            { title: 'Credly / Acclaim digital badges', body: 'Blockchain-anchored badges requiring issuer accounts, platform integration, and recipient email addresses. Verification depends on Credly\'s platform remaining live and accessible.' },
+            { title: 'UD Certificate Issuer — tamper-evident sealing', body: 'The certificate is sealed with a cryptographic hash at the moment of issue. Any modification to the recipient name, issuer, date, or achievement description invalidates the seal — detectable by UD Reader in one click.' },
+            { title: 'UD Certificate Issuer — no platform dependency', body: 'The proof lives inside the .uds file. Verification works offline with UD Reader — no internet connection required, no Credly account, no issuer platform needed. The certificate survives platform shutdowns.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
