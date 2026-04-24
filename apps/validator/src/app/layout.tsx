@@ -9,13 +9,17 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], vari
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Universal Document™ Validator',
-  description: 'Universal Document™ Validator — verify any .uds file. Check schema, expiry, signatures, and more. Free.',
+  title: 'UD Validator — Verify .uds File Integrity, Schema, Expiry, and Signatures. Free.',
+  description: 'Validate any Universal Document™ .uds or .udr file instantly. Check schema compliance, expiry date, embedded signatures, and structural integrity. No upload required — runs in your browser. Free.',
+  keywords: 'validate UDS file, verify universal document, document integrity check, document schema validator, document expiry checker, signature verification tool, tamper-evident document verify, digital document validator, document hash check, UDS file checker',
   icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://validator.hive.baby'),
   openGraph: {
-    title: 'Universal Document™ Validator',
-    description: 'Validate Universal Document™ files instantly.',
+    title: 'UD Validator — Verify .uds File Integrity, Schema, Expiry, and Signatures. Free.',
+    description: 'Validate Universal Document™ files instantly — schema, expiry, signatures, and structure. Runs in your browser. Free.',
+    url: 'https://validator.hive.baby',
+    siteName: 'Universal Document™',
+    type: 'website',
   },
 }
 

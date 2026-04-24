@@ -234,6 +234,25 @@ export default function ValidatorPage() {
           </div>
         )}
       </div>
+
+      <div style={{ maxWidth: 680, margin: '0 auto', padding: '3rem 24px 0' }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Validator differs from PDF validators and JSON schema checkers</h2>
+        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>PDF validators check rendering compliance. JSON validators check syntax. UD Validator checks the semantic layer: is this document structurally sound, has it expired, has it been tampered with, and are its signatures intact?</p>
+        <div style={{ display: 'grid', gap: '1rem', marginBottom: '3rem' }}>
+          {[
+            { title: 'PDF/A validator tools — format compliance only', body: 'PDF validators like veraPDF check whether a file conforms to PDF/A archival standards. They confirm the file renders correctly but say nothing about whether the document content is structurally intact, expired, or tamper-evident.' },
+            { title: 'JSON Schema validator — syntax without semantics', body: 'JSON validators confirm that a file matches a declared schema shape. They check types and required fields but cannot verify whether a document has passed its expiry date, whether embedded signatures are cryptographically valid, or whether content has been altered post-signing.' },
+            { title: 'UD Validator — semantic document integrity', body: 'UD Validator checks structure (required fields, correct section types), expiry (is this document still valid today?), signature presence (is a .udsig companion referenced?), and schema version compatibility — all in one pass, in your browser.' },
+            { title: 'UD Validator — no upload, no server, no data exposure', body: 'Validation runs entirely in your browser using JavaScript. The document never leaves your device. There is no server, no log, no account. This matters for legal documents, clinical records, and confidential contracts.' },
+          ].map(card => (
+            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
+              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   )
 }
