@@ -113,6 +113,17 @@ export default function WhitepaperPage() {
 
         {/* PDF button — secondary */}
         <div>
+          <div style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 11,
+            color: 'var(--ud-muted)',
+            fontStyle: 'italic',
+            marginBottom: 6,
+            opacity: 0.5,
+            paddingLeft: 4,
+          }}>
+            for the nostalgic
+          </div>
           <a
             href="/whitepaper/universal_document_whitepaper_v2.pdf"
             target="_blank"
@@ -133,17 +144,6 @@ export default function WhitepaperPage() {
           >
             Download as PDF →
           </a>
-          <div style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 11,
-            color: 'var(--ud-muted)',
-            fontStyle: 'italic',
-            marginTop: 6,
-            opacity: 0.6,
-            paddingLeft: 4,
-          }}>
-            (a temporary concession to compatibility)
-          </div>
         </div>
 
         {/* SSRN button */}
