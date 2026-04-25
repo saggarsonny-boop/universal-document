@@ -148,7 +148,7 @@ export default function SeparationAgreementPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
               { title: 'Neither party can alter terms', body: 'Once sealed, the SHA-256 hash makes any alteration detectable. "I never agreed to that" disputes are resolved by verifying the hash.' },
-              { title: 'Blockchain timestamp', body: 'The agreement date is sealed into the .uds. Neither party can backdate or claim the document was signed earlier.' },
+              { title: 'Cryptographic timestamp', body: 'The agreement date is sealed into the .uds. Neither party can backdate or claim the document was signed earlier.' },
               { title: 'Starting point, not final word', body: 'This tool generates a structured starting point. Use it to agree terms before going to a solicitor — saving significantly on legal fees.' },
               { title: 'Structured data', body: 'Assets, child arrangements, and maintenance terms are stored as structured data objects, not just prose — easier to reference and review.' },
             ].map(c => (

@@ -189,7 +189,7 @@ export default function ReceiptPage() {
             {[
               { title: 'Tamper-evident', body: 'A PDF receipt can be edited in seconds. A .uds receipt is SHA-256 hashed — any alteration changes the hash, making modification immediately detectable.' },
               { title: 'Structured data', body: 'Line items, totals, tax, and payment method are stored as queryable structured data — not buried in a PDF. Useful for automated expense processing.' },
-              { title: 'Legally defensible', body: 'The blockchain timestamp proves the receipt was issued at a specific moment. Neither party can backdate or alter the transaction record.' },
+              { title: 'Legally defensible', body: 'The cryptographic timestamp proves the receipt was issued at a specific moment. Neither party can backdate or alter the transaction record.' },
               { title: 'Open format', body: 'A .uds file is readable JSON. Any person or system can verify it without proprietary software.' },
             ].map(c => (
               <div key={c.title} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 20 }}>

@@ -87,7 +87,7 @@ const FORMAT_CONVERSION_TOOLS = [
 ]
 
 const TRUST_PROOF_TOOLS = [
-  { slug: 'proof',        name: 'UD Proof',        icon: '🔏', desc: 'Cryptographic proof of existence. SHA-256 hash + blockchain timestamp. Free for 3/month.',                badge: 'Free · 3/month' as const },
+  { slug: 'proof',        name: 'UD Proof',        icon: '🔏', desc: 'Cryptographic proof of existence. SHA-256 hash + cryptographic timestamp. Free for 3/month.',                badge: 'Free · 3/month' as const },
   { slug: 'time-capsule', name: 'UD Time Capsule', icon: '⏳', desc: 'Seal any message or document with a future unlock date. Letters to children, future self, business plans.', badge: 'Free · 1/month' as const },
   { slug: 'will',         name: 'UD Will',         icon: '📜', desc: 'Create a structured will or advance directive as a tamper-evident .uds with dual audience layers.',        badge: 'Free · 1 basic' as const },
   { slug: 'notarize',     name: 'UD Notarize',     icon: '✍️', desc: 'Self-certify any document cryptographically or prepare it for Remote Online Notarization.',              badge: 'Free · 3/month' as const },
@@ -99,7 +99,7 @@ const GOVERNANCE_SUITE_TOOLS = [
   { slug: 'board-pack',               name: 'UD Board Pack',               icon: '🏛', desc: 'Governed board meeting document packages as .udz. Auto-expiry after meeting. Chain of custody.',         badge: 'Enterprise' as const },
   { slug: 'due-diligence-room',       name: 'UD Due Diligence Room',       icon: '🔍', desc: 'Virtual data room as a governed .udz bundle. Dynamic watermarking, audit trails, auto-expiry.',          badge: 'Enterprise' as const },
   { slug: 'regulatory-change-tracker', name: 'UD Regulatory Change Tracker', icon: '📡', desc: 'Monitor FDA, FCA, NHS documents for changes. Structured diff shows exactly what changed.',           badge: 'Enterprise' as const },
-  { slug: 'whistleblower-package',    name: 'UD Whistleblower Package',    icon: '🔒', desc: 'Anonymous secure evidence submission with blockchain proof. EU Whistleblowing Directive compliant.',     badge: 'Enterprise' as const },
+  { slug: 'whistleblower-package',    name: 'UD Whistleblower Package',    icon: '🔒', desc: 'Anonymous secure evidence submission with tamper-evident seal. EU Whistleblowing Directive compliant.',     badge: 'Enterprise' as const },
 ]
 
 const HEALTHCARE_SUITE_TOOLS = [
@@ -111,7 +111,7 @@ const IDENTITY_TRUST_TOOLS = [
   { slug: 'identity-document', name: 'UD Identity Document', icon: '🪪', desc: 'Self-sovereign verifiable identity record. SHA-256 sealed. No central database. Free for 1/month.',           badge: 'Free · 1/month' as const },
   { slug: 'job-application',   name: 'UD Job Application',   icon: '💼', desc: 'Governed job application package as .udz — CV, cover letter, certificates in one tamper-evident bundle.',     badge: 'Free · 3/month' as const },
   { slug: 'reference-letter',  name: 'UD Reference Letter',  icon: '📝', desc: 'Tamper-evident reference letters. Cannot be altered after issuance. Verify without contacting the referee.',  badge: 'Free · 3/month' as const },
-  { slug: 'statement',         name: 'UD Statement',         icon: '📣', desc: 'Formally structured, tamper-evident statements. Blockchain timestamp proves when the statement was made.',    badge: 'Free · 3/month' as const },
+  { slug: 'statement',         name: 'UD Statement',         icon: '📣', desc: 'Formally structured, tamper-evident statements. Cryptographic timestamp proves when the statement was made.',    badge: 'Free · 3/month' as const },
   { slug: 'consent-form',      name: 'UD Consent Form',      icon: '✅', desc: 'GDPR-compliant consent forms: photo, model release, data processing, research participation.',                badge: 'Free · 5/month' as const },
 ]
 
@@ -150,7 +150,7 @@ const LEGAL_SUITE_NEW = [
 
 const GOVERNANCE_SUITE_NEW = [
   { slug: 'safety-report',    name: 'UD Safety Report',    icon: '⚠️', desc: 'Tamper-evident safety incident reports. Sealed at time of writing. Cannot be backdated. Legally defensible.',    badge: 'Free' as const },
-  { slug: 'esg-report',       name: 'UD ESG Report',       icon: '🌱', desc: 'Tamper-evident ESG reports and carbon credit certificates. Blockchain provenance prevents greenwashing.',        badge: 'Pro' as const },
+  { slug: 'esg-report',       name: 'UD ESG Report',       icon: '🌱', desc: 'Tamper-evident ESG reports and carbon credit certificates. Cryptographic provenance record prevents greenwashing.',        badge: 'Pro' as const },
   { slug: 'training-record',  name: 'UD Training Record',  icon: '🎓', desc: 'Tamper-evident training completion certificates. Cannot be backdated. Enterprise bulk issuance.',                badge: 'Free' as const },
   { slug: 'document-vault',   name: 'UD Document Vault',   icon: '🏦', desc: 'Organisation-level governed document storage with audit trails, expiry alerts, and department access controls.',  badge: 'Enterprise' as const },
   { slug: 'capture',          name: 'UD Capture',          icon: '📥', desc: 'Bulk document ingestion pipeline. Claude classifies and converts each document to governed .uds automatically.',  badge: 'Enterprise' as const },

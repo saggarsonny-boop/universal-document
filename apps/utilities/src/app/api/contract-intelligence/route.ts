@@ -116,7 +116,7 @@ Return ONLY the JSON object, no other text.`
         created: now,
         source: `contract:${file.name}`,
         analysis_by: 'Claude AI',
-        blockchain: `simulated:${now}`,
+        blockchain: null,
       },
     }
 

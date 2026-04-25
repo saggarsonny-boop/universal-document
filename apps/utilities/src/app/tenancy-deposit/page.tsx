@@ -191,7 +191,7 @@ export default function TenancyDepositPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
               { title: 'Photos sealed at inspection time', body: 'Each photo is SHA-256 hashed when you generate the bundle. Nobody can later claim photos were taken on a different date or altered.' },
-              { title: 'Tamper-evident conditions', body: 'Room conditions are sealed in the .uds with a blockchain timestamp. The check-in state is a legally defensible record.' },
+              { title: 'Tamper-evident conditions', body: 'Room conditions are sealed in the .uds with a cryptographic timestamp. The check-in state is a legally defensible record.' },
               { title: 'Meter readings locked', body: 'Gas, electric, and water readings are embedded as structured data, sealed at the inspection date.' },
               { title: 'Compare check-in vs checkout', body: 'Both bundles use the same schema — making comparison systematic rather than based on memory or altered photos.' },
             ].map(c => (

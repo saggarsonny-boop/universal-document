@@ -1,7 +1,7 @@
 export const metadata = {
   title: 'UD ESG Report — Tamper-Evident ESG Reporting with Greenwashing Prevention',
   description:
-    'Create sealed ESG reports with Scope 1, 2 and 3 emissions, carbon credit certificates, and blockchain provenance to prevent greenwashing. SHA-256 tamper-evident.',
+    'Create sealed ESG reports with Scope 1, 2 and 3 emissions, carbon credit certificates, and cryptographic provenance record to prevent greenwashing. SHA-256 tamper-evident.',
   keywords:
     'ESG report, environmental social governance, Scope 1 2 3 emissions, carbon reporting, greenwashing prevention, sustainability report, tamper-evident ESG',
   openGraph: {

@@ -85,7 +85,7 @@ export default function TimeCapsulePage() {
       provenance: {
         created: now,
         source: mode === 'file' ? `file:${file?.name}` : 'text',
-        blockchain: `simulated:${now}`,
+        blockchain: null,
         proof_type: 'time_capsule',
         sealed_at: now,
         unlocks_at: unlockISO,
@@ -196,7 +196,7 @@ export default function TimeCapsulePage() {
         <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, marginBottom: 20 }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)' }}>Time capsule sealed ✓</div>
-            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Unlocks on {unlockDate} · blockchain timestamp embedded</div>
+            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Unlocks on {unlockDate} · cryptographic timestamp embedded</div>
           </div>
           <a href={result.url} download={result.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
         </div>
@@ -217,7 +217,7 @@ export default function TimeCapsulePage() {
             { title: 'Letters to children', body: 'A message that opens on their 18th birthday, graduation, or wedding day.' },
             { title: 'Business intentions', body: 'Seal your vision before you launch. Open it in 5 years to see how things evolved.' },
             { title: 'Future self', body: 'Questions, goals, and predictions for yourself. A digital letter you can\'t open early.' },
-            { title: 'Research snapshots', body: 'Seal your predictions or data before an experiment. Blockchain proof it existed first.' },
+            { title: 'Research snapshots', body: 'Seal your predictions or data before an experiment. Tamper-evident seal it existed first.' },
           ].map(item => (
             <div key={item.title} style={card}>
               <div style={h3s}>{item.title}</div>

@@ -47,7 +47,7 @@ export default function StatementPage() {
           { type: 'heading', level: 2, text: 'Statement' },
           { type: 'paragraph', text: statementText },
           { type: 'paragraph', text: `SHA-256: ${hash}` },
-          { type: 'paragraph', text: 'This statement is tamper-evident and blockchain timestamped. Verify at utilities.hive.baby/verify.' },
+          { type: 'paragraph', text: 'This statement is tamper-evident and cryptographic timestamped. Verify at utilities.hive.baby/verify.' },
         ],
       }
       const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' })
@@ -74,7 +74,7 @@ export default function StatementPage() {
             <span style={{ background: '#0d9488', color: '#fff', fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 4, fontFamily: "'DM Mono',monospace" }}>FREE · 3/MONTH</span>
           </div>
           <p style={{ color: '#4a5568', fontSize: 15, lineHeight: 1.6, margin: 0 }}>
-            Create formally structured, tamper-evident statements and apologies. Once sealed the statement cannot be altered. Blockchain timestamp proves when it was made.
+            Create formally structured, tamper-evident statements and apologies. Once sealed the statement cannot be altered. Cryptographic timestamp proves when it was made.
           </p>
         </div>
 
@@ -116,7 +116,7 @@ export default function StatementPage() {
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 24, fontWeight: 700, marginBottom: 24 }}>How UD Statement differs from a press release or email</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
-              { title: 'Cannot be backdated', body: 'The blockchain timestamp proves exactly when the statement was issued. Nobody can claim a statement was made before or after it actually was.' },
+              { title: 'Cannot be backdated', body: 'The cryptographic timestamp proves exactly when the statement was issued. Nobody can claim a statement was made before or after it actually was.' },
               { title: 'Tamper-evident text', body: 'The SHA-256 hash proves the exact words used. Accusations of misquotation are resolved by verifying the hash.' },
               { title: 'Formal structure', body: 'The statement type, issuer role, and organisation are embedded as structured data — not just text that can be misrepresented.' },
               { title: 'Portable proof', body: 'Share the .uds file directly. Anyone can verify the statement without contacting the issuer.' },

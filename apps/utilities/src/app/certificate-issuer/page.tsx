@@ -98,7 +98,7 @@ export default function CertificateIssuer() {
         <div style={{ display: 'grid', gap: '1rem' }}>
           {[
             { title: 'PDF certificate', body: 'The most common format — and the easiest to forge. Anyone with Photoshop can produce an identical-looking certificate. There\'s no way for an employer or regulator to verify it hasn\'t been altered.' },
-            { title: 'Credly / Acclaim digital badges', body: 'Blockchain-anchored badges requiring issuer accounts, platform integration, and recipient email addresses. Verification depends on Credly\'s platform remaining live and accessible.' },
+            { title: 'Credly / Acclaim digital badges', body: 'Cryptographically anchored badges requiring issuer accounts, platform integration, and recipient email addresses. Verification depends on Credly\'s platform remaining live and accessible.' },
             { title: 'UD Certificate Issuer — tamper-evident sealing', body: 'The certificate is sealed with a cryptographic hash at the moment of issue. Any modification to the recipient name, issuer, date, or achievement description invalidates the seal — detectable by UD Reader in one click.' },
             { title: 'UD Certificate Issuer — no platform dependency', body: 'The proof lives inside the .uds file. Verification works offline with UD Reader — no internet connection required, no Credly account, no issuer platform needed. The certificate survives platform shutdowns.' },
           ].map(card => (

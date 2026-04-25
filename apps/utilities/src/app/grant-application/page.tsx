@@ -95,7 +95,7 @@ export default function GrantApplicationPage() {
             <span style={{ background: '#0d9488', color: '#fff', fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 4, fontFamily: "'DM Mono',monospace" }}>FREE</span>
           </div>
           <p style={{ color: '#4a5568', fontSize: 15, lineHeight: 1.6, margin: 0 }}>
-            Structure any grant application as a tamper-evident <code style={{ fontFamily: "'DM Mono',monospace" }}>.uds</code> with blockchain timestamp proving on-time submission. Supporting documents bundled as <code style={{ fontFamily: "'DM Mono',monospace" }}>.udz</code>.
+            Structure any grant application as a tamper-evident <code style={{ fontFamily: "'DM Mono',monospace" }}>.uds</code> with cryptographic timestamp proving on-time submission. Supporting documents bundled as <code style={{ fontFamily: "'DM Mono',monospace" }}>.udz</code>.
           </p>
         </div>
 
@@ -141,7 +141,7 @@ export default function GrantApplicationPage() {
         {result && (
           <div style={{ marginTop: 24, padding: 24, background: '#fff', border: '2px solid #c8960a', borderRadius: 12 }}>
             <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Application Sealed</div>
-            <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>Blockchain timestamp proves submission time. SHA-256 proves the text was not altered.</div>
+            <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>Cryptographic timestamp proves submission time. SHA-256 proves the text was not altered.</div>
             <a href={result.url} download={result.name} style={{ display: 'inline-block', padding: '10px 24px', background: '#c8960a', color: '#fff', borderRadius: 8, fontWeight: 700, textDecoration: 'none', fontSize: 14 }}>Download {result.name}</a>
           </div>
         )}
@@ -150,7 +150,7 @@ export default function GrantApplicationPage() {
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 24, fontWeight: 700, marginBottom: 24 }}>How UD Grant Application differs from emailing a PDF</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
-              { title: 'Proof of on-time submission', body: 'The blockchain timestamp is embedded in the .uds. Funders cannot dispute submission time, and you have proof if there\'s a server failure.' },
+              { title: 'Proof of on-time submission', body: 'The cryptographic timestamp is embedded in the .uds. Funders cannot dispute submission time, and you have proof if there\'s a server failure.' },
               { title: 'Application text sealed', body: 'The SHA-256 of your application text proves what was submitted. No "the portal changed my formatting" disputes.' },
               { title: 'Supporting documents bundled', body: 'One .udz contains the application and all supporting materials with hashes proving none were added after submission.' },
               { title: 'Reusable structure', body: 'The .uds structure is consistent across all grant applications — making your records systematic rather than scattered across email folders.' },

@@ -160,7 +160,7 @@ export default function InsuranceClaimConsumerPage() {
               { title: 'Evidence sealed at submission', body: 'Photos, receipts, and descriptions are SHA-256 hashed at the moment you create the bundle — not after.' },
               { title: 'Tamper-evident record', body: 'The bundle proves the claim was submitted at a specific time with specific evidence. Insurers cannot claim documents were added later.' },
               { title: 'Complete bundle', body: 'One .udz file contains all claim documents with a manifest. Nothing gets lost in email threads.' },
-              { title: 'Dispute protection', body: 'In the event of a dispute, the sealed bundle with blockchain timestamp is stronger evidence than an email.' },
+              { title: 'Dispute protection', body: 'In the event of a dispute, the sealed bundle with cryptographic timestamp is stronger evidence than an email.' },
             ].map(c => (
               <div key={c.title} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 20 }}>
                 <div style={{ fontWeight: 700, marginBottom: 8 }}>{c.title}</div>

@@ -111,7 +111,7 @@ export default function ClinicalTrialMasterFilePage() {
           source: `file:${d.file.name}`,
           tmf_id: tmfId,
           ich_gcp: 'ICH E6(R3)',
-          blockchain: `simulated:${now}`,
+          blockchain: null,
           expiry: expiryISO,
         },
       }
@@ -158,7 +158,7 @@ export default function ClinicalTrialMasterFilePage() {
           })),
         ],
       },
-      provenance: { created: now, tmf_id: tmfId, document_count: docs.length, blockchain: `simulated:${now}` },
+      provenance: { created: now, tmf_id: tmfId, document_count: docs.length, blockchain: null },
     }
     zip.file('00-tmf-index.uds', JSON.stringify(indexDoc, null, 2))
 
@@ -205,7 +205,7 @@ export default function ClinicalTrialMasterFilePage() {
       </div>
 
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 8, lineHeight: 1.6 }}>
-        Create ICH E6(R3) GCP compliant Trial Master Files as tamper-evident governed .udz archives. Documents organised by DIA TMF Reference Model sections, with blockchain provenance on every file.
+        Create ICH E6(R3) GCP compliant Trial Master Files as tamper-evident governed .udz archives. Documents organised by DIA TMF Reference Model sections, with cryptographic provenance record on every file.
       </p>
 
       <div style={{ fontSize: 13, color: 'var(--ud-teal)', marginBottom: 28, padding: '8px 12px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)' }}>
@@ -313,7 +313,7 @@ export default function ClinicalTrialMasterFilePage() {
           {[
             { title: 'ICH E6(R3)', body: 'Every document carries ICH E6(R3) compliance metadata. The standard is embedded in the provenance.' },
             { title: 'DIA TMF Reference Model', body: '7 standard sections per the DIA Reference Model. Documents auto-tagged to the correct section.' },
-            { title: 'Blockchain provenance', body: 'Every document has a blockchain timestamp proving it existed before inspection.' },
+            { title: 'Cryptographic provenance record', body: 'Every document has a cryptographic timestamp proving it existed before inspection.' },
             { title: 'GCP classification', body: 'Essential vs non-essential documents flagged at upload — supports inspection readiness.' },
           ].map(item => (
             <div key={item.title} style={card}>
@@ -332,7 +332,7 @@ export default function ClinicalTrialMasterFilePage() {
             { icon: '💰', title: 'Veeva Vault', body: '$50,000–200,000/year. 6–12 month implementation. Requires dedicated validation team. CSV required.' },
             { icon: '🏛', title: 'Phlexglobal', body: 'Similar enterprise pricing. Traditional eTMF approach. Long-term vendor lock-in.' },
             { icon: '📂', title: 'Manual TMF', body: 'GCP non-compliance risk. Inspection failure risk. Cannot prove document existed before inspection.' },
-            { icon: '🧪', title: 'UD Clinical TMF', body: 'Enterprise Scale tier. ICH GCP compliant by construction. Blockchain provenance on every document. Inspection-ready.' },
+            { icon: '🧪', title: 'UD Clinical TMF', body: 'Enterprise Scale tier. ICH GCP compliant by construction. Cryptographic provenance record on every document. Inspection-ready.' },
           ].map(item => (
             <div key={item.title} style={{ ...card, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <span style={{ fontSize: 20, lineHeight: '1', flexShrink: 0, marginTop: 2 }}>{item.icon}</span>

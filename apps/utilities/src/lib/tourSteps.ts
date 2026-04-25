@@ -402,14 +402,14 @@ export const tourSteps: Record<string, TourStep[]> = {
   'proof': [
     { label: 'Upload zone', text: 'Upload any file or paste text — your document, idea, code, or creative work.' },
     { label: 'Description field', text: 'Add a title describing what you\'re proving. This becomes part of the permanent record.' },
-    { label: 'Generate button', text: 'Click to seal. A SHA-256 hash and blockchain timestamp are embedded in your proof file instantly.' },
+    { label: 'Generate button', text: 'Click to seal. A SHA-256 hash and cryptographic timestamp are embedded in your proof file instantly.' },
     { label: 'Download', text: 'Your .uds proof file contains mathematical evidence this content existed right now. Open it in UD Validator to verify.' },
   ],
   'time-capsule': [
     { label: 'Content input', text: 'Write your message or upload a file — a letter, document, or anything you want to preserve.' },
     { label: 'Unlock date', text: 'Choose when this capsule opens. Tomorrow, next year, or fifty years from now.' },
     { label: 'Recipient/message', text: 'Add an optional message shown to anyone who opens the file before the unlock date.' },
-    { label: 'Seal button', text: 'Your capsule is sealed with a blockchain timestamp. Share the file — it stays locked until the date you chose.' },
+    { label: 'Seal button', text: 'Your capsule is sealed with a cryptographic timestamp. Share the file — it stays locked until the date you chose.' },
   ],
   'will': [
     { label: 'Testator details', text: 'Enter your full name, date of birth, and address. These identify the document as yours.' },
@@ -458,7 +458,7 @@ export const tourSteps: Record<string, TourStep[]> = {
   ],
   'whistleblower-package': [
     { label: 'Evidence upload', text: 'Upload your evidence files. When anonymous mode is on, no identity metadata is captured.' },
-    { label: 'Incident description', text: 'Describe the incident in your own words. This is sealed with a blockchain timestamp.' },
+    { label: 'Incident description', text: 'Describe the incident in your own words. This is sealed with a cryptographic timestamp.' },
     { label: 'Anonymous toggle', text: 'On by default. When enabled, no IP address or identity information is recorded.' },
     { label: 'Submit button', text: 'You receive a reference number and a .udz copy of your submission. The organisation receives the encrypted package.' },
   ],
@@ -469,7 +469,7 @@ export const tourSteps: Record<string, TourStep[]> = {
     { label: 'Trial details', text: 'Enter the trial title, protocol number, sponsor, and principal investigator.' },
     { label: 'TMF sections', text: 'Upload documents into standard DIA TMF Reference Model sections. Each is sealed as .uds with GCP classification.' },
     { label: 'Phase selector', text: 'Select the trial phase (I/II/III/IV). This appears in ICH GCP compliance metadata.' },
-    { label: 'Generate button', text: 'Creates an ICH E6(R3) compliant .udz TMF bundle with blockchain provenance on every document.' },
+    { label: 'Generate button', text: 'Creates an ICH E6(R3) compliant .udz TMF bundle with cryptographic provenance record on every document.' },
   ],
 
   // ── Identity & Trust ─────────────────────────────────────────────────────────
@@ -495,7 +495,7 @@ export const tourSteps: Record<string, TourStep[]> = {
   'statement': [
     { label: 'Statement type', text: 'Choose the type: formal statement, public apology, press release, or personal declaration.' },
     { label: 'Content', text: 'Write your statement. This is the version that will be cryptographically sealed.' },
-    { label: 'Seal', text: 'The statement is SHA-256 hashed and blockchain timestamped. It cannot be backdated.' },
+    { label: 'Seal', text: 'The statement is SHA-256 hashed and cryptographic timestamped. It cannot be backdated.' },
     { label: 'Share', text: 'Share the .uds. Anyone can verify the statement has not been altered since the stated time.' },
   ],
   'consent-form': [
@@ -613,7 +613,7 @@ export const tourSteps: Record<string, TourStep[]> = {
     { label: 'Scope', text: 'Select emission scopes (1, 2, 3), reporting period, and framework (GRI, TCFD, CSRD).' },
     { label: 'Data', text: 'Enter emissions data, energy use, water, waste, and social metrics as structured data objects.' },
     { label: 'Carbon credits', text: 'Optional: issue carbon credit certificates with expiry and revocation when retired.' },
-    { label: 'Generate', text: 'Creates a tamper-evident .uds ESG report. Blockchain provenance prevents greenwashing.' },
+    { label: 'Generate', text: 'Creates a tamper-evident .uds ESG report. Cryptographic provenance record prevents greenwashing.' },
   ],
 
   // ── Legal Suite additions ─────────────────────────────────────────────────────
@@ -640,7 +640,7 @@ export const tourSteps: Record<string, TourStep[]> = {
     { label: 'Upload document', text: 'Upload the .uds or PDF to be signed. The document hash is locked — it cannot change between signatories.' },
     { label: 'Signatories', text: 'Add signatories in order (sequential) or all at once (parallel). Each gets a unique signing link.' },
     { label: 'Track', text: 'See who has signed, who is pending, and when each signature was added.' },
-    { label: 'Complete', text: 'Final .uds contains all signatures with chain of custody. Blockchain provenance on each signature.' },
+    { label: 'Complete', text: 'Final .uds contains all signatures with chain of custody. Cryptographic provenance record on each signature.' },
   ],
   'training-record': [
     { label: 'Training details', text: 'Enter the training title, provider, date, and version of the training material.' },

@@ -106,7 +106,7 @@ export default function ProofPage() {
           created: now,
           hash: contentHash,
           source: sourceDesc,
-          blockchain: `simulated:${now}`,
+          blockchain: null,
           proof_type: 'sha256_existence',
           creator: creator.trim() || undefined,
         },
@@ -250,13 +250,13 @@ export default function ProofPage() {
       <div style={{ marginTop: 48, paddingTop: 40, borderTop: '1px solid var(--ud-border)' }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--ud-ink)', marginBottom: 6 }}>Why UD Proof beats alternatives</h2>
         <p style={{ fontSize: 14, fontFamily: 'var(--font-body)', color: 'var(--ud-muted)', marginBottom: 20, lineHeight: 1.6 }}>
-          Proving something existed at a specific moment has historically required lawyers, notaries, or expensive blockchain services. UD Proof does it in seconds, for free.
+          Proving something existed at a specific moment has historically required lawyers, notaries, or expensive cryptographic timestamping services. UD Proof does it in seconds, for free.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
           {[
             { icon: '📧', title: 'Email to yourself', body: 'No tamper evidence. Easily backdated or faked. Not admissible in most commercial disputes.' },
             { icon: '📄', title: 'PDF timestamp', body: 'Visual only — the timestamp is a text overlay that can be removed or altered. Not cryptographic.' },
-            { icon: '⛓', title: 'Blockchain services', body: 'Typically $10–50 per proof, require crypto wallets, and create platform dependency. Complex for non-technical users.' },
+            { icon: '⛓', title: 'Cryptographic timestamping services', body: 'Typically $10–50 per proof, require crypto wallets, and create platform dependency. Complex for non-technical users.' },
             { icon: '🔏', title: 'UD Proof', body: 'Free for 3 proofs/month. SHA-256 hash embedded in the .uds file. Mathematically verifiable. No wallet. No account. Proof lives in the document.' },
           ].map(item => (
             <div key={item.title} style={{ ...card, display: 'flex', gap: 14, alignItems: 'flex-start' }}>

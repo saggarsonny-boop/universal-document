@@ -176,7 +176,7 @@ export default function SafetyReportPage() {
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 24, fontWeight: 700, marginBottom: 24 }}>How UD Safety Report differs from paper forms or Word templates</h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             {[
-              { title: 'Cannot be backdated', body: 'The blockchain timestamp proves exactly when the report was written. Employers cannot produce incident reports dated before a complaint was raised.' },
+              { title: 'Cannot be backdated', body: 'The cryptographic timestamp proves exactly when the report was written. Employers cannot produce incident reports dated before a complaint was raised.' },
               { title: 'Tamper-evident description', body: 'The incident description is SHA-256 sealed. Any alteration to the report changes the hash — detectable by any verification tool.' },
               { title: 'Evidence sealed at time of reporting', body: 'Photos and supporting files are hashed when the bundle is created — not added later.' },
               { title: 'Legally defensible', body: 'A tamper-evident, timestamped report is stronger evidence in RIDDOR submissions, HSE investigations, and legal proceedings than a Word document.' },

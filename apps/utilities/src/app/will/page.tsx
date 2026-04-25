@@ -99,7 +99,7 @@ export default function WillPage() {
       provenance: {
         created: now,
         source: 'ud_will_generator',
-        blockchain: `simulated:${now}`,
+        blockchain: null,
         expiry: expiryISO,
         disclaimer: DISCLAIMER,
       },
@@ -247,8 +247,8 @@ export default function WillPage() {
           {[
             { icon: '📄', title: 'Paper will', body: 'No tamper evidence. Can be lost, damaged, or altered. No reminder when review is due.' },
             { icon: '📋', title: 'PDF will templates', body: 'Static. No version control. No expiry reminder. No dual-audience layers for family vs. legal.' },
-            { icon: '💰', title: 'LegalZoom', body: '$89–99, US-only. Requires account. No blockchain provenance.' },
-            { icon: '📜', title: 'UD Will', body: 'Free basic. Tamper-evident. Blockchain timestamp. Review expiry reminder. Plain English + formal layers.' },
+            { icon: '💰', title: 'LegalZoom', body: '$89–99, US-only. Requires account. No cryptographic provenance record.' },
+            { icon: '📜', title: 'UD Will', body: 'Free basic. Tamper-evident. Cryptographic timestamp. Review expiry reminder. Plain English + formal layers.' },
           ].map(item => (
             <div key={item.title} style={{ ...card, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
               <span style={{ fontSize: 20, lineHeight: '1', flexShrink: 0, marginTop: 2 }}>{item.icon}</span>

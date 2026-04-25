@@ -110,7 +110,7 @@ export default function PolicyAttestationPage() {
         source: `attestation:${policyTitle}`,
         policy_hash: policyHash,
         attestation_id: attestationId,
-        blockchain: `simulated:${now}`,
+        blockchain: null,
       },
     }
 

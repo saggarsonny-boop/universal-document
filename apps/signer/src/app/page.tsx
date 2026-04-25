@@ -9,7 +9,7 @@ const FEATURES = [
   },
   {
     icon: '⛓',
-    title: 'Blockchain provenance',
+    title: 'Cryptographic provenance record',
     body: 'Your signature record is designed to be written to a permanent public ledger at the moment of signing. Not a centralised audit trail. A mathematical fact.',
   },
   {
@@ -21,7 +21,7 @@ const FEATURES = [
 
 const COMPARISON = [
   ['Mathematical tamper proof',    true,  false, false],
-  ['Blockchain provenance',        true,  false, false],
+  ['Cryptographic provenance record',        true,  false, false],
   ['Works on all file formats',    true,  false, false],
   ['Native document expiration',   true,  false, false],
   ['Native revocation',            true,  false, false],
@@ -68,7 +68,7 @@ export default function SignerHome() {
           lineHeight: 1.7, maxWidth: 560, margin: '0 auto 40px',
         }}>
           The only document signing tool with mathematical tamper evidence,
-          blockchain provenance, and native revocation.
+          cryptographic provenance record, and native revocation.
           Free for 3 signatures/month.
         </p>
 

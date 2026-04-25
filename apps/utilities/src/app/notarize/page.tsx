@@ -87,7 +87,7 @@ export default function NotarizePage() {
           source: `file:${file.name}`,
           content_hash: contentHash,
           certification_id: certId,
-          blockchain: `simulated:${now}`,
+          blockchain: null,
           type: 'self_certification',
         },
       }
@@ -129,7 +129,7 @@ export default function NotarizePage() {
           source: `file:${file.name}`,
           content_hash: contentHash,
           type: 'ron_preparation',
-          blockchain: `simulated:${now}`,
+          blockchain: null,
         },
       }
 
@@ -156,7 +156,7 @@ export default function NotarizePage() {
       </div>
 
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 8, lineHeight: 1.6 }}>
-        Two functions: self-certify any document cryptographically (SHA-256 hash + blockchain timestamp), or prepare a document for submission to a Remote Online Notarization service.
+        Two functions: self-certify any document cryptographically (SHA-256 hash + cryptographic timestamp), or prepare a document for submission to a Remote Online Notarization service.
       </p>
 
       <div style={{ padding: '10px 14px', background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.2)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-danger)', fontFamily: 'var(--font-body)', marginBottom: 20, lineHeight: 1.6 }}>

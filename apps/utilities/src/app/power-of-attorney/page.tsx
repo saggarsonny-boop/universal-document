@@ -144,7 +144,7 @@ export default function PowerOfAttorneyPage() {
               { title: 'Tamper-evident scope', body: 'Once sealed, the scope of powers cannot be changed. Disputes about what the attorney was authorised to do are resolved by verifying the hash.' },
               { title: 'Capacity recorded', body: 'The donor\'s capacity statement is embedded as structured data — not just a signature box.' },
               { title: 'Starting point for legal review', body: 'Generate the draft here, then take the structured .uds to a solicitor. Saves significant time and legal fees on document preparation.' },
-              { title: 'Blockchain timestamp', body: 'Proves when the POA was granted. Prevents later disputes about when authority was given or revoked.' },
+              { title: 'Cryptographic timestamp', body: 'Proves when the POA was granted. Prevents later disputes about when authority was given or revoked.' },
             ].map(c => (
               <div key={c.title} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 20 }}>
                 <div style={{ fontWeight: 700, marginBottom: 8 }}>{c.title}</div>

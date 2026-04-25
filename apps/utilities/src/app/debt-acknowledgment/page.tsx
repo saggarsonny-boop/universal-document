@@ -82,7 +82,7 @@ export default function DebtAcknowledgmentPage() {
             <span style={{ background: '#0d9488', color: '#fff', fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 4, fontFamily: "'DM Mono',monospace" }}>FREE · 3/MONTH</span>
           </div>
           <p style={{ color: '#4a5568', fontSize: 15, lineHeight: 1.6, margin: 0 }}>
-            Create a tamper-evident debt acknowledgment between two parties. Cannot be altered after sealing. The IOU that actually holds up — with blockchain timestamp proving when it was agreed.
+            Create a tamper-evident debt acknowledgment between two parties. Cannot be altered after sealing. The IOU that actually holds up — with cryptographic timestamp proving when it was agreed.
           </p>
         </div>
 
@@ -135,7 +135,7 @@ export default function DebtAcknowledgmentPage() {
             {[
               { title: 'Legally structured', body: 'A .uds debt acknowledgment follows a proper legal structure: parties, amount, description, repayment terms, default. Unlike "I owe you £500" in a text.' },
               { title: 'Tamper-evident', body: 'Neither party can alter the agreed amount or terms after sealing. "I don\'t remember agreeing to that interest rate" disputes are resolved by verifying the hash.' },
-              { title: 'Blockchain timestamp', body: 'The acknowledgment date is sealed. Cannot be backdated to before a dispute arose.' },
+              { title: 'Cryptographic timestamp', body: 'The acknowledgment date is sealed. Cannot be backdated to before a dispute arose.' },
               { title: 'Enforceable starting point', body: 'A signed, dated, sealed debt acknowledgment is far stronger evidence in a small claims court than WhatsApp messages.' },
             ].map(c => (
               <div key={c.title} style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 20 }}>

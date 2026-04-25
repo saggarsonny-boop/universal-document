@@ -92,7 +92,7 @@ export default function RegulatoryChangeTrackerPage() {
             { id: 'b5', type: 'paragraph', text: 'Status: Monitor registered. Upload new versions to generate change diffs.' },
           ],
         },
-        provenance: { created: now, type: 'regulatory_monitor', regulator: regulatorLabel, blockchain: `simulated:${now}` },
+        provenance: { created: now, type: 'regulatory_monitor', regulator: regulatorLabel, blockchain: null },
       }
 
       const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' })
@@ -152,7 +152,7 @@ export default function RegulatoryChangeTrackerPage() {
           change_detected: hasChanged,
           previous_hash: prevHash,
           current_hash: currHash,
-          blockchain: `simulated:${now}`,
+          blockchain: null,
         },
       }
 
@@ -270,7 +270,7 @@ export default function RegulatoryChangeTrackerPage() {
         <div style={{ padding: '14px 18px', background: 'var(--ud-teal-2)', border: '1px solid var(--ud-teal)', borderRadius: 'var(--ud-radius-lg)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, marginBottom: 20 }}>
           <div>
             <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-teal)', fontFamily: 'var(--font-body)' }}>{mode === 'register' ? 'Monitor registered ✓' : 'Change diff generated ✓'}</div>
-            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Hash-verified · blockchain timestamp</div>
+            <div style={{ fontSize: 13, fontFamily: 'var(--font-mono)', color: 'var(--ud-muted)' }}>Hash-verified · cryptographic timestamp</div>
           </div>
           <a href={result.url} download={result.name} style={{ padding: '10px 18px', background: 'var(--ud-ink)', color: '#fff', fontWeight: 600, fontSize: 13, borderRadius: 'var(--ud-radius)', fontFamily: 'var(--font-body)', textDecoration: 'none', flexShrink: 0 }}>Download .uds →</a>
         </div>
