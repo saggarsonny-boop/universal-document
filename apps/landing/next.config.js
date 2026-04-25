@@ -9,6 +9,10 @@ const nextConfig = {
         headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }],
       },
       {
+        source: '/demos/:file*',
+        headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }],
+      },
+      {
         source: '/api/verify',
         headers: [
           { key: 'Access-Control-Allow-Origin', value: '*' },
