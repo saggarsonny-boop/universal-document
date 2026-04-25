@@ -5,9 +5,11 @@ import crypto from 'crypto'
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
 export async function POST(req: NextRequest) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json({ error: 'Service temporarily unavailable — configuration issue. Please contact support.' }, { status: 503 })
+  }
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   try {
     const body = await req.json()
     const { patientName, dob, medication, dose, frequency, duration, prescriberName, licenseNo, prescriberOrg } = body
