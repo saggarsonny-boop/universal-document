@@ -15,7 +15,6 @@
       "single-dispense"
     ],
     "revoked": false,
-    "expiry": null,
     "revocation_url": "https://ud.hive.baby/verify/92336f55-e0e2-419e-8eff-5daf85726128"
   },
   "manifest": {

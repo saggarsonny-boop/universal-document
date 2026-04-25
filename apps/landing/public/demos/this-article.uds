@@ -17,7 +17,6 @@
       "part-2",
       "2026"
     ],
-    "expiry": null,
     "revoked": false,
     "revocation_url": "https://universaldocument.hive.baby"
   },

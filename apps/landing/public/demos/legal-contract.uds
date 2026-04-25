@@ -15,8 +15,7 @@
       "confidential",
       "signed"
     ],
-    "revoked": false,
-    "expiry": null
+    "revoked": false
   },
   "manifest": {
     "base_language": "en",
