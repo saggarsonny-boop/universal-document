@@ -98,6 +98,7 @@ export interface Seal {
   sealed_at: string
   sealed_by: string
   hash: string
+  verification_url?: string
   signature?: string
   chain_of_custody: ChainOfCustodyEntry[]
 }

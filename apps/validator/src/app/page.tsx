@@ -1,7 +1,15 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import UDOnboarding from '@/components/UDOnboarding'
 import TooltipTour from '@/components/TooltipTour'
+
+interface RegistryStatus {
+  registered: boolean
+  hashMatch?: boolean
+  revoked?: boolean
+  sealed_at?: string
+  blockchain_tx?: string | null
+}
 
 interface UDBlock {
   id: string
@@ -100,10 +108,35 @@ const S = {
   reset: { marginTop: '24px', background: 'none', border: 'none', color: 'var(--muted)', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' } as React.CSSProperties,
 }
 
+function RegRow({ icon, color, text }: { icon: string; color: string; text: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, marginBottom: 3 }}>
+      <span style={{ color, fontWeight: 700, minWidth: 16 }}>{icon}</span>
+      <span style={{ color: 'var(--text)' }}>{text}</span>
+    </div>
+  )
+}
+
 export default function ValidatorPage() {
   const [dragging, setDragging] = useState(false)
   const [result, setResult] = useState<ValidationResult | null>(null)
   const [fileName, setFileName] = useState('')
+  const [registry, setRegistry] = useState<RegistryStatus | null>(null)
+
+  useEffect(() => {
+    if (!result) { setRegistry(null); return }
+    const docId = result.doc?.metadata?.id
+    const sealHash = (result.doc as Record<string, unknown> & { seal?: { hash?: string } })?.seal?.hash
+    if (!docId || !sealHash) return
+    setRegistry(null)
+    fetch(`https://ud.hive.baby/api/verify?id=${encodeURIComponent(docId)}`)
+      .then(r => r.json())
+      .then((data: { registered: boolean; hash?: string; revoked?: boolean; sealed_at?: string; blockchain_tx?: string | null }) => {
+        if (!data.registered) { setRegistry({ registered: false }); return }
+        setRegistry({ registered: true, hashMatch: data.hash === sealHash, revoked: data.revoked, sealed_at: data.sealed_at, blockchain_tx: data.blockchain_tx })
+      })
+      .catch(() => setRegistry({ registered: false }))
+  }, [result])
 
   const process = useCallback((file: File) => {
     if (!file.name.endsWith('.uds') && !file.name.endsWith('.json')) return
@@ -224,9 +257,32 @@ export default function ValidatorPage() {
               </div>
             )}
 
+            {/* Registry status */}
+            {result && meta?.id && (
+              <div style={{ marginTop: 20, padding: '14px 16px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Provenance Registry</div>
+                {!registry ? (
+                  <div style={{ fontSize: 13, color: 'var(--muted)' }}>Checking registry…</div>
+                ) : !registry.registered ? (
+                  <RegRow icon="⚠" color="var(--gold)" text="Not in registry — not sealed via UD infrastructure" />
+                ) : (
+                  <>
+                    <RegRow icon="✓" color="var(--green)" text={`Registered · ${registry.sealed_at ? new Date(registry.sealed_at).toLocaleDateString() : ''}`} />
+                    {registry.hashMatch === true && <RegRow icon="✓" color="var(--green)" text="Hash verified — document intact" />}
+                    {registry.hashMatch === false && <RegRow icon="✗" color="var(--red)" text="Hash mismatch — modified since sealing" />}
+                    {registry.revoked ? <RegRow icon="✗" color="var(--red)" text="Revoked" /> : <RegRow icon="✓" color="var(--green)" text="Not revoked" />}
+                    {registry.blockchain_tx && <RegRow icon="✓" color="#6366f1" text="Bitcoin anchor (OpenTimestamps)" />}
+                    <a href={`https://ud.hive.baby/verify/${meta.id}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--muted)', display: 'inline-block', marginTop: 4 }}>
+                      View public record →
+                    </a>
+                  </>
+                )}
+              </div>
+            )}
+
             {valid && (
               <a href="https://ud.hive.baby" style={{
-                display: 'inline-block', marginBottom: 12, marginRight: 10,
+                display: 'inline-block', marginBottom: 12, marginRight: 10, marginTop: 16,
                 background: 'var(--ud-ink)', color: '#fff', borderRadius: 99,
                 padding: '9px 20px', fontSize: 13, fontWeight: 500, textDecoration: 'none',
               }}>Open in UD Reader →</a>
