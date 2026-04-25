@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import type { UDDocument } from '@/lib/types'
 import BlockRenderer from './BlockRenderer'
+import { PrescriptionViewer } from './PrescriptionViewer'
 import { checkExpiry, checkRevoked } from '@/lib/validator'
 
 interface Props {
@@ -90,6 +91,15 @@ export default function DocumentViewer({ doc }: Props) {
         </p>
       </div>
     )
+  }
+
+  const isPrescription =
+    metadata.document_type === 'prescription' ||
+    metadata.title?.toLowerCase().includes('prescription') ||
+    metadata.title?.toLowerCase().includes('pharmacy')
+
+  if (isPrescription) {
+    return <PrescriptionViewer doc={doc} />
   }
 
   return (
