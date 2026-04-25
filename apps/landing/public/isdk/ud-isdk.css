@@ -1,0 +1,26 @@
+/**
+ * Universal Document™ iSDK v1.0 — Host styles
+ * These styles apply to the <ud-reader> element itself (the host).
+ * Internal rendering is isolated in Shadow DOM.
+ * https://ud.hive.baby/isdk
+ */
+
+ud-reader {
+  display: block;
+  width: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Optional: constrain within a card */
+ud-reader.ud-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* Optional: full-page mode */
+ud-reader.ud-fullpage {
+  min-height: 100vh;
+  background: #ffffff;
+}
