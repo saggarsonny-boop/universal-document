@@ -125,42 +125,41 @@ export default function DocumentViewer({ doc }: Props) {
       {/* Document header */}
       <div style={{ marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '2px solid #e5e7eb' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-          <span style={badgeStyle(doc.state === 'UDS' ? '#065f46' : '#1e40af', doc.state === 'UDS' ? '#d1fae5' : '#dbeafe')}>
+          <span style={badgeStyle(doc.state === 'UDS' ? '#ffffff' : '#1e40af', doc.state === 'UDS' ? '#1e2d3d' : '#bfdbfe')}>
             {doc.state}
           </span>
           {metadata.document_type && (
             <span style={badgeStyle('#374151', '#f3f4f6')}>{metadata.document_type}</span>
           )}
-          {doc.state === 'UDS' && (
-            <button
-              onClick={openAsUDR}
-              style={{
-                marginLeft: '0.5rem',
-                background: '#4DA3FF',
-                border: 'none',
-                color: '#fff',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                borderRadius: 999,
-                padding: '0.28rem 0.7rem',
-                cursor: 'pointer',
-              }}
-            >
-              Open as UDR
-            </button>
-          )}
         </div>
         <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#111827', marginBottom: '0.5rem' }}>
           {metadata.title}
         </h1>
-        <div style={{ fontSize: '0.85rem', color: '#6b7280', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+        <div style={{ fontSize: '0.85rem', color: '#6b7280', display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <span>Created by <strong>{metadata.created_by}</strong></span>
-          {metadata.organisation && <span>{metadata.organisation}</span>}
+          {metadata.organisation && metadata.organisation !== metadata.created_by && <span>{metadata.organisation}</span>}
           <span>{new Date(metadata.created_at).toLocaleDateString()}</span>
           {metadata.expiry && (
             <span style={{ color: '#d97706' }}>
               Expires {new Date(metadata.expiry).toLocaleDateString()}
             </span>
+          )}
+          {doc.state === 'UDS' && (
+            <button
+              onClick={openAsUDR}
+              style={{
+                background: 'none',
+                border: '1px solid #e5e7eb',
+                borderRadius: '0.4rem',
+                padding: '0.2rem 0.6rem',
+                fontSize: '0.78rem',
+                color: '#6b7280',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              Convert to editable draft (.udr)
+            </button>
           )}
         </div>
       </div>

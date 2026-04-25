@@ -169,7 +169,7 @@ export default function WhitepaperPage() {
 
         {/* UD Reader link */}
         <a
-          href="https://universaldocument.hive.baby"
+          href="https://reader.hive.baby/"
           target="_blank"
           rel="noopener noreferrer"
           style={{
