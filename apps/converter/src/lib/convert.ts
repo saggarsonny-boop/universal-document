@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import Anthropic from '@anthropic-ai/sdk'
+import { createHash } from 'crypto'
 
 export interface UDBlock {
   id: string
@@ -11,14 +12,6 @@ export interface UDBlock {
 export interface UDDocument {
   ud_version: string
   state: 'UDR' | 'UDS'
-  _udBrand?: {
-    type: 'UDS'
-    color: '#003A8C'
-    label: 'Universal Document™ Sealed'
-    convertedBy: 'UD Converter'
-    convertedAt: string
-    ecosystemUrl: 'https://ud.hive.baby'
-  }
   metadata: {
     id: string
     title: string
@@ -29,26 +22,6 @@ export interface UDDocument {
     document_type: string
     tags: string[]
     revoked: boolean
-    visual_identity?: {
-      role: 'editable' | 'sealed'
-      watermark_tone: 'light_blue' | 'dark_blue'
-      watermark_hex: string
-      icon: {
-        desktop: string
-        finder_preview: string
-        explorer_preview: string
-        preview_pane: string
-      }
-      file_metadata: {
-        format_family: 'UD'
-        extension_hint: 'udr' | 'uds'
-      }
-    }
-    viral_links?: {
-      open_in_reader: string
-      convert_to_uds: string
-      create_udr: string
-    }
   }
   manifest: {
     base_language: string
@@ -62,57 +35,29 @@ export interface UDDocument {
     }
   }
   blocks: UDBlock[]
+  seal?: {
+    sealed_at: string
+    sealed_by: string
+    hash: string
+    chain_of_custody: Array<{
+      event: 'created' | 'edited' | 'reviewed' | 'approved' | 'sealed' | 'shared' | 'revoked'
+      actor: string
+      timestamp: string
+      note?: string
+    }>
+  }
 }
 
-const UD_IDENTITY = {
-  UDR: {
-    role: 'editable' as const,
-    watermark_tone: 'light_blue' as const,
-    watermark_hex: '#4DA3FF',
-    extension_hint: 'udr' as const,
-    icon: {
-      desktop: '/icons/udr-file.svg',
-      finder_preview: '/icons/udr-file.svg',
-      explorer_preview: '/icons/udr-file.svg',
-      preview_pane: '/icons/udr-file.svg',
-    },
-  },
-  UDS: {
-    role: 'sealed' as const,
-    watermark_tone: 'dark_blue' as const,
-    watermark_hex: '#003A8C',
-    extension_hint: 'uds' as const,
-    icon: {
-      desktop: '/icons/uds-file.svg',
-      finder_preview: '/icons/uds-file.svg',
-      explorer_preview: '/icons/uds-file.svg',
-      preview_pane: '/icons/uds-file.svg',
-    },
-  },
-}
-
-function applyVisualIdentity(doc: UDDocument): UDDocument {
-  const spec = doc.state === 'UDS' ? UD_IDENTITY.UDS : UD_IDENTITY.UDR
+function sealDocument(blocks: UDBlock[], now: string, sourceFileName: string): UDDocument['seal'] {
+  const hash = createHash('sha256').update(JSON.stringify(blocks)).digest('hex')
   return {
-    ...doc,
-    metadata: {
-      ...doc.metadata,
-      visual_identity: {
-        role: spec.role,
-        watermark_tone: spec.watermark_tone,
-        watermark_hex: spec.watermark_hex,
-        icon: spec.icon,
-        file_metadata: {
-          format_family: 'UD',
-          extension_hint: spec.extension_hint,
-        },
-      },
-      viral_links: {
-        open_in_reader: 'https://reader.hive.baby',
-        convert_to_uds: 'https://converter.hive.baby',
-        create_udr: 'https://creator.hive.baby',
-      },
-    },
+    sealed_at: now,
+    sealed_by: 'UD Converter',
+    hash,
+    chain_of_custody: [
+      { event: 'created', actor: 'UD Converter', timestamp: now, note: `Converted from ${sourceFileName}` },
+      { event: 'sealed', actor: 'UD Converter', timestamp: now, note: 'Auto-sealed on conversion' },
+    ],
   }
 }
 
@@ -177,17 +122,9 @@ export function buildUDDocument(params: {
 }): UDDocument {
   const now = new Date().toISOString()
   const state = params.state ?? 'UDS'
-  const doc: UDDocument = {
+  return {
     ud_version: '0.1.0',
     state,
-    _udBrand: state === 'UDS' ? {
-      type: 'UDS',
-      color: '#003A8C',
-      label: 'Universal Document™ Sealed',
-      convertedBy: 'UD Converter',
-      convertedAt: now,
-      ecosystemUrl: 'https://ud.hive.baby',
-    } : undefined,
     metadata: {
       id: uuidv4(),
       title: params.title,
@@ -210,9 +147,8 @@ export function buildUDDocument(params: {
       },
     },
     blocks: params.blocks,
+    ...(state === 'UDS' ? { seal: sealDocument(params.blocks, now, params.sourceFileName) } : {}),
   }
-
-  return applyVisualIdentity(doc)
 }
 
 export async function convertDocx(buffer: Buffer, fileName: string): Promise<UDDocument> {

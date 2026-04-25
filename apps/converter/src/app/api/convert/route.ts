@@ -141,7 +141,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
         'Content-Disposition': `attachment; filename="${outputName}"`,
-        'X-UD-Identity': doc.metadata.visual_identity?.watermark_tone ?? 'light_blue',
+        'X-UD-Identity': doc.state === 'UDS' ? 'dark_blue' : 'light_blue',
         ...(proUser ? { 'X-Pro': 'true' } : {}),
       },
     })
