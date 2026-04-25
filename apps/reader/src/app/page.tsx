@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import UDOnboarding from '@/components/UDOnboarding'
 import TooltipTour from '@/components/TooltipTour'
+import InstallPrompt from '@/components/InstallPrompt'
 import type { UDDocument } from '@/lib/types'
 import { validateUDDocument } from '@/lib/validator'
 import DocumentViewer from '@/components/DocumentViewer'
@@ -274,7 +275,9 @@ function ReaderApp() {
           </button>
         </div>
 
-        <div style={{ marginTop: '3rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>
+        <InstallPrompt />
+
+        <div style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>
           Universal Document™ · iSDF v0.1.0 · The Hive Engines · Free forever
         </div>
 
