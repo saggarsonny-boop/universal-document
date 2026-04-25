@@ -184,6 +184,35 @@ export default function WhitepaperPage() {
 
       </div>
 
+      {/* Internet Archive embed */}
+      <div style={{ marginBottom: 52 }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 11,
+          color: 'var(--ud-gold)',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          marginBottom: 8,
+        }}>
+          Permanently archived
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 12,
+          color: 'var(--ud-muted)',
+          marginBottom: 16,
+        }}>
+          Timestamped deposit at Internet Archive — April 2026
+        </div>
+        <iframe
+          src="https://archive.org/embed/universal_document_whitepaper_v2"
+          width="100%"
+          height="384"
+          style={{ border: 'none', borderRadius: 'var(--ud-radius)', display: 'block' }}
+          allowFullScreen
+        />
+      </div>
+
       {/* Gold divider */}
       <div style={{ height: 1, background: 'var(--ud-gold)', opacity: 0.4, marginBottom: 40 }} />
 
