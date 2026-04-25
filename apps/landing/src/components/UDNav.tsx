@@ -9,6 +9,9 @@ const TOOLS: Tool[] = [
   { label: 'Validator',   href: 'https://validator.hive.baby',          key: 'UD Validator' },
   { label: 'Utilities',   href: 'https://utilities.hive.baby',          key: 'UD Utilities' },
   { label: 'White Paper', href: 'https://ud.hive.baby/whitepaper',       key: 'White Paper' },
+  { label: 'iSDK',        href: 'https://ud.hive.baby/isdk',             key: 'iSDK' },
+  { label: 'cSDK',        href: 'https://ud.hive.baby/csdk',             key: 'cSDK' },
+  { label: 'Support',     href: 'https://support.hive.baby',             key: 'Support' },
 ]
 
 export default function UDNav({ engine }: { engine: string }) {
