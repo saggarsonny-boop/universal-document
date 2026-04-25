@@ -26,7 +26,7 @@ const QUICK_LINKS = [
 
 const FEATURES = [
   { icon: '🧠', title: 'AI-native',       desc: 'Every block carries provenance, context, and structured metadata. AI reads it natively.' },
-  { icon: '⏳', title: 'Expiring',         desc: 'Documents expire or are revoked. No more zombie PDFs circulating after supersession.' },
+  { icon: '⏳', title: 'Expiring',         desc: 'Documents carry an expiry date or revocation flag. Compliant readers surface the status — no more zombie PDFs shown as valid after supersession.' },
   { icon: '🌍', title: 'Multilingual',     desc: 'One document, every language. The MLLR handles translation at block level.' },
   { icon: '🔗', title: 'Chain of custody', desc: 'Every edit, every signature, every view is traceable. Legal-grade provenance built in.' },
   { icon: '👁', title: 'Clarity layers',   desc: 'The same document speaks differently to a clinician, a patient, and a regulator.' },

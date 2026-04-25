@@ -10,7 +10,7 @@ const FEATURES = [
   {
     icon: '⛓',
     title: 'Cryptographic provenance record',
-    body: 'Your signature record is designed to be written to a permanent public ledger at the moment of signing. Not a centralised audit trail. A mathematical fact.',
+    body: 'A SHA-256 hash of your signed document is embedded at the moment of signing. The signature record is stored in the document itself — not on a centralised server. A mathematical fact.',
   },
   {
     icon: '📄',
