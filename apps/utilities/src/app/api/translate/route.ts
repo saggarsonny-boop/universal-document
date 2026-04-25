@@ -108,10 +108,13 @@ No explanation, no markdown fences, no preamble. Raw JSON only.`,
     let translated: { id: string; text: string }[]
     try {
       const raw = (message.content[0] as { type: string; text: string }).text.trim()
+      console.log(`[translate] language=${language} raw_length=${raw.length} raw_first200=${raw.slice(0, 200)}`)
       // Strip markdown code fences if present
       const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
       translated = JSON.parse(jsonStr)
-    } catch {
+      console.log(`[translate] parsed ok, entries=${translated.length}, first_text=${translated[0]?.text?.slice(0, 80)}`)
+    } catch (parseErr) {
+      console.error(`[translate] parse failed for language=${language}:`, parseErr)
       return NextResponse.json({ error: 'Claude returned malformed translation. Please try again.' }, { status: 500 })
     }
 
