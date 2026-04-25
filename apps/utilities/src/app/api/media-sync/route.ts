@@ -4,8 +4,6 @@ import Anthropic from '@anthropic-ai/sdk'
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
 function extractText(doc: Record<string, unknown>): string {
   if (typeof doc.content === 'string') return doc.content
   if (Array.isArray(doc.content)) return (doc.content as Record<string, unknown>[]).map(b => typeof b.text === 'string' ? b.text : '').join('\n\n')
@@ -24,6 +22,10 @@ Respond ONLY with JSON (no markdown):
 { "sync_points": [ { "timestamp": "MM:SS", "text_preview": "...", "section_index": 1 } ], "total_duration_estimate": "MM:SS", "sync_method": "content-density" }`
 
 export async function POST(req: NextRequest) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json({ error: 'Service temporarily unavailable — configuration issue. Please contact support.' }, { status: 503 })
+  }
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   try {
     const form = await req.formData()
     const file = form.get('file') as File | null

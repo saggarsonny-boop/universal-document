@@ -4,8 +4,6 @@ import Anthropic from '@anthropic-ai/sdk'
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
 const PROMPT = `You are a clinical data conversion specialist. Parse this EMR/health record (HL7, FHIR, C-CDA, CCD, or plain text) and extract structured information.
 
 Return ONLY a JSON object (no markdown):
@@ -22,6 +20,10 @@ Return ONLY a JSON object (no markdown):
 }`
 
 export async function POST(req: NextRequest) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json({ error: 'Service temporarily unavailable — configuration issue. Please contact support.' }, { status: 503 })
+  }
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   try {
     const form = await req.formData()
     const file = form.get('file') as File | null

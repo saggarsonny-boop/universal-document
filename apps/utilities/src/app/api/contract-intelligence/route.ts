@@ -4,9 +4,11 @@ import Anthropic from '@anthropic-ai/sdk'
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
 export async function POST(req: NextRequest) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return new Response(JSON.stringify({ error: 'Service temporarily unavailable — configuration issue. Please contact support.' }), { status: 503 })
+  }
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   const form = await req.formData()
   const file = form.get('file') as File | null
   const contractType = (form.get('contractType') as string) || 'Other'
