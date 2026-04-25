@@ -56,6 +56,12 @@ export default function Revoke() {
       const blob = new Blob([JSON.stringify(updated, null, 2)], { type: 'application/json' })
       const name = file.name.replace(/\.(uds|udr)$/, '') + '-revoked.uds'
       setResult({ url: URL.createObjectURL(blob), name, hash, alreadyRevoked })
+
+      // Register revocation in provenance registry (fire-and-forget)
+      const docId = typeof doc.metadata === 'object' && doc.metadata ? (doc.metadata as Record<string, unknown>).id : null
+      if (docId && typeof docId === 'string') {
+        fetch('/api/revoke', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: docId }) }).catch(() => {})
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Revocation failed')
     }
