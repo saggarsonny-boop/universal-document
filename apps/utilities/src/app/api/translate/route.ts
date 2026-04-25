@@ -137,21 +137,26 @@ Preserve any formatting markers. Return nothing else — no explanation, no mark
       ...(existingLangManifest.some(l => l.code === langCode) ? [] : [{ code: langCode, label: langMeta.label, direction: langMeta.direction }]),
     ]
 
-    const updated = {
-      ...doc,
-      blocks: updatedBlocks,
+    // Reconstruct with only schema-allowed top-level keys (additionalProperties: false at root)
+    // Do not spread ...doc — input may have extra top-level props from other utilities
+    const updated: Record<string, unknown> = {
+      ud_version: typeof doc.ud_version === 'string' ? doc.ud_version : '1.0.0',
+      state: doc.state,
+      metadata: doc.metadata,
       manifest: {
-        ...existingManifest,
         base_language: baseLanguage,
         language_manifest: newLangManifest,
+        clarity_layer_manifest: Array.isArray(existingManifest.clarity_layer_manifest)
+          ? existingManifest.clarity_layer_manifest
+          : [],
+        permissions: typeof existingManifest.permissions === 'object' && existingManifest.permissions !== null
+          ? existingManifest.permissions
+          : {},
       },
-      provenance: {
-        ...((typeof doc.provenance === 'object' && doc.provenance !== null ? doc.provenance : {}) as Record<string, unknown>),
-        translated_at: now,
-        translated_to: language,
-        translated_lang_code: langCode,
-        translated_by: 'UD Utilities · Claude claude-opus-4-5',
-      },
+      blocks: updatedBlocks,
+    }
+    if (doc.seal && typeof doc.seal === 'object') {
+      updated.seal = doc.seal
     }
 
     const baseName = file.name.replace(/\.(uds|udr)$/, '')
