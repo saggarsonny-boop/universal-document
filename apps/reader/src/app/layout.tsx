@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   description: 'Open, read, and verify any .uds or .udr file instantly in your browser. Clarity layers, multilingual switching, expiry status, tamper verification. Free forever. No install.',
   keywords: 'universal document reader, uds file opener, udr file viewer, pdf alternative reader, better than pdf viewer, open uds file, open udr file, document viewer browser, tamper evident document reader, clarity layer viewer, multilingual document reader, document expiry check',
   icons: { icon: '/favicon.svg' },
+  manifest: '/manifest.json',
   metadataBase: new URL('https://reader.hive.baby'),
   openGraph: {
     title: 'UD Reader — Open Any Universal Document™ File Free in Your Browser',
@@ -26,6 +27,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('/sw.js')
+            })
+          }
+        `}} />
+      </head>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <UDNav engine="UD Reader" />
         <div style={{ background: '#c8960a', color: '#1e2d3d', fontFamily: 'var(--font-mono)', fontSize: 12, textAlign: 'center', padding: '0 24px', height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', letterSpacing: '0.05em', textTransform: 'uppercase', flexShrink: 0 }}>
