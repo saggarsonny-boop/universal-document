@@ -112,13 +112,13 @@ export default function WhitepaperPage() {
         </a>
 
         {/* PDF button — secondary */}
-        <div>
+        <div style={{ marginTop: 16 }}>
           <div style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
             color: 'var(--ud-muted)',
             fontStyle: 'italic',
-            marginBottom: 6,
+            marginBottom: 4,
             opacity: 0.5,
             paddingLeft: 4,
           }}>
