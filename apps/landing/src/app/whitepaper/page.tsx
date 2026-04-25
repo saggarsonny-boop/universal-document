@@ -126,7 +126,7 @@ export default function WhitepaperPage() {
 
         {/* .uds download button */}
         <a
-          href="#coming-soon"
+          href="/whitepaper/universal_document_whitepaper_v2.uds"
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             padding: '12px 24px',
@@ -145,7 +145,7 @@ export default function WhitepaperPage() {
 
         {/* SSRN button */}
         <a
-          href="https://ssrn.com"
+          href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10558116"
           target="_blank"
           rel="noopener noreferrer"
           style={{

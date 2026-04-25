@@ -1,0 +1,52 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "ud-whitepaper-standard-1-0",
+    "title": "Universal Document™: What Documents Were Always Supposed to Be",
+    "created_at": "2026-04-20T00:00:00.000Z",
+    "updated_at": "2026-04-25T00:00:00.000Z",
+    "created_by": "Universal Document™ Incorporated",
+    "organisation": "Universal Document™ Incorporated",
+    "document_type": "working-paper",
+    "tags": ["whitepaper", "specification", "standard", "open-standard", "AI-native", "document-format"],
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      { "code": "en", "label": "English", "direction": "ltr" }
+    ],
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": true,
+      "allow_print": true,
+      "allow_export": true,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    { "id": "b01", "type": "heading", "base_content": { "text": "Universal Document™: What Documents Were Always Supposed to Be", "level": 1 } },
+    { "id": "b02", "type": "paragraph", "base_content": { "text": "Universal Document™ Standard 1.0 · Working Paper · April 2026" } },
+    { "id": "b03", "type": "divider", "base_content": {} },
+    { "id": "b04", "type": "heading", "base_content": { "text": "Abstract", "level": 2 } },
+    { "id": "b05", "type": "paragraph", "base_content": { "text": "The dominant document substrate — the Portable Document Format (PDF), ratified in 1993 — was engineered for print fidelity, not digital utility. Thirty years of adoption have produced a format that is universally consumed but structurally opaque: text encoded as positioned glyphs, semantics absent at the byte level, and provenance entirely external to the file. Universal Document™ (UD) is a first-principles redesign of the digital document substrate." } },
+    { "id": "b06", "type": "paragraph", "base_content": { "text": "This working paper specifies Universal Document™ Standard 1.0: a structured, block-semantic, tamper-evident, AI-native document format comprising three file types — .uds (Sealed), .udr (Revisable), and .udz (Bundle) — and an open governance model released under CC BY 4.0. UD documents carry embedded provenance, cryptographic signing, optional expiry metadata, and machine-readable multilingual output as first-class schema properties rather than external annotations." } },
+    { "id": "b07", "type": "paragraph", "base_content": { "text": "The format is designed to be platform-independent and cryptographically verifiable without reference to any external service or database. We argue that document integrity, semantic accessibility, and AI-readability are not features to be layered atop a legacy format, but properties that must be structurally guaranteed at the specification level. Universal Document™ Standard 1.0 is submitted as an open specification, free to implement. The iSDK (Infrastructure SDK) is available at zero cost, with no attribution requirement and zero telemetry." } },
+    { "id": "b08", "type": "divider", "base_content": {} },
+    { "id": "b09", "type": "heading", "base_content": { "text": "Document Information", "level": 2 } },
+    { "id": "b10", "type": "list", "base_content": { "items": ["Published by: Universal Document™ Incorporated", "Date: April 2026", "Specification: Universal Document™ Standard 1.0", "License: CC BY 4.0", "Contact: hive@hive.baby", "JEL Classification: K19 · K29 · L86 · O33 · O38 · L17 · M15 · I18", "Keywords: document format, open standard, PDF successor, document governance, AI-native documents"] } },
+    { "id": "b11", "type": "divider", "base_content": {} },
+    { "id": "b12", "type": "heading", "base_content": { "text": "Trademark Notice", "level": 2 } },
+    { "id": "b13", "type": "paragraph", "base_content": { "text": "Universal Document™ is a trademark, application pending (USPTO Serial No. 99774346, filed April 20, 2026). The specification is released under CC BY 4.0 and may be implemented freely by any party." } }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-25T00:00:00.000Z",
+    "sealed_by": "Universal Document™ Incorporated",
+    "hash": "75a02589ccc3b8132ebd9ee5ad2966eb7df8c9058dc82ad4a75f01bfd30ef715",
+    "chain_of_custody": [
+      { "event": "created", "actor": "Universal Document™ Incorporated", "timestamp": "2026-04-20T00:00:00.000Z", "note": "Working paper drafted" },
+      { "event": "sealed", "actor": "Universal Document™ Incorporated", "timestamp": "2026-04-25T00:00:00.000Z", "note": "Sealed for public release" }
+    ]
+  }
+}
