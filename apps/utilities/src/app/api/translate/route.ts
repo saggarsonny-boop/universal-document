@@ -88,9 +88,17 @@ export async function POST(req: NextRequest) {
     const message = await client.messages.create({
       model: 'claude-opus-4-5',
       max_tokens: 8192,
-      system: `You are a document translator. Translate block texts into ${language}.
-Return ONLY a JSON array of objects matching the input structure: [{"id":"...","text":"..."}].
-Preserve any formatting markers. Return nothing else — no explanation, no markdown, no preamble.`,
+      system: `You are a professional document translator. You will translate document text into ${language}.
+You must return the exact same JSON structure with translated text.
+CRITICAL: You must write the translation in the native script of the target language.
+For Japanese use kanji/hiragana/katakana. For Arabic use Arabic script right-to-left.
+For Chinese use simplified or traditional characters as appropriate.
+For Korean use Hangul. For Hebrew use Hebrew script. For Thai use Thai script.
+For Hindi use Devanagari. For Persian/Farsi use Persian script. For Urdu use Nastaliq/Arabic script.
+For Bengali use Bengali script. For Greek use Greek alphabet. For Russian/Ukrainian use Cyrillic.
+Never romanise or transliterate — always use the native writing system of the target language.
+Return ONLY a JSON array of objects: [{"id":"...","text":"..."}].
+No explanation, no markdown fences, no preamble. Raw JSON only.`,
       messages: [{
         role: 'user',
         content: JSON.stringify(blockInputs),
