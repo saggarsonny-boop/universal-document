@@ -4,12 +4,24 @@ import LifecycleAnimation from '@/components/LifecycleAnimation'
 import TooltipTour from '@/components/TooltipTour'
 
 const TOOLS = [
-  { name: 'UD Converter',  desc: 'Turn any file into UDS. DOCX, TXT, MD, CSV — instant.',               url: 'https://converter.hive.baby',  status: 'live', icon: '📄' },
-  { name: 'UD Reader',     desc: 'Open and read any .uds or .udr file. Clarity layers, metadata.',       url: 'https://reader.hive.baby',     status: 'live', icon: '📖' },
-  { name: 'UD Creator',    desc: 'Write a Universal Document™ from scratch. Rich text, metadata, expiry.', url: 'https://creator.hive.baby',    status: 'live', icon: '✏️' },
-  { name: 'UD Validator',  desc: 'Verify schema, expiry, signatures, chain-of-custody.',                 url: 'https://validator.hive.baby',  status: 'live', icon: '✅' },
-  { name: 'UD Utilities',  desc: 'Merge, split, compress, OCR, protect, watermark, compare, redact.',    url: 'https://utilities.hive.baby',  status: 'live', icon: '🔧' },
-  { name: 'UD Signer',     desc: 'Governed signing with legal-grade audit trails.',                      url: 'https://signer.hive.baby',     status: 'live', icon: '🔏' },
+  { name: 'UD Converter',  desc: 'Turn any file into UDS. DOCX, TXT, MD, CSV — instant.',               url: 'https://converter.hive.baby',       status: 'live', icon: '📄' },
+  { name: 'UD Reader',     desc: 'Open and read any .uds or .udr file. Clarity layers, metadata.',       url: 'https://reader.hive.baby',          status: 'live', icon: '📖' },
+  { name: 'UD Creator',    desc: 'Write a Universal Document™ from scratch. Rich text, metadata, expiry.', url: 'https://creator.hive.baby',       status: 'live', icon: '✏️' },
+  { name: 'UD Validator',  desc: 'Verify schema, expiry, signatures, chain-of-custody.',                 url: 'https://validator.hive.baby',       status: 'live', icon: '✅' },
+  { name: 'UD Utilities',  desc: 'Merge, split, compress, OCR, protect, watermark, compare, redact.',    url: 'https://utilities.hive.baby',       status: 'live', icon: '🔧' },
+  { name: 'UD Signer',     desc: 'Governed signing with legal-grade audit trails.',                      url: 'https://signer.hive.baby',          status: 'live', icon: '🔏' },
+  { name: 'iSDK',          desc: 'Embed Universal Document™ read/render in any device or app. Free. Under 400KB.', url: 'https://ud.hive.baby/isdk', status: 'live', icon: '⚡' },
+  { name: 'cSDK',          desc: 'API access to creation, conversion, signing, and validation. For builders.', url: 'https://ud.hive.baby/csdk',    status: 'live', icon: '🛠' },
+  { name: 'White Paper',   desc: 'Universal Document™ Standard 1.0 — the specification. CC BY 4.0.',    url: 'https://ud.hive.baby/whitepaper',   status: 'live', icon: '📃' },
+]
+
+const QUICK_LINKS = [
+  { label: 'Utilities',   href: 'https://utilities.hive.baby' },
+  { label: 'Creator',     href: 'https://creator.hive.baby' },
+  { label: 'Signer',      href: 'https://signer.hive.baby' },
+  { label: 'iSDK',        href: 'https://ud.hive.baby/isdk' },
+  { label: 'cSDK',        href: 'https://ud.hive.baby/csdk' },
+  { label: 'White Paper', href: 'https://ud.hive.baby/whitepaper' },
 ]
 
 const FEATURES = [
@@ -80,6 +92,21 @@ export default function LandingPage() {
             fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14, borderRadius: 8, textDecoration: 'none',
             border: '1px solid var(--ud-border)',
           }}>Open a document</a>
+        </div>
+        {/* Quick ecosystem links */}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginTop: 20 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)', alignSelf: 'center', letterSpacing: '0.04em' }}>Also:</span>
+          {QUICK_LINKS.map(l => (
+            <a key={l.href} href={l.href} style={{
+              fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)',
+              textDecoration: 'none', padding: '4px 10px',
+              border: '1px solid var(--ud-border)', borderRadius: 20,
+              transition: 'color 0.15s, border-color 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'var(--ud-ink)'; e.currentTarget.style.borderColor = 'var(--ud-ink)' }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'var(--ud-muted)'; e.currentTarget.style.borderColor = 'var(--ud-border)' }}
+            >{l.label}</a>
+          ))}
         </div>
       </div>
 
