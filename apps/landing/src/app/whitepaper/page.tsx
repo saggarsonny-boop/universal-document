@@ -1,3 +1,5 @@
+import JourneyDemo from '@/components/JourneyDemo'
+
 // Abstract sourced from ssrn_metadata.txt — update when SSRN submission number is confirmed
 const ABSTRACT = `The dominant document substrate — the Portable Document Format (PDF), ratified in 1993 — was engineered for print fidelity, not digital utility. Thirty years of adoption have produced a format that is universally consumed but structurally opaque: text encoded as positioned glyphs, semantics absent at the byte level, and provenance entirely external to the file. Universal Document™ (UD) is a first-principles redesign of the digital document substrate.
 
@@ -214,6 +216,23 @@ export default function WhitepaperPage() {
           style={{ border: 'none', borderRadius: 'var(--ud-radius)', display: 'block' }}
           allowFullScreen
         />
+      </div>
+
+      {/* Journey Demo */}
+      <div style={{ marginBottom: 52 }}>
+        <h2 style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(22px, 3.5vw, 32px)',
+          fontWeight: 700,
+          color: 'var(--ud-ink)',
+          lineHeight: 1.2,
+          marginBottom: 32,
+          letterSpacing: '-0.02em',
+        }}>
+          A document is not a file.<br />
+          <span style={{ color: 'var(--ud-gold)' }}>Watch what it can do.</span>
+        </h2>
+        <JourneyDemo />
       </div>
 
       {/* Gold divider */}
