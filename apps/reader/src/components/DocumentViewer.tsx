@@ -1,12 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { UDDocument } from '@/lib/types'
 import BlockRenderer from './BlockRenderer'
 import { checkExpiry, checkRevoked } from '@/lib/validator'
 
 interface Props {
   doc: UDDocument
+}
+
+interface RegistryResult {
+  registered: boolean
+  hashMatch?: boolean
+  revoked?: boolean
+  sealed_at?: string
+  blockchain_tx?: string | null
+  error?: string
 }
 
 export default function DocumentViewer({ doc }: Props) {
@@ -19,9 +28,34 @@ export default function DocumentViewer({ doc }: Props) {
   const [activeLayer, setActiveLayer] = useState(layers[0]?.id || 'default')
   const [activeLanguage, setActiveLanguage] = useState(manifest.base_language)
   const [showCustody, setShowCustody] = useState(false)
+  const [registry, setRegistry] = useState<RegistryResult | null>(null)
 
   const isExpired = checkExpiry(doc)
   const isRevoked = checkRevoked(doc)
+
+  // Fetch registry status when document has a seal with ID
+  useEffect(() => {
+    const docId = metadata.id
+    const sealHash = seal?.hash
+    if (!docId || !sealHash) return
+
+    fetch(`https://ud.hive.baby/api/verify?id=${encodeURIComponent(docId)}`)
+      .then(r => r.json())
+      .then((data: { registered: boolean; hash?: string; revoked?: boolean; sealed_at?: string; blockchain_tx?: string | null }) => {
+        if (!data.registered) {
+          setRegistry({ registered: false })
+          return
+        }
+        setRegistry({
+          registered: true,
+          hashMatch: data.hash === sealHash,
+          revoked: data.revoked,
+          sealed_at: data.sealed_at,
+          blockchain_tx: data.blockchain_tx,
+        })
+      })
+      .catch(() => setRegistry({ registered: false, error: 'Registry unavailable' }))
+  }, [metadata.id, seal?.hash])
 
   const activeLanguageEntry = languages.find((l) => l.code === activeLanguage)
   const direction = activeLanguageEntry?.direction || 'ltr'
@@ -138,6 +172,33 @@ export default function DocumentViewer({ doc }: Props) {
           </button>
         </div>
       </div>
+
+      {/* Registry verification panel */}
+      {seal && (
+        <div style={{ marginBottom: '1.5rem', padding: '12px 16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '0.75rem' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Provenance Registry</div>
+          {!registry ? (
+            <div style={{ fontSize: '0.8rem', color: '#9ca3af' }}>Checking registry…</div>
+          ) : registry.error ? (
+            <RegistryRow icon="○" color="#9ca3af" label="Registry unavailable" />
+          ) : !registry.registered ? (
+            <RegistryRow icon="⚠" color="#d97706" label="Not registered — document not sealed via UD infrastructure" />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <RegistryRow icon="✓" color="#059669" label={`Registered · sealed ${registry.sealed_at ? new Date(registry.sealed_at).toLocaleDateString() : ''}`} />
+              {registry.hashMatch === true && <RegistryRow icon="✓" color="#059669" label="Hash verified — document intact" />}
+              {registry.hashMatch === false && <RegistryRow icon="✗" color="#dc2626" label="Hash mismatch — document has been modified since sealing" />}
+              {registry.revoked ? <RegistryRow icon="✗" color="#dc2626" label="Revoked" /> : <RegistryRow icon="✓" color="#059669" label="Not revoked" />}
+              {registry.blockchain_tx && <RegistryRow icon="✓" color="#6366f1" label="Bitcoin anchor proof available (OpenTimestamps)" />}
+              {seal.verification_url && (
+                <a href={seal.verification_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: 4, display: 'inline-block' }}>
+                  View public record →
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Controls */}
       {(languages.length > 1 || layers.length > 0) && (
@@ -307,6 +368,15 @@ export default function DocumentViewer({ doc }: Props) {
         Universal Document™ v{doc.ud_version} · UD Reader by The Hive Engines · Free forever
       </div>
 
+    </div>
+  )
+}
+
+function RegistryRow({ icon, color, label }: { icon: string; color: string; label: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.8rem' }}>
+      <span style={{ color, fontWeight: 700, fontSize: '0.85rem', minWidth: 16 }}>{icon}</span>
+      <span style={{ color: '#374151' }}>{label}</span>
     </div>
   )
 }

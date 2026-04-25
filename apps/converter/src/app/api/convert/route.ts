@@ -3,6 +3,7 @@ import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convert
 import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
+import { ensureRegistrySchema, sealDocument as registrySeal } from '@shared/lib/registry'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -131,6 +132,20 @@ export async function POST(req: NextRequest) {
       logCustody({ email: proUser.email, apiKeyPrefix: proUser.prefix, fileName, fileSize: file.size, outputId }).catch(err =>
         console.warn('Custody log failed:', err)
       )
+    }
+
+    // Register in provenance registry (fire-and-forget — conversion succeeds regardless)
+    if (doc.seal?.hash && doc.metadata.id) {
+      const docId = doc.metadata.id
+      const docHash = doc.seal.hash
+      const docTitle = doc.metadata.title
+      const issuerIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? 'unknown'
+      ensureRegistrySchema()
+        .then(() => registrySeal({ id: docId, hash: docHash, title: docTitle, issuerIp }))
+        .catch(err => console.warn('Registry seal failed (non-fatal):', err))
+
+      // Embed verification URL in seal
+      doc.seal.verification_url = `https://ud.hive.baby/verify/${docId}`
     }
 
     const outputName = fileName.replace(/\.[^.]+$/, '.uds')

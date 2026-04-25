@@ -39,6 +39,7 @@ export interface UDDocument {
     sealed_at: string
     sealed_by: string
     hash: string
+    verification_url?: string
     chain_of_custody: Array<{
       event: 'created' | 'edited' | 'reviewed' | 'approved' | 'sealed' | 'shared' | 'revoked'
       actor: string
