@@ -16,7 +16,7 @@
       "signed"
     ],
     "revoked": false,
-    "expiry": "2028-04-24T09:00:00Z"
+    "expiry": null
   },
   "manifest": {
     "base_language": "en",

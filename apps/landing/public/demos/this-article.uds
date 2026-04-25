@@ -3,11 +3,11 @@
   "state": "UDS",
   "metadata": {
     "id": "d64c1b64-1ae2-41ea-aa93-b64354f2b2c5",
-    "title": "Universal Document™: The Format That Changes Everything — Part 2",
+    "title": "Universal Document\u2122: The Format That Changes Everything \u2014 Part 2",
     "created_at": "2026-04-24T09:00:00Z",
     "updated_at": "2026-04-24T09:00:00Z",
-    "created_by": "Universal Document™ Incorporated",
-    "organisation": "Universal Document™ Incorporated",
+    "created_by": "Universal Document\u2122 Incorporated",
+    "organisation": "Universal Document\u2122 Incorporated",
     "document_type": "article",
     "tags": [
       "universal-document",
@@ -17,7 +17,7 @@
       "part-2",
       "2026"
     ],
-    "expiry": "2027-04-24T09:00:00Z",
+    "expiry": null,
     "revoked": false,
     "revocation_url": "https://universaldocument.hive.baby"
   },
@@ -72,18 +72,18 @@
       "id": "cefc23fef48b",
       "type": "heading",
       "base_content": {
-        "text": "Universal Document™: The Format That Changes Everything",
+        "text": "Universal Document\u2122: The Format That Changes Everything",
         "level": 1
       },
       "translations": {
-        "es": "Universal Document™: El Formato Que Cambia Todo",
-        "ar": "Universal Document™: الصيغة التي ستغيّر كل شيء",
-        "fr": "Universal Document™: Le Format Qui Change Tout",
-        "zh": "Universal Document™：改变一切的文档格式"
+        "es": "Universal Document\u2122: El Formato Que Cambia Todo",
+        "ar": "Universal Document\u2122: \u0627\u0644\u0635\u064a\u063a\u0629 \u0627\u0644\u062a\u064a \u0633\u062a\u063a\u064a\u0651\u0631 \u0643\u0644 \u0634\u064a\u0621",
+        "fr": "Universal Document\u2122: Le Format Qui Change Tout",
+        "zh": "Universal Document\u2122\uff1a\u6539\u53d8\u4e00\u5207\u7684\u6587\u6863\u683c\u5f0f"
       },
       "clarity": {
         "executive_summary": {
-          "en": "Universal Document™ is a new open document format designed to replace PDF and DOCX. This article introduces its core capabilities."
+          "en": "Universal Document\u2122 is a new open document format designed to replace PDF and DOCX. This article introduces its core capabilities."
         }
       }
     },
@@ -91,17 +91,17 @@
       "id": "7f665e84a84f",
       "type": "paragraph",
       "base_content": {
-        "text": "Last week, we introduced Universal Document™ (UD) — an open, free, and AI-native document format built as the modern successor to PDF and DOCX. The response was extraordinary. Thousands of readers, engineers, clinicians, and civil servants wrote in. The central question in almost every message was the same: how does it actually work?"
+        "text": "Last week, we introduced Universal Document\u2122 (UD) \u2014 an open, free, and AI-native document format built as the modern successor to PDF and DOCX. The response was extraordinary. Thousands of readers, engineers, clinicians, and civil servants wrote in. The central question in almost every message was the same: how does it actually work?"
       },
       "translations": {
-        "es": "La semana pasada presentamos Universal Document™ (UD), un formato de documento abierto, gratuito y nativo de IA creado como el sucesor moderno de PDF y DOCX. La respuesta fue extraordinaria.",
-        "ar": "الأسبوع الماضي، قدّمنا Universal Document™ (UD) — صيغة وثائق مفتوحة المصدر ومجانية ومبنية للذكاء الاصطناعي كخلف عصري لـ PDF وDOCX. كان الرد استثنائياً.",
-        "fr": "La semaine dernière, nous avons présenté Universal Document™ (UD) — un format de document ouvert, gratuit et natif de l'IA, conçu comme le successeur moderne de PDF et DOCX.",
-        "zh": "上周，我们介绍了Universal Document™（UD）——一种开放、免费、AI原生的文档格式，作为PDF和DOCX的现代继任者。反响之热烈出乎意料。"
+        "es": "La semana pasada presentamos Universal Document\u2122 (UD), un formato de documento abierto, gratuito y nativo de IA creado como el sucesor moderno de PDF y DOCX. La respuesta fue extraordinaria.",
+        "ar": "\u0627\u0644\u0623\u0633\u0628\u0648\u0639 \u0627\u0644\u0645\u0627\u0636\u064a\u060c \u0642\u062f\u0651\u0645\u0646\u0627 Universal Document\u2122 (UD) \u2014 \u0635\u064a\u063a\u0629 \u0648\u062b\u0627\u0626\u0642 \u0645\u0641\u062a\u0648\u062d\u0629 \u0627\u0644\u0645\u0635\u062f\u0631 \u0648\u0645\u062c\u0627\u0646\u064a\u0629 \u0648\u0645\u0628\u0646\u064a\u0629 \u0644\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a \u0643\u062e\u0644\u0641 \u0639\u0635\u0631\u064a \u0644\u0640 PDF \u0648DOCX. \u0643\u0627\u0646 \u0627\u0644\u0631\u062f \u0627\u0633\u062a\u062b\u0646\u0627\u0626\u064a\u0627\u064b.",
+        "fr": "La semaine derni\u00e8re, nous avons pr\u00e9sent\u00e9 Universal Document\u2122 (UD) \u2014 un format de document ouvert, gratuit et natif de l'IA, con\u00e7u comme le successeur moderne de PDF et DOCX.",
+        "zh": "\u4e0a\u5468\uff0c\u6211\u4eec\u4ecb\u7ecd\u4e86Universal Document\u2122\uff08UD\uff09\u2014\u2014\u4e00\u79cd\u5f00\u653e\u3001\u514d\u8d39\u3001AI\u539f\u751f\u7684\u6587\u6863\u683c\u5f0f\uff0c\u4f5c\u4e3aPDF\u548cDOCX\u7684\u73b0\u4ee3\u7ee7\u4efb\u8005\u3002\u53cd\u54cd\u4e4b\u70ed\u70c8\u51fa\u4e4e\u610f\u6599\u3002"
       },
       "clarity": {
         "executive_summary": {
-          "en": "Universal Document™ launched last week to extraordinary response from engineers, clinicians, and civil servants worldwide, all asking: how does it actually work?"
+          "en": "Universal Document\u2122 launched last week to extraordinary response from engineers, clinicians, and civil servants worldwide, all asking: how does it actually work?"
         }
       }
     },
@@ -114,22 +114,22 @@
       },
       "translations": {
         "es": "Dos Formatos, Un Ecosistema",
-        "ar": "صيغتان، نظام واحد",
-        "fr": "Deux Formats, Un Écosystème",
-        "zh": "两种格式，一个生态系统"
+        "ar": "\u0635\u064a\u063a\u062a\u0627\u0646\u060c \u0646\u0638\u0627\u0645 \u0648\u0627\u062d\u062f",
+        "fr": "Deux Formats, Un \u00c9cosyst\u00e8me",
+        "zh": "\u4e24\u79cd\u683c\u5f0f\uff0c\u4e00\u4e2a\u751f\u6001\u7cfb\u7edf"
       }
     },
     {
       "id": "6dbe64459221",
       "type": "paragraph",
       "base_content": {
-        "text": "Universal Document™ has two file types. UDS — Universal Document™ Sealed — is the final, authoritative form. It cannot be edited, only superseded. It carries a cryptographic seal, a chain of custody, and optional expiry. UDR — Universal Document™ Revisable — is the working format. Editable, structured, intelligent. When a UDR is ready, it is sealed into a UDS."
+        "text": "Universal Document\u2122 has two file types. UDS \u2014 Universal Document\u2122 Sealed \u2014 is the final, authoritative form. It cannot be edited, only superseded. It carries a cryptographic seal, a chain of custody, and optional expiry. UDR \u2014 Universal Document\u2122 Revisable \u2014 is the working format. Editable, structured, intelligent. When a UDR is ready, it is sealed into a UDS."
       },
       "translations": {
-        "es": "Universal Document™ tiene dos tipos de archivo. UDS es la forma final y autoritativa. No puede editarse, solo superarse. UDR es el formato de trabajo: editable, estructurado, inteligente.",
-        "ar": "يحتوي Universal Document™ على نوعين من الملفات. UDS هو الشكل النهائي والموثوق — لا يمكن تعديله، بل استبداله فقط. UDR هو تنسيق العمل: قابل للتحرير، منظم، وذكي.",
-        "fr": "Universal Document™ a deux types de fichiers. UDS est la forme finale et faisant autorité. Il ne peut être modifié, seulement remplacé. UDR est le format de travail : modifiable, structuré, intelligent.",
-        "zh": "Universal Document™有两种文件类型。UDS（Universal Document™ Sealed）是最终权威形式，不可编辑，只能被新版本取代。UDR（Universal Document™ Revisable）是工作格式：可编辑、结构化、智能化。"
+        "es": "Universal Document\u2122 tiene dos tipos de archivo. UDS es la forma final y autoritativa. No puede editarse, solo superarse. UDR es el formato de trabajo: editable, estructurado, inteligente.",
+        "ar": "\u064a\u062d\u062a\u0648\u064a Universal Document\u2122 \u0639\u0644\u0649 \u0646\u0648\u0639\u064a\u0646 \u0645\u0646 \u0627\u0644\u0645\u0644\u0641\u0627\u062a. UDS \u0647\u0648 \u0627\u0644\u0634\u0643\u0644 \u0627\u0644\u0646\u0647\u0627\u0626\u064a \u0648\u0627\u0644\u0645\u0648\u062b\u0648\u0642 \u2014 \u0644\u0627 \u064a\u0645\u0643\u0646 \u062a\u0639\u062f\u064a\u0644\u0647\u060c \u0628\u0644 \u0627\u0633\u062a\u0628\u062f\u0627\u0644\u0647 \u0641\u0642\u0637. UDR \u0647\u0648 \u062a\u0646\u0633\u064a\u0642 \u0627\u0644\u0639\u0645\u0644: \u0642\u0627\u0628\u0644 \u0644\u0644\u062a\u062d\u0631\u064a\u0631\u060c \u0645\u0646\u0638\u0645\u060c \u0648\u0630\u0643\u064a.",
+        "fr": "Universal Document\u2122 a deux types de fichiers. UDS est la forme finale et faisant autorit\u00e9. Il ne peut \u00eatre modifi\u00e9, seulement remplac\u00e9. UDR est le format de travail : modifiable, structur\u00e9, intelligent.",
+        "zh": "Universal Document\u2122\u6709\u4e24\u79cd\u6587\u4ef6\u7c7b\u578b\u3002UDS\uff08Universal Document\u2122 Sealed\uff09\u662f\u6700\u7ec8\u6743\u5a01\u5f62\u5f0f\uff0c\u4e0d\u53ef\u7f16\u8f91\uff0c\u53ea\u80fd\u88ab\u65b0\u7248\u672c\u53d6\u4ee3\u3002UDR\uff08Universal Document\u2122 Revisable\uff09\u662f\u5de5\u4f5c\u683c\u5f0f\uff1a\u53ef\u7f16\u8f91\u3001\u7ed3\u6784\u5316\u3001\u667a\u80fd\u5316\u3002"
       },
       "clarity": {
         "executive_summary": {
@@ -145,27 +145,27 @@
         "level": 2
       },
       "translations": {
-        "es": "Capas de Claridad: Un Documento, Múltiples Audiencias",
-        "ar": "طبقات الوضوح: وثيقة واحدة لجمهور متعدد",
-        "fr": "Couches de Clarté: Un Document, Plusieurs Publics",
-        "zh": "清晰度层：一份文档，多个受众"
+        "es": "Capas de Claridad: Un Documento, M\u00faltiples Audiencias",
+        "ar": "\u0637\u0628\u0642\u0627\u062a \u0627\u0644\u0648\u0636\u0648\u062d: \u0648\u062b\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629 \u0644\u062c\u0645\u0647\u0648\u0631 \u0645\u062a\u0639\u062f\u062f",
+        "fr": "Couches de Clart\u00e9: Un Document, Plusieurs Publics",
+        "zh": "\u6e05\u6670\u5ea6\u5c42\uff1a\u4e00\u4efd\u6587\u6863\uff0c\u591a\u4e2a\u53d7\u4f17"
       }
     },
     {
       "id": "ca36a9e24677",
       "type": "paragraph",
       "base_content": {
-        "text": "Every block in a Universal Document™ can carry multiple versions of its content — one for each audience. A prescription shows clinical detail to a pharmacist and plain-language instructions to the patient. A legal contract shows full terms to a lawyer and a plain-English summary to the signatory. A government regulation shows statutory text to an official and a plain-language summary to the public. The document is one file. The audience determines what they see."
+        "text": "Every block in a Universal Document\u2122 can carry multiple versions of its content \u2014 one for each audience. A prescription shows clinical detail to a pharmacist and plain-language instructions to the patient. A legal contract shows full terms to a lawyer and a plain-English summary to the signatory. A government regulation shows statutory text to an official and a plain-language summary to the public. The document is one file. The audience determines what they see."
       },
       "translations": {
-        "es": "Cada bloque en un Universal Document™ puede contener múltiples versiones de su contenido para cada audiencia. Una receta muestra detalles clínicos al farmacéutico e instrucciones sencillas al paciente.",
-        "ar": "يمكن لكل كتلة في Universal Document™ أن تحمل نسخاً متعددة من محتواها لكل جمهور. توصفة تُظهر التفاصيل السريرية للصيدلاني وتعليمات بسيطة للمريض.",
-        "fr": "Chaque bloc d'un Universal Document™ peut contenir plusieurs versions de son contenu — une pour chaque public. Une ordonnance montre les détails cliniques au pharmacien et des instructions claires au patient.",
-        "zh": "Universal Document™中的每个内容块都可以为不同受众携带多个版本的内容。处方对药剂师显示临床细节，对患者显示通俗语言的指导。"
+        "es": "Cada bloque en un Universal Document\u2122 puede contener m\u00faltiples versiones de su contenido para cada audiencia. Una receta muestra detalles cl\u00ednicos al farmac\u00e9utico e instrucciones sencillas al paciente.",
+        "ar": "\u064a\u0645\u0643\u0646 \u0644\u0643\u0644 \u0643\u062a\u0644\u0629 \u0641\u064a Universal Document\u2122 \u0623\u0646 \u062a\u062d\u0645\u0644 \u0646\u0633\u062e\u0627\u064b \u0645\u062a\u0639\u062f\u062f\u0629 \u0645\u0646 \u0645\u062d\u062a\u0648\u0627\u0647\u0627 \u0644\u0643\u0644 \u062c\u0645\u0647\u0648\u0631. \u062a\u0648\u0635\u0641\u0629 \u062a\u064f\u0638\u0647\u0631 \u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0633\u0631\u064a\u0631\u064a\u0629 \u0644\u0644\u0635\u064a\u062f\u0644\u0627\u0646\u064a \u0648\u062a\u0639\u0644\u064a\u0645\u0627\u062a \u0628\u0633\u064a\u0637\u0629 \u0644\u0644\u0645\u0631\u064a\u0636.",
+        "fr": "Chaque bloc d'un Universal Document\u2122 peut contenir plusieurs versions de son contenu \u2014 une pour chaque public. Une ordonnance montre les d\u00e9tails cliniques au pharmacien et des instructions claires au patient.",
+        "zh": "Universal Document\u2122\u4e2d\u7684\u6bcf\u4e2a\u5185\u5bb9\u5757\u90fd\u53ef\u4ee5\u4e3a\u4e0d\u540c\u53d7\u4f17\u643a\u5e26\u591a\u4e2a\u7248\u672c\u7684\u5185\u5bb9\u3002\u5904\u65b9\u5bf9\u836f\u5242\u5e08\u663e\u793a\u4e34\u5e8a\u7ec6\u8282\uff0c\u5bf9\u60a3\u8005\u663e\u793a\u901a\u4fd7\u8bed\u8a00\u7684\u6307\u5bfc\u3002"
       },
       "clarity": {
         "executive_summary": {
-          "en": "Clarity Layers allow a single document to show different content to different audiences (patient vs clinician, public vs official) — no duplicate files needed."
+          "en": "Clarity Layers allow a single document to show different content to different audiences (patient vs clinician, public vs official) \u2014 no duplicate files needed."
         }
       }
     },
@@ -177,27 +177,27 @@
         "level": 2
       },
       "translations": {
-        "es": "Flujos de Idioma: Sin Archivos de Traducción",
-        "ar": "تدفقات اللغة: بدون ملفات ترجمة",
+        "es": "Flujos de Idioma: Sin Archivos de Traducci\u00f3n",
+        "ar": "\u062a\u062f\u0641\u0642\u0627\u062a \u0627\u0644\u0644\u063a\u0629: \u0628\u062f\u0648\u0646 \u0645\u0644\u0641\u0627\u062a \u062a\u0631\u062c\u0645\u0629",
         "fr": "Flux de Langue: Pas de Fichiers de Traduction",
-        "zh": "语言流：无需翻译文件"
+        "zh": "\u8bed\u8a00\u6d41\uff1a\u65e0\u9700\u7ffb\u8bd1\u6587\u4ef6"
       }
     },
     {
       "id": "247420852f7e",
       "type": "paragraph",
       "base_content": {
-        "text": "Every block carries its own translations as structured data — not as a separate file, not as a linked resource, but embedded at block level. Switch the active language and the document re-renders instantly. The same prescription, in the same file, reads natively in English, Arabic, Mandarin, Spanish, or French. One file. Every language. No duplication."
+        "text": "Every block carries its own translations as structured data \u2014 not as a separate file, not as a linked resource, but embedded at block level. Switch the active language and the document re-renders instantly. The same prescription, in the same file, reads natively in English, Arabic, Mandarin, Spanish, or French. One file. Every language. No duplication."
       },
       "translations": {
-        "es": "Cada bloque lleva sus propias traducciones como datos estructurados. Cambia el idioma activo y el documento se vuelve a renderizar instantáneamente. Un archivo. Todos los idiomas.",
-        "ar": "تحمل كل كتلة ترجماتها الخاصة كبيانات منظمة. غيّر اللغة النشطة وسيُعيد المستند العرض فوراً. ملف واحد. كل اللغات.",
-        "fr": "Chaque bloc porte ses propres traductions sous forme de données structurées. Changez la langue active et le document se restitue instantanément. Un fichier. Toutes les langues.",
-        "zh": "每个内容块都以结构化数据的形式携带自己的翻译。切换活跃语言，文档立即重新呈现。一个文件，所有语言，零重复。"
+        "es": "Cada bloque lleva sus propias traducciones como datos estructurados. Cambia el idioma activo y el documento se vuelve a renderizar instant\u00e1neamente. Un archivo. Todos los idiomas.",
+        "ar": "\u062a\u062d\u0645\u0644 \u0643\u0644 \u0643\u062a\u0644\u0629 \u062a\u0631\u062c\u0645\u0627\u062a\u0647\u0627 \u0627\u0644\u062e\u0627\u0635\u0629 \u0643\u0628\u064a\u0627\u0646\u0627\u062a \u0645\u0646\u0638\u0645\u0629. \u063a\u064a\u0651\u0631 \u0627\u0644\u0644\u063a\u0629 \u0627\u0644\u0646\u0634\u0637\u0629 \u0648\u0633\u064a\u064f\u0639\u064a\u062f \u0627\u0644\u0645\u0633\u062a\u0646\u062f \u0627\u0644\u0639\u0631\u0636 \u0641\u0648\u0631\u0627\u064b. \u0645\u0644\u0641 \u0648\u0627\u062d\u062f. \u0643\u0644 \u0627\u0644\u0644\u063a\u0627\u062a.",
+        "fr": "Chaque bloc porte ses propres traductions sous forme de donn\u00e9es structur\u00e9es. Changez la langue active et le document se restitue instantan\u00e9ment. Un fichier. Toutes les langues.",
+        "zh": "\u6bcf\u4e2a\u5185\u5bb9\u5757\u90fd\u4ee5\u7ed3\u6784\u5316\u6570\u636e\u7684\u5f62\u5f0f\u643a\u5e26\u81ea\u5df1\u7684\u7ffb\u8bd1\u3002\u5207\u6362\u6d3b\u8dc3\u8bed\u8a00\uff0c\u6587\u6863\u7acb\u5373\u91cd\u65b0\u5448\u73b0\u3002\u4e00\u4e2a\u6587\u4ef6\uff0c\u6240\u6709\u8bed\u8a00\uff0c\u96f6\u91cd\u590d\u3002"
       },
       "clarity": {
         "executive_summary": {
-          "en": "Every UD block contains its translations as structured data. One file handles every language — no separate translation documents."
+          "en": "Every UD block contains its translations as structured data. One file handles every language \u2014 no separate translation documents."
         }
       }
     },
@@ -209,23 +209,23 @@
         "level": 2
       },
       "translations": {
-        "es": "Vencimiento, Revocación y Cadena de Custodia",
-        "ar": "الانتهاء والإلغاء وسلسلة الحضانة",
-        "fr": "Expiration, Révocation et Chaîne de Garde",
-        "zh": "过期、撤销与保管链"
+        "es": "Vencimiento, Revocaci\u00f3n y Cadena de Custodia",
+        "ar": "\u0627\u0644\u0627\u0646\u062a\u0647\u0627\u0621 \u0648\u0627\u0644\u0625\u0644\u063a\u0627\u0621 \u0648\u0633\u0644\u0633\u0644\u0629 \u0627\u0644\u062d\u0636\u0627\u0646\u0629",
+        "fr": "Expiration, R\u00e9vocation et Cha\u00eene de Garde",
+        "zh": "\u8fc7\u671f\u3001\u64a4\u9500\u4e0e\u4fdd\u7ba1\u94fe"
       }
     },
     {
       "id": "2c652b8a1218",
       "type": "paragraph",
       "base_content": {
-        "text": "A Universal Document™ can expire. A surgical consent expires after 24 hours. A prescription expires after 30 days. A policy document expires on the day its successor is published. Expiry is built into the file — not managed by a platform. A UD can also be revoked, permanently. And every action — creation, edit, approval, sealing, sharing — is recorded in a chain of custody embedded in the seal. There is no way to alter the document without invalidating the seal."
+        "text": "A Universal Document\u2122 can expire. A surgical consent expires after 24 hours. A prescription expires after 30 days. A policy document expires on the day its successor is published. Expiry is built into the file \u2014 not managed by a platform. A UD can also be revoked, permanently. And every action \u2014 creation, edit, approval, sealing, sharing \u2014 is recorded in a chain of custody embedded in the seal. There is no way to alter the document without invalidating the seal."
       },
       "translations": {
-        "es": "Un Universal Document™ puede expirar. Un consentimiento quirúrgico expira tras 24 horas. Una receta expira a los 30 días. La caducidad está integrada en el archivo, no gestionada por una plataforma.",
-        "ar": "يمكن لـ Universal Document™ أن ينتهي. يتهي وثيقة الموافقة الجراحية بعد 24 ساعة. انتهاء الصلاحية مدمج في الملف وليس مُدار بواسطة منصة.",
-        "fr": "Un Universal Document™ peut expirer. Un consentement chirurgical expire après 24 heures. Une ordonnance après 30 jours. L'expiration est intégrée dans le fichier, non gérée par une plateforme.",
-        "zh": "Universal Document™可以设置过期时间。手术同意书24小时后过期，处方30天后过期。过期机制内置于文件本身，而非由平台管理。"
+        "es": "Un Universal Document\u2122 puede expirar. Un consentimiento quir\u00fargico expira tras 24 horas. Una receta expira a los 30 d\u00edas. La caducidad est\u00e1 integrada en el archivo, no gestionada por una plataforma.",
+        "ar": "\u064a\u0645\u0643\u0646 \u0644\u0640 Universal Document\u2122 \u0623\u0646 \u064a\u0646\u062a\u0647\u064a. \u064a\u062a\u0647\u064a \u0648\u062b\u064a\u0642\u0629 \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629 \u0627\u0644\u062c\u0631\u0627\u062d\u064a\u0629 \u0628\u0639\u062f 24 \u0633\u0627\u0639\u0629. \u0627\u0646\u062a\u0647\u0627\u0621 \u0627\u0644\u0635\u0644\u0627\u062d\u064a\u0629 \u0645\u062f\u0645\u062c \u0641\u064a \u0627\u0644\u0645\u0644\u0641 \u0648\u0644\u064a\u0633 \u0645\u064f\u062f\u0627\u0631 \u0628\u0648\u0627\u0633\u0637\u0629 \u0645\u0646\u0635\u0629.",
+        "fr": "Un Universal Document\u2122 peut expirer. Un consentement chirurgical expire apr\u00e8s 24 heures. Une ordonnance apr\u00e8s 30 jours. L'expiration est int\u00e9gr\u00e9e dans le fichier, non g\u00e9r\u00e9e par une plateforme.",
+        "zh": "Universal Document\u2122\u53ef\u4ee5\u8bbe\u7f6e\u8fc7\u671f\u65f6\u95f4\u3002\u624b\u672f\u540c\u610f\u4e6624\u5c0f\u65f6\u540e\u8fc7\u671f\uff0c\u5904\u65b930\u5929\u540e\u8fc7\u671f\u3002\u8fc7\u671f\u673a\u5236\u5185\u7f6e\u4e8e\u6587\u4ef6\u672c\u8eab\uff0c\u800c\u975e\u7531\u5e73\u53f0\u7ba1\u7406\u3002"
       },
       "clarity": {
         "executive_summary": {
@@ -241,40 +241,40 @@
         "level": 2
       },
       "translations": {
-        "es": "Pruébelo Ahora",
-        "ar": "جربه الآن",
+        "es": "Pru\u00e9belo Ahora",
+        "ar": "\u062c\u0631\u0628\u0647 \u0627\u0644\u0622\u0646",
         "fr": "Essayez Maintenant",
-        "zh": "立即体验"
+        "zh": "\u7acb\u5373\u4f53\u9a8c"
       }
     },
     {
       "id": "b04c9a349de7",
       "type": "paragraph",
       "base_content": {
-        "text": "Four demonstration files are available to download and open in the UD Reader at reader.hive.baby. A pharmacy prescription with five language streams and two clarity layers. A surgical consent that expires in 24 hours. A commercial contract and a tampered version that fails integrity checks. And this article itself — as a Universal Document™."
+        "text": "Four demonstration files are available to download and open in the UD Reader at reader.hive.baby. A pharmacy prescription with five language streams and two clarity layers. A surgical consent that expires in 24 hours. A commercial contract and a tampered version that fails integrity checks. And this article itself \u2014 as a Universal Document\u2122."
       },
       "translations": {
-        "es": "Cuatro archivos de demostración están disponibles para descargar y abrir en el Lector UD en reader.hive.baby.",
-        "ar": "أربعة ملفات تجريبية متاحة للتنزيل وفتحها في قارئ UD على reader.hive.baby.",
-        "fr": "Quatre fichiers de démonstration sont disponibles en téléchargement et à ouvrir dans le lecteur UD sur reader.hive.baby.",
-        "zh": "四个演示文件可在reader.hive.baby的UD阅读器中下载并打开。"
+        "es": "Cuatro archivos de demostraci\u00f3n est\u00e1n disponibles para descargar y abrir en el Lector UD en reader.hive.baby.",
+        "ar": "\u0623\u0631\u0628\u0639\u0629 \u0645\u0644\u0641\u0627\u062a \u062a\u062c\u0631\u064a\u0628\u064a\u0629 \u0645\u062a\u0627\u062d\u0629 \u0644\u0644\u062a\u0646\u0632\u064a\u0644 \u0648\u0641\u062a\u062d\u0647\u0627 \u0641\u064a \u0642\u0627\u0631\u0626 UD \u0639\u0644\u0649 reader.hive.baby.",
+        "fr": "Quatre fichiers de d\u00e9monstration sont disponibles en t\u00e9l\u00e9chargement et \u00e0 ouvrir dans le lecteur UD sur reader.hive.baby.",
+        "zh": "\u56db\u4e2a\u6f14\u793a\u6587\u4ef6\u53ef\u5728reader.hive.baby\u7684UD\u9605\u8bfb\u5668\u4e2d\u4e0b\u8f7d\u5e76\u6253\u5f00\u3002"
       }
     },
     {
       "id": "c3040c4fe776",
       "type": "paragraph",
       "base_content": {
-        "text": "Universal Document™ is open. The specification is free. The tools are free. The iSDK carries no licence cost. If you build with it, you do not owe us anything — except the courtesy of calling it Universal Document™."
+        "text": "Universal Document\u2122 is open. The specification is free. The tools are free. The iSDK carries no licence cost. If you build with it, you do not owe us anything \u2014 except the courtesy of calling it Universal Document\u2122."
       },
       "translations": {
-        "es": "Universal Document™ es abierto. La especificación es gratuita. Las herramientas son gratuitas. El iSDK no tiene costo de licencia.",
-        "ar": "Universal Document™ مفتوح. المواصفة مجانية. الأدوات مجانية. لا تكلفة ترخيص على iSDK.",
-        "fr": "Universal Document™ est ouvert. La spécification est gratuite. Les outils sont gratuits. L'iSDK ne comporte aucun coût de licence.",
-        "zh": "Universal Document™是开放的。规范是免费的。工具是免费的。iSDK不收取任何许可费用。"
+        "es": "Universal Document\u2122 es abierto. La especificaci\u00f3n es gratuita. Las herramientas son gratuitas. El iSDK no tiene costo de licencia.",
+        "ar": "Universal Document\u2122 \u0645\u0641\u062a\u0648\u062d. \u0627\u0644\u0645\u0648\u0627\u0635\u0641\u0629 \u0645\u062c\u0627\u0646\u064a\u0629. \u0627\u0644\u0623\u062f\u0648\u0627\u062a \u0645\u062c\u0627\u0646\u064a\u0629. \u0644\u0627 \u062a\u0643\u0644\u0641\u0629 \u062a\u0631\u062e\u064a\u0635 \u0639\u0644\u0649 iSDK.",
+        "fr": "Universal Document\u2122 est ouvert. La sp\u00e9cification est gratuite. Les outils sont gratuits. L'iSDK ne comporte aucun co\u00fbt de licence.",
+        "zh": "Universal Document\u2122\u662f\u5f00\u653e\u7684\u3002\u89c4\u8303\u662f\u514d\u8d39\u7684\u3002\u5de5\u5177\u662f\u514d\u8d39\u7684\u3002iSDK\u4e0d\u6536\u53d6\u4efb\u4f55\u8bb8\u53ef\u8d39\u7528\u3002"
       },
       "clarity": {
         "executive_summary": {
-          "en": "Universal Document™ is fully open. Free specification, free tools, no SDK licensing costs. Use it freely — just call it Universal Document™."
+          "en": "Universal Document\u2122 is fully open. Free specification, free tools, no SDK licensing costs. Use it freely \u2014 just call it Universal Document\u2122."
         }
       }
     },
@@ -287,36 +287,36 @@
       "id": "785e02410bb9",
       "type": "paragraph",
       "base_content": {
-        "text": "universaldocument.solutions · ud.hive.baby · reader.hive.baby · converter.hive.baby  |  Universal Document™ is a pending trademark (Serial 99774346). Specification released under CC BY 4.0.  |  This document expires: 2027-04-24."
+        "text": "universaldocument.solutions \u00b7 ud.hive.baby \u00b7 reader.hive.baby \u00b7 converter.hive.baby  |  Universal Document\u2122 is a pending trademark (Serial 99774346). Specification released under CC BY 4.0.  |  This document expires: 2027-04-24."
       },
       "translations": {
-        "es": "universaldocument.solutions · ud.hive.baby  |  Universal Document™ es una marca pendiente de registro (Serie 99774346). Especificación publicada bajo CC BY 4.0.",
-        "ar": "universaldocument.solutions · ud.hive.baby  |  Universal Document™ علامة تجارية معلقة (الرقم التسلسلي 99774346). المواصفة صادرة بموجب CC BY 4.0.",
-        "fr": "universaldocument.solutions · ud.hive.baby  |  Universal Document™ est une marque déposée en attente (Série 99774346). Spécification publiée sous CC BY 4.0.",
-        "zh": "universaldocument.solutions · ud.hive.baby  |  Universal Document™为待注册商标（序列号99774346）。规范依据CC BY 4.0发布。"
+        "es": "universaldocument.solutions \u00b7 ud.hive.baby  |  Universal Document\u2122 es una marca pendiente de registro (Serie 99774346). Especificaci\u00f3n publicada bajo CC BY 4.0.",
+        "ar": "universaldocument.solutions \u00b7 ud.hive.baby  |  Universal Document\u2122 \u0639\u0644\u0627\u0645\u0629 \u062a\u062c\u0627\u0631\u064a\u0629 \u0645\u0639\u0644\u0642\u0629 (\u0627\u0644\u0631\u0642\u0645 \u0627\u0644\u062a\u0633\u0644\u0633\u0644\u064a 99774346). \u0627\u0644\u0645\u0648\u0627\u0635\u0641\u0629 \u0635\u0627\u062f\u0631\u0629 \u0628\u0645\u0648\u062c\u0628 CC BY 4.0.",
+        "fr": "universaldocument.solutions \u00b7 ud.hive.baby  |  Universal Document\u2122 est une marque d\u00e9pos\u00e9e en attente (S\u00e9rie 99774346). Sp\u00e9cification publi\u00e9e sous CC BY 4.0.",
+        "zh": "universaldocument.solutions \u00b7 ud.hive.baby  |  Universal Document\u2122\u4e3a\u5f85\u6ce8\u518c\u5546\u6807\uff08\u5e8f\u5217\u53f799774346\uff09\u3002\u89c4\u8303\u4f9d\u636eCC BY 4.0\u53d1\u5e03\u3002"
       }
     }
   ],
   "seal": {
     "sealed_at": "2026-04-23T00:30:09Z",
-    "sealed_by": "Universal Document™ Incorporated",
+    "sealed_by": "Universal Document\u2122 Incorporated",
     "hash": "5b6fe4d97042b2000235da8161535ec2afea3b5db19c6215d8223832dfbaf8a1",
     "chain_of_custody": [
       {
         "event": "created",
-        "actor": "Universal Document™ Incorporated",
+        "actor": "Universal Document\u2122 Incorporated",
         "timestamp": "2026-04-21T09:00:00Z",
         "note": "Article drafted for Medium Part 2 launch"
       },
       {
         "event": "reviewed",
-        "actor": "Editorial Team — Universal Document™ Incorporated",
+        "actor": "Editorial Team \u2014 Universal Document\u2122 Incorporated",
         "timestamp": "2026-04-23T09:00:00Z",
         "note": "Final editorial review"
       },
       {
         "event": "sealed",
-        "actor": "Universal Document™ Incorporated",
+        "actor": "Universal Document\u2122 Incorporated",
         "timestamp": "2026-04-24T09:00:00Z",
         "note": "Sealed for publication. Version 1.0."
       }

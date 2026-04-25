@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import TooltipTour from '@/components/TooltipTour'
 
-const DEMO: Record<string, string> = {
+const DEMO = {
   patientName: 'Maria Garcia',
   dob: '1985-03-12',
   medication: 'Amoxicillin 500mg capsules',
@@ -94,7 +94,7 @@ export default function PharmacyPage() {
           <span style={{ fontSize: 13, fontWeight: 600, padding: '3px 10px', borderRadius: 99, background: 'var(--ud-gold-3)', color: 'var(--ud-gold-text)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pro</span>
           <span style={{ fontSize: 9, color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)', paddingLeft: 10 }}>Free during beta</span>
         </div>
-        <TooltipTour steps={TOUR} />
+        <TooltipTour engineId="pharmacy" tips={TOUR} />
       </div>
 
       <p style={{ fontSize: 16, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: 8, lineHeight: 1.6 }}>
