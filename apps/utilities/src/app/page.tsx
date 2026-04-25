@@ -292,12 +292,21 @@ const FREE_NAV = [
   {slug:'consent-form',name:'UD Consent Form'},{slug:'event-ticket',name:'UD Event Ticket'},
   {slug:'safety-report',name:'UD Safety Report'},{slug:'training-record',name:'UD Training Record'},
   {slug:'living-document',name:'UD Living Document'},{slug:'pdf-editor',name:'UD PDF Editor'},
+  {slug:'accessibility-check',name:'UD Accessibility Check'},{slug:'classify',name:'UD Classify'},
+  {slug:'summarise',name:'UD Summarise'},{slug:'translate',name:'UD Translate'},
+  {slug:'audio-embed',name:'UD Audio Embed'},{slug:'media-sync',name:'UD Media Sync'},
+  {slug:'video-embed',name:'UD Video Embed'},{slug:'dynamic-watermark',name:'UD Dynamic Watermark'},
+  {slug:'highlight',name:'UD Highlight'},{slug:'ocr',name:'UD OCR'},
+  {slug:'compare',name:'UD Compare'},{slug:'redact',name:'UD Redact & Highlight'},
+  {slug:'metadata-editor',name:'UD Metadata Editor'},{slug:'power-of-attorney',name:'UD Power of Attorney'},
+  {slug:'separation-agreement',name:'UD Separation Agreement'},{slug:'rental-agreement',name:'UD Rental Agreement'},
+  {slug:'tenancy-deposit',name:'UD Tenancy Deposit'},
 ]
 
 const SPECIALIST_CATS = [
   {cat:'Healthcare',       slugs:['clinical-summary','prescription','consent-manager','medication-list','emr-export','clinical-trial-master-file']},
   {cat:'Legal',            slugs:['legal-bundle','deposition-package','privilege-log','smart-contract','legal-bundle-verify','contract-intelligence']},
-  {cat:'Governance',       slugs:['policy-attestation','board-pack','due-diligence-room','regulatory-change-tracker','whistleblower-package']},
+  {cat:'Governance',       slugs:['policy-attestation','board-pack','due-diligence-room','regulatory-change-tracker','whistleblower-package','document-vault','esg-report']},
   {cat:'Trust & Proof',    slugs:['proof','time-capsule','will','notarize']},
   {cat:'Government',       slugs:['foi-bundle','policy-publisher','certificate-issuer','regulatory-filing']},
   {cat:'Finance',          slugs:['financial-statement']},
@@ -311,6 +320,8 @@ const SPECIALIST_CATS = [
   {cat:'Dynamic Docs',     slugs:['living-document']},
   {cat:'Signing & CLM',    slugs:['signing-workflow','contract-lifecycle','document-intelligence']},
   {cat:'AI',               slugs:['document-intelligence','capture']},
+  {cat:'Security',         slugs:['steg-watermark','dynamic-watermark','highlight']},
+  {cat:'Media',            slugs:['media-sync-advanced','audio-embed','video-embed']},
 ]
 
 function ToolAnim({ slug }: { slug: string }) {
