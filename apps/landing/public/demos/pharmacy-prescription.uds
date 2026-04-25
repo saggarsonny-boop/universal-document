@@ -1,9 +1,9 @@
 {
-  "ud_version": "1.0",
+  "ud_version": "1.0.0",
   "state": "UDS",
   "metadata": {
     "id": "92336f55-e0e2-419e-8eff-5daf85726128",
-    "title": "Prescription \u2014 Maria Garcia \u2014 Amoxicillin 500mg",
+    "title": "Prescription — Maria Garcia — Amoxicillin 500mg",
     "created_at": "2026-04-24T09:00:00Z",
     "updated_at": "2026-04-24T09:00:00Z",
     "created_by": "Dr. J. Patel, MBChB MRCGP",
@@ -39,7 +39,7 @@
       "id": "29fc75b78435",
       "type": "heading",
       "base_content": {
-        "text": "Prescription \u2014 Maria Garcia",
+        "text": "Prescription — Maria Garcia",
         "level": 2
       }
     },
@@ -47,7 +47,7 @@
       "id": "53f793aeaff1",
       "type": "paragraph",
       "base_content": {
-        "text": "Date: 24 April 2026 \u00b7 Prescriber: Dr. J. Patel, MBChB MRCGP \u2014 Riverdale Medical Centre \u00b7 GMC: 7654321"
+        "text": "Date: 24 April 2026 · Prescriber: Dr. J. Patel, MBChB MRCGP — Riverdale Medical Centre · GMC: 7654321"
       }
     },
     {

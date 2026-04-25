@@ -229,6 +229,18 @@ export default function SignerPage() {
       }
       const out = JSON.stringify(sealed, null, 2)
       const sidecar = await buildSidecar(buf)
+
+      // Register in ud_documents registry (fire-and-forget)
+      const docId = sealed.metadata?.id
+      if (docId) {
+        const outHash = await sha256Hex(new TextEncoder().encode(out))
+        fetch('/api/seal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: docId, hash: outHash, title: sealed.metadata?.title ?? null }),
+        }).catch(() => {})
+      }
+
       setResults([
         { label: 'Sealed UDS', filename: `${baseName(file.name)}.uds`, content: out, mime: 'application/json' },
         { label: '.udsig companion', filename: `${baseName(file.name)}.udsig`, content: JSON.stringify(sidecar, null, 2), mime: 'application/json' },

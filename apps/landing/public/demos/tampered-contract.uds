@@ -1,9 +1,9 @@
 {
-  "ud_version": "1.0",
+  "ud_version": "1.0.0",
   "state": "UDS",
   "metadata": {
     "id": "3e87e2a2-f74c-4616-b4b2-50f8682b3ac4",
-    "title": "Non-Disclosure Agreement \u2014 Acme Corp and Beta Ltd [TAMPERED]",
+    "title": "Non-Disclosure Agreement — Acme Corp and Beta Ltd [TAMPERED]",
     "created_at": "2026-04-24T09:00:00Z",
     "updated_at": "2026-04-24T09:00:00Z",
     "created_by": "Harrington & Co Solicitors LLP",
@@ -130,7 +130,7 @@
       "id": "80b58e4acb9b",
       "type": "paragraph",
       "base_content": {
-        "text": "Signed: [Acme Corp] [Beta Ltd] \u00b7 Date: 24 April 2026"
+        "text": "Signed: [Acme Corp] [Beta Ltd] · Date: 24 April 2026"
       }
     }
   ],

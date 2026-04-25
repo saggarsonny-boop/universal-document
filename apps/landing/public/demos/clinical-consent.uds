@@ -1,9 +1,9 @@
 {
-  "ud_version": "1.0",
+  "ud_version": "1.0.0",
   "state": "UDS",
   "metadata": {
     "id": "80f6bfce-6864-47ef-b6fe-2c1c9f65fefa",
-    "title": "Surgical Consent \u2014 Appendicectomy \u2014 James Thornton",
+    "title": "Surgical Consent — Appendicectomy — James Thornton",
     "created_at": "2026-04-24T09:00:00Z",
     "updated_at": "2026-04-24T09:00:00Z",
     "created_by": "Mr. A. Hassan, FRCS",
@@ -38,7 +38,7 @@
       "id": "314ed59c2fe0",
       "type": "heading",
       "base_content": {
-        "text": "Surgical Consent \u2014 Appendicectomy",
+        "text": "Surgical Consent — Appendicectomy",
         "level": 2
       }
     },
@@ -68,7 +68,7 @@
       "id": "0146c2bf5a9c",
       "type": "heading",
       "base_content": {
-        "text": "Main risks \u2014 Patient summary",
+        "text": "Main risks — Patient summary",
         "level": 3
       }
     },
@@ -76,7 +76,7 @@
       "id": "e59044587ec0",
       "type": "list",
       "base_content": {
-        "text": "Infection of the wound or abdomen \u00b7 Bleeding \u00b7 Temporary shoulder tip pain (from the gas used) \u00b7 Small chance of needing open surgery \u00b7 Rare: injury to nearby structures"
+        "text": "Infection of the wound or abdomen · Bleeding · Temporary shoulder tip pain (from the gas used) · Small chance of needing open surgery · Rare: injury to nearby structures"
       }
     },
     {
@@ -98,7 +98,7 @@
       "id": "fdc1d04499d8",
       "type": "paragraph",
       "base_content": {
-        "text": "Patient signature: James Thornton \u00b7 Date: 24 April 2026 \u00b7 Witnessed by: Staff Nurse K. Osei"
+        "text": "Patient signature: James Thornton · Date: 24 April 2026 · Witnessed by: Staff Nurse K. Osei"
       }
     }
   ],
