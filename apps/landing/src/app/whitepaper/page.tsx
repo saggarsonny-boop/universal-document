@@ -93,7 +93,7 @@ export default function WhitepaperPage() {
         {/* PDF button + compatibility note */}
         <div>
           <a
-            href="/whitepaper/universal-document-whitepaper-v2.pdf"
+            href="/whitepaper/universal_document_whitepaper_v2.pdf"
             target="_blank"
             rel="noopener noreferrer"
             style={{
