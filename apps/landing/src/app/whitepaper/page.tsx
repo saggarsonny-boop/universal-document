@@ -88,31 +88,68 @@ export default function WhitepaperPage() {
       </div>
 
       {/* CTA buttons */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 52, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 52, maxWidth: 380 }}>
+
+        {/* PDF button + compatibility note */}
+        <div>
+          <a
+            href="/whitepaper/universal-document-whitepaper-v2.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '12px 24px',
+              background: 'var(--ud-gold)',
+              color: '#1e2d3d',
+              fontFamily: 'var(--font-body)',
+              fontSize: 14, fontWeight: 700,
+              borderRadius: 'var(--ud-radius)',
+              textDecoration: 'none',
+              transition: 'opacity 0.15s',
+              width: '100%', justifyContent: 'center',
+            }}
+          >
+            Download as PDF →
+          </a>
+          <div style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 11,
+            color: 'var(--ud-gold)',
+            fontStyle: 'italic',
+            marginTop: 6,
+            opacity: 0.75,
+            paddingLeft: 4,
+          }}>
+            (a temporary concession to compatibility — .uds coming soon)
+          </div>
+        </div>
+
+        {/* .uds download button */}
         <a
-          href="/whitepaper/universal-document-whitepaper-v2.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="#coming-soon"
           style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             padding: '12px 24px',
-            background: 'var(--ud-gold)',
-            color: '#1e2d3d',
+            background: 'transparent',
+            color: 'var(--ud-gold)',
             fontFamily: 'var(--font-body)',
-            fontSize: 14, fontWeight: 700,
+            fontSize: 14, fontWeight: 600,
             borderRadius: 'var(--ud-radius)',
+            border: '1px solid var(--ud-gold)',
             textDecoration: 'none',
-            transition: 'opacity 0.15s',
+            transition: 'background 0.15s',
           }}
         >
-          Download PDF →
+          Download as .uds →
         </a>
+
+        {/* SSRN button */}
         <a
           href="https://ssrn.com"
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             padding: '12px 24px',
             background: 'transparent',
             color: 'var(--ud-ink)',
@@ -126,6 +163,25 @@ export default function WhitepaperPage() {
         >
           Read on SSRN →
         </a>
+
+        {/* UD Reader link */}
+        <a
+          href="https://universaldocument.hive.baby"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 13,
+            color: 'var(--ud-muted)',
+            textDecoration: 'none',
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            paddingLeft: 4,
+            transition: 'color 0.15s',
+          }}
+        >
+          Or open in UD Reader →
+        </a>
+
       </div>
 
       {/* Gold divider */}
