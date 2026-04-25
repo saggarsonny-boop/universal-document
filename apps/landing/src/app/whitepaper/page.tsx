@@ -90,23 +90,43 @@ export default function WhitepaperPage() {
       {/* CTA buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 52, maxWidth: 380 }}>
 
-        {/* PDF button + compatibility note */}
+        {/* .uds download button — primary */}
+        <a
+          href="/whitepaper/universal_document_whitepaper_v2.uds"
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            padding: '12px 24px',
+            background: 'var(--ud-gold)',
+            color: '#1e2d3d',
+            fontFamily: 'var(--font-body)',
+            fontSize: 14, fontWeight: 700,
+            borderRadius: 'var(--ud-radius)',
+            textDecoration: 'none',
+            transition: 'opacity 0.15s',
+            width: '100%',
+          }}
+        >
+          Download as .uds →
+        </a>
+
+        {/* PDF button — secondary */}
         <div>
           <a
             href="/whitepaper/universal_document_whitepaper_v2.pdf"
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               padding: '12px 24px',
-              background: 'var(--ud-gold)',
-              color: '#1e2d3d',
+              background: 'transparent',
+              color: 'var(--ud-muted)',
               fontFamily: 'var(--font-body)',
-              fontSize: 14, fontWeight: 700,
+              fontSize: 14, fontWeight: 600,
               borderRadius: 'var(--ud-radius)',
+              border: '1px solid var(--ud-border)',
               textDecoration: 'none',
-              transition: 'opacity 0.15s',
-              width: '100%', justifyContent: 'center',
+              transition: 'border-color 0.15s',
+              width: '100%',
             }}
           >
             Download as PDF →
@@ -114,34 +134,15 @@ export default function WhitepaperPage() {
           <div style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 11,
-            color: 'var(--ud-gold)',
+            color: 'var(--ud-muted)',
             fontStyle: 'italic',
             marginTop: 6,
-            opacity: 0.75,
+            opacity: 0.6,
             paddingLeft: 4,
           }}>
-            (a temporary concession to compatibility — .uds coming soon)
+            (a temporary concession to compatibility)
           </div>
         </div>
-
-        {/* .uds download button */}
-        <a
-          href="/whitepaper/universal_document_whitepaper_v2.uds"
-          style={{
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-            padding: '12px 24px',
-            background: 'transparent',
-            color: 'var(--ud-gold)',
-            fontFamily: 'var(--font-body)',
-            fontSize: 14, fontWeight: 600,
-            borderRadius: 'var(--ud-radius)',
-            border: '1px solid var(--ud-gold)',
-            textDecoration: 'none',
-            transition: 'background 0.15s',
-          }}
-        >
-          Download as .uds →
-        </a>
 
         {/* SSRN button */}
         <a
