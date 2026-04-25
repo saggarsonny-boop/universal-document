@@ -69,6 +69,26 @@ function ReaderApp() {
   }
 
   useEffect(() => {
+    // Auto-open from File Handling API (via /open route)
+    if (searchParams.get('autoopen') === '1') {
+      const stored = sessionStorage.getItem('ud_open_file')
+      const err = sessionStorage.getItem('ud_open_error')
+      sessionStorage.removeItem('ud_open_file')
+      sessionStorage.removeItem('ud_open_filename')
+      sessionStorage.removeItem('ud_open_error')
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored)
+          handleParsed(parsed)
+        } catch {
+          setErrors(['Could not parse the opened file.'])
+          setAppState('error')
+        }
+        return
+      }
+      if (err) { setErrors([err]); setAppState('error'); return }
+    }
+    // Auto-load from ?url= param
     const url = searchParams.get('url')
     if (url) loadFromURL(url)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
