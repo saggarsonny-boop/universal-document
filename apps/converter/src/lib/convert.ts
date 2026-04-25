@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs'
+import Anthropic from '@anthropic-ai/sdk'
 
 export interface UDBlock {
   id: string
@@ -276,22 +275,67 @@ export async function convertCsv(text: string, fileName: string): Promise<UDDocu
 }
 
 async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  const data = new Uint8Array(buffer)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ;(pdfjsLib as any).GlobalWorkerOptions.workerSrc = ''
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const doc = await (pdfjsLib as any).getDocument({ data }).promise
-  let fullText = ''
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i)
-    const content = await page.getTextContent()
-    const pageText = content.items
+  // Primary: Claude native PDF understanding — best for formatted documents
+  if (process.env.ANTHROPIC_API_KEY) {
+    try {
+      const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .map((item: any) => item.str)
-      .join(' ')
-    fullText += pageText + '\n'
+      const response = await (client.messages.create as any)({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4096,
+        messages: [{
+          role: 'user',
+          content: [
+            {
+              type: 'document',
+              source: {
+                type: 'base64',
+                media_type: 'application/pdf',
+                data: buffer.toString('base64'),
+              },
+            },
+            { type: 'text', text: 'Extract all text from this PDF. Preserve headings and paragraph structure. Output plain text only, no commentary.' },
+          ],
+        }],
+      })
+      const text = (response.content as Anthropic.ContentBlock[])
+        .filter(b => b.type === 'text')
+        .map(b => (b as Anthropic.TextBlock).text)
+        .join('\n')
+      if (text.trim().length > 50) return text
+    } catch (err) {
+      console.warn('Anthropic PDF extraction failed, trying pdfjs:', err)
+    }
   }
-  return fullText
+
+  // Fallback: pdfjs-dist (dynamic import so load failures are isolated)
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs') as any
+    pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+    const data = new Uint8Array(buffer)
+    const doc = await pdfjsLib.getDocument({ data, useWorkerFetch: false, isEvalSupported: false }).promise
+    let fullText = ''
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i)
+      const content = await page.getTextContent()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      fullText += content.items.map((item: any) => item.str).join(' ') + '\n'
+    }
+    if (fullText.trim().length > 50) return fullText
+  } catch (err) {
+    console.warn('pdfjs extraction failed, using regex fallback:', err)
+  }
+
+  // Last resort: regex extraction from raw PDF bytes
+  const raw = buffer.toString('latin1')
+  return raw
+    .replace(/\r/g, '\n')
+    .replace(/\([^)]{1,400}\)/g, (m) => m.slice(1, -1))
+    .replace(/[^\x20-\x7E\n]/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .split('\n').map(l => l.trim()).filter(Boolean)
+    .slice(0, 500).join('\n')
 }
 
 export async function convertPdf(buffer: Buffer, fileName: string): Promise<UDDocument> {
