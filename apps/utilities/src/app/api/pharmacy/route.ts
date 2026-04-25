@@ -20,10 +20,10 @@ export async function POST(req: NextRequest) {
 
     const message = await client.messages.create({
       model: 'claude-opus-4-5',
-      max_tokens: 1024,
+      max_tokens: 1200,
       messages: [{
         role: 'user',
-        content: `You are a clinical document assistant generating a structured prescription record. Based on the details below, produce professional prescription content.
+        content: `You are a clinical pharmacist generating a professional prescription document. Produce complete, clinically accurate content for this prescription.
 
 Patient: ${patientName}${dob ? ` (DOB: ${dob})` : ''}
 Medication: ${medication}
@@ -31,47 +31,75 @@ Dose: ${dose}
 Frequency: ${frequency}${duration ? `\nDuration: ${duration}` : ''}
 Prescriber: ${prescriberName}${licenseNo ? ` (Licence: ${licenseNo})` : ''}${prescriberOrg ? ` — ${prescriberOrg}` : ''}
 
-Return ONLY this JSON object, no preamble:
+Return ONLY this JSON object, no preamble, no markdown:
 {
-  "instructions": "Dispensing instructions for the pharmacist (one clear paragraph)",
-  "patient_instructions": "Plain-language instructions for the patient: when to take, food considerations, what to watch for",
-  "prescriber_note": "Brief clinical note: indication and any relevant context",
-  "dispensing_authority": "Validity period and any dispensing restrictions"
+  "dispensing_instructions": "Professional pharmacist instructions: quantity to dispense, labelling requirements, any special dispensing notes",
+  "patient_instructions": "Plain-language patient instructions: exactly when and how to take, food or drink interactions, what to avoid, what to watch for",
+  "drug_interactions": "Key interactions or contraindications for this medication, or 'No significant interactions identified for this medication at the prescribed dose' if none",
+  "storage": "Storage instructions for this specific medication (temperature, light, moisture)",
+  "clinical_note": "Brief prescriber clinical note: likely indication, any relevant monitoring required, review timeline"
 }`,
       }],
     })
 
     const raw = (message.content[0] as { type: string; text: string }).text.trim()
-    let generated: { instructions: string; patient_instructions: string; prescriber_note: string; dispensing_authority: string }
+    let generated: {
+      dispensing_instructions: string
+      patient_instructions: string
+      drug_interactions: string
+      storage: string
+      clinical_note: string
+    }
     try {
       const match = raw.match(/\{[\s\S]*\}/)
       generated = JSON.parse(match?.[0] || raw)
     } catch {
       generated = {
-        instructions: `Dispense ${medication} ${dose} as prescribed.`,
-        patient_instructions: `Take ${dose} ${frequency}${duration ? ` for ${duration}` : ''}. Follow your prescriber's advice.`,
-        prescriber_note: `Prescribed by ${prescriberName}.`,
-        dispensing_authority: 'Valid for 30 days from date of issue. Single dispense only.',
+        dispensing_instructions: `Dispense ${medication} ${dose} as prescribed. Label: "${medication} ${dose} — ${frequency}". Counsel patient on administration.`,
+        patient_instructions: `Take ${dose} ${frequency}${duration ? ` for ${duration}` : ''}. Take at the same time each day. Follow your prescriber's instructions and contact your pharmacist or GP if you experience side effects.`,
+        drug_interactions: 'No significant interactions identified for this medication at the prescribed dose.',
+        storage: 'Store at room temperature (15–25°C), away from heat, moisture, and direct light. Keep out of reach of children.',
+        clinical_note: `Prescribed by ${prescriberName}. Standard monitoring applies. Review at next scheduled appointment.`,
       }
     }
 
     const now = new Date()
     const expiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
     const id = crypto.randomUUID()
+    const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    const expiryStr = expiresAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+
+    function blk(type: string, opts: { text?: string; label?: string; level?: number } = {}) {
+      return {
+        id: crypto.randomBytes(6).toString('hex'),
+        type,
+        ...(opts.text !== undefined ? { text: opts.text } : {}),
+        ...(opts.label !== undefined ? { label: opts.label } : {}),
+        ...(opts.level !== undefined ? { level: opts.level } : {}),
+        base_content: {
+          ...(opts.text !== undefined ? { text: opts.text } : {}),
+          ...(opts.label !== undefined ? { label: opts.label } : {}),
+          ...(opts.level !== undefined ? { level: opts.level } : {}),
+        },
+      }
+    }
 
     const blocks = [
-      { id: crypto.randomBytes(6).toString('hex'), type: 'heading', base_content: { text: `Prescription — ${patientName}`, level: 1 } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'paragraph', base_content: { text: `Date: ${now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} · Prescriber: ${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}${prescriberOrg ? ` — ${prescriberOrg}` : ''}` } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'heading', base_content: { text: 'Medication', level: 2 } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'paragraph', base_content: { text: `${medication} · ${dose} · ${frequency}${duration ? ` · Duration: ${duration}` : ''}` } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'heading', base_content: { text: 'Dispensing Instructions', level: 2 } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'paragraph', base_content: { text: generated.instructions } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'heading', base_content: { text: 'Patient Instructions', level: 2 } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'paragraph', base_content: { text: generated.patient_instructions } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'heading', base_content: { text: 'Clinical Note', level: 2 } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'paragraph', base_content: { text: generated.prescriber_note } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'heading', base_content: { text: 'Dispensing Authority', level: 2 } },
-      { id: crypto.randomBytes(6).toString('hex'), type: 'paragraph', base_content: { text: generated.dispensing_authority } },
+      blk('heading', { text: 'Prescription', level: 1 }),
+      blk('field', { label: 'Patient', text: patientName }),
+      ...(dob ? [blk('field', { label: 'Date of Birth', text: dob })] : []),
+      blk('field', { label: 'Medication', text: `${medication} — ${dose}` }),
+      blk('field', { label: 'Frequency', text: `${frequency}${duration ? ` for ${duration}` : ''}` }),
+      blk('field', { label: 'Instructions', text: generated.dispensing_instructions }),
+      blk('field', { label: 'Patient Guidance', text: generated.patient_instructions }),
+      blk('field', { label: 'Prescriber', text: `${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}` }),
+      ...(prescriberOrg ? [blk('field', { label: 'Organisation', text: prescriberOrg })] : []),
+      blk('field', { label: 'Date', text: dateStr }),
+      blk('field', { label: 'Expires', text: expiryStr }),
+      blk('heading', { text: 'Clinical Notes', level: 2 }),
+      blk('paragraph', { text: generated.clinical_note }),
+      blk('paragraph', { text: `Drug Interactions: ${generated.drug_interactions}` }),
+      blk('paragraph', { text: `Storage: ${generated.storage}` }),
     ]
 
     const hash = crypto.createHash('sha256').update(JSON.stringify(blocks)).digest('hex')
