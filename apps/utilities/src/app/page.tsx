@@ -46,7 +46,8 @@ const MEDIA_TOOLS = [
 ]
 
 const HEALTHCARE_TOOLS = [
-  { slug: 'prescription',    name: 'UD Prescription',    icon: '💊', desc: 'Structured prescription .uds with 30-day expiry, multilingual streams, and prescriber details.',       badge: 'Pro'  as const },
+  { slug: 'pharmacy',        name: 'UD Pharmacy',        icon: '💊', desc: 'AI-generated pharmacy prescription .uds with dispensing instructions, 30-day expiry, and SHA-256 seal.', badge: 'Pro'  as const },
+  { slug: 'prescription',    name: 'UD Prescription',    icon: '📝', desc: 'Structured prescription .uds with 30-day expiry, multilingual streams, and prescriber details.',       badge: 'Pro'  as const },
   { slug: 'consent-manager', name: 'UD Consent Manager', icon: '✍️', desc: 'Consent form .uds tied to procedure date with expiry and multilingual output streams.',                badge: 'Pro'  as const },
   { slug: 'medication-list', name: 'UD Medication List', icon: '📋', desc: 'Structured medication list with per-entry expiry, dose, frequency, and prescriber.',                   badge: 'Pro'  as const },
   { slug: 'emr-export',      name: 'UD EMR Export',      icon: '🏥', desc: 'Convert HL7, FHIR, C-CDA, or CCD health records to .uds with patient + clinical Clarity Layers.',     badge: 'Ent'  as const },
@@ -304,7 +305,7 @@ const FREE_NAV = [
 ]
 
 const SPECIALIST_CATS = [
-  {cat:'Healthcare',       slugs:['clinical-summary','prescription','consent-manager','medication-list','emr-export','clinical-trial-master-file']},
+  {cat:'Healthcare',       slugs:['clinical-summary','pharmacy','prescription','consent-manager','medication-list','emr-export','clinical-trial-master-file']},
   {cat:'Legal',            slugs:['legal-bundle','deposition-package','privilege-log','smart-contract','legal-bundle-verify','contract-intelligence']},
   {cat:'Governance',       slugs:['policy-attestation','board-pack','due-diligence-room','regulatory-change-tracker','whistleblower-package','document-vault','esg-report']},
   {cat:'Trust & Proof',    slugs:['proof','time-capsule','will','notarize']},

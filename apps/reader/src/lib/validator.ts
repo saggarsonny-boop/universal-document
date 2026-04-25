@@ -13,7 +13,7 @@ const schema = {
   properties: {
     ud_version: {
       type: 'string',
-      pattern: '^\\d+\\.\\d+\\.\\d+$',
+      pattern: '^\\d+\\.\\d+(\\.\\d+)?$',
     },
     state: {
       type: 'string',

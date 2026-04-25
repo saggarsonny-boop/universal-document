@@ -234,6 +234,14 @@ export const tourSteps: Record<string, TourStep[]> = {
 
   // ── Healthcare ──────────────────────────────────────────────────────────────
 
+  'pharmacy': [
+    { label: 'Patient details', text: 'Enter patient name and date of birth. These are embedded in the sealed .uds.' },
+    { label: 'Medication', text: 'Enter the full medication name with formulation (e.g. Amoxicillin 500mg capsules). Claude uses this to generate appropriate dispensing and patient instructions.' },
+    { label: 'Prescriber', text: 'Prescriber name and licence number are embedded in the seal for pharmacist verification.' },
+    { label: 'AI generation', text: 'Claude generates professional dispensing instructions, plain-language patient guidance, and a clinical note.' },
+    PROVENANCE,
+    BETA,
+  ],
   'prescription': [
     { label: 'Patient details', text: 'Enter patient name, date of birth, and address. These are embedded in the sealed .uds.' },
     { label: 'Medication fields', text: 'Add medication name, dose, frequency, and instructions. Multiple medications are supported.' },
