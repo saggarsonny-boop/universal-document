@@ -26,35 +26,12 @@ export default function DocumentViewer({ doc }: Props) {
   const activeLanguageEntry = languages.find((l) => l.code === activeLanguage)
   const direction = activeLanguageEntry?.direction || 'ltr'
 
-  function openAsUDR() {
-    const clone: UDDocument = {
-      ...doc,
-      state: 'UDR',
-      metadata: {
-        ...doc.metadata,
-        visual_identity: {
-          role: 'editable',
-          watermark_tone: 'light_blue',
-          watermark_hex: '#4DA3FF',
-          icon: {
-            desktop: '/icons/udr-file.svg',
-            finder_preview: '/icons/udr-file.svg',
-            explorer_preview: '/icons/udr-file.svg',
-            preview_pane: '/icons/udr-file.svg',
-          },
-          file_metadata: {
-            format_family: 'UD',
-            extension_hint: 'udr',
-          },
-        },
-      },
-    }
-
-    const blob = new Blob([JSON.stringify(clone, null, 2)], { type: 'application/json' })
+  function saveAsFile(ext: 'uds' | 'udr') {
+    const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${(doc.metadata.title || 'document').toLowerCase().replace(/\s+/g, '-')}.udr`
+    a.download = `${(doc.metadata.title || 'document').toLowerCase().replace(/[^a-z0-9]+/g, '-')}.${ext}`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -144,23 +121,21 @@ export default function DocumentViewer({ doc }: Props) {
               Expires {new Date(metadata.expiry).toLocaleDateString()}
             </span>
           )}
-          {doc.state === 'UDS' && (
-            <button
-              onClick={openAsUDR}
-              style={{
-                background: 'none',
-                border: '1px solid #e5e7eb',
-                borderRadius: '0.4rem',
-                padding: '0.2rem 0.6rem',
-                fontSize: '0.78rem',
-                color: '#6b7280',
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-              }}
-            >
-              Convert to editable draft (.udr)
-            </button>
-          )}
+          <button
+            onClick={() => saveAsFile(doc.state === 'UDS' ? 'uds' : 'udr')}
+            style={{
+              background: 'none',
+              border: '1px solid #e5e7eb',
+              borderRadius: '0.4rem',
+              padding: '0.2rem 0.6rem',
+              fontSize: '0.78rem',
+              color: '#6b7280',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >
+            Save as .{doc.state === 'UDS' ? 'uds' : 'udr'} ↓
+          </button>
         </div>
       </div>
 
