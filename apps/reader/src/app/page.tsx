@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import UDOnboarding from '@/components/UDOnboarding'
 import TooltipTour from '@/components/TooltipTour'
 import type { UDDocument } from '@/lib/types'
@@ -9,12 +10,14 @@ import DocumentViewer from '@/components/DocumentViewer'
 
 type AppState = 'landing' | 'loading' | 'error' | 'viewing'
 
-export default function Home() {
+function ReaderApp() {
   const [appState, setAppState] = useState<AppState>('landing')
   const [doc, setDoc] = useState<UDDocument | null>(null)
   const [errors, setErrors] = useState<string[]>([])
   const [urlInput, setUrlInput] = useState('')
   const [isDragging, setIsDragging] = useState(false)
+
+  const searchParams = useSearchParams()
 
   function handleParsed(raw: unknown) {
     const result = validateUDDocument(raw)
@@ -47,11 +50,11 @@ export default function Home() {
     reader.readAsText(file)
   }
 
-  async function handleURL() {
-    if (!urlInput.trim()) return
+  async function loadFromURL(url: string) {
+    if (!url.trim()) return
     setAppState('loading')
     try {
-      const res = await fetch(urlInput.trim())
+      const res = await fetch(url.trim())
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const parsed = await res.json()
       handleParsed(parsed)
@@ -60,6 +63,15 @@ export default function Home() {
       setAppState('error')
     }
   }
+
+  async function handleURL() {
+    await loadFromURL(urlInput)
+  }
+
+  useEffect(() => {
+    const url = searchParams.get('url')
+    if (url) loadFromURL(url)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -294,6 +306,18 @@ export default function Home() {
         { label: 'No data sent', text: 'Reading runs locally. Your document never leaves your device.' },
       ]} />
     </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontSize: '1rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)' }}>Loading...</div>
+      </div>
+    }>
+      <ReaderApp />
+    </Suspense>
   )
 }
 

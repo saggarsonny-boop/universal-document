@@ -90,9 +90,11 @@ export default function WhitepaperPage() {
       {/* CTA buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 52, maxWidth: 380 }}>
 
-        {/* .uds download button — primary */}
+        {/* .uds open in Reader — primary */}
         <a
-          href="/whitepaper/universal_document_whitepaper_v2.uds"
+          href="https://reader.hive.baby?url=https://ud.hive.baby/whitepaper/universal_document_whitepaper_v2.uds"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             padding: '12px 24px',
@@ -106,7 +108,7 @@ export default function WhitepaperPage() {
             width: '100%',
           }}
         >
-          Download as .uds →
+          Open as .uds →
         </a>
 
         {/* PDF button — secondary */}
