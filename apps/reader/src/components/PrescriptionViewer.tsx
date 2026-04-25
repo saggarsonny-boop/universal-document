@@ -15,15 +15,7 @@ interface RegistryResult {
 type RxBlock = {
   id: string
   type: string
-  text?: string
-  label?: string
-  level?: number
   base_content?: Record<string, unknown>
-}
-
-function fieldText(block: RxBlock): string {
-  if (block.text) return block.text
-  return String(block.base_content?.text ?? '')
 }
 
 export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
@@ -49,7 +41,8 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
       .catch(() => setRegistry({ registered: false, error: 'Registry unavailable' }))
   }, [metadata.id, seal?.hash])
 
-  // Parse blocks into sections
+  // Parse blocks into sections — reads from base_content (schema-compliant format)
+  // Field blocks: type='custom', base_content.subtype='field', base_content.label/text
   const fields: Record<string, string> = {}
   const clinicalNotes: string[] = []
   let medicationText = ''
@@ -57,18 +50,20 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
   let inClinical = false
 
   for (const block of rxBlocks) {
+    const bc = block.base_content ?? {}
     if (block.type === 'heading') {
-      inClinical = block.text === 'Clinical Notes'
+      inClinical = String(bc.text ?? '') === 'Clinical Notes'
       continue
     }
-    if (block.type === 'field' && block.label) {
-      const t = fieldText(block)
-      if (block.label === 'Medication') medicationText = t
-      else if (block.label === 'Frequency') frequencyText = t
-      else fields[block.label] = t
+    if (block.type === 'custom' && bc.subtype === 'field' && bc.label) {
+      const label = String(bc.label)
+      const t = String(bc.text ?? '')
+      if (label === 'Medication') medicationText = t
+      else if (label === 'Frequency') frequencyText = t
+      else fields[label] = t
     }
     if (block.type === 'paragraph' && inClinical) {
-      const t = fieldText(block)
+      const t = String(bc.text ?? '')
       if (t) clinicalNotes.push(t)
     }
   }

@@ -18,27 +18,35 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields: patientName, medication, dose, frequency, prescriberName' }, { status: 400 })
     }
 
+    // Prompt uses numbered instructions SEPARATE from JSON output format
+    // so Claude generates content, not echoes the description strings
     const message = await client.messages.create({
       model: 'claude-opus-4-5',
       max_tokens: 1200,
       messages: [{
         role: 'user',
-        content: `You are a clinical pharmacist generating a professional prescription document. Produce complete, clinically accurate content for this prescription.
+        content: `You are a UK-registered clinical pharmacist. Generate professional prescription content for the following.
 
+PRESCRIPTION:
 Patient: ${patientName}${dob ? ` (DOB: ${dob})` : ''}
-Medication: ${medication}
-Dose: ${dose}
-Frequency: ${frequency}${duration ? `\nDuration: ${duration}` : ''}
-Prescriber: ${prescriberName}${licenseNo ? ` (Licence: ${licenseNo})` : ''}${prescriberOrg ? ` — ${prescriberOrg}` : ''}
+Medication: ${medication} ${dose}
+Frequency: ${frequency}${duration ? `, duration: ${duration}` : ''}
+Prescriber: ${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}${prescriberOrg ? ` — ${prescriberOrg}` : ''}
 
-Return ONLY this JSON object, no preamble, no markdown:
-{
-  "dispensing_instructions": "Professional pharmacist instructions: quantity to dispense, labelling requirements, any special dispensing notes",
-  "patient_instructions": "Plain-language patient instructions: exactly when and how to take, food or drink interactions, what to avoid, what to watch for",
-  "drug_interactions": "Key interactions or contraindications for this medication, or 'No significant interactions identified for this medication at the prescribed dose' if none",
-  "storage": "Storage instructions for this specific medication (temperature, light, moisture)",
-  "clinical_note": "Brief prescriber clinical note: likely indication, any relevant monitoring required, review timeline"
-}`,
+Write each section as a qualified pharmacist would. Be specific to this drug and dose — not generic.
+
+1. dispensing_instructions — Pharmacist's dispensing note: units to dispense for this course, exact label text as it would appear on the packaging, any controlled-drug or special-handling requirements for this specific medication.
+
+2. patient_instructions — Patient-facing instructions: exactly when and how to take this drug, any food or drink interactions specific to this medication, what side effects to watch for, when to seek medical advice.
+
+3. drug_interactions — Clinically significant interactions for this specific drug at this dose with common co-medications. If none relevant, write: No significant interactions identified at the prescribed dose.
+
+4. storage — Correct storage conditions for this specific medication: temperature range, light and moisture requirements, any refrigeration needs, shelf life once opened if relevant.
+
+5. clinical_note — Brief prescriber clinical note: the most likely indication for this drug at this dose, relevant monitoring parameters, suggested review timeline.
+
+Output ONLY valid JSON with no other text:
+{"dispensing_instructions":"...","patient_instructions":"...","drug_interactions":"...","storage":"...","clinical_note":"..."}`,
       }],
     })
 
@@ -56,8 +64,8 @@ Return ONLY this JSON object, no preamble, no markdown:
     } catch {
       generated = {
         dispensing_instructions: `Dispense ${medication} ${dose} as prescribed. Label: "${medication} ${dose} — ${frequency}". Counsel patient on administration.`,
-        patient_instructions: `Take ${dose} ${frequency}${duration ? ` for ${duration}` : ''}. Take at the same time each day. Follow your prescriber's instructions and contact your pharmacist or GP if you experience side effects.`,
-        drug_interactions: 'No significant interactions identified for this medication at the prescribed dose.',
+        patient_instructions: `Take ${dose} ${frequency}${duration ? ` for ${duration}` : ''}. Take at the same time each day. Contact your pharmacist or GP if you experience side effects.`,
+        drug_interactions: 'No significant interactions identified at the prescribed dose.',
         storage: 'Store at room temperature (15–25°C), away from heat, moisture, and direct light. Keep out of reach of children.',
         clinical_note: `Prescribed by ${prescriberName}. Standard monitoring applies. Review at next scheduled appointment.`,
       }
@@ -69,33 +77,26 @@ Return ONLY this JSON object, no preamble, no markdown:
     const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
     const expiryStr = expiresAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
-    function blk(type: string, opts: { text?: string; label?: string; level?: number } = {}) {
-      return {
-        id: crypto.randomBytes(6).toString('hex'),
-        type,
-        ...(opts.text !== undefined ? { text: opts.text } : {}),
-        ...(opts.label !== undefined ? { label: opts.label } : {}),
-        ...(opts.level !== undefined ? { level: opts.level } : {}),
-        base_content: {
-          ...(opts.text !== undefined ? { text: opts.text } : {}),
-          ...(opts.label !== undefined ? { label: opts.label } : {}),
-          ...(opts.level !== undefined ? { level: opts.level } : {}),
-        },
-      }
-    }
+    // Schema-compliant block builder: data only in base_content, no extra top-level props
+    // Field blocks use type: 'custom' with base_content.subtype = 'field'
+    const blk = (type: string, content: Record<string, unknown>) => ({
+      id: crypto.randomBytes(6).toString('hex'),
+      type,
+      base_content: content,
+    })
 
     const blocks = [
       blk('heading', { text: 'Prescription', level: 1 }),
-      blk('field', { label: 'Patient', text: patientName }),
-      ...(dob ? [blk('field', { label: 'Date of Birth', text: dob })] : []),
-      blk('field', { label: 'Medication', text: `${medication} — ${dose}` }),
-      blk('field', { label: 'Frequency', text: `${frequency}${duration ? ` for ${duration}` : ''}` }),
-      blk('field', { label: 'Instructions', text: generated.dispensing_instructions }),
-      blk('field', { label: 'Patient Guidance', text: generated.patient_instructions }),
-      blk('field', { label: 'Prescriber', text: `${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}` }),
-      ...(prescriberOrg ? [blk('field', { label: 'Organisation', text: prescriberOrg })] : []),
-      blk('field', { label: 'Date', text: dateStr }),
-      blk('field', { label: 'Expires', text: expiryStr }),
+      blk('custom', { subtype: 'field', label: 'Patient', text: patientName }),
+      ...(dob ? [blk('custom', { subtype: 'field', label: 'Date of Birth', text: dob })] : []),
+      blk('custom', { subtype: 'field', label: 'Medication', text: `${medication} — ${dose}` }),
+      blk('custom', { subtype: 'field', label: 'Frequency', text: `${frequency}${duration ? ` for ${duration}` : ''}` }),
+      blk('custom', { subtype: 'field', label: 'Instructions', text: generated.dispensing_instructions }),
+      blk('custom', { subtype: 'field', label: 'Patient Guidance', text: generated.patient_instructions }),
+      blk('custom', { subtype: 'field', label: 'Prescriber', text: `${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}` }),
+      ...(prescriberOrg ? [blk('custom', { subtype: 'field', label: 'Organisation', text: prescriberOrg })] : []),
+      blk('custom', { subtype: 'field', label: 'Date', text: dateStr }),
+      blk('custom', { subtype: 'field', label: 'Expires', text: expiryStr }),
       blk('heading', { text: 'Clinical Notes', level: 2 }),
       blk('paragraph', { text: generated.clinical_note }),
       blk('paragraph', { text: `Drug Interactions: ${generated.drug_interactions}` }),
@@ -105,7 +106,7 @@ Return ONLY this JSON object, no preamble, no markdown:
     const hash = crypto.createHash('sha256').update(JSON.stringify(blocks)).digest('hex')
 
     const doc = {
-      ud_version: '1.0',
+      ud_version: '1.0.0',
       state: 'UDS',
       metadata: {
         id,
