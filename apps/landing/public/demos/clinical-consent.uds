@@ -1,119 +1,123 @@
 {
-  "format": "uds",
-  "version": "1.0",
+  "ud_version": "0.1.0",
+  "state": "UDS",
   "metadata": {
-    "title": "Surgical Consent — Appendectomy — James Thornton",
-    "created": "2026-04-24T09:00:00.000Z",
-    "language": "en",
-    "classification": "Confidential",
-    "expiry": "2026-04-25T09:00:00.000Z",
-    "audience": [
-      "Patient",
-      "Clinician"
+    "id": "80f6bfce-6864-47ef-b6fe-2c1c9f65fefa",
+    "title": "Surgical Consent \u2014 Appendicectomy \u2014 James Thornton",
+    "created_at": "2026-04-24T09:00:00Z",
+    "updated_at": "2026-04-24T09:00:00Z",
+    "created_by": "Mr. A. Hassan, FRCS",
+    "organisation": "Royal General Hospital",
+    "document_type": "consent-form",
+    "tags": [
+      "consent",
+      "surgical",
+      "confidential"
     ],
-    "patient": {
-      "name": "James Thornton",
-      "dob": "1978-11-05"
-    },
-    "revocation": {
-      "enabled": true,
-      "revoked": false
+    "revoked": false,
+    "expiry": "2026-04-25T09:00:00Z"
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": false,
+      "allow_print": true,
+      "allow_export": false,
+      "require_auth": false
     }
   },
-  "content": {
-    "blocks": [
-      {
-        "type": "heading",
-        "text": "Surgical Consent Form — Appendectomy"
-      },
-      {
-        "type": "paragraph",
-        "text": "Patient: James Thornton. Date: 24 April 2026. Surgeon: Mr. A. Hassan, FRCS."
-      },
-      {
-        "type": "heading",
-        "text": "What you are consenting to"
-      },
-      {
-        "type": "paragraph",
+  "blocks": [
+    {
+      "id": "314ed59c2fe0",
+      "type": "heading",
+      "base_content": {
+        "text": "Surgical Consent \u2014 Appendicectomy",
+        "level": 2
+      }
+    },
+    {
+      "id": "fd0c9a740ab5",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Patient: James Thornton (DOB: 5 November 1978). Date: 24 April 2026. Surgeon: Mr. A. Hassan, FRCS."
+      }
+    },
+    {
+      "id": "5e7baf8369d9",
+      "type": "heading",
+      "base_content": {
+        "text": "What you are consenting to",
+        "level": 3
+      }
+    },
+    {
+      "id": "cf6e03144b31",
+      "type": "paragraph",
+      "base_content": {
         "text": "You are agreeing to an operation to remove your appendix (appendicectomy). This is usually done as keyhole (laparoscopic) surgery under general anaesthetic."
-      },
-      {
-        "type": "heading",
-        "text": "Main risks — Patient summary"
-      },
-      {
-        "type": "list",
-        "text": "Infection of the wound or abdomen · Bleeding · Temporary shoulder tip pain (from the gas used) · Small chance of needing open surgery · Rare: injury to nearby structures"
-      },
-      {
-        "type": "heading",
-        "text": "Declaration"
-      },
-      {
-        "type": "paragraph",
+      }
+    },
+    {
+      "id": "0146c2bf5a9c",
+      "type": "heading",
+      "base_content": {
+        "text": "Main risks \u2014 Patient summary",
+        "level": 3
+      }
+    },
+    {
+      "id": "e59044587ec0",
+      "type": "list",
+      "base_content": {
+        "text": "Infection of the wound or abdomen \u00b7 Bleeding \u00b7 Temporary shoulder tip pain (from the gas used) \u00b7 Small chance of needing open surgery \u00b7 Rare: injury to nearby structures"
+      }
+    },
+    {
+      "id": "a82687a634c4",
+      "type": "heading",
+      "base_content": {
+        "text": "Declaration",
+        "level": 3
+      }
+    },
+    {
+      "id": "03b8d4a2f798",
+      "type": "paragraph",
+      "base_content": {
         "text": "I confirm I have read and understood the information above. I have had the opportunity to ask questions. I consent to the procedure described."
       }
-    ]
-  },
-  "languages": {
-    "clinician": {
-      "blocks": [
-        {
-          "type": "heading",
-          "text": "Operative Consent — Laparoscopic Appendicectomy"
-        },
-        {
-          "type": "paragraph",
-          "text": "Patient: James Thornton. DOB: 1978-11-05. ASA Grade: II. Consultant: Mr. A. Hassan, FRCS (Gen Surg)."
-        },
-        {
-          "type": "heading",
-          "text": "Procedure details"
-        },
-        {
-          "type": "paragraph",
-          "text": "Laparoscopic appendicectomy under GA. Ports: 12mm umbilical, 5mm RIF, 5mm suprapubic. Stapled or ligated mesoappendix. Endoloop or stapler on base. Specimen retrieval via umbilical port in bag."
-        },
-        {
-          "type": "heading",
-          "text": "Documented risks (BAPRAS/ASGBI standard)"
-        },
-        {
-          "type": "list",
-          "text": "SSI 3–5% · Intra-abdominal collection 1–2% · Conversion to open <5% · Iatrogenic bowel injury <0.5% · Port site hernia <1% · Anastomotic leak if interval appendicectomy performed"
-        },
-        {
-          "type": "paragraph",
-          "text": "Prophylaxis: co-amoxiclav 1.2g IV at induction. DVT: TEDS + LMWH per trust protocol."
-        }
-      ]
     },
-    "fr": {
-      "blocks": [
-        {
-          "type": "heading",
-          "text": "Formulaire de consentement chirurgical — Appendicectomie"
-        },
-        {
-          "type": "paragraph",
-          "text": "Patient: James Thornton. Date: 24 avril 2026. Chirurgien: M. A. Hassan, FRCS."
-        },
-        {
-          "type": "paragraph",
-          "text": "Vous consentez à une opération pour retirer votre appendice. Cette opération est généralement réalisée par cœlioscopie sous anesthésie générale."
-        },
-        {
-          "type": "paragraph",
-          "text": "Je confirme avoir lu et compris les informations ci-dessus et je consens à la procédure décrite."
-        }
-      ]
+    {
+      "id": "fdc1d04499d8",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Patient signature: James Thornton \u00b7 Date: 24 April 2026 \u00b7 Witnessed by: Staff Nurse K. Osei"
+      }
     }
-  },
-  "provenance": {
-    "created": "2026-04-24T09:00:00.000Z",
-    "hash": "sha256-37c17c2a7f6af34e0cfba9747f95b839e97ce1a2445dd4b5b192d3a39d000ec6",
-    "source": "demo",
-    "blockchain": "demo-1745485200001"
+  ],
+  "seal": {
+    "sealed_at": "2026-04-24T09:00:00Z",
+    "sealed_by": "Mr. A. Hassan, FRCS",
+    "hash": "57c4d7e0994311c1d9b3ae9f0dae4e308b3e7f4de65860907ce10c76fa220579",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "Mr. A. Hassan, FRCS",
+        "timestamp": "2026-04-24T09:00:00Z"
+      },
+      {
+        "event": "sealed",
+        "actor": "Mr. A. Hassan, FRCS",
+        "timestamp": "2026-04-24T09:00:00Z"
+      }
+    ]
   }
 }

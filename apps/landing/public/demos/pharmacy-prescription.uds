@@ -1,163 +1,131 @@
 {
-  "format": "uds",
-  "version": "1.0",
+  "ud_version": "0.1.0",
+  "state": "UDS",
   "metadata": {
-    "title": "Prescription — Maria Garcia — Amoxicillin 500mg",
-    "created": "2026-04-24T09:00:00.000Z",
-    "language": "en",
-    "classification": "Confidential",
-    "expiry": "2026-05-24T09:00:00.000Z",
-    "audience": [
-      "Patient",
-      "Pharmacist"
+    "id": "92336f55-e0e2-419e-8eff-5daf85726128",
+    "title": "Prescription \u2014 Maria Garcia \u2014 Amoxicillin 500mg",
+    "created_at": "2026-04-24T09:00:00Z",
+    "updated_at": "2026-04-24T09:00:00Z",
+    "created_by": "Dr. J. Patel, MBChB MRCGP",
+    "organisation": "Riverdale Medical Centre",
+    "document_type": "prescription",
+    "tags": [
+      "prescription",
+      "confidential",
+      "single-dispense"
     ],
-    "patient": {
-      "name": "Maria Garcia",
-      "dob": "1985-03-12"
-    },
-    "revocation": {
-      "enabled": true,
-      "revoked": false
+    "revoked": false,
+    "expiry": "2026-05-24T09:00:00Z",
+    "revocation_url": "https://ud.hive.baby/verify/92336f55-e0e2-419e-8eff-5daf85726128"
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": false,
+      "allow_print": true,
+      "allow_export": false,
+      "require_auth": false
     }
   },
-  "content": {
-    "blocks": [
-      {
-        "type": "heading",
-        "text": "Prescription — Maria Garcia"
-      },
-      {
-        "type": "paragraph",
-        "text": "Date: 24 April 2026"
-      },
-      {
-        "type": "heading",
-        "text": "Medication"
-      },
-      {
-        "type": "paragraph",
+  "blocks": [
+    {
+      "id": "29fc75b78435",
+      "type": "heading",
+      "base_content": {
+        "text": "Prescription \u2014 Maria Garcia",
+        "level": 2
+      }
+    },
+    {
+      "id": "53f793aeaff1",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Date: 24 April 2026 \u00b7 Prescriber: Dr. J. Patel, MBChB MRCGP \u2014 Riverdale Medical Centre \u00b7 GMC: 7654321"
+      }
+    },
+    {
+      "id": "b7506f647726",
+      "type": "heading",
+      "base_content": {
+        "text": "Medication",
+        "level": 3
+      }
+    },
+    {
+      "id": "b90d921390e6",
+      "type": "paragraph",
+      "base_content": {
         "text": "Amoxicillin 500mg capsules"
-      },
-      {
-        "type": "paragraph",
+      }
+    },
+    {
+      "id": "5c202b330684",
+      "type": "paragraph",
+      "base_content": {
         "text": "Dose: 1 capsule three times daily (every 8 hours)"
-      },
-      {
-        "type": "paragraph",
-        "text": "Duration: 7 days (21 capsules total)"
-      },
-      {
-        "type": "paragraph",
-        "text": "Route: Oral. Take with or after food."
-      },
-      {
-        "type": "heading",
-        "text": "Patient Instructions"
-      },
-      {
-        "type": "paragraph",
+      }
+    },
+    {
+      "id": "a65a3ae2e87a",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Duration: 7 days (21 capsules total). Route: Oral. Take with or after food."
+      }
+    },
+    {
+      "id": "020bb718ce3e",
+      "type": "heading",
+      "base_content": {
+        "text": "Patient Instructions",
+        "level": 3
+      }
+    },
+    {
+      "id": "6b628001a972",
+      "type": "paragraph",
+      "base_content": {
         "text": "Complete the full course even if you feel better. Do not share this medication. If you develop a rash, swelling, or difficulty breathing, stop immediately and seek emergency care."
+      }
+    },
+    {
+      "id": "a4708c2000c2",
+      "type": "heading",
+      "base_content": {
+        "text": "Dispensing Authority",
+        "level": 3
+      }
+    },
+    {
+      "id": "cf499674e2fd",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Valid for dispensing until 24 May 2026. Single dispense only."
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-24T09:00:00Z",
+    "sealed_by": "Dr. J. Patel, MBChB MRCGP",
+    "hash": "63decb8157d25df2fc25620a13d7ad235e3d78f80f5bc2d76428a21a98e00a7b",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "Dr. J. Patel, MBChB MRCGP",
+        "timestamp": "2026-04-24T09:00:00Z"
       },
       {
-        "type": "heading",
-        "text": "Prescriber"
-      },
-      {
-        "type": "paragraph",
-        "text": "Dr. J. Patel, MBChB MRCGP — Riverdale Medical Centre"
-      },
-      {
-        "type": "paragraph",
-        "text": "Prescriber Reference: GMC-7654321"
+        "event": "sealed",
+        "actor": "Dr. J. Patel, MBChB MRCGP",
+        "timestamp": "2026-04-24T09:00:00Z"
       }
     ]
-  },
-  "languages": {
-    "es": {
-      "blocks": [
-        {
-          "type": "heading",
-          "text": "Receta — Maria Garcia"
-        },
-        {
-          "type": "paragraph",
-          "text": "Fecha: 24 de abril de 2026"
-        },
-        {
-          "type": "heading",
-          "text": "Medicamento"
-        },
-        {
-          "type": "paragraph",
-          "text": "Cápsulas de Amoxicilina 500mg"
-        },
-        {
-          "type": "paragraph",
-          "text": "Dosis: 1 cápsula tres veces al día (cada 8 horas)"
-        },
-        {
-          "type": "paragraph",
-          "text": "Duración: 7 días (21 cápsulas en total)"
-        },
-        {
-          "type": "paragraph",
-          "text": "Vía: Oral. Tome con o después de los alimentos."
-        },
-        {
-          "type": "heading",
-          "text": "Instrucciones para el paciente"
-        },
-        {
-          "type": "paragraph",
-          "text": "Complete el tratamiento completo aunque se sienta mejor. No comparta este medicamento. Si desarrolla sarpullido, hinchazón o dificultad para respirar, deje de tomarlo inmediatamente y busque atención de emergencia."
-        }
-      ]
-    },
-    "ar": {
-      "blocks": [
-        {
-          "type": "heading",
-          "text": "وصفة طبية — ماريا غارسيا"
-        },
-        {
-          "type": "paragraph",
-          "text": "التاريخ: 24 أبريل 2026"
-        },
-        {
-          "type": "heading",
-          "text": "الدواء"
-        },
-        {
-          "type": "paragraph",
-          "text": "كبسولات أموكسيسيلين 500 ملغ"
-        },
-        {
-          "type": "paragraph",
-          "text": "الجرعة: كبسولة واحدة ثلاث مرات يومياً (كل 8 ساعات)"
-        },
-        {
-          "type": "paragraph",
-          "text": "المدة: 7 أيام (21 كبسولة في المجموع)"
-        },
-        {
-          "type": "paragraph",
-          "text": "طريقة الاستخدام: عن طريق الفم. تناولها مع الطعام أو بعده."
-        },
-        {
-          "type": "heading",
-          "text": "تعليمات المريض"
-        },
-        {
-          "type": "paragraph",
-          "text": "أكمل الدورة الكاملة حتى لو شعرت بتحسن. لا تشارك هذا الدواء. إذا ظهر طفح جلدي أو تورم أو صعوبة في التنفس، توقف فوراً واطلب الرعاية الطارئة."
-        }
-      ]
-    }
-  },
-  "provenance": {
-    "created": "2026-04-24T09:00:00.000Z",
-    "hash": "sha256-adfe7aca82a78c0e66571fbc6dc477d31a176b0b952cf10ae47562109612c9d1",
-    "source": "demo",
-    "blockchain": "demo-1745485200000"
   }
 }

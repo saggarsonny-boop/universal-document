@@ -235,6 +235,192 @@ export default function WhitepaperPage() {
         <JourneyDemo />
       </div>
 
+      {/* 3D Sample Document Cards */}
+      <style>{`
+        .doc-card-wrap {
+          perspective: 600px;
+        }
+        .doc-card {
+          position: relative;
+          background: var(--ud-paper-2, #fafafa);
+          border: 1px solid var(--ud-border, #e0ddd6);
+          border-radius: 3px;
+          padding: 20px 20px 18px;
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          transform: rotateX(2deg) rotateY(-2deg);
+          box-shadow:
+            4px 4px 0 rgba(0,0,0,0.12),
+            6px 6px 16px rgba(0,0,0,0.1);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .doc-card:hover {
+          transform: rotateX(0deg) rotateY(0deg) translateY(-5px);
+          box-shadow:
+            2px 2px 0 rgba(0,0,0,0.1),
+            0 12px 28px rgba(0,0,0,0.16);
+        }
+        .doc-card-edge-r {
+          position: absolute;
+          top: 3px;
+          right: -4px;
+          bottom: -4px;
+          width: 4px;
+          border-radius: 0 2px 2px 0;
+          background: rgba(0,0,0,0.12);
+        }
+        .doc-card-edge-b {
+          position: absolute;
+          left: 3px;
+          right: -4px;
+          bottom: -4px;
+          height: 4px;
+          border-radius: 0 0 2px 2px;
+          background: rgba(0,0,0,0.10);
+        }
+      `}</style>
+      <div style={{ marginBottom: 52 }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 11,
+          color: 'var(--ud-gold)',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          marginBottom: 8,
+        }}>
+          Sample Documents
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: 14,
+          color: 'var(--ud-muted)',
+          marginBottom: 24,
+        }}>
+          Open any of these in the UD Reader — the tampered NDA will fail hash verification.
+        </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))',
+          gap: 28,
+        }}>
+          {[
+            {
+              file: 'pharmacy-prescription',
+              title: 'Pharmacy Prescription',
+              type: 'Prescription',
+              org: 'NHS Trust',
+              date: 'Apr 2026',
+              badge: { label: 'SEALED', color: '#2a7a5a' },
+            },
+            {
+              file: 'clinical-consent',
+              title: 'Clinical Consent Form',
+              type: 'Consent',
+              org: 'Royal Infirmary',
+              date: 'Apr 2026',
+              badge: { label: 'SEALED', color: '#2a7a5a' },
+            },
+            {
+              file: 'legal-contract',
+              title: 'Commercial Lease',
+              type: 'Contract',
+              org: 'Solicitors LLP',
+              date: 'Apr 2026',
+              badge: { label: 'SEALED', color: '#2a7a5a' },
+            },
+            {
+              file: 'tampered-contract',
+              title: 'NDA — Tampered',
+              type: 'Contract',
+              org: 'Exhibit files',
+              date: 'Apr 2026',
+              badge: { label: 'HASH MISMATCH', color: '#c0392b' },
+            },
+          ].map(card => (
+            <div key={card.file} className="doc-card-wrap">
+              <a
+                className="doc-card"
+                href={`https://reader.hive.baby?url=https://ud.hive.baby/demos/${card.file}.uds`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="doc-card-edge-r" />
+                <div className="doc-card-edge-b" />
+                {/* Extension tag */}
+                <div style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  color: '#1e2d3d',
+                  background: 'var(--ud-gold)',
+                  display: 'inline-block',
+                  padding: '2px 6px',
+                  borderRadius: 2,
+                  marginBottom: 10,
+                }}>
+                  .UDS
+                </div>
+                {/* Seal badge */}
+                <div style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 8,
+                  letterSpacing: '0.1em',
+                  color: '#fff',
+                  background: card.badge.color,
+                  display: 'inline-block',
+                  padding: '2px 5px',
+                  borderRadius: 2,
+                  marginBottom: 12,
+                  marginLeft: 6,
+                }}>
+                  {card.badge.label}
+                </div>
+                {/* Title */}
+                <div style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: 'var(--ud-ink)',
+                  lineHeight: 1.3,
+                  marginBottom: 8,
+                }}>
+                  {card.title}
+                </div>
+                {/* Type + org */}
+                <div style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  color: 'var(--ud-muted)',
+                  marginBottom: 2,
+                }}>
+                  {card.type}
+                </div>
+                <div style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  color: 'var(--ud-muted)',
+                  opacity: 0.7,
+                  marginBottom: 14,
+                }}>
+                  {card.org} · {card.date}
+                </div>
+                {/* CTA */}
+                <div style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  color: 'var(--ud-teal)',
+                  letterSpacing: '0.05em',
+                }}>
+                  Open in Reader →
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Gold divider */}
       <div style={{ height: 1, background: 'var(--ud-gold)', opacity: 0.4, marginBottom: 40 }} />
 

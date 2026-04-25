@@ -1,103 +1,154 @@
 {
-  "format": "uds",
-  "version": "1.0",
+  "ud_version": "0.1.0",
+  "state": "UDS",
   "metadata": {
-    "title": "Non-Disclosure Agreement — Acme Corp and Beta Ltd",
-    "created": "2026-04-24T09:00:00.000Z",
-    "language": "en",
-    "classification": "Confidential",
-    "expiry": "2028-04-24T09:00:00.000Z",
-    "audience": [
-      "Legal",
-      "Signatory"
+    "id": "3e87e2a2-f74c-4616-b4b2-50f8682b3ac4",
+    "title": "Non-Disclosure Agreement \u2014 Acme Corp and Beta Ltd [TAMPERED]",
+    "created_at": "2026-04-24T09:00:00Z",
+    "updated_at": "2026-04-24T09:00:00Z",
+    "created_by": "Harrington & Co Solicitors LLP",
+    "organisation": "Harrington & Co Solicitors LLP",
+    "document_type": "non-disclosure-agreement",
+    "tags": [
+      "legal",
+      "nda",
+      "confidential",
+      "signed",
+      "tampered"
     ],
-    "parties": [
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
       {
-        "name": "Acme Corp",
-        "role": "Party A",
-        "jurisdiction": "England and Wales"
-      },
-      {
-        "name": "Beta Ltd",
-        "role": "Party B",
-        "jurisdiction": "England and Wales"
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
       }
     ],
-    "governing_law": "England and Wales",
-    "term_years": 2,
-    "revocation": {
-      "enabled": true,
-      "revoked": false
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": false,
+      "allow_print": true,
+      "allow_export": false,
+      "require_auth": false
     }
   },
-  "content": {
-    "blocks": [
-      {
-        "type": "heading",
-        "text": "Non-Disclosure Agreement"
-      },
-      {
-        "type": "paragraph",
+  "blocks": [
+    {
+      "id": "157c5feb1474",
+      "type": "heading",
+      "base_content": {
+        "text": "Non-Disclosure Agreement",
+        "level": 2
+      }
+    },
+    {
+      "id": "bc3cb8c03a25",
+      "type": "paragraph",
+      "base_content": {
         "text": "This Agreement is entered into on 24 April 2026 between Acme Corp (Company No. 01234567, registered in England and Wales) ('Party A') and Beta Ltd (Company No. 07654321, registered in England and Wales) ('Party B')."
-      },
-      {
-        "type": "heading",
-        "text": "The parties intend to explore a potential commercial collaboration. In connection with that exploration, each party may disclose confidential information to the other. TERM EXTENDED TO 10 YEARS. This Agreement governs that disclosure."
-      },
-      {
-        "type": "paragraph",
+      }
+    },
+    {
+      "id": "bca05e740b3e",
+      "type": "heading",
+      "base_content": {
+        "text": "1. Purpose",
+        "level": 3
+      }
+    },
+    {
+      "id": "9ece1ef90cff",
+      "type": "paragraph",
+      "base_content": {
         "text": "The parties intend to explore a potential commercial collaboration. In connection with that exploration, each party may disclose confidential information to the other. This Agreement governs that disclosure."
-      },
-      {
-        "type": "heading",
-        "text": "2. Definition of Confidential Information"
-      },
-      {
-        "type": "paragraph",
+      }
+    },
+    {
+      "id": "c98038481f52",
+      "type": "heading",
+      "base_content": {
+        "text": "2. Definition of Confidential Information",
+        "level": 3
+      }
+    },
+    {
+      "id": "0da693b046e1",
+      "type": "paragraph",
+      "base_content": {
         "text": "Confidential Information means any information disclosed by one party to the other in connection with the Purpose that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and the circumstances of disclosure."
-      },
-      {
-        "type": "heading",
-        "text": "3. Obligations"
-      },
-      {
-        "type": "paragraph",
+      }
+    },
+    {
+      "id": "273e6d3d75ef",
+      "type": "heading",
+      "base_content": {
+        "text": "3. Obligations",
+        "level": 3
+      }
+    },
+    {
+      "id": "7fc6e97ea3b1",
+      "type": "paragraph",
+      "base_content": {
         "text": "Each receiving party shall: (a) hold the disclosing party's Confidential Information in strict confidence; (b) not use it for any purpose other than the Purpose; (c) not disclose it to any third party without prior written consent of the disclosing party."
+      }
+    },
+    {
+      "id": "c36d70d4c61f",
+      "type": "heading",
+      "base_content": {
+        "text": "4. Term",
+        "level": 3
+      }
+    },
+    {
+      "id": "f0ccbac8cad8",
+      "type": "paragraph",
+      "base_content": {
+        "text": "This Agreement shall remain in effect for ten (10) years from the date of execution, unless earlier terminated by mutual written agreement."
+      }
+    },
+    {
+      "id": "e241f783f051",
+      "type": "heading",
+      "base_content": {
+        "text": "5. Governing Law",
+        "level": 3
+      }
+    },
+    {
+      "id": "75ebb28a9869",
+      "type": "paragraph",
+      "base_content": {
+        "text": "This Agreement is governed by the laws of England and Wales. The parties submit to the exclusive jurisdiction of the courts of England and Wales."
+      }
+    },
+    {
+      "id": "80b58e4acb9b",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Signed: [Acme Corp] [Beta Ltd] \u00b7 Date: 24 April 2026"
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-04-24T09:00:00Z",
+    "sealed_by": "Harrington & Co Solicitors LLP",
+    "hash": "1da85fd89b195face20e8e4c5cdbbf08a12374550436ff0101452c50e6954bf9",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "Harrington & Co Solicitors LLP",
+        "timestamp": "2026-04-24T09:00:00Z"
       },
       {
-        "type": "heading",
-        "text": "4. Term"
-      },
-      {
-        "type": "paragraph",
-        "text": "This Agreement shall remain in force for a period of two (2) years from the date of execution, expiring on 24 April 2028, unless terminated earlier by written agreement of both parties."
-      },
-      {
-        "type": "heading",
-        "text": "5. Governing Law"
-      },
-      {
-        "type": "paragraph",
-        "text": "This Agreement shall be governed by and construed in accordance with the laws of England and Wales. Each party irrevocably submits to the exclusive jurisdiction of the courts of England and Wales."
-      },
-      {
-        "type": "heading",
-        "text": "Signatures"
-      },
-      {
-        "type": "paragraph",
-        "text": "Party A: Acme Corp — Signed: ________________ Name: Sarah Chen, Director — Date: 24 April 2026"
-      },
-      {
-        "type": "paragraph",
-        "text": "Party B: Beta Ltd — Signed: ________________ Name: Tom Okafor, CEO — Date: 24 April 2026"
+        "event": "sealed",
+        "actor": "Harrington & Co Solicitors LLP",
+        "timestamp": "2026-04-24T09:00:00Z"
       }
     ]
-  },
-  "provenance": {
-    "created": "2026-04-24T09:00:00.000Z",
-    "hash": "sha256-47b87bf847bb02405f09a14d400131c8189312afccd2411c838efe6d00e08c50",
-    "source": "demo",
-    "blockchain": "demo-1745485200003"
   }
 }

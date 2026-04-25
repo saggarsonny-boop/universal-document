@@ -129,6 +129,8 @@ const schema = {
         sealed_by: { type: 'string' },
         hash: { type: 'string', pattern: '^[a-f0-9]{64}$' },
         signature: { type: 'string' },
+        verification_url: { type: 'string', format: 'uri' },
+        blockchain: { type: ['string', 'null'] },
         chain_of_custody: {
           type: 'array',
           minItems: 1,
