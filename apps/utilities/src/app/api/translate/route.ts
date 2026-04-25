@@ -109,20 +109,16 @@ Preserve any formatting markers. Return nothing else — no explanation, no mark
 
     const translationMap = Object.fromEntries(translated.map(t => [t.id, t.text]))
 
-    // Inject translations into blocks
-    const now = new Date().toISOString()
+    // Inject translations — replace base_content.text; output only id/type/base_content
     const updatedBlocks = blocks.map(block => {
       const id = block.id as string
-      if (translationMap[id]) {
-        return {
-          ...block,
-          translations: {
-            ...((block.translations as Record<string, string>) ?? {}),
-            [langCode]: translationMap[id],
-          },
-        }
+      const originalBc = (block.base_content ?? {}) as Record<string, unknown>
+      const translatedText = translationMap[id]
+      return {
+        id,
+        type: block.type,
+        base_content: { text: translatedText ?? originalBc.text ?? '' },
       }
-      return block
     })
 
     // Update manifest: add language if not present

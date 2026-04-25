@@ -41,30 +41,38 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
       .catch(() => setRegistry({ registered: false, error: 'Registry unavailable' }))
   }, [metadata.id, seal?.hash])
 
-  // Parse blocks into sections — reads from base_content (schema-compliant format)
-  // Field blocks: type='custom', base_content.subtype='field', base_content.label/text
+  // Parse heading/paragraph blocks — each block: { id, type, base_content: { text } }
+  let section = ''
   const fields: Record<string, string> = {}
   const clinicalNotes: string[] = []
   let medicationText = ''
   let frequencyText = ''
-  let inClinical = false
+  let dispensingText = ''
+  let patientText = ''
 
   for (const block of rxBlocks) {
-    const bc = block.base_content ?? {}
+    const text = String(block.base_content?.text ?? '')
     if (block.type === 'heading') {
-      inClinical = String(bc.text ?? '') === 'Clinical Notes'
+      section = text
       continue
     }
-    if (block.type === 'custom' && bc.subtype === 'field' && bc.label) {
-      const label = String(bc.label)
-      const t = String(bc.text ?? '')
-      if (label === 'Medication') medicationText = t
-      else if (label === 'Frequency') frequencyText = t
-      else fields[label] = t
-    }
-    if (block.type === 'paragraph' && inClinical) {
-      const t = String(bc.text ?? '')
-      if (t) clinicalNotes.push(t)
+    if (block.type !== 'paragraph' || !text) continue
+
+    if (section === 'Prescription' || section === '') {
+      const colonIdx = text.indexOf(': ')
+      if (colonIdx !== -1) {
+        const key = text.slice(0, colonIdx)
+        const val = text.slice(colonIdx + 2)
+        if (key === 'Medication') medicationText = val
+        else if (key === 'Frequency') frequencyText = val
+        else fields[key] = val
+      }
+    } else if (section === 'Dispensing Instructions') {
+      if (!dispensingText) dispensingText = text
+    } else if (section === 'Patient Guidance') {
+      if (!patientText) patientText = text
+    } else if (section === 'Clinical Notes') {
+      clinicalNotes.push(text)
     }
   }
 
@@ -91,16 +99,19 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
     ['Date of Birth', fields['Date of Birth']],
   ].filter(([, v]) => v) as [string, string][]
 
+  const dateStr = metadata.created_at
+    ? new Date(metadata.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    : ''
+
   const prescriberFields = [
     ['Prescriber', fields['Prescriber']],
-    ['Organisation', fields['Organisation']],
-    ['Date', fields['Date']],
-    ['Expires', fields['Expires']],
+    ['Date', dateStr],
+    ['Expires', expiresAt ? expiresAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : ''],
   ].filter(([, v]) => v) as [string, string][]
 
   const instructionFields = [
-    ['Dispensing', fields['Instructions']],
-    ['Patient guidance', fields['Patient Guidance']],
+    ['Dispensing', dispensingText],
+    ['Patient guidance', patientText],
   ].filter(([, v]) => v) as [string, string][]
 
   return (

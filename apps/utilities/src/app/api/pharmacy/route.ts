@@ -77,30 +77,25 @@ Output ONLY valid JSON with no other text:
     const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
     const expiryStr = expiresAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
-    // Schema-compliant block builder: data only in base_content, no extra top-level props
-    // Field blocks use type: 'custom' with base_content.subtype = 'field'
-    const blk = (type: string, content: Record<string, unknown>) => ({
+    const blk = (type: string, text: string) => ({
       id: crypto.randomBytes(6).toString('hex'),
       type,
-      base_content: content,
+      base_content: { text },
     })
 
     const blocks = [
-      blk('heading', { text: 'Prescription', level: 1 }),
-      blk('custom', { subtype: 'field', label: 'Patient', text: patientName }),
-      ...(dob ? [blk('custom', { subtype: 'field', label: 'Date of Birth', text: dob })] : []),
-      blk('custom', { subtype: 'field', label: 'Medication', text: `${medication} — ${dose}` }),
-      blk('custom', { subtype: 'field', label: 'Frequency', text: `${frequency}${duration ? ` for ${duration}` : ''}` }),
-      blk('custom', { subtype: 'field', label: 'Instructions', text: generated.dispensing_instructions }),
-      blk('custom', { subtype: 'field', label: 'Patient Guidance', text: generated.patient_instructions }),
-      blk('custom', { subtype: 'field', label: 'Prescriber', text: `${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}` }),
-      ...(prescriberOrg ? [blk('custom', { subtype: 'field', label: 'Organisation', text: prescriberOrg })] : []),
-      blk('custom', { subtype: 'field', label: 'Date', text: dateStr }),
-      blk('custom', { subtype: 'field', label: 'Expires', text: expiryStr }),
-      blk('heading', { text: 'Clinical Notes', level: 2 }),
-      blk('paragraph', { text: generated.clinical_note }),
-      blk('paragraph', { text: `Drug Interactions: ${generated.drug_interactions}` }),
-      blk('paragraph', { text: `Storage: ${generated.storage}` }),
+      blk('heading', 'Prescription'),
+      blk('paragraph', `Patient: ${patientName}`),
+      blk('paragraph', `Medication: ${medication} ${dose}`),
+      blk('paragraph', `Frequency: ${frequency}${duration ? ` for ${duration}` : ''}`),
+      blk('paragraph', `Prescriber: ${prescriberName}${licenseNo ? ` (${licenseNo})` : ''}${prescriberOrg ? ` — ${prescriberOrg}` : ''}`),
+      blk('heading', 'Dispensing Instructions'),
+      blk('paragraph', generated.dispensing_instructions),
+      blk('heading', 'Patient Guidance'),
+      blk('paragraph', generated.patient_instructions),
+      blk('heading', 'Clinical Notes'),
+      blk('paragraph', generated.drug_interactions),
+      blk('paragraph', generated.storage),
     ]
 
     const hash = crypto.createHash('sha256').update(JSON.stringify(blocks)).digest('hex')
