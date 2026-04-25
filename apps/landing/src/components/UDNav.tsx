@@ -8,7 +8,7 @@ const TOOLS: Tool[] = [
   { label: 'Creator',     href: 'https://creator.hive.baby',            key: 'UD Creator' },
   { label: 'Validator',   href: 'https://validator.hive.baby',          key: 'UD Validator' },
   { label: 'Utilities',   href: 'https://utilities.hive.baby',          key: 'UD Utilities' },
-  { label: 'White Paper', href: 'https://universaldocument.hive.baby',  key: 'White Paper' },
+  { label: 'White Paper', href: 'https://ud.hive.baby/whitepaper',       key: 'White Paper' },
 ]
 
 export default function UDNav({ engine }: { engine: string }) {
