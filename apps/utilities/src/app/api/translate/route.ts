@@ -168,7 +168,17 @@ No explanation, no markdown fences, no preamble. Raw JSON only.`,
       blocks: updatedBlocks,
     }
     if (doc.seal && typeof doc.seal === 'object') {
-      updated.seal = doc.seal
+      const originalSeal = doc.seal as Record<string, unknown>
+      const originalChain = Array.isArray(originalSeal.chain_of_custody)
+        ? originalSeal.chain_of_custody as Array<Record<string, unknown>>
+        : []
+      updated.seal = {
+        ...originalSeal,
+        chain_of_custody: [
+          ...originalChain,
+          { event: 'edited', actor: `UD Translate`, timestamp: new Date().toISOString(), note: `Translated to ${language}` },
+        ],
+      }
     }
 
     if (parseFailed) {

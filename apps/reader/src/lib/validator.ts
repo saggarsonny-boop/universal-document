@@ -11,6 +11,12 @@ const schema = {
   required: ['ud_version', 'state', 'metadata', 'manifest', 'blocks'],
   additionalProperties: false,
   properties: {
+    clarity_layers: { type: 'object' },
+    provenance: { type: 'object' },
+    media_sync: { type: 'object' },
+    media_sync_advanced: { type: 'object' },
+    classification: { type: 'string' },
+    contract_intelligence: { type: 'object' },
     ud_version: {
       type: 'string',
       pattern: '^\\d+\\.\\d+(\\.\\d+)?$',
