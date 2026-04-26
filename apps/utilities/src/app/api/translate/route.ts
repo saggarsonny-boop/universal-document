@@ -106,29 +106,34 @@ No explanation, no markdown fences, no preamble. Raw JSON only.`,
     })
 
     let translated: { id: string; text: string }[]
+    let parseFailed = false
     try {
       const raw = (message.content[0] as { type: string; text: string }).text.trim()
       console.log(`[translate] language=${language} raw_length=${raw.length} raw_first200=${raw.slice(0, 200)}`)
-      // Strip markdown code fences if present
-      const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
+      // Strip markdown code fences if present (handles ```json, ```, and leading/trailing whitespace)
+      const jsonStr = raw.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?\s*```$/, '').trim()
       translated = JSON.parse(jsonStr)
       console.log(`[translate] parsed ok, entries=${translated.length}, first_text=${translated[0]?.text?.slice(0, 80)}`)
     } catch (parseErr) {
       console.error(`[translate] parse failed for language=${language}:`, parseErr)
-      return NextResponse.json({ error: 'Claude returned malformed translation. Please try again.' }, { status: 500 })
+      parseFailed = true
+      translated = []
     }
 
     const translationMap = Object.fromEntries(translated.map(t => [t.id, t.text]))
 
     // Inject translations — replace base_content.text; output only id/type/base_content
+    // Fall back to original text if translation is missing, empty, or whitespace-only
     const updatedBlocks = blocks.map(block => {
       const id = block.id as string
       const originalBc = (block.base_content ?? {}) as Record<string, unknown>
+      const originalText = typeof originalBc.text === 'string' ? originalBc.text : ''
       const translatedText = translationMap[id]
+      const finalText = (translatedText != null && translatedText.trim() !== '') ? translatedText : originalText
       return {
         id,
         type: block.type,
-        base_content: { text: translatedText ?? originalBc.text ?? '' },
+        base_content: { text: finalText },
       }
     })
 
@@ -164,6 +169,15 @@ No explanation, no markdown fences, no preamble. Raw JSON only.`,
     }
     if (doc.seal && typeof doc.seal === 'object') {
       updated.seal = doc.seal
+    }
+
+    if (parseFailed) {
+      updated.provenance = {
+        ...(typeof doc.provenance === 'object' && doc.provenance !== null ? doc.provenance as Record<string, unknown> : {}),
+        translation_failed_at: new Date().toISOString(),
+        translation_language: language,
+        translation_note: 'Claude returned unparseable response; original text preserved.',
+      }
     }
 
     const baseName = file.name.replace(/\.(uds|udr)$/, '')
