@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { createHash } from 'crypto'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -66,59 +67,62 @@ Return ONLY the JSON object, no other text.`
 
     const riskBlocks = ((analysis.risk_flags as Array<{ severity: string; flag: string; recommendation: string }>) || []).map((r, i) => ({
       id: `risk-${i + 1}`,
-      type: 'paragraph',
-      text: `[${r.severity?.toUpperCase() || 'INFO'}] ${r.flag} — ${r.recommendation}`,
+      type: 'paragraph' as const,
+      base_content: { text: `[${r.severity?.toUpperCase() || 'INFO'}] ${r.flag} — ${r.recommendation}` },
     }))
 
     const dateBlocks = ((analysis.key_dates as Array<{ label: string; date: string; description: string }>) || []).map((d, i) => ({
       id: `date-${i + 1}`,
-      type: 'paragraph',
-      text: `${d.label}: ${d.date}${d.description ? ` — ${d.description}` : ''}`,
+      type: 'paragraph' as const,
+      base_content: { text: `${d.label}: ${d.date}${d.description ? ` — ${d.description}` : ''}` },
     }))
 
     const obligationBlocks = ((analysis.obligations as Array<{ party: string; obligation: string; deadline: string | null }>) || []).map((o, i) => ({
       id: `obl-${i + 1}`,
-      type: 'paragraph',
-      text: `${o.party}: ${o.obligation}${o.deadline ? ` (by ${o.deadline})` : ''}`,
+      type: 'paragraph' as const,
+      base_content: { text: `${o.party}: ${o.obligation}${o.deadline ? ` (by ${o.deadline})` : ''}` },
     }))
 
+    const blocks = [
+      { id: 'h1', type: 'heading' as const, base_content: { text: `Contract Intelligence Report: ${fileName}` } },
+      { id: 'summary', type: 'paragraph' as const, base_content: { text: (analysis.summary as string) || 'AI analysis complete.' } },
+      ...(dateBlocks.length > 0 ? [{ id: 'h-dates', type: 'heading' as const, base_content: { text: 'Key Dates' } }, ...dateBlocks] : []),
+      ...(obligationBlocks.length > 0 ? [{ id: 'h-obl', type: 'heading' as const, base_content: { text: 'Obligations' } }, ...obligationBlocks] : []),
+      ...(riskBlocks.length > 0 ? [{ id: 'h-risks', type: 'heading' as const, base_content: { text: 'Risk Flags' } }, ...riskBlocks] : []),
+    ]
+
+    const hash = createHash('sha256').update(JSON.stringify(blocks)).digest('hex')
+    const docId = crypto.randomUUID()
+
     const doc = {
-      format: 'UDS',
-      version: '1.0',
-      status: 'sealed',
+      ud_version: '1.0.0',
+      state: 'UDS',
       metadata: {
+        id: docId,
         title: `Contract Intelligence: ${fileName}`,
-        created: now,
+        created_at: now,
+        updated_at: now,
+        created_by: 'UD Contract Intelligence',
         document_type: 'contract_intelligence',
-        classification: 'Confidential',
-        contract_type: contractType,
-        governing_law: analysis.governing_law || undefined,
-        liability_cap: analysis.liability_cap || undefined,
-        language: 'en',
+        tags: ['contract', 'intelligence', contractType.toLowerCase()],
+        revoked: false,
       },
-      content: {
-        blocks: [
-          { id: 'h1', type: 'heading', text: `Contract Intelligence Report: ${fileName}` },
-          { id: 'summary', type: 'paragraph', text: (analysis.summary as string) || 'AI analysis complete.' },
-          ...(dateBlocks.length > 0 ? [{ id: 'h-dates', type: 'heading', text: 'Key Dates' }, ...dateBlocks] : []),
-          ...(obligationBlocks.length > 0 ? [{ id: 'h-obl', type: 'heading', text: 'Obligations' }, ...obligationBlocks] : []),
-          ...(riskBlocks.length > 0 ? [{ id: 'h-risks', type: 'heading', text: 'Risk Flags' }, ...riskBlocks] : []),
-        ],
+      manifest: {
+        base_language: 'en',
+        language_manifest: [{ code: 'en', label: 'English', direction: 'ltr' }],
+        clarity_layer_manifest: [],
+        permissions: { allow_copy: true, allow_print: true, allow_export: true, require_auth: false },
       },
-      languages: {
-        en: {
-          blocks: [
-            { id: 'exec-summary', type: 'heading', text: 'Executive Summary' },
-            { id: 'exec-body', type: 'paragraph', text: (analysis.summary as string) || '' },
-          ],
-        },
-      },
+      blocks,
       contract_intelligence: analysis,
-      provenance: {
-        created: now,
-        source: `contract:${file.name}`,
-        analysis_by: 'Claude AI',
-        blockchain: null,
+      seal: {
+        sealed_at: now,
+        sealed_by: 'UD Contract Intelligence',
+        hash,
+        chain_of_custody: [
+          { event: 'created', actor: 'UD Contract Intelligence', timestamp: now },
+          { event: 'sealed', actor: 'UD Contract Intelligence', timestamp: now },
+        ],
       },
     }
 

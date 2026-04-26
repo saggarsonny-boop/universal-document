@@ -184,6 +184,36 @@
       }
     },
 
+    "clarity_layers": {
+      "type": "object",
+      "description": "Document-level enrichment layers added by UD utilities (summaries, classification, accessibility reports, media sync, etc.)."
+    },
+
+    "provenance": {
+      "type": "object",
+      "description": "Provenance metadata added by UD utilities and converters."
+    },
+
+    "media_sync": {
+      "type": "object",
+      "description": "Media synchronisation data added by UD Media Sync utility."
+    },
+
+    "media_sync_advanced": {
+      "type": "object",
+      "description": "Advanced media synchronisation data added by UD Media Sync Advanced utility."
+    },
+
+    "classification": {
+      "type": "string",
+      "description": "Security classification assigned by UD Classify utility."
+    },
+
+    "contract_intelligence": {
+      "type": "object",
+      "description": "Structured contract analysis produced by UD Contract Intelligence utility."
+    },
+
     "seal": {
       "type": "object",
       "required": ["sealed_at", "sealed_by", "hash", "chain_of_custody"],
@@ -196,6 +226,8 @@
           "pattern": "^[a-f0-9]{64}$"
         },
         "signature": { "type": "string" },
+        "verification_url": { "type": "string", "format": "uri" },
+        "blockchain": { "type": ["string", "null"] },
         "chain_of_custody": {
           "type": "array",
           "minItems": 1,
