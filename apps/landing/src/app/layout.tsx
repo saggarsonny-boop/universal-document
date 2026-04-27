@@ -4,6 +4,8 @@ import './globals.css'
 import UDNav from '@/components/UDNav'
 import UDFooter from '@/components/UDFooter'
 import BetaBanner from '@/components/BetaBanner'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700'], variable: '--font-display', display: 'swap' })
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body', display: 'swap' })
@@ -32,6 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BetaBanner />
         <main style={{ flex: 1 }}>{children}</main>
         <UDFooter />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
