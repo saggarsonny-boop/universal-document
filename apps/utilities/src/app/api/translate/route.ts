@@ -82,6 +82,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No translatable text content found in this document.' }, { status: 400 })
     }
 
+    // Validate required UDS metadata fields
+    const inputMeta = (typeof doc.metadata === 'object' && doc.metadata !== null ? doc.metadata : {}) as Record<string, unknown>
+    if (!inputMeta.title || !inputMeta.created_at || !inputMeta.document_type) {
+      return NextResponse.json({ error: 'Input document metadata is missing required fields (title, created_at, document_type).' }, { status: 400 })
+    }
+
     // Build input for Claude: array of { id, text } objects
     const blockInputs = translatableBlocks.map(b => ({ id: b.id as string, text: getBlockText(b) }))
 
@@ -153,7 +159,7 @@ No explanation, no markdown fences, no preamble. Raw JSON only.`,
     // Do not spread ...doc — input may have extra top-level props from other utilities
     const updated: Record<string, unknown> = {
       ud_version: typeof doc.ud_version === 'string' ? doc.ud_version : '1.0.0',
-      state: doc.state,
+      state: 'UDS',
       metadata: doc.metadata,
       manifest: {
         base_language: baseLanguage,
