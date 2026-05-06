@@ -20,6 +20,8 @@ premium: true
 ### UD Converter (converter.hive.baby)
 Converts DOCX, TXT, MD → .uds (iSDF v0.1.0). Free tier: 5/day, 10MB. Pro ($29/mo, $249/yr): unlimited, batch ZIP, API key, chain of custody.
 
+**cost_profile: medium_marginal** — declared per the new Hive-wide rule that engines disclose their cost profile so HiveOps can enforce pricing matches the declared tier. UD Converter has free + Plus + Pro tiers; the existing tier structure already matches `medium_marginal`. (TODO: when the canonical engine-schema migration sweep lands, extract this into a dedicated `apps/converter/ENGINE_GRAMMAR.md` with the full GrapplerHook block and cost_profile field. Until then, this paragraph is the authoritative declaration.)
+
 ### UD Reader (universal-document.vercel.app)
 Reads and renders .uds files. Cross-linked to Converter.
 
