@@ -7,7 +7,9 @@
     "uploadAria": "परिवर्तित करने के लिए एक फ़ाइल अपलोड करें",
     "dropHere": "अपनी फ़ाइल यहां ड्रॉप करें",
     "tapToBrowse": "या ब्राउज़ करने के लिए टैप करें",
-    "sizeAndChangeTemplate": "{{size}} · बदलने के लिए क्लिक करें"
+    "sizeAndChangeTemplate": "{{size}} · बदलने के लिए क्लिक करें",
+    "tooLargeTemplate": "{{maxMb}} MB से बड़ी फ़ाइलें अभी मुफ़्त योजना पर समर्थित नहीं हैं। हम बड़ी फ़ाइलों के लिए सीधे अपलोड पर काम कर रहे हैं।",
+    "maxSizeNote": "मुफ़्त योजना: प्रति फ़ाइल {{maxMb}} MB तक"
   },
   "formats": {
     "fromLabel": "से",

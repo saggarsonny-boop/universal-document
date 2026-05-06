@@ -7,7 +7,9 @@
     "uploadAria": "上传要转换的文件",
     "dropHere": "将文件拖到此处",
     "tapToBrowse": "或点击浏览",
-    "sizeAndChangeTemplate": "{{size}} · 点击更改"
+    "sizeAndChangeTemplate": "{{size}} · 点击更改",
+    "tooLargeTemplate": "超过 {{maxMb}} MB 的文件暂不支持在免费版本上使用。我们正在开发用于大型文件的直接上传功能。",
+    "maxSizeNote": "免费版本：每个文件最多 {{maxMb}} MB"
   },
   "formats": {
     "fromLabel": "来自",

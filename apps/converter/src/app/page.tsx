@@ -76,6 +76,9 @@ type ServerErrorBody = {
   retry_after_hours?: number
   upgrade_url?: string
   captchaRequired?: boolean
+  /** 4 MB pre-flight gate (defense-in-depth): server confirms file too large. */
+  tooLarge?: boolean
+  maxMb?: number
 }
 
 export default function ConverterPage() {

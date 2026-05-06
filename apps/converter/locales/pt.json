@@ -7,7 +7,9 @@
     "uploadAria": "Faça upload de um arquivo para converter",
     "dropHere": "Solte seu arquivo aqui",
     "tapToBrowse": "ou toque para procurar",
-    "sizeAndChangeTemplate": "{{size}} · clique para alterar"
+    "sizeAndChangeTemplate": "{{size}} · clique para alterar",
+    "tooLargeTemplate": "Arquivos maiores que {{maxMb}} MB ainda não são compatíveis com o plano gratuito. Estamos trabalhando no upload direto para arquivos maiores.",
+    "maxSizeNote": "Plano gratuito: até {{maxMb}} MB por arquivo"
   },
   "formats": {
     "fromLabel": "De",

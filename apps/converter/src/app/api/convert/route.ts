@@ -11,6 +11,15 @@ import { verifyTurnstileToken } from '@/lib/turnstile'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
+// Vercel Hobby's edge proxy rejects request bodies > ~4.5 MB before this
+// function ever runs, so the existing free-tier 10 MB cap below is in
+// practice unreachable. We still enforce a 4 MB defense-in-depth check
+// here so that (a) if Vercel ever bumps the edge limit (Pro plan / config
+// change), behavior is consistent with the client-side gate in
+// FileUpload.tsx, and (b) any non-browser client hitting this route
+// directly gets the same honest message rather than the silent edge 413.
+const MAX_PREFLIGHT_BYTES = 4 * 1024 * 1024
+const MAX_PREFLIGHT_MB = 4
 const MAX_FREE_BYTES = 10 * 1024 * 1024
 
 // Map raw thrown errors to user-facing copy + machine-readable hints. The
@@ -103,6 +112,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: `Unsupported file type .${ext}. Supported: ${allowedTypes.join(', ')}` },
         { status: 422 }
+      )
+    }
+
+    // Pre-flight 4 MB cap (defense-in-depth — see header comment).
+    if (file.size > MAX_PREFLIGHT_BYTES) {
+      return NextResponse.json(
+        {
+          error: `Files over ${MAX_PREFLIGHT_MB} MB aren't supported on free tier yet. We're working on direct upload for larger files.`,
+          tooLarge: true,
+          maxMb: MAX_PREFLIGHT_MB,
+          recoverable: false,
+        },
+        { status: 413 },
       )
     }
 

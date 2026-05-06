@@ -7,7 +7,9 @@
     "uploadAria": "Télécharger un fichier à convertir",
     "dropHere": "Déposez votre fichier ici",
     "tapToBrowse": "ou appuyez pour parcourir",
-    "sizeAndChangeTemplate": "{{size}} · cliquez pour modifier"
+    "sizeAndChangeTemplate": "{{size}} · cliquez pour modifier",
+    "tooLargeTemplate": "Les fichiers de plus de {{maxMb}} MB ne sont pas encore pris en charge sur l'offre gratuite. Nous travaillons sur le téléchargement direct pour les fichiers plus volumineux.",
+    "maxSizeNote": "Offre gratuite : jusqu'à {{maxMb}} MB par fichier"
   },
   "formats": {
     "fromLabel": "De",
