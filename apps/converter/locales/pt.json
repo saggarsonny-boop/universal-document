@@ -16,7 +16,11 @@
     "toAria": "Formato de destino",
     "defaultSuffix": " (padrão)",
     "comingSoonSuffix": " — em breve",
-    "comingSoonTitle": "Em breve"
+    "comingSoonTitle": "Em breve",
+    "formatRequestPrompt": "Não vê o seu formato?",
+    "formatRequestCta": "Diga-nos",
+    "formatRequestSubject": "Pedido de formato UD Converter",
+    "formatRequestBody": "Gostaria de converter {{from}} para um formato que não consegui encontrar no menu suspenso. O formato que preciso é:"
   },
   "convertButton": {
     "selectFirst": "Selecione um arquivo primeiro",
@@ -81,7 +85,8 @@
     "freeLabel": "Versão gratuita",
     "freeRemainingTemplate": "{{remaining}} de {{limit}} conversões restantes hoje",
     "upgradeCta": "Atualizar — a partir de $0,97/mês",
-    "upgradeAria": "Ver preços — atualizar para UD Converter Plus ou Pro"
+    "upgradeAria": "Ver preços — atualizar para UD Converter Plus ou Pro",
+    "freshFirstConversion": "Nível gratuito — primeira conversão disponível agora"
   },
   "paywall": {
     "ariaLabel": "Limite da versão gratuita atingido",

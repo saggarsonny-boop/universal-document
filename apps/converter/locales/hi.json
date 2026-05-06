@@ -16,7 +16,11 @@
     "toAria": "लक्ष्य प्रारूप",
     "defaultSuffix": " (डिफ़ॉल्ट)",
     "comingSoonSuffix": " — जल्द आ रहा है",
-    "comingSoonTitle": "जल्द आ रहा है"
+    "comingSoonTitle": "जल्द आ रहा है",
+    "formatRequestPrompt": "अपना प्रारूप नहीं देख रहे हैं?",
+    "formatRequestCta": "हमें बताएं",
+    "formatRequestSubject": "UD Converter प्रारूप अनुरोध",
+    "formatRequestBody": "मैं {{from}} को ऐसे प्रारूप में रूपांतरित करना चाहता हूं जो मुझे ड्रॉपडाउन में नहीं मिल सका। मुझे जिस प्रारूप की आवश्यकता है वह है:"
   },
   "convertButton": {
     "selectFirst": "पहले एक फ़ाइल चुनें",
@@ -81,7 +85,8 @@
     "freeLabel": "निःशुल्क स्तर",
     "freeRemainingTemplate": "आज {{remaining}} से {{limit}} रूपांतरण शेष हैं",
     "upgradeCta": "अपग्रेड करें — $0.97/माह से शुरू",
-    "upgradeAria": "मूल्य निर्धारण देखें — UD Converter Plus या Pro में अपग्रेड करें"
+    "upgradeAria": "मूल्य निर्धारण देखें — UD Converter Plus या Pro में अपग्रेड करें",
+    "freshFirstConversion": "निःशुल्क स्तर — पहला रूपांतरण अभी उपलब्ध है"
   },
   "paywall": {
     "ariaLabel": "निःशुल्क स्तर की सीमा पहुंच गई",

@@ -131,6 +131,18 @@ export function compatibleOutputs(input: ClientInputFormat): Set<ClientOutputFor
   return out
 }
 
+// Inputs that have at least one supported output. Used by the From dropdown
+// to hide formats the UI advertises but the converter doesn't yet implement
+// (e.g. `odt`, `tsv`, `yaml`, `svg` appear in INPUT_FORMATS as future-ready
+// labels but no PAIR has them as the source side, so the To dropdown would
+// be empty if the user picked one — bait-and-switch UX).
+const SUPPORTED_INPUTS_SET: Set<ClientInputFormat> = new Set(PAIRS.map(([f]) => f))
+
+/** Is this input format supported by at least one converter pair? */
+export function isInputSupported(input: ClientInputFormat): boolean {
+  return SUPPORTED_INPUTS_SET.has(input)
+}
+
 // Browser-side format detection from File. Mirrors router.ts's MIME +
 // extension fallback chain (without magic-byte inspection — clients have
 // File.type from the browser which is generally reliable).

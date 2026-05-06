@@ -77,10 +77,16 @@ export async function GET(req: NextRequest) {
     const ipHash = hashIp(getIp(req))
     const state = await getFreeTierState(ipHash).catch(() => ({ lifetimeCount: 0, lastConversionAt: null as Date | null }))
     const dailyUsed = state.lastConversionAt && Date.now() - state.lastConversionAt.getTime() < 24 * 60 * 60 * 1000 ? 1 : 0
+    // Coerce every numeric field to an integer at the boundary. The
+    // TierIndicator's "X of N remaining today" math used to render NaN
+    // when any of these came back undefined / null (e.g. when
+    // getFreeTierState returns a row with a missing column). Treating
+    // the API's contract as "always integers, 0 if unknown" lets the
+    // client trust the response without sprinkling `?? 0` at every read.
     return NextResponse.json({
       tier: 'free',
       unlimited: false,
-      lifetimeUsed: state.lifetimeCount,
+      lifetimeUsed: Number.isFinite(state.lifetimeCount) ? Number(state.lifetimeCount) : 0,
       lifetimeLimit: LIFETIME_FREE_LIMIT,
       dailyUsed,
       dailyLimit: DAILY_LIMIT,

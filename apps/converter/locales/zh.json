@@ -16,7 +16,11 @@
     "toAria": "目标格式",
     "defaultSuffix": "（默认）",
     "comingSoonSuffix": "— 即将推出",
-    "comingSoonTitle": "即将推出"
+    "comingSoonTitle": "即将推出",
+    "formatRequestPrompt": "没有看到您需要的格式？",
+    "formatRequestCta": "告诉我们",
+    "formatRequestSubject": "UD Converter 格式请求",
+    "formatRequestBody": "我想将 {{from}} 转换为下拉菜单中找不到的格式。我需要的格式是："
   },
   "convertButton": {
     "selectFirst": "请先选择文件",
@@ -81,7 +85,8 @@
     "freeLabel": "免费套餐",
     "freeRemainingTemplate": "今天剩余 {{remaining}}/{{limit}} 次转换",
     "upgradeCta": "升级 — 仅需 $0.97/月",
-    "upgradeAria": "查看价格 — 升级到 UD Converter Plus 或 Pro"
+    "upgradeAria": "查看价格 — 升级到 UD Converter Plus 或 Pro",
+    "freshFirstConversion": "免费版 — 首次转换现已可用"
   },
   "paywall": {
     "ariaLabel": "免费额度已达上限",

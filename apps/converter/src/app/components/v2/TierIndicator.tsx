@@ -1,23 +1,28 @@
 'use client'
 
 // Visible tier indicator. Free / Plus / Pro labels + remaining-conversions
-// counter. Upgrade CTA links to a placeholder route until PR D ships
-// Stripe checkout for the Plus tier.
+// counter. Upgrade CTA links to /pricing.
 //
-// Today the "remaining" count reads from /api/usage (per-day, server-
-// computed). PR D extends the schema with lifetime_count + most_recent_at;
-// this component's contract stays the same — only the wording shifts
-// from "today" to "lifetime".
+// Reads /api/usage on mount and after every successful conversion. The
+// fields below match the route handler's response shape verbatim — earlier
+// versions of this component used `freeUsedToday` / `freeLimitToday` which
+// the API never returned, producing `NaN` in the "X of N remaining today"
+// display. All numeric fields are defaulted to 0 with `??` so a partial
+// or empty response can never re-introduce that NaN.
 
 import { useEffect, useState } from 'react'
+import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
 
+// Mirrors apps/converter/src/app/api/usage/route.ts response shape.
 export type UsageInfo = {
   tier: 'free' | 'plus' | 'pro'
-  freeUsedToday: number
-  freeLimitToday: number
   unlimited: boolean
+  lifetimeUsed?: number
+  lifetimeLimit?: number
+  dailyUsed?: number
+  dailyLimit?: number
 }
 
 type Props = {
@@ -26,6 +31,7 @@ type Props = {
 }
 
 export function TierIndicator({ reloadNonce = 0 }: Props) {
+  const s = useStrings()
   const [usage, setUsage] = useState<UsageInfo | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -46,7 +52,7 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
   if (loading || !usage) {
     return (
       <div style={containerStyle} aria-live="polite">
-        <span style={{ color: 'var(--ud-muted)', fontSize: 13 }}>Checking your tier…</span>
+        <span style={{ color: 'var(--ud-muted)', fontSize: 13 }}>{s.tier.checking}</span>
       </div>
     )
   }
@@ -54,9 +60,9 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
   if (usage.tier === 'pro') {
     return (
       <div style={{ ...containerStyle, background: 'rgba(10, 122, 106, 0.08)', borderColor: 'rgba(10, 122, 106, 0.25)' }} aria-live="polite">
-        <strong style={{ color: 'var(--ud-teal, #0a7a6a)' }}>Pro</strong>
+        <strong style={{ color: 'var(--ud-teal, #0a7a6a)' }}>{s.tier.proLabel}</strong>
         <span style={{ color: 'var(--ud-muted)' }}>·</span>
-        <span style={{ color: 'var(--ud-ink)' }}>unlimited conversions + batch + API</span>
+        <span style={{ color: 'var(--ud-ink)' }}>{s.tier.proBody}</span>
       </div>
     )
   }
@@ -64,28 +70,54 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
   if (usage.tier === 'plus') {
     return (
       <div style={{ ...containerStyle, background: 'rgba(212, 175, 55, 0.08)', borderColor: 'rgba(212, 175, 55, 0.25)' }} aria-live="polite">
-        <strong style={{ color: GOLD }}>Plus</strong>
+        <strong style={{ color: GOLD }}>{s.tier.plusLabel}</strong>
         <span style={{ color: 'var(--ud-muted)' }}>·</span>
-        <span style={{ color: 'var(--ud-ink)' }}>unlimited single-file conversions</span>
+        <span style={{ color: 'var(--ud-ink)' }}>{s.tier.plusBody}</span>
       </div>
     )
   }
 
-  // Free tier — show remaining count + Upgrade CTA
-  const remaining = Math.max(0, usage.freeLimitToday - usage.freeUsedToday)
+  // Free tier — show remaining count + Upgrade CTA. Defensive `?? 0`
+  // defaults: the route handler always returns these fields but on the
+  // network-error / dbAvailable=false paths the response can omit any of
+  // them. Treating undefined/null as 0 keeps the math integer-clean.
+  const dailyUsed = usage.dailyUsed ?? 0
+  const dailyLimit = usage.dailyLimit ?? 1
+  const lifetimeUsed = usage.lifetimeUsed ?? 0
+  const remaining = Math.max(0, dailyLimit - dailyUsed)
+
+  // Fresh-user copy when nothing has been converted yet on this device:
+  // "first conversion available now" reads more welcoming than
+  // "1 of 1 conversions remaining today" for someone who has never
+  // touched the engine.
+  const isFresh = lifetimeUsed === 0 && dailyUsed === 0
+
+  // Fresh user: render the freshFirstConversion sentence as a single span
+  // (it already contains the "Free tier — ..." prefix in the locale catalog,
+  // so no separate label / "·" separator). Returning user: render the
+  // standard "Free tier · X of N remaining today" layout.
   return (
     <div style={containerStyle} aria-live="polite">
-      <span style={{ color: 'var(--ud-ink)', fontWeight: 600 }}>Free tier</span>
-      <span style={{ color: 'var(--ud-muted)' }}>·</span>
-      <span style={{ color: 'var(--ud-muted)' }}>
-        {remaining} of {usage.freeLimitToday} conversions remaining today
-      </span>
+      {isFresh ? (
+        <span style={{ color: 'var(--ud-ink)' }}>{s.tier.freshFirstConversion}</span>
+      ) : (
+        <>
+          <span style={{ color: 'var(--ud-ink)', fontWeight: 600 }}>{s.tier.freeLabel}</span>
+          <span style={{ color: 'var(--ud-muted)' }}>·</span>
+          <span style={{ color: 'var(--ud-muted)' }}>
+            {s.tier.freeRemainingTemplate
+              .replace('{{remaining}}', String(remaining))
+              .replace('{{limit}}', String(dailyLimit))}
+          </span>
+        </>
+      )}
       <UpgradeCta />
     </div>
   )
 }
 
 function UpgradeCta() {
+  const s = useStrings()
   return (
     <a
       href="/pricing"
@@ -101,9 +133,9 @@ function UpgradeCta() {
         textDecoration: 'none',
         whiteSpace: 'nowrap',
       }}
-      aria-label="View pricing — upgrade to UD Converter Plus or Pro"
+      aria-label={s.tier.upgradeAria}
     >
-      Upgrade — from $0.97/mo
+      {s.tier.upgradeCta}
     </a>
   )
 }

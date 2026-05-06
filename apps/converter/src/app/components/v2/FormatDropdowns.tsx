@@ -8,6 +8,7 @@ import {
   INPUT_FORMATS,
   OUTPUT_FORMATS,
   compatibleOutputs,
+  isInputSupported,
   type ClientInputFormat,
   type ClientOutputFormat,
   type FormatMeta,
@@ -29,10 +30,16 @@ type Props = {
   disabled?: boolean
 }
 
-const sortedInputFormats = [...INPUT_FORMATS].sort((a, b) => {
-  if (a.priority !== b.priority) return a.priority - b.priority
-  return a.label.localeCompare(b.label)
-})
+// Filter to formats the converter actually implements before sorting.
+// `INPUT_FORMATS` lists every format the UI is wired to recognise (incl.
+// future-ready labels); we only show the ones with at least one working
+// pair, so the user never picks a From and finds an empty To dropdown.
+const sortedInputFormats = [...INPUT_FORMATS]
+  .filter(f => isInputSupported(f.code as ClientInputFormat))
+  .sort((a, b) => {
+    if (a.priority !== b.priority) return a.priority - b.priority
+    return a.label.localeCompare(b.label)
+  })
 const sortedOutputFormats = [...OUTPUT_FORMATS].sort((a, b) => {
   if (a.priority !== b.priority) return a.priority - b.priority
   return a.label.localeCompare(b.label)
@@ -46,7 +53,18 @@ export function FormatDropdowns({
   const s = useStrings()
   const compatible = compatibleOutputs(inputFormat)
 
+  // mailto: surface for capturing v2 demand. The body pre-fills the
+  // user's currently-selected From so the recipient can quickly see
+  // which converter pair was missed. No JS — pure mailto link, works
+  // offline, no privacy footprint beyond what the user's mail client
+  // already does.
+  const mailtoHref =
+    `mailto:hive@hive.baby` +
+    `?subject=${encodeURIComponent(s.formats.formatRequestSubject)}` +
+    `&body=${encodeURIComponent(s.formats.formatRequestBody.replace('{{from}}', inputFormat.toUpperCase()))}`
+
   return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
     <div style={{
       display: 'flex',
       gap: 12,
@@ -87,22 +105,36 @@ export function FormatDropdowns({
           style={selectStyle}
           aria-label={s.formats.toAria}
         >
-          {sortedOutputFormats.map(f => {
-            const code = asOutputFormat(f)
-            const enabled = compatible.has(code)
-            return (
-              <option
-                key={code}
-                value={code}
-                disabled={!enabled}
-                title={enabled ? undefined : s.formats.comingSoonTitle}
-              >
-                {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}{!enabled ? s.formats.comingSoonSuffix : ''}
-              </option>
-            )
-          })}
+          {sortedOutputFormats
+            // Hide pairs the converter doesn't implement. The previous
+            // disabled-with-tooltip pattern advertised every output format
+            // for every input — but PR B only built ~25 of the 18×13
+            // matrix, so most were dead-end "coming soon" entries.
+            .filter(f => compatible.has(asOutputFormat(f)))
+            .map(f => {
+              const code = asOutputFormat(f)
+              return (
+                <option key={code} value={code}>
+                  {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}
+                </option>
+              )
+            })}
         </select>
       </DropdownColumn>
+    </div>
+
+    {/* Format-request affordance — captures demand for missing converter
+        pairs without committing the engine to surface every option as a
+        dead-end "coming soon" entry. */}
+    <div style={{ fontSize: 12, color: 'var(--ud-muted)', textAlign: 'right' }}>
+      <span>{s.formats.formatRequestPrompt}</span>{' '}
+      <a
+        href={mailtoHref}
+        style={{ color: 'var(--ud-teal, #0a7a6a)', textDecoration: 'none', fontWeight: 600 }}
+      >
+        {s.formats.formatRequestCta} →
+      </a>
+    </div>
     </div>
   )
 }
