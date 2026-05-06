@@ -25,8 +25,7 @@ export type InputFormat =
   | 'md'
   | 'txt'
   | 'png'
-  | 'jpg'
-  | 'jpeg'
+  | 'jpg'      // .jpeg extension also normalises to this
   | 'webp'
   | 'gif'
   | 'svg'
@@ -118,6 +117,9 @@ const MIME_TO_FORMAT: Record<string, InputFormat> = {
 }
 
 // Extension → InputFormat fallback when MIME is missing or generic.
+// .jpeg is normalised to 'jpg' here so the rest of the system has a single
+// canonical name for JPEG content (both extensions and the image/jpeg MIME
+// produce InputFormat 'jpg').
 const EXTENSION_TO_FORMAT: Record<string, InputFormat> = {
   pdf: 'pdf',
   docx: 'docx',
@@ -134,7 +136,7 @@ const EXTENSION_TO_FORMAT: Record<string, InputFormat> = {
   txt: 'txt',
   png: 'png',
   jpg: 'jpg',
-  jpeg: 'jpeg',
+  jpeg: 'jpg',
   webp: 'webp',
   gif: 'gif',
   svg: 'svg',
@@ -228,7 +230,7 @@ function isPureLibPair(input: InputFormat, output: OutputFormat): boolean {
   return PURE_LIB_PAIRS.some(p => p.from === input && p.to === output)
 }
 
-const IMAGE_FORMATS: InputFormat[] = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg']
+const IMAGE_FORMATS: InputFormat[] = ['png', 'jpg', 'webp', 'gif', 'svg']
 
 /**
  * Select the conversion route for an (input → output) pair. The orchestrator

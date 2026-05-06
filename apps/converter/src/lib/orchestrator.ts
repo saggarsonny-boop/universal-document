@@ -23,6 +23,7 @@ import { logConversionCost } from './db'
 import { chooseRoute, detectFormat, type Complexity, type InputFormat, type OutputFormat, type Route } from './router'
 import { groqExtract, type GroqResult, type GroqError } from './llm/groq'
 import { anthropicExtractFromPdf, type AnthropicResult, type AnthropicError } from './llm/anthropic'
+import { getConverter } from './converters/registry'
 
 export type UserTier = 'free' | 'plus' | 'pro' | 'unknown'
 
@@ -149,23 +150,80 @@ export async function orchestrate(input: OrchestratorInput): Promise<Orchestrato
     }
   }
 
-  // PR A: actual conversion implementations for pure-lib / tesseract /
-  // groq-llama / anthropic-haiku land in PR B. For now, return a clear
-  // not-yet-implemented error so the route handler surfaces it as a
-  // structured response instead of a 500.
+  // PR B: pure-lib + tesseract routes are wired to actual converters
+  // via the registry. Each converter is a Converter (lib/converters/types.ts)
+  // that returns either a success { buffer, contentType, warnings } or a
+  // structured failure { error: { code, message, recoverable } } — never
+  // throws. Cost is $0 for both routes (they're zero-marginal). Tesseract
+  // pays in WASM execution time rather than dollars.
   if (route === 'pure-lib' || route === 'tesseract') {
-    const errorMessage = `${route} conversion is not yet implemented in UD Converter v2 (lands in PR B).`
+    const converter = getConverter(route, inputFormat, input.outputFormat)
+    if (!converter) {
+      const errorMessage = `${inputFormat} → ${input.outputFormat} (${route}) is recognised by the router but no converter is registered for it. This is a configuration drift bug.`
+      void logConversionCost({
+        userTier: input.userTier,
+        route,
+        inputFormat,
+        outputFormat: input.outputFormat,
+        fileName: input.fileName,
+        success: false,
+        errorMessage,
+      })
+      return {
+        success: false,
+        routeUsed: route,
+        inputFormat,
+        outputFormat: input.outputFormat,
+        estimatedCostUsd: 0,
+        inputTokens: 0,
+        outputTokens: 0,
+        processingTimeMs: Date.now() - start,
+        warnings: [],
+        errorMessage,
+      }
+    }
+
+    const convResult = await converter(input.buffer, {
+      fileName: input.fileName,
+      userTier: input.userTier,
+      softTimeoutMs: SOFT_TIMEOUT_MS,
+    })
+
+    if (!convResult.ok) {
+      void logConversionCost({
+        userTier: input.userTier,
+        route,
+        inputFormat,
+        outputFormat: input.outputFormat,
+        fileName: input.fileName,
+        success: false,
+        errorMessage: convResult.error.message,
+      })
+      return {
+        success: false,
+        routeUsed: route,
+        inputFormat,
+        outputFormat: input.outputFormat,
+        estimatedCostUsd: 0,
+        inputTokens: 0,
+        outputTokens: 0,
+        processingTimeMs: Date.now() - start,
+        warnings: [],
+        errorMessage: convResult.error.message,
+      }
+    }
+
     void logConversionCost({
       userTier: input.userTier,
       route,
       inputFormat,
       outputFormat: input.outputFormat,
       fileName: input.fileName,
-      success: false,
-      errorMessage,
+      success: true,
     })
     return {
-      success: false,
+      success: true,
+      buffer: convResult.buffer,
       routeUsed: route,
       inputFormat,
       outputFormat: input.outputFormat,
@@ -173,8 +231,7 @@ export async function orchestrate(input: OrchestratorInput): Promise<Orchestrato
       inputTokens: 0,
       outputTokens: 0,
       processingTimeMs: Date.now() - start,
-      warnings: [],
-      errorMessage,
+      warnings: convResult.warnings ?? [],
     }
   }
 
