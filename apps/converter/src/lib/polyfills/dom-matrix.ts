@@ -119,12 +119,12 @@ class DOMMatrixPolyfill {
   }
 }
 
-declare global {
-  // eslint-disable-next-line no-var
-  var DOMMatrix: typeof DOMMatrixPolyfill | undefined
-}
-
-if (typeof globalThis.DOMMatrix === 'undefined') {
+// Don't redeclare the `DOMMatrix` global (lib.dom.d.ts defines it as
+// the browser type; matching that signature would require implementing
+// fromFloat32Array / fromMatrix / etc which pdfjs doesn't use). Just
+// install the runtime value via globalThis with an `any` cast and let
+// callers see the lib.dom typing — at runtime they get this polyfill.
+if (typeof (globalThis as { DOMMatrix?: unknown }).DOMMatrix === 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(globalThis as any).DOMMatrix = DOMMatrixPolyfill
 }
