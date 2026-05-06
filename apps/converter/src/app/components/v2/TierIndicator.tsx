@@ -1,13 +1,15 @@
 'use client'
 
 // Visible tier indicator. Free / Plus / Pro labels + remaining-conversions
-// counter. Upgrade CTA links to a placeholder route until PR D ships
-// Stripe checkout for the Plus tier.
+// counter. Upgrade CTA links to /pricing.
 //
-// Today the "remaining" count reads from /api/usage (per-day, server-
-// computed). PR D extends the schema with lifetime_count + most_recent_at;
-// this component's contract stays the same — only the wording shifts
-// from "today" to "lifetime".
+// Reads from /api/usage which (post-PR D) returns:
+//   { tier, lifetimeUsed, lifetimeLimit, dailyUsed, dailyLimit, unlimited }
+//
+// All numeric fields default to 0 server-side AND are coalesced with
+// `?? 0` here, so a missing/undefined field never leaks into the
+// arithmetic and surfaces as "NaN of conversions remaining today" — the
+// bug PR #9 fixed.
 
 import { useEffect, useState } from 'react'
 
@@ -15,9 +17,11 @@ const GOLD = '#D4AF37'
 
 export type UsageInfo = {
   tier: 'free' | 'plus' | 'pro'
-  freeUsedToday: number
-  freeLimitToday: number
   unlimited: boolean
+  lifetimeUsed: number
+  lifetimeLimit: number
+  dailyUsed: number
+  dailyLimit: number
 }
 
 type Props = {
@@ -37,7 +41,20 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
       headers: apiKey ? { 'X-API-Key': apiKey } : {},
     })
       .then(r => r.json())
-      .then((data: UsageInfo) => { if (!cancelled) setUsage(data) })
+      .then((data: Partial<UsageInfo> & { tier?: 'free' | 'plus' | 'pro' }) => {
+        if (cancelled) return
+        // Coalesce every numeric field defensively. The server already
+        // defaults them to 0 but we guard the boundary so a malformed
+        // response never produces NaN in the displayed string.
+        setUsage({
+          tier: data.tier ?? 'free',
+          unlimited: data.unlimited ?? false,
+          lifetimeUsed: Number.isFinite(data.lifetimeUsed) ? Number(data.lifetimeUsed) : 0,
+          lifetimeLimit: Number.isFinite(data.lifetimeLimit) ? Number(data.lifetimeLimit) : 3,
+          dailyUsed: Number.isFinite(data.dailyUsed) ? Number(data.dailyUsed) : 0,
+          dailyLimit: Number.isFinite(data.dailyLimit) ? Number(data.dailyLimit) : 1,
+        })
+      })
       .catch(() => { /* fall through to placeholder */ })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
@@ -71,15 +88,32 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
     )
   }
 
-  // Free tier — show remaining count + Upgrade CTA
-  const remaining = Math.max(0, usage.freeLimitToday - usage.freeUsedToday)
+  // Free tier — show lifetime + daily status.
+  // Display rules:
+  //   - First conversion never used  → "First conversion available now"
+  //   - At least one used, no daily cooldown  → "X of N lifetime free remaining"
+  //   - Daily cooldown active (1 used today)  → "Next free conversion in ~Hh"
+  //   - Lifetime cap reached  → "Free tier exhausted — upgrade for more"
+  const lifetimeRemaining = Math.max(0, usage.lifetimeLimit - usage.lifetimeUsed)
+  const dailyExhausted = usage.dailyUsed >= usage.dailyLimit && lifetimeRemaining > 0
+  const lifetimeExhausted = lifetimeRemaining === 0
+
+  let statusText: string
+  if (lifetimeExhausted) {
+    statusText = 'Free tier exhausted — upgrade to keep converting'
+  } else if (dailyExhausted) {
+    statusText = `Next free conversion in ~24h · ${lifetimeRemaining} of ${usage.lifetimeLimit} lifetime remaining`
+  } else if (usage.lifetimeUsed === 0) {
+    statusText = `First free conversion available now · ${usage.lifetimeLimit} lifetime free`
+  } else {
+    statusText = `${lifetimeRemaining} of ${usage.lifetimeLimit} lifetime free conversions remaining`
+  }
+
   return (
     <div style={containerStyle} aria-live="polite">
       <span style={{ color: 'var(--ud-ink)', fontWeight: 600 }}>Free tier</span>
       <span style={{ color: 'var(--ud-muted)' }}>·</span>
-      <span style={{ color: 'var(--ud-muted)' }}>
-        {remaining} of {usage.freeLimitToday} conversions remaining today
-      </span>
+      <span style={{ color: 'var(--ud-muted)' }}>{statusText}</span>
       <UpgradeCta />
     </div>
   )

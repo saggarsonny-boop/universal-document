@@ -1,8 +1,14 @@
 'use client'
 
 // Side-by-side From / To dropdowns. Defaults: PDF for input, UDS for
-// output. Auto-disable incompatible To options based on the selected
-// From — driven by client-formats.ts SUPPORTED_PAIRS matrix.
+// output. The To dropdown HIDES output formats that don't have a working
+// converter from the selected input — fixes the PR #9 "bait-and-switch"
+// where 18 inputs × 13 outputs implied 234 working pairs but only ~30
+// were implemented in PR B.
+//
+// A "Don't see your format? Tell us" mailto link sits below the dropdowns
+// so users can register demand for unimplemented pairs without us
+// having to advertise them as "coming soon".
 
 import {
   INPUT_FORMATS,
@@ -45,64 +51,79 @@ export function FormatDropdowns({
 }: Props) {
   const s = useStrings()
   const compatible = compatibleOutputs(inputFormat)
+  // Filter the To dropdown down to actually-supported pairs. UDS is in
+  // SUPPORTED_PAIRS for every supported input, so it always survives.
+  // If somehow no pair is supported (shouldn't happen with the v1
+  // matrix), keep UDS as the safety fallback so the dropdown is never
+  // empty.
+  const visibleOutputFormats = sortedOutputFormats.filter(f => compatible.has(asOutputFormat(f)))
+  const finalOutputs = visibleOutputFormats.length > 0
+    ? visibleOutputFormats
+    : sortedOutputFormats.filter(f => f.code === 'uds')
 
   return (
-    <div style={{
-      display: 'flex',
-      gap: 12,
-      flexWrap: 'wrap',
-      alignItems: 'flex-end',
-    }}>
-      <DropdownColumn label={s.formats.fromLabel} htmlFor="from-select">
-        <select
-          id="from-select"
-          value={inputFormat}
-          onChange={(e) => onInputChange(e.target.value as ClientInputFormat)}
-          disabled={disabled}
-          style={selectStyle}
-          aria-label={s.formats.fromAria}
-        >
-          {sortedInputFormats.map(f => (
-            <option key={f.code} value={asInputFormat(f)}>
-              {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}
-            </option>
-          ))}
-          {/* Always allow 'unknown' — when auto-detect fails, the user can still pick a real format manually */}
-        </select>
-      </DropdownColumn>
-
-      <div aria-hidden="true" style={{
-        fontSize: 24,
-        color: GOLD,
-        alignSelf: 'center',
-        marginBottom: 6,
-      }}>→</div>
-
-      <DropdownColumn label={s.formats.toLabel} htmlFor="to-select">
-        <select
-          id="to-select"
-          value={outputFormat}
-          onChange={(e) => onOutputChange(e.target.value as ClientOutputFormat)}
-          disabled={disabled}
-          style={selectStyle}
-          aria-label={s.formats.toAria}
-        >
-          {sortedOutputFormats.map(f => {
-            const code = asOutputFormat(f)
-            const enabled = compatible.has(code)
-            return (
-              <option
-                key={code}
-                value={code}
-                disabled={!enabled}
-                title={enabled ? undefined : s.formats.comingSoonTitle}
-              >
-                {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}{!enabled ? s.formats.comingSoonSuffix : ''}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{
+        display: 'flex',
+        gap: 12,
+        flexWrap: 'wrap',
+        alignItems: 'flex-end',
+      }}>
+        <DropdownColumn label={s.formats.fromLabel} htmlFor="from-select">
+          <select
+            id="from-select"
+            value={inputFormat}
+            onChange={(e) => onInputChange(e.target.value as ClientInputFormat)}
+            disabled={disabled}
+            style={selectStyle}
+            aria-label={s.formats.fromAria}
+          >
+            {sortedInputFormats.map(f => (
+              <option key={f.code} value={asInputFormat(f)}>
+                {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}
               </option>
-            )
-          })}
-        </select>
-      </DropdownColumn>
+            ))}
+          </select>
+        </DropdownColumn>
+
+        <div aria-hidden="true" style={{
+          fontSize: 24,
+          color: GOLD,
+          alignSelf: 'center',
+          marginBottom: 6,
+        }}>→</div>
+
+        <DropdownColumn label={s.formats.toLabel} htmlFor="to-select">
+          <select
+            id="to-select"
+            value={outputFormat}
+            onChange={(e) => onOutputChange(e.target.value as ClientOutputFormat)}
+            disabled={disabled}
+            style={selectStyle}
+            aria-label={s.formats.toAria}
+          >
+            {finalOutputs.map(f => {
+              const code = asOutputFormat(f)
+              return (
+                <option key={code} value={code}>
+                  {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}
+                </option>
+              )
+            })}
+          </select>
+        </DropdownColumn>
+      </div>
+
+      {/* Demand-capture for unimplemented pairs. PR #9 hid them from the
+          dropdown rather than showing them disabled — this link gives
+          users a way to register interest without us advertising
+          unfinished work. */}
+      <a
+        href="mailto:hive@hive.baby?subject=UD%20Converter%20—%20format%20pair%20request&body=I%27d%20like%20to%20convert%20___%20to%20___."
+        style={requestLinkStyle}
+      >
+        Don&apos;t see your format? Tell us →
+      </a>
     </div>
   )
 }
@@ -125,7 +146,7 @@ function DropdownColumn({ label, htmlFor, children }: { label: string; htmlFor: 
 
 const selectStyle: React.CSSProperties = {
   width: '100%',
-  minHeight: 48,  // touch target floor
+  minHeight: 48,
   padding: '10px 14px',
   fontSize: 15,
   fontWeight: 600,
@@ -137,9 +158,16 @@ const selectStyle: React.CSSProperties = {
   appearance: 'none',
   WebkitAppearance: 'none',
   MozAppearance: 'none',
-  // Inline arrow so the dropdown looks like a dropdown without a CSS file.
   backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path fill='%23${'D4AF37'}' d='M6 8 0 0h12z'/></svg>")`,
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'right 14px center',
   paddingRight: 36,
+}
+
+const requestLinkStyle: React.CSSProperties = {
+  alignSelf: 'flex-end',
+  fontSize: 12,
+  color: 'var(--ud-muted)',
+  textDecoration: 'underline',
+  marginTop: 2,
 }
