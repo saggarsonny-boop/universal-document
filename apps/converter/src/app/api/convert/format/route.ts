@@ -21,6 +21,12 @@ import type { OutputFormat } from '@/lib/router'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
+// See header comment in /api/convert/route.ts. 4 MB defense-in-depth gate
+// mirrors the client-side gate in FileUpload.tsx; the existing 10 MB
+// free-tier cap is unreachable on Hobby because Vercel's edge proxy
+// rejects bodies > ~4.5 MB before this function ever runs.
+const MAX_PREFLIGHT_BYTES = 4 * 1024 * 1024
+const MAX_PREFLIGHT_MB = 4
 const MAX_FREE_BYTES = 10 * 1024 * 1024
 const VALID_OUTPUT_FORMATS: OutputFormat[] = [
   'uds', 'pdf', 'docx', 'xlsx', 'csv', 'json', 'xml',
@@ -82,6 +88,19 @@ export async function POST(req: NextRequest) {
       )
     }
     const outputFormat: OutputFormat = outputFormatRaw
+
+    // Pre-flight 4 MB cap (defense-in-depth — see header comment).
+    if (file.size > MAX_PREFLIGHT_BYTES) {
+      return NextResponse.json(
+        {
+          error: `Files over ${MAX_PREFLIGHT_MB} MB aren't supported on free tier yet. We're working on direct upload for larger files.`,
+          tooLarge: true,
+          maxMb: MAX_PREFLIGHT_MB,
+          recoverable: false,
+        },
+        { status: 413 },
+      )
+    }
 
     // Free-tier file-size cap (Plus + Pro have higher caps managed
     // server-side; PR D's spec keeps the legacy 10 MB cap for free).

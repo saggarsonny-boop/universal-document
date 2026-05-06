@@ -7,7 +7,9 @@
     "uploadAria": "حمّل ملفًا للتحويل",
     "dropHere": "أسقط ملفك هنا",
     "tapToBrowse": "أو اضغط للاستعراض",
-    "sizeAndChangeTemplate": "{{size}} · اضغط لتغيير"
+    "sizeAndChangeTemplate": "{{size}} · اضغط لتغيير",
+    "tooLargeTemplate": "الملفات التي تزيد عن {{maxMb}} ميجابايت غير مدعومة حاليًا في المستوى المجاني. نحن نعمل على تحميل مباشر للملفات الأكبر.",
+    "maxSizeNote": "المستوى المجاني: حتى {{maxMb}} ميجابايت لكل ملف"
   },
   "formats": {
     "fromLabel": "من",

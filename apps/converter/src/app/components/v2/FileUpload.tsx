@@ -11,6 +11,16 @@ import { useStrings } from '@/lib/strings'
 const GOLD = '#D4AF37'
 const GOLD_DIM = '#8a6f1f'
 
+// Pre-flight upload size cap. Vercel Hobby plan rejects request bodies
+// larger than ~4.5 MB at the edge proxy *before* the function runs, so
+// the in-app `MAX_FREE_BYTES = 10 MB` check inside /api/convert is
+// unreachable for files above the edge limit. Gate at 4 MB client-side
+// (with a small margin under 4.5) so the user gets an honest message
+// at file-pick time instead of the generic "Could not process this
+// file" toast that the edge 413 produces.
+export const MAX_PREFLIGHT_BYTES = 4 * 1024 * 1024
+export const MAX_PREFLIGHT_MB = 4
+
 type Props = {
   onFileSelected: (file: File) => void
   selectedFile: File | null
@@ -27,23 +37,34 @@ export function FileUpload({ onFileSelected, selectedFile, disabled = false }: P
   const s = useStrings()
   const inputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [tooLargeMsg, setTooLargeMsg] = useState<string | null>(null)
+
+  const handleFile = useCallback((file: File) => {
+    if (file.size > MAX_PREFLIGHT_BYTES) {
+      setTooLargeMsg(s.fileUpload.tooLargeTemplate.replace('{{maxMb}}', String(MAX_PREFLIGHT_MB)))
+      return
+    }
+    setTooLargeMsg(null)
+    onFileSelected(file)
+  }, [onFileSelected, s])
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
     setIsDragging(false)
     if (disabled) return
     const file = e.dataTransfer.files[0]
-    if (file) onFileSelected(file)
-  }, [onFileSelected, disabled])
+    if (file) handleFile(file)
+  }, [handleFile, disabled])
 
   const onPick = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     e.target.value = ''
-    if (file) onFileSelected(file)
-  }, [onFileSelected])
+    if (file) handleFile(file)
+  }, [handleFile])
 
   return (
-    <div
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div
       onDrop={onDrop}
       onDragOver={(e) => { e.preventDefault(); if (!disabled) setIsDragging(true) }}
       onDragLeave={() => setIsDragging(false)}
@@ -104,6 +125,32 @@ export function FileUpload({ onFileSelected, selectedFile, disabled = false }: P
       />
       {/* GOLD_DIM is referenced for the focus-ring style hook; suppress unused-import warning. */}
       <span style={{ display: 'none' }} aria-hidden="true">{GOLD_DIM}</span>
+      </div>
+      {tooLargeMsg ? (
+        <p role="alert" style={tooLargeStyle}>{tooLargeMsg}</p>
+      ) : (
+        <p style={maxSizeNoteStyle}>
+          {s.fileUpload.maxSizeNote.replace('{{maxMb}}', String(MAX_PREFLIGHT_MB))}
+        </p>
+      )}
     </div>
   )
+}
+
+const tooLargeStyle: React.CSSProperties = {
+  margin: 0,
+  padding: '8px 12px',
+  fontSize: 13,
+  lineHeight: 1.45,
+  color: '#7a2a2a',
+  background: 'rgba(176, 50, 50, 0.08)',
+  border: '1px solid rgba(176, 50, 50, 0.25)',
+  borderRadius: 8,
+}
+
+const maxSizeNoteStyle: React.CSSProperties = {
+  margin: 0,
+  fontSize: 12,
+  color: 'var(--ud-muted)',
+  textAlign: 'center',
 }

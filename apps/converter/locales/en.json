@@ -7,7 +7,9 @@
     "uploadAria": "Upload a file to convert",
     "dropHere": "Drop your file here",
     "tapToBrowse": "or tap to browse",
-    "sizeAndChangeTemplate": "{{size}} · click to change"
+    "sizeAndChangeTemplate": "{{size}} · click to change",
+    "tooLargeTemplate": "Files over {{maxMb}} MB aren't supported on free tier yet. We're working on direct upload for larger files.",
+    "maxSizeNote": "Free tier: up to {{maxMb}} MB per file"
   },
   "formats": {
     "fromLabel": "From",
