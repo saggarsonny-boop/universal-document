@@ -18,10 +18,6 @@ type Props = {
   onConvertAnother: () => void
 }
 
-// Module-level fallback for the unrefactored ShareSection sub-component
-// (see follow-up issue: TierIndicator + PaywallModal + ShareSection still on
-// hardcoded English in this partial PR).
-const SHARE_TEXT = 'I just used UD Converter to convert a file. No accounts, no tracking, free forever — try it.'
 const SHARE_URL = 'https://converter.hive.baby'
 
 // Tagline copy for the related-engines cards. The tagline strings are
@@ -110,21 +106,24 @@ export function SharePage({ outputName, outputFormatLabel, warnings, onDownload,
 }
 
 function ShareSection() {
+  const s = useStrings()
   const [copied, setCopied] = useState(false)
+
+  const shareText = s.share.shareText
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(`${SHARE_TEXT} ${SHARE_URL}`)
+      await navigator.clipboard.writeText(`${shareText} ${SHARE_URL}`)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 2200)
     } catch {
-      window.prompt('Copy this link:', SHARE_URL)
+      window.prompt(s.share.copyPrompt, SHARE_URL)
     }
   }
 
-  const tweetUrl  = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`
-  const emailUrl  = `mailto:?subject=${encodeURIComponent('Try UD Converter')}&body=${encodeURIComponent(`${SHARE_TEXT}\n\n${SHARE_URL}`)}`
-  const waUrl     = `https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${SHARE_URL}`)}`
+  const tweetUrl  = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(SHARE_URL)}`
+  const emailUrl  = `mailto:?subject=${encodeURIComponent(s.share.emailSubject)}&body=${encodeURIComponent(`${shareText}\n\n${SHARE_URL}`)}`
+  const waUrl     = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${SHARE_URL}`)}`
 
   return (
     <div style={{
@@ -134,23 +133,23 @@ function ShareSection() {
       background: '#fff',
     }}>
       <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', margin: 0, marginBottom: 4 }}>
-        Tell a friend about UD Converter
+        {s.share.headline}
       </p>
       <p style={{ fontSize: 12, color: 'var(--ud-muted)', margin: 0, marginBottom: 12 }}>
-        Free, no signup, works in any browser.
+        {s.share.subhead}
       </p>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        <button onClick={copyLink} style={shareButtonStyle} aria-label="Copy link to UD Converter">
-          {copied ? '✓ Link copied' : '🔗 Copy link'}
+        <button onClick={copyLink} style={shareButtonStyle} aria-label={s.share.copyAria}>
+          {copied ? s.share.linkCopied : s.share.copyLink}
         </button>
-        <a href={tweetUrl} target="_blank" rel="noopener noreferrer" style={shareLinkStyle} aria-label="Share on Twitter">
-          🐦 Twitter
+        <a href={tweetUrl} target="_blank" rel="noopener noreferrer" style={shareLinkStyle} aria-label={s.share.twitterAria}>
+          {s.share.twitter}
         </a>
-        <a href={emailUrl} style={shareLinkStyle} aria-label="Share by email">
-          ✉️ Email
+        <a href={emailUrl} style={shareLinkStyle} aria-label={s.share.emailAria}>
+          {s.share.email}
         </a>
-        <a href={waUrl} target="_blank" rel="noopener noreferrer" style={shareLinkStyle} aria-label="Share on WhatsApp">
-          💬 WhatsApp
+        <a href={waUrl} target="_blank" rel="noopener noreferrer" style={shareLinkStyle} aria-label={s.share.whatsappAria}>
+          {s.share.whatsapp}
         </a>
       </div>
     </div>
@@ -158,6 +157,7 @@ function ShareSection() {
 }
 
 function RelatedEngines() {
+  const s = useStrings()
   return (
     <div style={{
       border: '1px solid var(--ud-border)',
@@ -166,7 +166,7 @@ function RelatedEngines() {
       background: '#fff',
     }}>
       <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', margin: 0, marginBottom: 12 }}>
-        Try these other free Hive engines
+        {s.related.headline}
       </p>
       <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
         {RELATED_ENGINES.map(e => (
@@ -178,7 +178,7 @@ function RelatedEngines() {
       </div>
       <p style={{ fontSize: 12, color: 'var(--ud-muted)', margin: '12px 0 0 0', textAlign: 'center' }}>
         <a href="https://hive.baby" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ud-teal, #0a7a6a)' }}>
-          See all Hive engines →
+          {s.related.seeAll}
         </a>
       </p>
     </div>
