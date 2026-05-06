@@ -22,6 +22,10 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { del } from '@vercel/blob'
+// Side-effect import: DOMMatrix polyfill before pdfjs-dist hits the
+// orchestrator's pdf-text converter. See lib/polyfills/dom-matrix.ts.
+import '@/lib/polyfills/dom-matrix'
+
 import { ensureSchema, logConversionCost, getFreeTierState, recordOperatorAudit } from '@/lib/db'
 import { orchestrate, type UserTier } from '@/lib/orchestrator'
 import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'

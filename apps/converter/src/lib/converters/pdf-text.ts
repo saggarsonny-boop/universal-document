@@ -5,6 +5,13 @@
 // degradation). For PDF → DOCX we render extracted text into HTML
 // paragraphs then run html-to-docx to produce the final .docx binary.
 
+// IMPORTANT: side-effect import installs the DOMMatrix polyfill on
+// globalThis BEFORE pdfjs-dist loads. pdfjs-dist 5.x assumes a browser
+// environment and references DOMMatrix during text extraction; without
+// this polyfill, every getTextContent() call throws "DOMMatrix is not
+// defined" in the Vercel Node runtime.
+import '../polyfills/dom-matrix'
+
 import type { Converter } from './types'
 import { thrownToFailure } from './types'
 
