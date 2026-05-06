@@ -22,7 +22,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { del } from '@vercel/blob'
-import { ensureSchema, logConversionCost, getFreeTierState } from '@/lib/db'
+import { ensureSchema, logConversionCost, getFreeTierState, recordOperatorAudit } from '@/lib/db'
 import { orchestrate, type UserTier } from '@/lib/orchestrator'
 import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
@@ -219,6 +219,16 @@ export async function POST(req: NextRequest) {
 
     if (decision.tier === 'free' && decision.ipHash) {
       void recordFreeConversionFromCheck(decision.ipHash)
+    }
+
+    // Operator audit (direct-to-blob path).
+    if (decision.operator) {
+      void recordOperatorAudit({
+        userIdentity: decision.operator.identity,
+        action: 'conversion',
+        fileSize: buffer.byteLength,
+        fileType: outputFormat,
+      })
     }
 
     const baseName = fileName.replace(/\.[^.]+$/, '')

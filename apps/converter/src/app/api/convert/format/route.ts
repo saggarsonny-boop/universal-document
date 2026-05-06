@@ -12,7 +12,7 @@
 // degrade to Free behaviour from this endpoint's perspective.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { ensureSchema, logConversionCost, getFreeTierState } from '@/lib/db'
+import { ensureSchema, logConversionCost, getFreeTierState, recordOperatorAudit } from '@/lib/db'
 import { orchestrate, type UserTier } from '@/lib/orchestrator'
 import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
@@ -168,6 +168,18 @@ export async function POST(req: NextRequest) {
     // their cookies/keys aren't tied to the IP-hash counter).
     if (decision.tier === 'free' && decision.ipHash) {
       void recordFreeConversionFromCheck(decision.ipHash)
+    }
+
+    // Operator audit. Operator requests are reported as tier='pro' by
+    // checkRateLimit so downstream gates pass; the .operator field
+    // carries the identity for audit logging here.
+    if (decision.operator) {
+      void recordOperatorAudit({
+        userIdentity: decision.operator.identity,
+        action: 'conversion',
+        fileSize: file.size,
+        fileType: outputFormat,
+      })
     }
 
     const baseName = file.name.replace(/\.[^.]+$/, '')

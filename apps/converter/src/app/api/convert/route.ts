@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
-import { ensureSchema, validateApiKey, logCustody, logConversionCost, getFreeTierState } from '@/lib/db'
+import { ensureSchema, validateApiKey, logCustody, logConversionCost, getFreeTierState, recordOperatorAudit } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
 import { ensureRegistrySchema, sealDocument as registrySeal } from '@shared/lib/registry'
@@ -268,6 +268,16 @@ export async function POST(req: NextRequest) {
     // the IP-hash lifetime counter).
     if (decision.tier === 'free' && decision.ipHash) {
       void recordFreeConversionFromCheck(decision.ipHash)
+    }
+
+    // Operator audit (legacy /api/convert path).
+    if (decision.operator) {
+      void recordOperatorAudit({
+        userIdentity: decision.operator.identity,
+        action: 'conversion',
+        fileSize: file.size,
+        fileType: 'uds',
+      })
     }
 
     // Register in provenance registry (fire-and-forget — conversion succeeds regardless)

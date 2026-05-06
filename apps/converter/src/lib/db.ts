@@ -85,6 +85,78 @@ export async function ensureSchema() {
     )
   `
   await sql`CREATE INDEX IF NOT EXISTS conversion_costs_timestamp_idx ON conversion_costs (timestamp DESC)`
+
+  // Operator role audit + one-shot setup-code state. Operator actions
+  // (conversions, admin overrides) are logged here; the setup-code state
+  // table records the digest of the last-used OPERATOR_SETUP_CODE so the
+  // /api/operator/login route can refuse re-use of the same code (Sonny
+  // must rotate the env var to issue a fresh cookie).
+  await sql`
+    CREATE TABLE IF NOT EXISTS converter_operator_audit (
+      id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+      user_identity TEXT NOT NULL,
+      action TEXT NOT NULL,
+      engine_slug TEXT NOT NULL DEFAULT 'ud-converter',
+      file_size BIGINT,
+      file_type TEXT,
+      timestamp TIMESTAMPTZ DEFAULT NOW(),
+      request_id TEXT
+    )
+  `
+  await sql`CREATE INDEX IF NOT EXISTS converter_operator_audit_timestamp_idx ON converter_operator_audit (timestamp DESC)`
+  await sql`
+    CREATE TABLE IF NOT EXISTS converter_operator_setup_code_state (
+      id INTEGER PRIMARY KEY DEFAULT 1,
+      last_used_digest TEXT,
+      last_used_at TIMESTAMPTZ,
+      CONSTRAINT singleton_row CHECK (id = 1)
+    )
+  `
+}
+
+// ─── Operator audit + setup-code state ─────────────────────────────────────
+
+export type OperatorAuditAction = 'conversion' | 'admin' | 'override' | 'login'
+
+export async function recordOperatorAudit(opts: {
+  userIdentity: string
+  action: OperatorAuditAction
+  engineSlug?: string
+  fileSize?: number | null
+  fileType?: string | null
+  requestId?: string | null
+}): Promise<void> {
+  const sql = getDb()
+  await sql`
+    INSERT INTO converter_operator_audit (user_identity, action, engine_slug, file_size, file_type, request_id)
+    VALUES (
+      ${opts.userIdentity},
+      ${opts.action},
+      ${opts.engineSlug ?? 'ud-converter'},
+      ${opts.fileSize ?? null},
+      ${opts.fileType ?? null},
+      ${opts.requestId ?? null}
+    )
+  `.catch((err) => {
+    // Never fail the conversion on an audit-write error; just warn.
+    console.warn('recordOperatorAudit failed (non-fatal):', err)
+  })
+}
+
+export async function getOperatorSetupCodeLastDigest(): Promise<string | null> {
+  const sql = getDb()
+  const rows = await sql`SELECT last_used_digest FROM converter_operator_setup_code_state WHERE id = 1`
+  if (!rows || rows.length === 0) return null
+  return (rows[0] as { last_used_digest: string | null }).last_used_digest ?? null
+}
+
+export async function setOperatorSetupCodeLastDigest(digest: string): Promise<void> {
+  const sql = getDb()
+  await sql`
+    INSERT INTO converter_operator_setup_code_state (id, last_used_digest, last_used_at)
+    VALUES (1, ${digest}, NOW())
+    ON CONFLICT (id) DO UPDATE SET last_used_digest = EXCLUDED.last_used_digest, last_used_at = NOW()
+  `
 }
 
 export function hashIp(ip: string) {
