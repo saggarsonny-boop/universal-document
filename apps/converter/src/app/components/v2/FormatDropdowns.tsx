@@ -12,6 +12,7 @@ import {
   type ClientOutputFormat,
   type FormatMeta,
 } from '@/lib/client-formats'
+import { useStrings } from '@/lib/strings'
 
 // Local narrowing helpers: FormatMeta.code is a wide union (input | output);
 // when iterating INPUT_FORMATS / OUTPUT_FORMATS we know which side we're on.
@@ -42,6 +43,7 @@ export function FormatDropdowns({
   onInputChange, onOutputChange,
   disabled = false,
 }: Props) {
+  const s = useStrings()
   const compatible = compatibleOutputs(inputFormat)
 
   return (
@@ -51,18 +53,18 @@ export function FormatDropdowns({
       flexWrap: 'wrap',
       alignItems: 'flex-end',
     }}>
-      <DropdownColumn label="From" htmlFor="from-select">
+      <DropdownColumn label={s.formats.fromLabel} htmlFor="from-select">
         <select
           id="from-select"
           value={inputFormat}
           onChange={(e) => onInputChange(e.target.value as ClientInputFormat)}
           disabled={disabled}
           style={selectStyle}
-          aria-label="Source format"
+          aria-label={s.formats.fromAria}
         >
           {sortedInputFormats.map(f => (
             <option key={f.code} value={asInputFormat(f)}>
-              {f.label}{f.priority === 0 ? ' (default)' : ''}
+              {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}
             </option>
           ))}
           {/* Always allow 'unknown' — when auto-detect fails, the user can still pick a real format manually */}
@@ -76,14 +78,14 @@ export function FormatDropdowns({
         marginBottom: 6,
       }}>→</div>
 
-      <DropdownColumn label="To" htmlFor="to-select">
+      <DropdownColumn label={s.formats.toLabel} htmlFor="to-select">
         <select
           id="to-select"
           value={outputFormat}
           onChange={(e) => onOutputChange(e.target.value as ClientOutputFormat)}
           disabled={disabled}
           style={selectStyle}
-          aria-label="Target format"
+          aria-label={s.formats.toAria}
         >
           {sortedOutputFormats.map(f => {
             const code = asOutputFormat(f)
@@ -93,9 +95,9 @@ export function FormatDropdowns({
                 key={code}
                 value={code}
                 disabled={!enabled}
-                title={enabled ? undefined : 'Coming soon'}
+                title={enabled ? undefined : s.formats.comingSoonTitle}
               >
-                {f.label}{f.priority === 0 ? ' (default)' : ''}{!enabled ? ' — coming soon' : ''}
+                {f.label}{f.priority === 0 ? s.formats.defaultSuffix : ''}{!enabled ? s.formats.comingSoonSuffix : ''}
               </option>
             )
           })}

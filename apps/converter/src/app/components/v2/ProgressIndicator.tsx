@@ -13,6 +13,7 @@
 // estimate based on file size and page count is acceptable").
 
 import { useEffect, useState } from 'react'
+import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
 const GOLD_DIM = '#8a6f1f'
@@ -23,6 +24,7 @@ type Props = {
 }
 
 export function ProgressIndicator({ fileName, fileSizeBytes }: Props) {
+  const s = useStrings()
   const [elapsed, setElapsed] = useState(0)
 
   useEffect(() => {
@@ -55,20 +57,20 @@ export function ProgressIndicator({ fileName, fileSizeBytes }: Props) {
     }} role="status" aria-live="polite">
       <Spinner />
       <p style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 500, margin: 0, wordBreak: 'break-all' }}>
-        Converting {fileName}…
+        {s.progress.convertingTemplate.replace('{{fileName}}', fileName)}
       </p>
 
       {elapsed < 3 ? (
         <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0 }}>
-          {elapsed}s elapsed
+          {s.progress.elapsedTemplate.replace('{{seconds}}', String(elapsed))}
         </p>
       ) : elapsed < 10 ? (
         <>
           <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0 }}>
-            Processing page {fakedPageNow} of {fakedPagesTotal}…
+            {s.progress.pageProgressTemplate.replace('{{now}}', String(fakedPageNow)).replace('{{total}}', String(fakedPagesTotal))}
           </p>
           <p style={{ fontSize: 12, color: 'var(--ud-muted)', margin: 0 }}>
-            {percent}% · {elapsed}s elapsed
+            {s.progress.percentElapsedTemplate.replace('{{percent}}', String(percent)).replace('{{seconds}}', String(elapsed))}
           </p>
         </>
       ) : (
@@ -99,6 +101,7 @@ function Spinner() {
 // the percent value, with a thin gold border + dim-gold scale ticks.
 // Width-responsive — scales to container.
 function Gauge({ percent, elapsed, estimatedTotal }: { percent: number; elapsed: number; estimatedTotal: number }) {
+  const s = useStrings()
   return (
     <div style={{ width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 6 }}>
       <div style={{
@@ -108,7 +111,7 @@ function Gauge({ percent, elapsed, estimatedTotal }: { percent: number; elapsed:
         border: `1px solid ${GOLD_DIM}`,
         borderRadius: 6,
         overflow: 'hidden',
-      }} aria-label={`Conversion progress: ${percent} percent`}>
+      }} aria-label={s.progress.gaugeProgressAria.replace('{{percent}}', String(percent))}>
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -129,10 +132,13 @@ function Gauge({ percent, elapsed, estimatedTotal }: { percent: number; elapsed:
         ))}
       </div>
       <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0, textAlign: 'center' }}>
-        {percent}% · {elapsed}s of ~{estimatedTotal}s
+        {s.progress.gaugePercentTemplate
+          .replace('{{percent}}', String(percent))
+          .replace('{{seconds}}', String(elapsed))
+          .replace('{{total}}', String(estimatedTotal))}
       </p>
       <p style={{ fontSize: 12, color: 'var(--ud-muted)', margin: 0, textAlign: 'center', fontStyle: 'italic' }}>
-        Large files take longer. Hang on.
+        {s.progress.gaugeWaitNote}
       </p>
     </div>
   )

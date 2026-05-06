@@ -1,0 +1,101 @@
+{
+  "header": {
+    "title": "कुछ भी परिवर्तित करें",
+    "subtitle": "PDF, DOCX, CSV, JSON, XLSX, छवियां, और बहुत कुछ। निःशुल्क, कोई साइन अप नहीं, आपकी फ़ाइल कभी अनुरोध जीवनचक्र से बाहर नहीं जाती।"
+  },
+  "fileUpload": {
+    "uploadAria": "परिवर्तित करने के लिए एक फ़ाइल अपलोड करें",
+    "dropHere": "अपनी फ़ाइल यहां ड्रॉप करें",
+    "tapToBrowse": "या ब्राउज़ करने के लिए टैप करें",
+    "sizeAndChangeTemplate": "{{size}} · बदलने के लिए क्लिक करें"
+  },
+  "formats": {
+    "fromLabel": "से",
+    "toLabel": "को",
+    "fromAria": "स्रोत प्रारूप",
+    "toAria": "लक्ष्य प्रारूप",
+    "defaultSuffix": " (डिफ़ॉल्ट)",
+    "comingSoonSuffix": " — जल्द आ रहा है",
+    "comingSoonTitle": "जल्द आ रहा है"
+  },
+  "convertButton": {
+    "selectFirst": "पहले एक फ़ाइल चुनें",
+    "comingSoonTemplate": "{{from}} → {{to}} — जल्द आ रहा है",
+    "comingSoonAriaTemplate": "{{from}} → {{to}} अभी तक समर्थित नहीं है — दूसरा लक्ष्य प्रारूप चुनें",
+    "convertToTemplate": "{{format}} में परिवर्तित करें",
+    "convertAriaTemplate": "{{from}} को {{to}} में परिवर्तित करें"
+  },
+  "errors": {
+    "generic": "इस फ़ाइल को संसाधित नहीं किया जा सका।",
+    "limitReached": "निःशुल्क स्तर की सीमा पहुंच गई।",
+    "network": "परिवर्तक तक नहीं पहुंचा जा सका।",
+    "tryAgain": "फिर से कोशिश करें"
+  },
+  "progress": {
+    "convertingTemplate": "{{fileName}} को परिवर्तित किया जा रहा है…",
+    "elapsedTemplate": "{{seconds}}s बीत गया",
+    "pageProgressTemplate": "पृष्ठ {{now}} से {{total}} को संसाधित किया जा रहा है…",
+    "percentElapsedTemplate": "{{percent}}% · {{seconds}}s बीत गया",
+    "gaugeProgressAria": "रूपांतरण प्रगति: {{percent}} प्रतिशत",
+    "gaugePercentTemplate": "{{percent}}% · {{seconds}}s लगभग {{total}}s का",
+    "gaugeWaitNote": "बड़ी फ़ाइलें अधिक समय लेती हैं। धीरज रखें।"
+  },
+  "success": {
+    "fileReadyTemplate": "आपकी {{format}} फ़ाइल तैयार है",
+    "downloadAgain": "फिर से डाउनलोड करें",
+    "downloadAriaTemplate": "{{name}} डाउनलोड करें",
+    "convertAnother": "दूसरा परिवर्तित करें",
+    "convertAnotherAria": "दूसरी फ़ाइल परिवर्तित करें",
+    "warningsHeadlineSingular": "इस रूपांतरण के बारे में 1 नोट:",
+    "warningsHeadlinePluralTemplate": "इस रूपांतरण के बारे में {{n}} नोट्स:",
+    "bookmarkTipPrefix": "सुझाव: बुकमार्क करें",
+    "bookmarkTipDomain": "converter.hive.baby",
+    "bookmarkTipSuffix": "अगली बार के लिए।"
+  },
+  "share": {
+    "headline": "UD Converter के बारे में एक दोस्त को बताएं",
+    "subhead": "निःशुल्क, कोई साइन अप नहीं, किसी भी ब्राउज़र में काम करता है।",
+    "copyLink": "🔗 लिंक कॉपी करें",
+    "linkCopied": "✓ लिंक कॉपी किया गया",
+    "copyAria": "UD Converter के लिए लिंक कॉपी करें",
+    "twitter": "🐦 Twitter",
+    "twitterAria": "Twitter पर साझा करें",
+    "email": "✉️ ईमेल",
+    "emailAria": "ईमेल के माध्यम से साझा करें",
+    "whatsapp": "💬 WhatsApp",
+    "whatsappAria": "WhatsApp पर साझा करें",
+    "emailSubject": "UD Converter आज़माएं",
+    "shareText": "मैंने अभी UD Converter का उपयोग करके एक फ़ाइल परिवर्तित की। कोई खाता नहीं, कोई ट्रैकिंग नहीं, हमेशा निःशुल्क — इसे आज़माएं।",
+    "copyPrompt": "यह लिंक कॉपी करें:"
+  },
+  "related": {
+    "headline": "ये अन्य निःशुल्क Hive इंजन आज़माएं",
+    "seeAll": "सभी Hive इंजन देखें →"
+  },
+  "tier": {
+    "checking": "आपके स्तर की जांच की जा रही है…",
+    "proLabel": "Pro",
+    "proBody": "असीमित रूपांतरण + बैच + API",
+    "plusLabel": "Plus",
+    "plusBody": "असीमित एकल-फ़ाइल रूपांतरण",
+    "freeLabel": "निःशुल्क स्तर",
+    "freeRemainingTemplate": "आज {{remaining}} से {{limit}} रूपांतरण शेष हैं",
+    "upgradeCta": "अपग्रेड करें — $0.97/माह से शुरू",
+    "upgradeAria": "मूल्य निर्धारण देखें — UD Converter Plus या Pro में अपग्रेड करें"
+  },
+  "paywall": {
+    "ariaLabel": "निःशुल्क स्तर की सीमा पहुंच गई",
+    "title": "निःशुल्क स्तर की सीमा पहुंच गई",
+    "bodyUsedTemplateSingular": "आपने अपना {{used}} निःशुल्क रूपांतरण उपयोग किया है (सीमा: {{limit}})।",
+    "bodyUsedTemplatePlural": "आपने अपने {{used}} निःशुल्क रूपांतरण उपयोग किए हैं (सीमा: {{limit}})।",
+    "bodyFallback": "आपने अभी के लिए अपने निःशुल्क रूपांतरण उपयोग कर लिए हैं।",
+    "bodySuffix": "रूपांतरण जारी रखने के लिए, अपग्रेड करें।",
+    "plusTitle": "Plus — $0.97/माह",
+    "plusBody": "असीमित रूपांतरण, 25 MB / 100 पृष्ठ तक",
+    "plusAria": "$0.97/माह के लिए UD Converter Plus में अपग्रेड करें",
+    "proTitle": "Pro — $29/माह",
+    "proBody": "Plus, साथ ही बैच ZIP, API एक्सेस, chain of custody, 50 MB",
+    "proAria": "$29/माह के लिए UD Converter Pro में अपग्रेड करें",
+    "dismiss": "शायद बाद में"
+  }
+}

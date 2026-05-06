@@ -1,0 +1,101 @@
+{
+  "header": {
+    "title": "转换任何文件",
+    "subtitle": "PDF、DOCX、CSV、JSON、XLSX、图像等。免费、无需注册、文件不会离开请求周期。"
+  },
+  "fileUpload": {
+    "uploadAria": "上传要转换的文件",
+    "dropHere": "将文件拖到此处",
+    "tapToBrowse": "或点击浏览",
+    "sizeAndChangeTemplate": "{{size}} · 点击更改"
+  },
+  "formats": {
+    "fromLabel": "来自",
+    "toLabel": "转换到",
+    "fromAria": "源格式",
+    "toAria": "目标格式",
+    "defaultSuffix": "（默认）",
+    "comingSoonSuffix": "— 即将推出",
+    "comingSoonTitle": "即将推出"
+  },
+  "convertButton": {
+    "selectFirst": "请先选择文件",
+    "comingSoonTemplate": "{{from}} → {{to}} — 即将推出",
+    "comingSoonAriaTemplate": "{{from}} → {{to}} 尚不支持 — 选择其他目标格式",
+    "convertToTemplate": "转换为 {{format}}",
+    "convertAriaTemplate": "将 {{from}} 转换为 {{to}}"
+  },
+  "errors": {
+    "generic": "无法处理此文件。",
+    "limitReached": "免费额度已达上限。",
+    "network": "无法连接到转换器。",
+    "tryAgain": "重试"
+  },
+  "progress": {
+    "convertingTemplate": "正在转换 {{fileName}}…",
+    "elapsedTemplate": "已用时 {{seconds}}s",
+    "pageProgressTemplate": "正在处理第 {{now}} 页，共 {{total}} 页…",
+    "percentElapsedTemplate": "{{percent}}% · 已用时 {{seconds}}s",
+    "gaugeProgressAria": "转换进度：{{percent}} 百分比",
+    "gaugePercentTemplate": "{{percent}}% · {{seconds}}s，共约 {{total}}s",
+    "gaugeWaitNote": "大文件需要更长时间。请稍候。"
+  },
+  "success": {
+    "fileReadyTemplate": "您的 {{format}} 文件已准备好",
+    "downloadAgain": "重新下载",
+    "downloadAriaTemplate": "下载 {{name}}",
+    "convertAnother": "转换另一个文件",
+    "convertAnotherAria": "转换另一个文件",
+    "warningsHeadlineSingular": "关于此转换的 1 条注意事项：",
+    "warningsHeadlinePluralTemplate": "关于此转换的 {{n}} 条注意事项：",
+    "bookmarkTipPrefix": "提示：将",
+    "bookmarkTipDomain": "converter.hive.baby",
+    "bookmarkTipSuffix": "添加到主屏幕以便下次使用。"
+  },
+  "share": {
+    "headline": "向朋友介绍 UD Converter",
+    "subhead": "免费、无需注册、在任何浏览器中使用。",
+    "copyLink": "🔗 复制链接",
+    "linkCopied": "✓ 链接已复制",
+    "copyAria": "复制 UD Converter 链接",
+    "twitter": "🐦 Twitter",
+    "twitterAria": "在 Twitter 上分享",
+    "email": "✉️ 电子邮件",
+    "emailAria": "通过电子邮件分享",
+    "whatsapp": "💬 WhatsApp",
+    "whatsappAria": "在 WhatsApp 上分享",
+    "emailSubject": "试试 UD Converter",
+    "shareText": "我刚刚使用 UD Converter 转换了一个文件。无账户、无追踪、永久免费 — 试试吧。",
+    "copyPrompt": "复制此链接："
+  },
+  "related": {
+    "headline": "试试这些其他免费 Hive 引擎",
+    "seeAll": "查看所有 Hive 引擎 →"
+  },
+  "tier": {
+    "checking": "检查您的套餐…",
+    "proLabel": "Pro",
+    "proBody": "无限转换 + 批量 + API",
+    "plusLabel": "Plus",
+    "plusBody": "无限单文件转换",
+    "freeLabel": "免费套餐",
+    "freeRemainingTemplate": "今天剩余 {{remaining}}/{{limit}} 次转换",
+    "upgradeCta": "升级 — 仅需 $0.97/月",
+    "upgradeAria": "查看价格 — 升级到 UD Converter Plus 或 Pro"
+  },
+  "paywall": {
+    "ariaLabel": "免费额度已达上限",
+    "title": "免费额度已达上限",
+    "bodyUsedTemplateSingular": "您已使用 {{used}} 次免费转换（限制：{{limit}}）。",
+    "bodyUsedTemplatePlural": "您已使用 {{used}} 次免费转换（限制：{{limit}}）。",
+    "bodyFallback": "您目前已使用完免费转换次数。",
+    "bodySuffix": "要继续转换，请升级。",
+    "plusTitle": "Plus — $0.97/月",
+    "plusBody": "无限转换，最大 25 MB / 100 页",
+    "plusAria": "升级到 UD Converter Plus，每月 $0.97",
+    "proTitle": "Pro — $29/月",
+    "proBody": "Plus 的全部功能，加上批量 ZIP、API 访问、监管链、50 MB",
+    "proAria": "升级到 UD Converter Pro，每月 $29",
+    "dismiss": "稍后再说"
+  }
+}

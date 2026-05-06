@@ -37,6 +37,7 @@ import {
   type ClientInputFormat,
   type ClientOutputFormat,
 } from '@/lib/client-formats'
+import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
 
@@ -62,6 +63,7 @@ type ServerErrorBody = {
 }
 
 export default function ConverterPage() {
+  const s = useStrings()
   const [file, setFile] = useState<File | null>(null)
   const [inputFormat, setInputFormat] = useState<ClientInputFormat>('pdf')
   const [outputFormat, setOutputFormat] = useState<ClientOutputFormat>('uds')
@@ -129,7 +131,7 @@ export default function ConverterPage() {
           // Show the paywall modal instead of just an error toast.
           setShowPaywall(true)
           setError({
-            message: serverMessage ?? 'Free tier limit reached.',
+            message: serverMessage ?? s.errors.limitReached,
             recoverable: false,
             upgrade: true,
             used: data.used,
@@ -139,7 +141,7 @@ export default function ConverterPage() {
           return
         }
         setError({
-          message: serverMessage ?? 'Could not process this file.',
+          message: serverMessage ?? s.errors.generic,
           recoverable: data.recoverable ?? true,
         })
         setState('error')
@@ -180,7 +182,7 @@ export default function ConverterPage() {
       setState('done')
     } catch (e) {
       setError({
-        message: e instanceof Error ? e.message : 'Could not reach the converter.',
+        message: e instanceof Error ? e.message : s.errors.network,
         recoverable: true,
       })
       setState('error')
@@ -206,10 +208,10 @@ export default function ConverterPage() {
       {/* Header */}
       <header style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 4 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--ud-ink)', margin: 0, letterSpacing: '-0.02em' }}>
-          Convert anything
+          {s.header.title}
         </h1>
         <p style={{ fontSize: 14, color: 'var(--ud-muted)', margin: 0, lineHeight: 1.5 }}>
-          PDF, DOCX, CSV, JSON, XLSX, images, and more. Free, no signup, your file never leaves the request lifecycle.
+          {s.header.subtitle}
         </p>
       </header>
 
@@ -260,17 +262,17 @@ export default function ConverterPage() {
             }}
             aria-label={
               !file
-                ? 'Select a file first'
+                ? s.convertButton.selectFirst
                 : !pairSupported
-                  ? `${inputFormat} → ${outputFormat} not yet supported — pick another target format`
-                  : `Convert ${inputFormat} to ${outputFormat}`
+                  ? s.convertButton.comingSoonAriaTemplate.replace('{{from}}', inputFormat).replace('{{to}}', outputFormat)
+                  : s.convertButton.convertAriaTemplate.replace('{{from}}', inputFormat).replace('{{to}}', outputFormat)
             }
           >
             {!file
-              ? 'Select a file first'
+              ? s.convertButton.selectFirst
               : !pairSupported
-                ? `${inputFormat.toUpperCase()} → ${outputFormat.toUpperCase()} — coming soon`
-                : `Convert to ${outputFormat.toUpperCase()}`}
+                ? s.convertButton.comingSoonTemplate.replace('{{from}}', inputFormat.toUpperCase()).replace('{{to}}', outputFormat.toUpperCase())
+                : s.convertButton.convertToTemplate.replace('{{format}}', outputFormat.toUpperCase())}
           </button>
 
           {state === 'error' && error && (
@@ -297,7 +299,7 @@ export default function ConverterPage() {
                     padding: 0,
                   }}
                 >
-                  Try again
+                  {s.errors.tryAgain}
                 </button>
               )}
             </div>

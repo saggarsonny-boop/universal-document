@@ -6,6 +6,7 @@
 // HiveAHTSPrompt from packages/hive-onboarding.
 
 import { useState } from 'react'
+import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
 
@@ -17,16 +18,24 @@ type Props = {
   onConvertAnother: () => void
 }
 
+// Module-level fallback for the unrefactored ShareSection sub-component
+// (see follow-up issue: TierIndicator + PaywallModal + ShareSection still on
+// hardcoded English in this partial PR).
 const SHARE_TEXT = 'I just used UD Converter to convert a file. No accounts, no tracking, free forever — try it.'
 const SHARE_URL = 'https://converter.hive.baby'
 
+// Tagline copy for the related-engines cards. The tagline strings are
+// brand voice owned by each engine; keep them English here (each engine
+// is responsible for localizing its own tagline if surfaced from its
+// own UI). Only the section header is localized.
 const RELATED_ENGINES = [
-  { name: 'ParkBack',          tagline: 'Find your car. No accounts. No cloud.', url: 'https://parkback.hive.baby' },
-  { name: 'HiveAestheticBestie', tagline: 'AI styling, no signup.',               url: 'https://hiveaestheticbestie.hive.baby' },
-  { name: 'HiveMicroRitual',   tagline: 'Tiny rituals, daily.',                  url: 'https://hivemicroritual.hive.baby' },
+  { name: 'ParkBack',            tagline: 'Find your car. No accounts. No cloud.', url: 'https://parkback.hive.baby' },
+  { name: 'HiveAestheticBestie', tagline: 'AI styling, no signup.',                url: 'https://hiveaestheticbestie.hive.baby' },
+  { name: 'HiveMicroRitual',     tagline: 'Tiny rituals, daily.',                  url: 'https://hivemicroritual.hive.baby' },
 ]
 
 export function SharePage({ outputName, outputFormatLabel, warnings, onDownload, onConvertAnother }: Props) {
+  const s = useStrings()
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Download card — the thing they came for */}
@@ -39,7 +48,7 @@ export function SharePage({ outputName, outputFormatLabel, warnings, onDownload,
       }}>
         <div style={{ fontSize: 36, marginBottom: 12 }}>✓</div>
         <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ud-teal, #0a7a6a)', margin: 0, marginBottom: 6 }}>
-          Your {outputFormatLabel} file is ready
+          {s.success.fileReadyTemplate.replace('{{format}}', outputFormatLabel)}
         </p>
         <p style={{ fontSize: 14, color: 'var(--ud-muted)', margin: 0, marginBottom: 18, wordBreak: 'break-all' }}>
           {outputName}
@@ -47,16 +56,16 @@ export function SharePage({ outputName, outputFormatLabel, warnings, onDownload,
         <button
           onClick={onDownload}
           style={primaryButtonStyle}
-          aria-label={`Download ${outputName}`}
+          aria-label={s.success.downloadAriaTemplate.replace('{{name}}', outputName)}
         >
-          Download again
+          {s.success.downloadAgain}
         </button>
         <button
           onClick={onConvertAnother}
           style={{ ...secondaryButtonStyle, marginLeft: 10 }}
-          aria-label="Convert another file"
+          aria-label={s.success.convertAnotherAria}
         >
-          Convert another
+          {s.success.convertAnother}
         </button>
       </div>
 
@@ -68,7 +77,9 @@ export function SharePage({ outputName, outputFormatLabel, warnings, onDownload,
           padding: '12px 14px',
         }}>
           <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', margin: 0, marginBottom: 6 }}>
-            {warnings.length === 1 ? '1 note about this conversion:' : `${warnings.length} notes about this conversion:`}
+            {warnings.length === 1
+              ? s.success.warningsHeadlineSingular
+              : s.success.warningsHeadlinePluralTemplate.replace('{{n}}', String(warnings.length))}
           </p>
           <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--ud-muted)', lineHeight: 1.5 }}>
             {warnings.map((w, i) => <li key={i} style={{ marginBottom: 3 }}>{w}</li>)}
@@ -91,7 +102,7 @@ export function SharePage({ outputName, outputFormatLabel, warnings, onDownload,
         border: '1px solid var(--ud-border)',
       }}>
         <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0 }}>
-          Tip: bookmark <strong style={{ color: 'var(--ud-ink)' }}>converter.hive.baby</strong> for next time.
+          {s.success.bookmarkTipPrefix} <strong style={{ color: 'var(--ud-ink)' }}>{s.success.bookmarkTipDomain}</strong> {s.success.bookmarkTipSuffix}
         </p>
       </div>
     </div>

@@ -1,0 +1,101 @@
+{
+  "header": {
+    "title": "تحويل أي شيء",
+    "subtitle": "PDF و DOCX و CSV و JSON و XLSX والصور والمزيد. مجاني وبدون تسجيل، وملفك لا يغادر دورة الطلب."
+  },
+  "fileUpload": {
+    "uploadAria": "حمّل ملفًا للتحويل",
+    "dropHere": "أسقط ملفك هنا",
+    "tapToBrowse": "أو اضغط للاستعراض",
+    "sizeAndChangeTemplate": "{{size}} · اضغط لتغيير"
+  },
+  "formats": {
+    "fromLabel": "من",
+    "toLabel": "إلى",
+    "fromAria": "صيغة المصدر",
+    "toAria": "صيغة الهدف",
+    "defaultSuffix": " (الافتراضي)",
+    "comingSoonSuffix": " — قريبًا",
+    "comingSoonTitle": "قريبًا"
+  },
+  "convertButton": {
+    "selectFirst": "اختر ملفًا أولاً",
+    "comingSoonTemplate": "{{from}} → {{to}} — قريبًا",
+    "comingSoonAriaTemplate": "{{from}} → {{to}} غير مدعوم حتى الآن — اختر صيغة هدف أخرى",
+    "convertToTemplate": "تحويل إلى {{format}}",
+    "convertAriaTemplate": "تحويل {{from}} إلى {{to}}"
+  },
+  "errors": {
+    "generic": "لم يتمكن من معالجة هذا الملف.",
+    "limitReached": "تم الوصول إلى حد المستوى المجاني.",
+    "network": "لم يتمكن من الوصول إلى المحول.",
+    "tryAgain": "حاول مرة أخرى"
+  },
+  "progress": {
+    "convertingTemplate": "جاري تحويل {{fileName}}…",
+    "elapsedTemplate": "{{seconds}}s مضت",
+    "pageProgressTemplate": "جاري معالجة الصفحة {{now}} من {{total}}…",
+    "percentElapsedTemplate": "{{percent}}% · {{seconds}}s مضت",
+    "gaugeProgressAria": "تقدم التحويل: {{percent}} في المائة",
+    "gaugePercentTemplate": "{{percent}}% · {{seconds}}s من ~{{total}}s",
+    "gaugeWaitNote": "الملفات الكبيرة تستغرق وقتًا أطول. استمر."
+  },
+  "success": {
+    "fileReadyTemplate": "ملف {{format}} جاهز",
+    "downloadAgain": "تحميل مرة أخرى",
+    "downloadAriaTemplate": "تحميل {{name}}",
+    "convertAnother": "تحويل ملف آخر",
+    "convertAnotherAria": "تحويل ملف آخر",
+    "warningsHeadlineSingular": "ملاحظة واحدة حول هذا التحويل:",
+    "warningsHeadlinePluralTemplate": "{{n}} ملاحظات حول هذا التحويل:",
+    "bookmarkTipPrefix": "نصيحة: أضف إلى الإشارات المرجعية",
+    "bookmarkTipDomain": "converter.hive.baby",
+    "bookmarkTipSuffix": "للمرة القادمة."
+  },
+  "share": {
+    "headline": "أخبر صديقًا عن UD Converter",
+    "subhead": "مجاني وبدون تسجيل، يعمل في أي متصفح.",
+    "copyLink": "🔗 نسخ الرابط",
+    "linkCopied": "✓ تم نسخ الرابط",
+    "copyAria": "نسخ رابط UD Converter",
+    "twitter": "🐦 Twitter",
+    "twitterAria": "شارك على Twitter",
+    "email": "✉️ البريد الإلكتروني",
+    "emailAria": "شارك عبر البريد الإلكتروني",
+    "whatsapp": "💬 WhatsApp",
+    "whatsappAria": "شارك على WhatsApp",
+    "emailSubject": "جرّب UD Converter",
+    "shareText": "استخدمت للتو UD Converter لتحويل ملف. بدون حسابات وبدون تتبع وممجاني للأبد — جرّبه.",
+    "copyPrompt": "انسخ هذا الرابط:"
+  },
+  "related": {
+    "headline": "جرّب محركات Hive المجانية الأخرى",
+    "seeAll": "اعرض جميع محركات Hive →"
+  },
+  "tier": {
+    "checking": "جاري التحقق من مستواك…",
+    "proLabel": "Pro",
+    "proBody": "تحويلات غير محدودة + دفعات + API",
+    "plusLabel": "Plus",
+    "plusBody": "تحويلات ملف واحد غير محدودة",
+    "freeLabel": "المستوى المجاني",
+    "freeRemainingTemplate": "{{remaining}} من {{limit}} تحويلات متبقية اليوم",
+    "upgradeCta": "ترقية — من $0.97/شهر",
+    "upgradeAria": "عرض الأسعار — ترقية إلى UD Converter Plus أو Pro"
+  },
+  "paywall": {
+    "ariaLabel": "تم الوصول إلى حد المستوى المجاني",
+    "title": "تم الوصول إلى حد المستوى المجاني",
+    "bodyUsedTemplateSingular": "لقد استخدمت تحويل مجاني واحد (الحد الأقصى: {{limit}}).",
+    "bodyUsedTemplatePlural": "لقد استخدمت {{used}} تحويلات مجانية (الحد الأقصى: {{limit}}).",
+    "bodyFallback": "لقد استخدمت تحويلاتك المجانية في الوقت الراهن.",
+    "bodySuffix": "للمتابعة، قم بالترقية.",
+    "plusTitle": "Plus — $0.97/شهر",
+    "plusBody": "تحويلات غير محدودة، حتى 25 MB / 100 صفحة",
+    "plusAria": "ترقية إلى UD Converter Plus مقابل $0.97/شهر",
+    "proTitle": "Pro — $29/شهر",
+    "proBody": "Plus، بالإضافة إلى ZIP للدفعات وحق الوصول إلى API وسلسلة الحفظ، 50 MB",
+    "proAria": "ترقية إلى UD Converter Pro مقابل $29/شهر",
+    "dismiss": "ربما لاحقًا"
+  }
+}
