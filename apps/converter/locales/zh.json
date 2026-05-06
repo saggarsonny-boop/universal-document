@@ -8,8 +8,8 @@
     "dropHere": "将文件拖到此处",
     "tapToBrowse": "或点击浏览",
     "sizeAndChangeTemplate": "{{size}} · 点击更改",
-    "tooLargeTemplate": "超过 {{maxMb}} MB 的文件暂不支持在免费版本上使用。我们正在开发用于大型文件的直接上传功能。",
-    "maxSizeNote": "免费版本：每个文件最多 {{maxMb}} MB"
+    "tooLargeTemplate": "文件超过{{tier}}层级的{{maxMb}} MB 限制。升级以支持更大文件。",
+    "maxSizeNote": "{{tier}}：每个文件最多{{maxMb}} MB"
   },
   "formats": {
     "fromLabel": "来自",
@@ -44,7 +44,8 @@
     "percentElapsedTemplate": "{{percent}}% · 已用时 {{seconds}}s",
     "gaugeProgressAria": "转换进度：{{percent}} 百分比",
     "gaugePercentTemplate": "{{percent}}% · {{seconds}}s，共约 {{total}}s",
-    "gaugeWaitNote": "大文件需要更长时间。请稍候。"
+    "gaugeWaitNote": "大文件需要更长时间。请稍候。",
+    "uploadingTemplate": "上传中 {{percent}}%…"
   },
   "success": {
     "fileReadyTemplate": "您的 {{format}} 文件已准备好",
