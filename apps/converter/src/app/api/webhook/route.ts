@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripe } from '@/lib/stripe'
+import { getStripe, tierForPriceId } from '@/lib/stripe'
 import { ensureSchema, upsertSubscription, updateSubscriptionStatus } from '@/lib/db'
 import Stripe from 'stripe'
 
@@ -27,11 +27,23 @@ export async function POST(req: NextRequest) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
     if (session.mode === 'subscription' && session.customer_email && session.subscription) {
+      // Inspect the subscription to determine tier (Plus vs Pro). The
+      // Checkout Session doesn't include line_items.price.id by default,
+      // so we fetch the subscription explicitly.
+      let tier: 'plus' | 'pro' = 'pro'
+      try {
+        const sub = await getStripe().subscriptions.retrieve(session.subscription as string)
+        const priceId = sub.items?.data?.[0]?.price?.id
+        tier = tierForPriceId(priceId)
+      } catch (err) {
+        console.warn('Could not determine tier from subscription, defaulting to pro:', err)
+      }
       await upsertSubscription({
         email: session.customer_email,
         stripeCustomerId: session.customer as string,
         stripeSubscriptionId: session.subscription as string,
         status: 'active',
+        tier,
       })
     }
   }

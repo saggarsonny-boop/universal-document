@@ -36,6 +36,22 @@ export async function ensureSchema() {
       PRIMARY KEY (ip_hash, day)
     )
   `
+  // PR D: lifetime + most-recent counters (per Sonny's free-tier rule:
+  // block if lifetime >= 3 OR last_at within 24h). Stored on a per-IP
+  // table separate from converter_usage so the existing per-day view
+  // (used by /api/usage telemetry) doesn't get tangled with lifetime
+  // semantics.
+  await sql`
+    CREATE TABLE IF NOT EXISTS converter_free_tier_state (
+      ip_hash TEXT PRIMARY KEY,
+      lifetime_count INTEGER NOT NULL DEFAULT 0,
+      last_conversion_at TIMESTAMPTZ
+    )
+  `
+  // Plus tier — extends converter_subscriptions with a tier column so
+  // the webhook handler can distinguish Pro vs Plus by Stripe price ID.
+  // ADD COLUMN IF NOT EXISTS is idempotent across runs.
+  await sql`ALTER TABLE converter_subscriptions ADD COLUMN IF NOT EXISTS tier TEXT NOT NULL DEFAULT 'pro'`
   await sql`
     CREATE TABLE IF NOT EXISTS converter_custody_log (
       id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
@@ -88,6 +104,47 @@ export async function getFreeUsage(ipHash: string): Promise<number> {
   return rows.length > 0 ? Number((rows[0] as { count: number }).count) : 0
 }
 
+// PR D — lifetime + last-conversion state for the free tier.
+// Returns the row if present, else default zeros.
+export type FreeTierState = {
+  lifetimeCount: number
+  lastConversionAt: Date | null
+}
+
+export async function getFreeTierState(ipHash: string): Promise<FreeTierState> {
+  const sql = getDb()
+  const rows = await sql`
+    SELECT lifetime_count, last_conversion_at
+    FROM converter_free_tier_state
+    WHERE ip_hash = ${ipHash}
+  ` as Array<{ lifetime_count: number; last_conversion_at: string | null }>
+  if (rows.length === 0) return { lifetimeCount: 0, lastConversionAt: null }
+  const r = rows[0]
+  return {
+    lifetimeCount: Number(r.lifetime_count),
+    lastConversionAt: r.last_conversion_at ? new Date(r.last_conversion_at) : null,
+  }
+}
+
+// Atomic increment + record-most-recent. Called AFTER a successful
+// conversion (not on the request — so failed conversions don't burn
+// the free tier counter).
+export async function recordFreeConversion(ipHash: string): Promise<FreeTierState> {
+  const sql = getDb()
+  const rows = await sql`
+    INSERT INTO converter_free_tier_state (ip_hash, lifetime_count, last_conversion_at)
+    VALUES (${ipHash}, 1, NOW())
+    ON CONFLICT (ip_hash) DO UPDATE SET
+      lifetime_count = converter_free_tier_state.lifetime_count + 1,
+      last_conversion_at = NOW()
+    RETURNING lifetime_count, last_conversion_at
+  ` as Array<{ lifetime_count: number; last_conversion_at: string }>
+  return {
+    lifetimeCount: Number(rows[0].lifetime_count),
+    lastConversionAt: new Date(rows[0].last_conversion_at),
+  }
+}
+
 export async function incrementFreeUsage(ipHash: string): Promise<number> {
   const sql = getDb()
   const day = new Date().toISOString().slice(0, 10)
@@ -113,17 +170,48 @@ export async function upsertSubscription(params: {
   stripeCustomerId: string
   stripeSubscriptionId: string
   status: string
+  /** PR D: 'plus' or 'pro'. Defaults to 'pro' so existing $29 subs stay where they are. */
+  tier?: 'plus' | 'pro'
 }) {
   const sql = getDb()
+  const tier = params.tier ?? 'pro'
   await sql`
-    INSERT INTO converter_subscriptions (email, stripe_customer_id, stripe_subscription_id, status)
-    VALUES (${params.email}, ${params.stripeCustomerId}, ${params.stripeSubscriptionId}, ${params.status})
+    INSERT INTO converter_subscriptions (email, stripe_customer_id, stripe_subscription_id, status, tier)
+    VALUES (${params.email}, ${params.stripeCustomerId}, ${params.stripeSubscriptionId}, ${params.status}, ${tier})
     ON CONFLICT (email) DO UPDATE SET
       stripe_customer_id = ${params.stripeCustomerId},
       stripe_subscription_id = ${params.stripeSubscriptionId},
       status = ${params.status},
+      tier = ${tier},
       updated_at = NOW()
   `
+}
+
+// PR D — fetch subscription by email INCLUDING tier. Existing
+// getSubscriptionByEmail returns the row (untyped), but callers want
+// type-safe access to `tier`. This is the typed companion.
+export async function getSubscriptionWithTier(email: string): Promise<{
+  email: string
+  tier: 'plus' | 'pro'
+  active: boolean
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+} | null> {
+  const sql = getDb()
+  const rows = await sql`
+    SELECT email, tier, status, stripe_customer_id, stripe_subscription_id
+    FROM converter_subscriptions WHERE email = ${email}
+  ` as Array<{ email: string; tier: string; status: string; stripe_customer_id: string | null; stripe_subscription_id: string | null }>
+  if (!rows.length) return null
+  const r = rows[0]
+  const tier: 'plus' | 'pro' = r.tier === 'plus' ? 'plus' : 'pro'
+  return {
+    email: r.email,
+    tier,
+    active: r.status === 'active',
+    stripeCustomerId: r.stripe_customer_id,
+    stripeSubscriptionId: r.stripe_subscription_id,
+  }
 }
 
 export async function updateSubscriptionStatus(subscriptionId: string, status: string) {

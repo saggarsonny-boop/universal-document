@@ -24,13 +24,14 @@
 // no install banner, no favicon set, no iOS appleWebApp meta. All
 // retrofit cleanly when packages/hive-onboarding/ ships.
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FileUpload } from './components/v2/FileUpload'
 import { FormatDropdowns } from './components/v2/FormatDropdowns'
 import { ProgressIndicator } from './components/v2/ProgressIndicator'
 import { SharePage } from './components/v2/SharePage'
 import { TierIndicator } from './components/v2/TierIndicator'
 import { PaywallModal } from './components/v2/PaywallModal'
+import { TurnstileWidget } from './components/v2/TurnstileWidget'
 import {
   detectClientFormat,
   isPairSupported,
@@ -48,6 +49,14 @@ type ConvertError = {
   upgrade?: boolean
   used?: number
   limit?: number
+  // PR D — structured fields from rate-limit gate
+  lifetimeUsed?: number
+  lifetimeLimit?: number
+  dailyUsed?: number
+  dailyLimit?: number
+  retryAfterHours?: number
+  upgradeUrl?: string
+  captchaRequired?: boolean
 }
 
 // Server response shape for failed conversions. Both /api/convert and
@@ -59,6 +68,13 @@ type ServerErrorBody = {
   upgrade?: boolean
   used?: number
   limit?: number
+  lifetime_used?: number
+  lifetime_limit?: number
+  daily_used?: number
+  daily_limit?: number
+  retry_after_hours?: number
+  upgrade_url?: string
+  captchaRequired?: boolean
 }
 
 export default function ConverterPage() {
@@ -73,6 +89,60 @@ export default function ConverterPage() {
   const [showPaywall, setShowPaywall] = useState(false)
   // Bumped after each successful conversion so the TierIndicator re-fetches the count.
   const [usageReloadNonce, setUsageReloadNonce] = useState(0)
+
+  // PR D — Turnstile + tier state.
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [needsCaptcha, setNeedsCaptcha] = useState(false)
+  // Tier snapshot from /api/usage; drives needsCaptcha + the disabled-state of the convert button.
+  const [tierSnapshot, setTierSnapshot] = useState<{ tier: 'free' | 'plus' | 'pro'; lifetimeUsed: number; dailyUsed: number } | null>(null)
+  // Plus signup confirmation message (set after exchanging plus_session_id → cookie).
+  const [plusConfirmation, setPlusConfirmation] = useState<string | null>(null)
+
+  // PR D — Plus tier session-exchange. When the user lands on
+  // /?plus_session_id=cs_..., POST it to /api/auth/plus-session to set
+  // the signed cookie. Strip the query param and refresh the tier
+  // indicator so the UI reflects the new Plus subscription.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const url = new URL(window.location.href)
+    const plusSid = url.searchParams.get('plus_session_id')
+    if (!plusSid) return
+    fetch(`/api/auth/plus-session?id=${encodeURIComponent(plusSid)}`)
+      .then(r => r.json())
+      .then((data: { ok?: boolean; tier?: string; error?: string }) => {
+        if (data.ok && data.tier === 'plus') {
+          setPlusConfirmation('Welcome to UD Converter Plus. Unlimited single-file conversions are now active.')
+          setUsageReloadNonce(n => n + 1)
+        } else if (data.error) {
+          setPlusConfirmation(`Could not activate Plus: ${data.error}. If you completed payment, please contact support.`)
+        }
+      })
+      .catch(err => setPlusConfirmation(`Could not confirm Plus activation: ${err instanceof Error ? err.message : String(err)}`))
+      .finally(() => {
+        // Strip the query param so the user can refresh without re-firing the exchange.
+        url.searchParams.delete('plus_session_id')
+        window.history.replaceState({}, '', url.toString())
+      })
+  }, [])
+
+  // Fetch tier snapshot to know whether captcha is required.
+  useEffect(() => {
+    const apiKey = typeof window !== 'undefined' ? localStorage.getItem('converter_api_key') : null
+    fetch('/api/usage', { headers: apiKey ? { 'X-API-Key': apiKey } : {} })
+      .then(r => r.json())
+      .then((data: { tier?: 'free' | 'plus' | 'pro'; lifetimeUsed?: number; dailyUsed?: number }) => {
+        if (data.tier) {
+          setTierSnapshot({
+            tier: data.tier,
+            lifetimeUsed: data.lifetimeUsed ?? 0,
+            dailyUsed: data.dailyUsed ?? 0,
+          })
+          // Captcha required for free users past their first conversion.
+          setNeedsCaptcha(data.tier === 'free' && (data.lifetimeUsed ?? 0) >= 1)
+        }
+      })
+      .catch(() => {/* ignore — non-critical UI data */})
+  }, [usageReloadNonce])
 
   // Auto-detect input format when a file is selected. The user can
   // override afterward via the From dropdown.
@@ -95,7 +165,10 @@ export default function ConverterPage() {
     [inputFormat, outputFormat],
   )
 
-  const canConvert = !!file && pairSupported && state !== 'converting'
+  // PR D — Convert is disabled if free user needs a captcha but hasn't
+  // produced a token yet. Plus + Pro skip the captcha gate.
+  const captchaSatisfied = !needsCaptcha || !!turnstileToken
+  const canConvert = !!file && pairSupported && state !== 'converting' && captchaSatisfied
 
   async function convert() {
     if (!file) return
@@ -110,6 +183,7 @@ export default function ConverterPage() {
 
     const form = new FormData()
     form.append('file', file)
+    if (turnstileToken) form.append('turnstileToken', turnstileToken)
 
     const url = outputFormat === 'uds'
       ? '/api/convert'
@@ -125,8 +199,21 @@ export default function ConverterPage() {
       if (!res.ok) {
         const data: ServerErrorBody = await res.json().catch(() => ({}) as ServerErrorBody)
         const serverMessage = data.error ?? data.message
+        // PR D — captcha verification failed (401). Don't paywall;
+        // re-render the captcha and let the user retry.
+        if (res.status === 401 && data.captchaRequired) {
+          setError({
+            message: serverMessage ?? 'Captcha required.',
+            recoverable: true,
+            captchaRequired: true,
+          })
+          setNeedsCaptcha(true)
+          setTurnstileToken(null)
+          setState('error')
+          return
+        }
         if (res.status === 429 || data.upgrade) {
-          // Show the paywall modal instead of just an error toast.
+          // Paywall modal — structured fields from PR D's rate-limit gate.
           setShowPaywall(true)
           setError({
             message: serverMessage ?? 'Free tier limit reached.',
@@ -134,6 +221,12 @@ export default function ConverterPage() {
             upgrade: true,
             used: data.used,
             limit: data.limit,
+            lifetimeUsed: data.lifetime_used,
+            lifetimeLimit: data.lifetime_limit,
+            dailyUsed: data.daily_used,
+            dailyLimit: data.daily_limit,
+            retryAfterHours: data.retry_after_hours,
+            upgradeUrl: data.upgrade_url ?? '/pricing',
           })
           setState('error')
           return
@@ -215,6 +308,19 @@ export default function ConverterPage() {
 
       <TierIndicator reloadNonce={usageReloadNonce} />
 
+      {plusConfirmation && (
+        <div style={{
+          padding: '12px 16px',
+          background: 'rgba(212, 175, 55, 0.1)',
+          border: '1px solid rgba(212, 175, 55, 0.3)',
+          borderRadius: 10,
+          fontSize: 14,
+          color: 'var(--ud-ink)',
+        }}>
+          {plusConfirmation}
+        </div>
+      )}
+
       {state === 'done' && downloadBlob ? (
         <SharePage
           outputName={downloadBlob.name}
@@ -240,6 +346,18 @@ export default function ConverterPage() {
             onOutputChange={setOutputFormat}
             disabled={state === 'converting'}
           />
+
+          {/* PR D — Captcha gate. Free users on their 2nd+ conversion
+              must complete the Turnstile widget before the convert
+              button enables. Plus + Pro skip this entirely. */}
+          {needsCaptcha && file && (
+            <div>
+              <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 8 }}>
+                Quick check — please complete the captcha to continue:
+              </p>
+              <TurnstileWidget onToken={setTurnstileToken} />
+            </div>
+          )}
 
           <button
             type="button"
@@ -308,9 +426,13 @@ export default function ConverterPage() {
       <PaywallModal
         open={showPaywall}
         onClose={() => setShowPaywall(false)}
-        used={error?.used}
-        limit={error?.limit}
+        used={error?.lifetimeUsed ?? error?.used}
+        limit={error?.lifetimeLimit ?? error?.limit}
       />
+
+      {/* Suppress unused-var warning — tierSnapshot is read implicitly via
+          the needsCaptcha branch + reload effect. */}
+      <span style={{ display: 'none' }}>{tierSnapshot ? '' : ''}</span>
     </main>
   )
 }

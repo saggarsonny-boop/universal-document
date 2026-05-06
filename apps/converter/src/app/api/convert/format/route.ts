@@ -12,14 +12,15 @@
 // degrade to Free behaviour from this endpoint's perspective.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logConversionCost } from '@/lib/db'
+import { ensureSchema, logConversionCost, getFreeTierState } from '@/lib/db'
 import { orchestrate, type UserTier } from '@/lib/orchestrator'
+import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 import type { OutputFormat } from '@/lib/router'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
-const FREE_DAILY_LIMIT = 5
 const MAX_FREE_BYTES = 10 * 1024 * 1024
 const VALID_OUTPUT_FORMATS: OutputFormat[] = [
   'uds', 'pdf', 'docx', 'xlsx', 'csv', 'json', 'xml',
@@ -55,24 +56,21 @@ function mimeForOutput(fmt: OutputFormat): string {
 
 export async function POST(req: NextRequest) {
   try {
-    let dbAvailable = true
     try { await ensureSchema() } catch (dbErr) {
       console.warn('DB unavailable, proceeding without rate limiting:', dbErr)
-      dbAvailable = false
     }
 
-    const apiKey = req.headers.get('x-api-key')
-    let proUser: { email: string; prefix: string } | null = null
-    if (apiKey && dbAvailable) {
-      proUser = await validateApiKey(apiKey).catch(() => null)
-      if (proUser === null) {
-        return NextResponse.json({ error: 'Invalid or expired API key', recoverable: false }, { status: 403 })
-      }
+    // PR D — rate-limit gate. Pro x-api-key → Plus signed cookie →
+    // free-tier lifetime + daily check. Returns structured 429 on cap.
+    const decision = await checkRateLimit(req)
+    if (!decision.allow) {
+      return NextResponse.json(decision.body, { status: decision.status })
     }
 
     const formData = await req.formData()
     const file = formData.get('file') as File | null
     const outputFormatRaw = formData.get('outputFormat')?.toString() ?? 'uds'
+    const turnstileToken = formData.get('turnstileToken')?.toString() ?? null
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided', recoverable: true }, { status: 400 })
@@ -85,38 +83,39 @@ export async function POST(req: NextRequest) {
     }
     const outputFormat: OutputFormat = outputFormatRaw
 
-    // Free-tier gates
-    if (!proUser && dbAvailable) {
+    // Free-tier file-size cap (Plus + Pro have higher caps managed
+    // server-side; PR D's spec keeps the legacy 10 MB cap for free).
+    if (decision.tier === 'free') {
       if (file.size > MAX_FREE_BYTES) {
         return NextResponse.json(
-          { error: 'File exceeds 10 MB free tier limit. Upgrade for larger files.', recoverable: false, upgrade: true },
+          { error: 'File exceeds 10 MB free tier limit. Upgrade to Plus or Pro for larger files.', recoverable: false, upgrade: true },
           { status: 413 },
         )
       }
-      try {
-        const ipHash = hashIp(getIp(req))
-        const usage = await getFreeUsage(ipHash)
-        if (usage >= FREE_DAILY_LIMIT) {
+      // PR D — Cloudflare Turnstile captcha gate. First conversion of a
+      // user's lifetime is captcha-free (zero-friction first interaction);
+      // subsequent free conversions require a verified Turnstile token.
+      const state = await getFreeTierState(decision.ipHash!).catch(() => ({ lifetimeCount: 0, lastConversionAt: null as Date | null }))
+      const requireCaptcha = state.lifetimeCount >= 1
+      if (requireCaptcha) {
+        const v = await verifyTurnstileToken(turnstileToken, getIp(req))
+        if (!v.ok) {
           return NextResponse.json(
             {
-              error: `Free tier limit: ${FREE_DAILY_LIMIT} files per day. Upgrade to Plus for $0.97/month for unlimited conversions, or Pro for $29/month for batch + API + chain of custody.`,
-              recoverable: false,
-              upgrade: true,
-              used: usage,
-              limit: FREE_DAILY_LIMIT,
+              error: 'captcha_required',
+              message: 'Please complete the captcha to continue. (Turnstile verification failed: ' + (v.reason ?? 'unknown') + ')',
+              recoverable: true,
+              captchaRequired: true,
             },
-            { status: 429 },
+            { status: 401 },
           )
         }
-        await incrementFreeUsage(ipHash)
-      } catch (usageErr) {
-        console.warn('Rate limiting unavailable:', usageErr)
       }
     }
 
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
-    const userTier: UserTier = proUser ? 'pro' : 'free'
+    const userTier: UserTier = decision.tier
 
     // Orchestrator never throws — returns structured result.
     const result = await orchestrate({
@@ -128,7 +127,8 @@ export async function POST(req: NextRequest) {
 
     if (!result.success || !result.buffer) {
       // Cost telemetry already logged inside orchestrate(). Just surface
-      // the structured error to the client.
+      // the structured error to the client. Free-tier counter is NOT
+      // burned on a failed conversion — we only record on success below.
       return NextResponse.json(
         {
           error: result.errorMessage ?? 'Conversion failed.',
@@ -141,6 +141,14 @@ export async function POST(req: NextRequest) {
         },
         { status: 500 },
       )
+    }
+
+    // PR D — record the conversion against the free-tier counter only
+    // on success. Plus + Pro skip (their tier was confirmed in the
+    // checkRateLimit decision; recording would be a no-op anyway since
+    // their cookies/keys aren't tied to the IP-hash counter).
+    if (decision.tier === 'free' && decision.ipHash) {
+      void recordFreeConversionFromCheck(decision.ipHash)
     }
 
     const baseName = file.name.replace(/\.[^.]+$/, '')
@@ -162,7 +170,8 @@ export async function POST(req: NextRequest) {
         'X-UD-Warnings': Buffer.from(JSON.stringify(result.warnings)).toString('base64'),
         'X-UD-May-Be-Incomplete': result.mayBeIncomplete ? 'true' : 'false',
         ...(result.upgradeHint ? { 'X-UD-Upgrade-Hint': Buffer.from(result.upgradeHint).toString('base64') } : {}),
-        ...(proUser ? { 'X-Pro': 'true' } : {}),
+        ...(decision.tier === 'pro' ? { 'X-Pro': 'true' } : {}),
+        ...(decision.tier === 'plus' ? { 'X-Plus': 'true' } : {}),
       },
     })
   } catch (e) {
