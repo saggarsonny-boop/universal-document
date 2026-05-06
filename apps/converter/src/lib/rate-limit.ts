@@ -12,12 +12,22 @@
 import type { NextRequest } from 'next/server'
 import { getFreeTierState, validateApiKey, hashIp, recordFreeConversion } from './db'
 import { readPlusFromRequest } from './plus-auth'
+import { checkOperator } from './operator-auth'
 
 const LIFETIME_FREE_LIMIT = 3
 const DAILY_COOLDOWN_MS = 24 * 60 * 60 * 1000
 
 export type RateLimitDecision =
-  | { allow: true;  tier: 'free' | 'plus' | 'pro';  ipHash?: string;  lifetimeUsed?: number }
+  | {
+      allow: true
+      tier: 'free' | 'plus' | 'pro'
+      ipHash?: string
+      lifetimeUsed?: number
+      /** Set when the request was authenticated as an operator. tier is
+       *  reported as 'pro' for downstream gates; this field carries the
+       *  identity for audit logging. */
+      operator?: { identity: string; marker: 'clerk' | 'cookie' | 'header' }
+    }
   | { allow: false; status: number;  body: unknown }
 
 function getIp(req: NextRequest): string {
@@ -27,9 +37,18 @@ function getIp(req: NextRequest): string {
 }
 
 /** Check a request against the rate-limit rules. Order of precedence:
- * Pro API key → Plus signed cookie → free-tier lifetime/daily check. The
- * first authenticated tier wins. */
+ * Operator (clerk/cookie/header) → Pro API key → Plus signed cookie →
+ * free-tier lifetime/daily check. The first authenticated marker wins.
+ * Operators are reported as tier='pro' for downstream gates but carry
+ * the operator identity in the decision for audit logging. */
 export async function checkRateLimit(req: NextRequest): Promise<RateLimitDecision> {
+  // Operator — bypasses all gates (used for testing, debugging, emergency).
+  // Logged separately to converter_operator_audit by the route handler.
+  const op = checkOperator(req)
+  if (op.isOperator && op.identity && op.marker) {
+    return { allow: true, tier: 'pro', operator: { identity: op.identity, marker: op.marker } }
+  }
+
   // Pro tier — x-api-key header
   const apiKey = req.headers.get('x-api-key')
   if (apiKey) {

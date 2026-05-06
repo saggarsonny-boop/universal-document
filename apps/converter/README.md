@@ -109,6 +109,69 @@ Canonical Hive 7-locale set: `en, es, fr, ar, hi, zh, pt`. Catalogs at
 `apps/converter/locales/<code>.json`. The home page picks the locale
 from `navigator.language` after hydration.
 
+## Operator Access
+
+Operator role bypasses tier gates entirely (rate limit, captcha, file
+size cap) for testing, debugging, and emergency access. Treated as Pro
+tier downstream (50 MB cap). Every operator action logs to
+`converter_operator_audit` (Neon).
+
+Three valid markers in priority order:
+
+1. **Clerk** — `publicMetadata.role === 'operator'` (placeholder; UD
+   Converter doesn't currently wire Clerk middleware, so this marker
+   is dormant. Other Hive engines that use Clerk fork the same
+   detection by surfacing the role on `x-clerk-user-role`).
+2. **Signed cookie** — `ud_operator` HMAC-SHA256 cookie, issued by
+   `POST /api/operator/login`. 30-day TTL.
+3. **Header** — `x-ud-operator-key: <OPERATOR_KEY>`, for CLI/automation.
+   Constant-time matched against the `OPERATOR_KEY` env var.
+
+### Bootstrapping a session
+
+```sh
+# One-shot login. The code is single-use; rotating OPERATOR_SETUP_CODE
+# in Vercel re-enables a fresh login.
+curl -X POST https://converter.hive.baby/api/operator/login \
+  -H "Content-Type: application/json" \
+  -d '{"code":"<6-digit-from-vercel-env>","identity":"sonny"}' \
+  -c operator-cookies.txt
+
+# Subsequent requests carry the cookie:
+curl -b operator-cookies.txt https://converter.hive.baby/api/usage
+```
+
+### CLI / automation header
+
+```sh
+# Skip the cookie roundtrip — send OPERATOR_KEY directly:
+curl -H "x-ud-operator-key: <OPERATOR_KEY>" \
+     -H "Content-Type: application/json" \
+     -d '{"blobUrl":"...","fileName":"big.pdf","outputFormat":"txt"}' \
+     https://converter.hive.baby/api/convert/format-by-ref
+```
+
+### Required env vars
+
+| Var | Generation |
+|---|---|
+| `OPERATOR_AUTH_SECRET` | `openssl rand -base64 32` |
+| `OPERATOR_KEY` | `openssl rand -hex 32` |
+| `OPERATOR_SETUP_CODE` | 6-digit numeric (e.g. `awk 'BEGIN{srand();printf "%06d\n",int(rand()*1000000)}'`) |
+
+Rotation: re-generate any of the three and `vercel env add ... --force`.
+
+### Audit retention
+
+`converter_operator_audit` is timestamp-indexed; default retention is
+unbounded.
+
+```sql
+SELECT user_identity, action, file_size, timestamp
+FROM converter_operator_audit
+ORDER BY timestamp DESC LIMIT 50;
+```
+
 ## License
 
 Part of the Hive ecosystem. Free at the base tier, forever. No ads, no
