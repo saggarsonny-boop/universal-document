@@ -135,9 +135,9 @@ function UpgradeCta() {
         textDecoration: 'none',
         whiteSpace: 'nowrap',
       }}
-      aria-label="View pricing — upgrade to UD Converter Plus or Pro"
+      aria-label="View pricing — Free, Plus, and Pro tiers"
     >
-      Upgrade — from $0.97/mo
+      See pricing
     </a>
   )
 }
