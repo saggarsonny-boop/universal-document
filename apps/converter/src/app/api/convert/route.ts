@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
-import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody } from '@/lib/db'
+import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody, logConversionCost } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
 import { ensureRegistrySchema, sealDocument as registrySeal } from '@shared/lib/registry'
+import { decideRoute, type UserTier } from '@/lib/orchestrator'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -138,6 +139,34 @@ export async function POST(req: NextRequest) {
     // to the client via the X-UD-Page-Warnings response header.
     let pageWarnings: PageWarning[] = []
 
+    // ─── UD Converter v2 telemetry (PR A — feature-flagged) ──────────────
+    // When UD_CONVERTER_V2 env var is "true", we call the v2 orchestrator's
+    // route-selection function in parallel with the existing PDF→UDS path
+    // so cost telemetry starts flowing into the conversion_costs table
+    // immediately. This is observation-only in PR A — the actual conversion
+    // continues to run through the existing convert.ts code below. PR B
+    // wires the orchestrator into the actual conversion path for new
+    // format pairs; the existing PDF→UDS path stays where it is.
+    const v2TelemetryEnabled = process.env.UD_CONVERTER_V2 === 'true'
+    const userTier: UserTier = proUser ? 'pro' : 'free'
+    let v2RouteUsed: string = 'existing-uds-pipeline'
+    let v2InputFormat: string | undefined
+    if (v2TelemetryEnabled) {
+      try {
+        const decision = decideRoute({
+          buffer,
+          fileName,
+          outputFormat: 'uds',  // existing pipeline only emits UDS today
+          userTier,
+        })
+        v2RouteUsed = decision.route
+        v2InputFormat = decision.inputFormat
+      } catch (decideErr) {
+        // Telemetry must not block conversion. Fall through silently.
+        console.warn('[ud-converter-v2] decideRoute failed:', decideErr)
+      }
+    }
+
     if (ext === 'docx') {
       doc = await convertDocx(buffer, fileName)
     } else if (ext === 'xlsx') {
@@ -191,6 +220,23 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // ─── UD Converter v2 cost telemetry (PR A — fire-and-forget) ─────────
+    // Logged AFTER successful conversion. Cost is 0 for the existing-uds-
+    // pipeline route since PR #2's path bills against ANTHROPIC_API_KEY at
+    // a global level rather than per-conversion. PR B will populate
+    // input/output token counts from the actual extractor and surface the
+    // estimated cost per call.
+    if (v2TelemetryEnabled) {
+      void logConversionCost({
+        userTier,
+        route: v2RouteUsed,
+        inputFormat: v2InputFormat,
+        outputFormat: 'uds',
+        fileName,
+        success: true,
+      })
+    }
+
     // Register in provenance registry (fire-and-forget — conversion succeeds regardless)
     if (doc.seal?.hash && doc.metadata.id) {
       const docId = doc.metadata.id
@@ -226,6 +272,16 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     console.error('Convert error:', e)
     const cls = classifyError(e)
+    // Telemetry on failure path too — best effort, non-blocking.
+    if (process.env.UD_CONVERTER_V2 === 'true') {
+      void logConversionCost({
+        userTier: 'unknown',
+        route: 'existing-uds-pipeline',
+        outputFormat: 'uds',
+        success: false,
+        errorMessage: cls.technical,
+      })
+    }
     return NextResponse.json(
       {
         error: cls.message,
