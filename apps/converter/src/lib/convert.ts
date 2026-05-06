@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import Anthropic from '@anthropic-ai/sdk'
 import { createHash } from 'crypto'
 
 export interface UDBlock {
@@ -330,47 +329,21 @@ async function extractPdfPerPage(
   return { text: pageTexts.join('\n\n'), warnings, pdfjsAvailable: true }
 }
 
-// Whole-PDF Anthropic fallback. Used only when pdfjs returned nothing usable
-// for the majority of pages (suggesting a fully-image PDF or a pdfjs
-// blind-spot we can't solve here). Bumped to max_tokens 16384 so multi-page
-// legal documents don't get silently truncated.
-async function extractPdfViaAnthropic(buffer: Buffer): Promise<string> {
-  if (!process.env.ANTHROPIC_API_KEY) return ''
-  try {
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await (client.messages.create as any)({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 16384,
-      messages: [{
-        role: 'user',
-        content: [
-          {
-            type: 'document',
-            source: {
-              type: 'base64',
-              media_type: 'application/pdf',
-              data: buffer.toString('base64'),
-            },
-          },
-          { type: 'text', text: 'Extract all text from this PDF. Preserve headings and paragraph structure. Mark page boundaries with "--- Page N ---" lines. Output plain text only, no commentary.' },
-        ],
-      }],
-    })
-    return (response.content as Anthropic.ContentBlock[])
-      .filter(b => b.type === 'text')
-      .map(b => (b as Anthropic.TextBlock).text)
-      .join('\n')
-  } catch (err) {
-    console.warn('Anthropic whole-PDF fallback failed:', err)
-    return ''
-  }
-}
-
-// Last-resort regex extraction from raw PDF bytes. Used only when both
-// pdfjs and Anthropic are unavailable / completely fail. Output is always
-// non-empty (even if just whitespace), so convertPdf never throws on this
-// path — graceful degradation all the way down.
+// Last-resort regex extraction from raw PDF bytes. Used only when pdfjs
+// is unavailable / completely fails to open the document. Output is
+// always non-empty (even if just whitespace), so convertPdf never throws
+// on this path — graceful degradation all the way down.
+//
+// (The Anthropic whole-PDF auto-fallback that lived here pre-PR-fix was
+// removed. Triggering it on majority-sparse pages was tipping
+// conversions of multi-page image-heavy PDFs over Vercel's 30s function
+// ceiling, producing a generic "Could not process this file" UX. PR #3
+// established Groq as the sole LLM for Free + Plus tiers and gated
+// Anthropic to Pro-tier opt-in only — the legacy /api/convert path now
+// matches that architecture. Image-heavy PDFs return whatever pdfjs
+// extracted plus the per-page sparse warnings; users see a clear
+// "re-export with OCR enabled" message instead of a timeout. Pro-tier
+// access to Anthropic for hard PDFs lands in PR D's auth wiring.)
 function extractPdfViaRegex(buffer: Buffer): string {
   const raw = buffer.toString('latin1')
   return raw
@@ -392,37 +365,14 @@ export async function convertPdf(
 ): Promise<{ doc: UDDocument; warnings: PageWarning[] }> {
   const perPage = await extractPdfPerPage(buffer)
   let extractedText = perPage.text
-  let warnings = perPage.warnings
+  const warnings = perPage.warnings
 
-  // Trigger the Anthropic whole-PDF fallback only when pdfjs's per-page
-  // extraction left the majority of pages sparse or empty. This keeps the
-  // common case (well-formed text PDFs) fast — pdfjs only — while giving
-  // image-heavy PDFs a second chance via Claude's native PDF understanding.
-  const sparsePageCount = warnings.filter(
-    w => w.reason === 'image-only' || w.reason === 'sparse-text' || w.reason === 'extraction-failed',
-  ).length
-  const totalPagesEstimate = perPage.pdfjsAvailable
-    ? Math.max(1, perPage.text.split('\n\n').length)
-    : 0
-  const majoritySparse =
-    perPage.pdfjsAvailable && totalPagesEstimate > 0 && sparsePageCount * 2 >= totalPagesEstimate
+  // Image-heavy PDFs (signature scans, notary seals, fully rasterised
+  // pages) get their per-page `image-only` / `sparse-text` warnings and
+  // return whatever pdfjs extracted. No Anthropic auto-fallback — see
+  // header comment above extractPdfViaRegex for the rationale.
 
-  if (!perPage.pdfjsAvailable || majoritySparse) {
-    const anthropicText = await extractPdfViaAnthropic(buffer)
-    if (anthropicText.trim().length > Math.max(50, extractedText.trim().length)) {
-      extractedText = anthropicText
-      // Anthropic succeeded where pdfjs was sparse — annotate but keep
-      // the prior per-page warnings so the user knows which pages we had
-      // to fall back on.
-      warnings = warnings.map(w =>
-        w.reason === 'image-only' || w.reason === 'sparse-text'
-          ? { ...w, detail: (w.detail ?? '') + ' (Recovered via AI fallback.)' }
-          : w,
-      )
-    }
-  }
-
-  // Last resort: if everything else failed, regex-extract printable bytes.
+  // Last resort: if pdfjs returned nothing at all, regex-extract printable bytes.
   if (extractedText.trim().length === 0) {
     extractedText = extractPdfViaRegex(buffer)
     if (extractedText.trim().length === 0) {
