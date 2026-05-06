@@ -12,6 +12,7 @@
 // bug PR #9 fixed.
 
 import { useEffect, useState } from 'react'
+import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
 
@@ -30,6 +31,7 @@ type Props = {
 }
 
 export function TierIndicator({ reloadNonce = 0 }: Props) {
+  const s = useStrings()
   const [usage, setUsage] = useState<UsageInfo | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -63,7 +65,7 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
   if (loading || !usage) {
     return (
       <div style={containerStyle} aria-live="polite">
-        <span style={{ color: 'var(--ud-muted)', fontSize: 13 }}>Checking your tier…</span>
+        <span style={{ color: 'var(--ud-muted)', fontSize: 13 }}>{s.tier.checking}</span>
       </div>
     )
   }
@@ -71,9 +73,9 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
   if (usage.tier === 'pro') {
     return (
       <div style={{ ...containerStyle, background: 'rgba(10, 122, 106, 0.08)', borderColor: 'rgba(10, 122, 106, 0.25)' }} aria-live="polite">
-        <strong style={{ color: 'var(--ud-teal, #0a7a6a)' }}>Pro</strong>
+        <strong style={{ color: 'var(--ud-teal, #0a7a6a)' }}>{s.tier.proLabel}</strong>
         <span style={{ color: 'var(--ud-muted)' }}>·</span>
-        <span style={{ color: 'var(--ud-ink)' }}>unlimited conversions + batch + API</span>
+        <span style={{ color: 'var(--ud-ink)' }}>{s.tier.proBody}</span>
       </div>
     )
   }
@@ -81,37 +83,41 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
   if (usage.tier === 'plus') {
     return (
       <div style={{ ...containerStyle, background: 'rgba(212, 175, 55, 0.08)', borderColor: 'rgba(212, 175, 55, 0.25)' }} aria-live="polite">
-        <strong style={{ color: GOLD }}>Plus</strong>
+        <strong style={{ color: GOLD }}>{s.tier.plusLabel}</strong>
         <span style={{ color: 'var(--ud-muted)' }}>·</span>
-        <span style={{ color: 'var(--ud-ink)' }}>unlimited single-file conversions</span>
+        <span style={{ color: 'var(--ud-ink)' }}>{s.tier.plusBody}</span>
       </div>
     )
   }
 
-  // Free tier — show lifetime + daily status.
-  // Display rules:
-  //   - First conversion never used  → "First conversion available now"
-  //   - At least one used, no daily cooldown  → "X of N lifetime free remaining"
-  //   - Daily cooldown active (1 used today)  → "Next free conversion in ~Hh"
-  //   - Lifetime cap reached  → "Free tier exhausted — upgrade for more"
+  // Free tier — show lifetime + daily status. Four cases, all driven from
+  // the locale catalog so the wording localizes per navigator.language:
+  //   - lifetimeExhausted     → "Free tier exhausted — upgrade to keep converting"
+  //   - dailyExhausted        → "Next free conversion in ~24h · X of N lifetime remaining"
+  //   - lifetimeUsed === 0    → "First free conversion available now · N lifetime free"
+  //   - else                  → "X of N lifetime free conversions remaining"
   const lifetimeRemaining = Math.max(0, usage.lifetimeLimit - usage.lifetimeUsed)
   const dailyExhausted = usage.dailyUsed >= usage.dailyLimit && lifetimeRemaining > 0
   const lifetimeExhausted = lifetimeRemaining === 0
 
   let statusText: string
   if (lifetimeExhausted) {
-    statusText = 'Free tier exhausted — upgrade to keep converting'
+    statusText = s.tier.lifetimeExhausted
   } else if (dailyExhausted) {
-    statusText = `Next free conversion in ~24h · ${lifetimeRemaining} of ${usage.lifetimeLimit} lifetime remaining`
+    statusText = s.tier.dailyCooldownTemplate
+      .replace('{{remaining}}', String(lifetimeRemaining))
+      .replace('{{limit}}', String(usage.lifetimeLimit))
   } else if (usage.lifetimeUsed === 0) {
-    statusText = `First free conversion available now · ${usage.lifetimeLimit} lifetime free`
+    statusText = s.tier.freshTemplate.replace('{{limit}}', String(usage.lifetimeLimit))
   } else {
-    statusText = `${lifetimeRemaining} of ${usage.lifetimeLimit} lifetime free conversions remaining`
+    statusText = s.tier.lifetimeRemainingTemplate
+      .replace('{{remaining}}', String(lifetimeRemaining))
+      .replace('{{limit}}', String(usage.lifetimeLimit))
   }
 
   return (
     <div style={containerStyle} aria-live="polite">
-      <span style={{ color: 'var(--ud-ink)', fontWeight: 600 }}>Free tier</span>
+      <span style={{ color: 'var(--ud-ink)', fontWeight: 600 }}>{s.tier.freeLabel}</span>
       <span style={{ color: 'var(--ud-muted)' }}>·</span>
       <span style={{ color: 'var(--ud-muted)' }}>{statusText}</span>
       <UpgradeCta />
@@ -120,6 +126,7 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
 }
 
 function UpgradeCta() {
+  const s = useStrings()
   return (
     <a
       href="/pricing"
@@ -135,9 +142,9 @@ function UpgradeCta() {
         textDecoration: 'none',
         whiteSpace: 'nowrap',
       }}
-      aria-label="View pricing — upgrade to UD Converter Plus or Pro"
+      aria-label={s.tier.upgradeAria}
     >
-      Upgrade — from $0.97/mo
+      {s.tier.upgradeCta}
     </a>
   )
 }

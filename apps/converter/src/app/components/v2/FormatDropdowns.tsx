@@ -14,6 +14,7 @@ import {
   INPUT_FORMATS,
   OUTPUT_FORMATS,
   compatibleOutputs,
+  isInputSupported,
   type ClientInputFormat,
   type ClientOutputFormat,
   type FormatMeta,
@@ -35,10 +36,17 @@ type Props = {
   disabled?: boolean
 }
 
-const sortedInputFormats = [...INPUT_FORMATS].sort((a, b) => {
-  if (a.priority !== b.priority) return a.priority - b.priority
-  return a.label.localeCompare(b.label)
-})
+// Drop inputs that have no supported outputs at all before sorting. The To
+// dropdown's filter handles per-input-pair gaps; this handles inputs where
+// nothing pairs at all (odt, tsv, yaml, svg). Without this, picking one of
+// those leaves the To dropdown on the UDS-only safety fallback and misleads
+// the user into thinking it'll work.
+const sortedInputFormats = [...INPUT_FORMATS]
+  .filter(f => isInputSupported(f.code as ClientInputFormat))
+  .sort((a, b) => {
+    if (a.priority !== b.priority) return a.priority - b.priority
+    return a.label.localeCompare(b.label)
+  })
 const sortedOutputFormats = [...OUTPUT_FORMATS].sort((a, b) => {
   if (a.priority !== b.priority) return a.priority - b.priority
   return a.label.localeCompare(b.label)
@@ -114,15 +122,18 @@ export function FormatDropdowns({
         </DropdownColumn>
       </div>
 
-      {/* Demand-capture for unimplemented pairs. PR #9 hid them from the
+      {/* Demand-capture for unimplemented pairs. PR #11 hid them from the
           dropdown rather than showing them disabled — this link gives
           users a way to register interest without us advertising
-          unfinished work. */}
+          unfinished work. The body pre-fills the user's currently-selected
+          From so the recipient can see at a glance which converter pair
+          was missed. Subject + body localized via the formats.formatRequest*
+          locale keys. */}
       <a
-        href="mailto:hive@hive.baby?subject=UD%20Converter%20—%20format%20pair%20request&body=I%27d%20like%20to%20convert%20___%20to%20___."
+        href={`mailto:hive@hive.baby?subject=${encodeURIComponent(s.formats.formatRequestSubject)}&body=${encodeURIComponent(s.formats.formatRequestBody.replace('{{from}}', inputFormat.toUpperCase()))}`}
         style={requestLinkStyle}
       >
-        Don&apos;t see your format? Tell us →
+        {s.formats.formatRequestPrompt} {s.formats.formatRequestCta} →
       </a>
     </div>
   )
