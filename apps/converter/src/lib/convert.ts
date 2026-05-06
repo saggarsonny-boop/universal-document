@@ -211,60 +211,167 @@ export async function convertCsv(text: string, fileName: string): Promise<UDDocu
   })
 }
 
-async function extractTextFromPDF(buffer: Buffer): Promise<string> {
-  // Primary: Claude native PDF understanding — best for formatted documents
-  if (process.env.ANTHROPIC_API_KEY) {
-    try {
-      const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const response = await (client.messages.create as any)({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4096,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'document',
-              source: {
-                type: 'base64',
-                media_type: 'application/pdf',
-                data: buffer.toString('base64'),
-              },
-            },
-            { type: 'text', text: 'Extract all text from this PDF. Preserve headings and paragraph structure. Output plain text only, no commentary.' },
-          ],
-        }],
-      })
-      const text = (response.content as Anthropic.ContentBlock[])
-        .filter(b => b.type === 'text')
-        .map(b => (b as Anthropic.TextBlock).text)
-        .join('\n')
-      if (text.trim().length > 50) return text
-    } catch (err) {
-      console.warn('Anthropic PDF extraction failed, trying pdfjs:', err)
-    }
-  }
+// Shape of per-page warnings collected during PDF conversion. Surfaced to
+// the API response and rendered in the client so users see exactly which
+// pages had issues instead of a generic "Conversion failed" toast.
+export type PageWarning = {
+  page: number
+  reason:
+    | 'image-only'        // page rendered no extractable text — likely a signature/scan/seal
+    | 'sparse-text'       // page returned < 200 chars but isn't necessarily image-only
+    | 'rotated'           // page had non-zero rotation; text reordered to follow visual flow
+    | 'extraction-failed' // pdfjs threw on this specific page; we fell through
+  recoverable: boolean    // true if user can re-OCR / re-export to fix; false if structural
+  detail?: string
+}
 
-  // Fallback: pdfjs-dist (dynamic import so load failures are isolated)
+const PER_PAGE_TEXT_THRESHOLD = 200
+
+// Sort PDF text items into visual reading order. pdfjs returns items in
+// the order it finds them in the content stream, which for rotated pages
+// can be visually scrambled. We sort by Y descending (top to bottom in
+// PDF coords) then X ascending (left to right). This is a coarse but
+// robust ordering that handles standard portrait pages, landscape pages,
+// and pages with `rotate` metadata without requiring per-rotation
+// special-cases (pdfjs returns items in the page's untransformed
+// coordinate system, so a single sort works for all four standard
+// rotations).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sortItemsByVisualOrder(items: any[]): any[] {
+  return [...items].sort((a, b) => {
+    const ay = a.transform?.[5] ?? 0
+    const by = b.transform?.[5] ?? 0
+    if (Math.abs(ay - by) > 2) return by - ay // top to bottom
+    const ax = a.transform?.[4] ?? 0
+    const bx = b.transform?.[4] ?? 0
+    return ax - bx // left to right
+  })
+}
+
+// Per-page extraction primary path. Returns plain text (newline-joined per
+// page) plus a list of warnings for pages that came back sparse, rotated,
+// or failed outright.
+async function extractPdfPerPage(
+  buffer: Buffer,
+): Promise<{ text: string; warnings: PageWarning[]; pdfjsAvailable: boolean }> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let pdfjsLib: any
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs') as any
+    pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
     pdfjsLib.GlobalWorkerOptions.workerSrc = ''
-    const data = new Uint8Array(buffer)
-    const doc = await pdfjsLib.getDocument({ data, useWorkerFetch: false, isEvalSupported: false }).promise
-    let fullText = ''
-    for (let i = 1; i <= doc.numPages; i++) {
-      const page = await doc.getPage(i)
-      const content = await page.getTextContent()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      fullText += content.items.map((item: any) => item.str).join(' ') + '\n'
-    }
-    if (fullText.trim().length > 50) return fullText
   } catch (err) {
-    console.warn('pdfjs extraction failed, using regex fallback:', err)
+    console.warn('pdfjs-dist failed to load:', err)
+    return { text: '', warnings: [], pdfjsAvailable: false }
   }
 
-  // Last resort: regex extraction from raw PDF bytes
+  const warnings: PageWarning[] = []
+  const pageTexts: string[] = []
+
+  try {
+    const data = new Uint8Array(buffer)
+    const doc = await pdfjsLib.getDocument({
+      data,
+      useWorkerFetch: false,
+      isEvalSupported: false,
+    }).promise
+
+    for (let i = 1; i <= doc.numPages; i++) {
+      try {
+        const page = await doc.getPage(i)
+        const rotation: number = page.rotate ?? 0
+        const content = await page.getTextContent()
+        const sorted = sortItemsByVisualOrder(content.items)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pageText = sorted.map((item: any) => item.str).join(' ').trim()
+
+        if (rotation !== 0) {
+          warnings.push({
+            page: i,
+            reason: 'rotated',
+            recoverable: true,
+            detail: `Rotated ${rotation}° — text reordered to follow visual layout.`,
+          })
+        }
+
+        if (pageText.length === 0) {
+          warnings.push({
+            page: i,
+            reason: 'image-only',
+            recoverable: true,
+            detail: 'No extractable text on this page (likely a signature, seal, or scan). Re-OCR with the OCR utility to capture image content.',
+          })
+          pageTexts.push(`[Page ${i}: image-only content — no text extracted]`)
+        } else if (pageText.length < PER_PAGE_TEXT_THRESHOLD) {
+          warnings.push({
+            page: i,
+            reason: 'sparse-text',
+            recoverable: true,
+            detail: `Only ${pageText.length} characters extracted. May contain image content not captured.`,
+          })
+          pageTexts.push(pageText)
+        } else {
+          pageTexts.push(pageText)
+        }
+      } catch (pageErr) {
+        warnings.push({
+          page: i,
+          reason: 'extraction-failed',
+          recoverable: false,
+          detail: pageErr instanceof Error ? pageErr.message : String(pageErr),
+        })
+        pageTexts.push(`[Page ${i}: extraction failed]`)
+      }
+    }
+  } catch (err) {
+    console.warn('pdfjs document open failed:', err)
+    return { text: '', warnings: [], pdfjsAvailable: false }
+  }
+
+  return { text: pageTexts.join('\n\n'), warnings, pdfjsAvailable: true }
+}
+
+// Whole-PDF Anthropic fallback. Used only when pdfjs returned nothing usable
+// for the majority of pages (suggesting a fully-image PDF or a pdfjs
+// blind-spot we can't solve here). Bumped to max_tokens 16384 so multi-page
+// legal documents don't get silently truncated.
+async function extractPdfViaAnthropic(buffer: Buffer): Promise<string> {
+  if (!process.env.ANTHROPIC_API_KEY) return ''
+  try {
+    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await (client.messages.create as any)({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 16384,
+      messages: [{
+        role: 'user',
+        content: [
+          {
+            type: 'document',
+            source: {
+              type: 'base64',
+              media_type: 'application/pdf',
+              data: buffer.toString('base64'),
+            },
+          },
+          { type: 'text', text: 'Extract all text from this PDF. Preserve headings and paragraph structure. Mark page boundaries with "--- Page N ---" lines. Output plain text only, no commentary.' },
+        ],
+      }],
+    })
+    return (response.content as Anthropic.ContentBlock[])
+      .filter(b => b.type === 'text')
+      .map(b => (b as Anthropic.TextBlock).text)
+      .join('\n')
+  } catch (err) {
+    console.warn('Anthropic whole-PDF fallback failed:', err)
+    return ''
+  }
+}
+
+// Last-resort regex extraction from raw PDF bytes. Used only when both
+// pdfjs and Anthropic are unavailable / completely fail. Output is always
+// non-empty (even if just whitespace), so convertPdf never throws on this
+// path — graceful degradation all the way down.
+function extractPdfViaRegex(buffer: Buffer): string {
   const raw = buffer.toString('latin1')
   return raw
     .replace(/\r/g, '\n')
@@ -275,34 +382,76 @@ async function extractTextFromPDF(buffer: Buffer): Promise<string> {
     .slice(0, 500).join('\n')
 }
 
-export async function convertPdf(buffer: Buffer, fileName: string): Promise<UDDocument> {
-  let extractedText = ''
+// Public PDF conversion entry point. Returns the UDS document AND the list
+// of per-page warnings the route handler surfaces to the client. Never
+// throws on a malformed PDF — degrades to whatever extraction tier still
+// works and annotates pages that came back sparse.
+export async function convertPdf(
+  buffer: Buffer,
+  fileName: string,
+): Promise<{ doc: UDDocument; warnings: PageWarning[] }> {
+  const perPage = await extractPdfPerPage(buffer)
+  let extractedText = perPage.text
+  let warnings = perPage.warnings
 
-  try {
-    extractedText = await extractTextFromPDF(buffer)
-  } catch (err) {
-    console.warn('pdfjs-dist extraction failed, using regex fallback:', err)
-    const raw = buffer.toString('latin1')
-    extractedText = raw
-      .replace(/\r/g, '\n')
-      .replace(/\([^)]{1,400}\)/g, (m) => m.slice(1, -1))
-      .replace(/[^\x20-\x7E\n]/g, ' ')
-      .replace(/\s{2,}/g, ' ')
-      .split('\n')
-      .map((l) => l.trim())
-      .filter(Boolean)
-      .slice(0, 500)
-      .join('\n')
+  // Trigger the Anthropic whole-PDF fallback only when pdfjs's per-page
+  // extraction left the majority of pages sparse or empty. This keeps the
+  // common case (well-formed text PDFs) fast — pdfjs only — while giving
+  // image-heavy PDFs a second chance via Claude's native PDF understanding.
+  const sparsePageCount = warnings.filter(
+    w => w.reason === 'image-only' || w.reason === 'sparse-text' || w.reason === 'extraction-failed',
+  ).length
+  const totalPagesEstimate = perPage.pdfjsAvailable
+    ? Math.max(1, perPage.text.split('\n\n').length)
+    : 0
+  const majoritySparse =
+    perPage.pdfjsAvailable && totalPagesEstimate > 0 && sparsePageCount * 2 >= totalPagesEstimate
+
+  if (!perPage.pdfjsAvailable || majoritySparse) {
+    const anthropicText = await extractPdfViaAnthropic(buffer)
+    if (anthropicText.trim().length > Math.max(50, extractedText.trim().length)) {
+      extractedText = anthropicText
+      // Anthropic succeeded where pdfjs was sparse — annotate but keep
+      // the prior per-page warnings so the user knows which pages we had
+      // to fall back on.
+      warnings = warnings.map(w =>
+        w.reason === 'image-only' || w.reason === 'sparse-text'
+          ? { ...w, detail: (w.detail ?? '') + ' (Recovered via AI fallback.)' }
+          : w,
+      )
+    }
   }
 
-  const blocks = textToBlocks(extractedText || `PDF content imported from ${fileName}`, fileName)
-  return buildUDDocument({
+  // Last resort: if everything else failed, regex-extract printable bytes.
+  if (extractedText.trim().length === 0) {
+    extractedText = extractPdfViaRegex(buffer)
+    if (extractedText.trim().length === 0) {
+      extractedText = `PDF content imported from ${fileName}. No extractable text was found — the document may be entirely image-based. Try the OCR utility.`
+      warnings.push({
+        page: 0,
+        reason: 'image-only',
+        recoverable: true,
+        detail: 'No extractable text found anywhere in the document. Re-export with OCR enabled to recover text.',
+      })
+    }
+  }
+
+  const doc = buildUDDocument({
     title: fileName.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
-    blocks,
+    blocks: textToBlocks(extractedText, fileName),
     documentType: 'pdf-import',
     sourceFileName: fileName,
     state: 'UDS',
   })
+
+  // Mirror warnings into metadata.tags so the warnings travel with the
+  // .uds file itself, not just the response. UDR/UDS readers can render
+  // them later when displaying provenance.
+  for (const w of warnings) {
+    doc.metadata.tags.push(`pdf-warning:${w.reason}:page-${w.page}`)
+  }
+
+  return { doc, warnings }
 }
 
 export async function convertXlsx(buffer: Buffer, fileName: string): Promise<UDDocument> {

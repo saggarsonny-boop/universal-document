@@ -8,6 +8,23 @@ import UDOnboarding from '@/components/UDOnboarding'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
 
+// Mirrors the PageWarning shape from src/lib/convert.ts. Duplicated here
+// rather than imported so the client bundle doesn't pull in the server-side
+// pdfjs/Anthropic dependencies.
+type PageWarning = {
+  page: number
+  reason: 'image-only' | 'sparse-text' | 'rotated' | 'extraction-failed'
+  recoverable: boolean
+  detail?: string
+}
+
+type ConvertError = {
+  message: string
+  recoverable: boolean
+  page?: number
+  technical?: string
+}
+
 const ACCEPTED = '.pdf,.docx,.txt,.md,.csv,.html,.png,.jpg,.jpeg,.webp,.gif'
 const ACCEPTED_LABEL = 'PDF, DOCX, TXT, CSV, HTML, images'
 const FREE_LIMIT = 5
@@ -48,13 +65,23 @@ function incrementUsage() {
 
 export default function ConverterPage() {
   const [state, setState] = useState<ConvertState>('idle')
-  const [error, setError] = useState('')
+  const [error, setError] = useState<ConvertError | null>(null)
   const [fileName, setFileName] = useState('')
   const [outputName, setOutputName] = useState('')
   const [isDragging, setIsDragging] = useState(false)
   const [usage, setUsage] = useState(0)
   const [isPro, setIsPro] = useState(false)
   const [utility, setUtility] = useState<(typeof UTILITY_OPTIONS)[number]['id']>('optimize')
+  // Live elapsed-seconds counter for the converting state. Replaces the old
+  // static "This usually takes a second or two." with a real ticker so users
+  // know the request hasn't silently stalled. Estimate copy ("usually
+  // 5-25s") sets expectations for documents with image content that take
+  // longer than the trivial case.
+  const [elapsedSec, setElapsedSec] = useState(0)
+  // Per-page warnings surfaced from the API on success. Rendered as a
+  // non-blocking notice on the success view so the user knows e.g. "page 8
+  // was image-only" without it looking like the conversion failed.
+  const [pageWarnings, setPageWarnings] = useState<PageWarning[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -63,10 +90,24 @@ export default function ConverterPage() {
     setIsPro(!!storedEmail)
   }, [])
 
+  // Drive the elapsed-seconds counter while a conversion is running. Resets
+  // to 0 every time the converting state begins. Stops when state leaves
+  // 'converting'.
+  useEffect(() => {
+    if (state !== 'converting') return
+    setElapsedSec(0)
+    const start = Date.now()
+    const id = window.setInterval(() => {
+      setElapsedSec(Math.floor((Date.now() - start) / 1000))
+    }, 500)
+    return () => window.clearInterval(id)
+  }, [state])
+
   async function convert(file: File) {
     setFileName(file.name)
     setState('converting')
-    setError('')
+    setError(null)
+    setPageWarnings([])
 
     const form = new FormData()
     form.append('file', file)
@@ -82,11 +123,24 @@ export default function ConverterPage() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
         if (res.status === 429) {
-          setError(`Free tier: ${FREE_LIMIT} files per day reached.`)
+          setError({
+            message: `Free tier: ${FREE_LIMIT} files per day reached.`,
+            recoverable: true,
+          })
           setState('error')
           return
         }
-        throw new Error(data.error || 'Conversion failed')
+        // Structured error from the route handler — keep page + recoverable
+        // so the UI can render specific guidance instead of a generic
+        // "Conversion failed. Try again." toast.
+        setError({
+          message: typeof data.error === 'string' ? data.error : 'Could not process this file.',
+          recoverable: typeof data.recoverable === 'boolean' ? data.recoverable : true,
+          page: typeof data.page === 'number' ? data.page : undefined,
+          technical: typeof data.technical === 'string' ? data.technical : undefined,
+        })
+        setState('error')
+        return
       }
 
       const blob = await res.blob()
@@ -94,6 +148,19 @@ export default function ConverterPage() {
       const match = disp.match(/filename="([^"]+)"/)
       const name = match?.[1] ?? file.name.replace(/\.[^.]+$/, '.uds')
       setOutputName(name)
+
+      // Decode per-page warnings from the response header (base64 JSON).
+      // Any decode failure is silently ignored — warnings are a UX
+      // nice-to-have, not part of the success contract.
+      const warningsHeader = res.headers.get('X-UD-Page-Warnings')
+      if (warningsHeader) {
+        try {
+          const decoded = JSON.parse(atob(warningsHeader))
+          if (Array.isArray(decoded)) setPageWarnings(decoded as PageWarning[])
+        } catch {
+          // ignore
+        }
+      }
 
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
@@ -108,7 +175,14 @@ export default function ConverterPage() {
       }
       setState('done')
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Conversion failed')
+      // Network failure / fetch threw / response wasn't JSON — these are the
+      // genuinely uncategorisable cases. Keep them generic but still note
+      // it's recoverable so the Try Again button shows.
+      setError({
+        message: e instanceof Error ? e.message : 'Could not reach the converter.',
+        recoverable: true,
+        technical: e instanceof Error ? e.stack : undefined,
+      })
       setState('error')
     }
   }
@@ -122,9 +196,10 @@ export default function ConverterPage() {
 
   function reset() {
     setState('idle')
-    setError('')
+    setError(null)
     setFileName('')
     setOutputName('')
+    setPageWarnings([])
     if (inputRef.current) inputRef.current.value = ''
   }
 
@@ -248,13 +323,35 @@ export default function ConverterPage() {
             />
           </div>
 
-          {state === 'error' && (
+          {state === 'error' && error && (
             <div style={{ marginTop: 16, background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.25)', borderRadius: 10, padding: '14px 16px', fontSize: 14 }}>
-              <span style={{ color: 'var(--ud-danger)' }}>{error}</span>
-              {error.includes('limit') && (
-                <a href="/pricing" style={{ marginLeft: 12, color: 'var(--ud-gold)', fontSize: 13, fontWeight: 600 }}>Upgrade to Pro →</a>
-              )}
-              <button onClick={reset} style={{ marginLeft: 12, color: 'var(--ud-teal)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}>Try again</button>
+              <div style={{ color: 'var(--ud-danger)', lineHeight: 1.5 }}>
+                {error.page !== undefined ? (
+                  <>
+                    <strong>Page {error.page}:</strong> {error.message}
+                  </>
+                ) : (
+                  error.message
+                )}
+              </div>
+              <div style={{ marginTop: 10, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                {error.message.toLowerCase().includes('limit') && (
+                  <a href="/pricing" style={{ color: 'var(--ud-gold)', fontSize: 13, fontWeight: 600 }}>Upgrade to Pro →</a>
+                )}
+                {error.recoverable && (
+                  <button onClick={reset} style={{ color: 'var(--ud-teal)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, padding: 0 }}>
+                    Try again
+                  </button>
+                )}
+                {error.technical && (
+                  <details style={{ fontSize: 12, color: 'var(--ud-muted)' }}>
+                    <summary style={{ cursor: 'pointer' }}>Technical detail</summary>
+                    <code style={{ display: 'block', marginTop: 6, padding: 8, background: 'var(--ud-paper-2)', borderRadius: 4, fontSize: 11, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                      {error.technical}
+                    </code>
+                  </details>
+                )}
+              </div>
             </div>
           )}
         </>
@@ -262,7 +359,17 @@ export default function ConverterPage() {
         <div style={{ border: '1px solid var(--ud-border)', borderRadius: 16, padding: '56px 32px', textAlign: 'center', background: '#fff' }}>
           <div style={{ width: 36, height: 36, border: '3px solid var(--ud-border)', borderTopColor: 'var(--ud-gold)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 20px' }} />
           <p style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 500 }}>Converting {fileName}…</p>
-          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>This usually takes a second or two.</p>
+          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>
+            {/* Live elapsed-second ticker so users know the request is still
+                running. The 5–25s estimate sets expectations: most text
+                PDFs land closer to 5s; multi-page documents with image
+                content closer to 25s. The 30s Vercel function ceiling is
+                the hard upper bound — if it's not done by then, the
+                server-side classifyError() returns a 504 with split-the-
+                file guidance. */}
+            Processing… {elapsedSec}s elapsed
+            {elapsedSec > 0 && <span> · usually 5–25s for documents this size</span>}
+          </p>
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
         </div>
       ) : (
@@ -270,10 +377,28 @@ export default function ConverterPage() {
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
           <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ud-teal)', marginBottom: 6 }}>Converted successfully</p>
           <p style={{ fontSize: 14, color: 'var(--ud-teal)', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
-          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 28 }}>
+          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: pageWarnings.length > 0 ? 16 : 28 }}>
             Open it in the{' '}
             <a href="https://reader.hive.baby" style={{ color: 'var(--ud-teal)' }}>UD Reader</a>.
           </p>
+          {pageWarnings.length > 0 && (
+            <div style={{ marginBottom: 28, background: 'rgba(200,150,10,0.08)', border: '1px solid rgba(200,150,10,0.3)', borderRadius: 10, padding: '12px 14px', textAlign: 'left' }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 6 }}>
+                {pageWarnings.length === 1 ? '1 page note:' : `${pageWarnings.length} page notes:`}
+              </p>
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--ud-muted)', lineHeight: 1.5 }}>
+                {pageWarnings.map((w, i) => (
+                  <li key={i} style={{ marginBottom: 4 }}>
+                    <strong style={{ color: 'var(--ud-ink)' }}>
+                      {w.page === 0 ? 'Whole document' : `Page ${w.page}`}
+                    </strong>
+                    {' — '}
+                    {w.detail ?? w.reason}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
             <a
               href="https://reader.hive.baby"
