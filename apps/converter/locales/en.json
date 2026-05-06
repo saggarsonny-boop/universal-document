@@ -1,0 +1,101 @@
+{
+  "header": {
+    "title": "Convert anything",
+    "subtitle": "PDF, DOCX, CSV, JSON, XLSX, images, and more. Free, no signup, your file never leaves the request lifecycle."
+  },
+  "fileUpload": {
+    "uploadAria": "Upload a file to convert",
+    "dropHere": "Drop your file here",
+    "tapToBrowse": "or tap to browse",
+    "sizeAndChangeTemplate": "{{size}} · click to change"
+  },
+  "formats": {
+    "fromLabel": "From",
+    "toLabel": "To",
+    "fromAria": "Source format",
+    "toAria": "Target format",
+    "defaultSuffix": " (default)",
+    "comingSoonSuffix": " — coming soon",
+    "comingSoonTitle": "Coming soon"
+  },
+  "convertButton": {
+    "selectFirst": "Select a file first",
+    "comingSoonTemplate": "{{from}} → {{to}} — coming soon",
+    "comingSoonAriaTemplate": "{{from}} → {{to}} not yet supported — pick another target format",
+    "convertToTemplate": "Convert to {{format}}",
+    "convertAriaTemplate": "Convert {{from}} to {{to}}"
+  },
+  "errors": {
+    "generic": "Could not process this file.",
+    "limitReached": "Free tier limit reached.",
+    "network": "Could not reach the converter.",
+    "tryAgain": "Try again"
+  },
+  "progress": {
+    "convertingTemplate": "Converting {{fileName}}…",
+    "elapsedTemplate": "{{seconds}}s elapsed",
+    "pageProgressTemplate": "Processing page {{now}} of {{total}}…",
+    "percentElapsedTemplate": "{{percent}}% · {{seconds}}s elapsed",
+    "gaugeProgressAria": "Conversion progress: {{percent}} percent",
+    "gaugePercentTemplate": "{{percent}}% · {{seconds}}s of ~{{total}}s",
+    "gaugeWaitNote": "Large files take longer. Hang on."
+  },
+  "success": {
+    "fileReadyTemplate": "Your {{format}} file is ready",
+    "downloadAgain": "Download again",
+    "downloadAriaTemplate": "Download {{name}}",
+    "convertAnother": "Convert another",
+    "convertAnotherAria": "Convert another file",
+    "warningsHeadlineSingular": "1 note about this conversion:",
+    "warningsHeadlinePluralTemplate": "{{n}} notes about this conversion:",
+    "bookmarkTipPrefix": "Tip: bookmark",
+    "bookmarkTipDomain": "converter.hive.baby",
+    "bookmarkTipSuffix": "for next time."
+  },
+  "share": {
+    "headline": "Tell a friend about UD Converter",
+    "subhead": "Free, no signup, works in any browser.",
+    "copyLink": "🔗 Copy link",
+    "linkCopied": "✓ Link copied",
+    "copyAria": "Copy link to UD Converter",
+    "twitter": "🐦 Twitter",
+    "twitterAria": "Share on Twitter",
+    "email": "✉️ Email",
+    "emailAria": "Share by email",
+    "whatsapp": "💬 WhatsApp",
+    "whatsappAria": "Share on WhatsApp",
+    "emailSubject": "Try UD Converter",
+    "shareText": "I just used UD Converter to convert a file. No accounts, no tracking, free forever — try it.",
+    "copyPrompt": "Copy this link:"
+  },
+  "related": {
+    "headline": "Try these other free Hive engines",
+    "seeAll": "See all Hive engines →"
+  },
+  "tier": {
+    "checking": "Checking your tier…",
+    "proLabel": "Pro",
+    "proBody": "unlimited conversions + batch + API",
+    "plusLabel": "Plus",
+    "plusBody": "unlimited single-file conversions",
+    "freeLabel": "Free tier",
+    "freeRemainingTemplate": "{{remaining}} of {{limit}} conversions remaining today",
+    "upgradeCta": "Upgrade — from $0.97/mo",
+    "upgradeAria": "View pricing — upgrade to UD Converter Plus or Pro"
+  },
+  "paywall": {
+    "ariaLabel": "Free tier limit reached",
+    "title": "Free tier limit reached",
+    "bodyUsedTemplateSingular": "You've used your {{used}} free conversion (limit: {{limit}}).",
+    "bodyUsedTemplatePlural": "You've used your {{used}} free conversions (limit: {{limit}}).",
+    "bodyFallback": "You've used your free conversions for now.",
+    "bodySuffix": "To keep converting, upgrade.",
+    "plusTitle": "Plus — $0.97/mo",
+    "plusBody": "Unlimited conversions, up to 25 MB / 100 pages",
+    "plusAria": "Upgrade to UD Converter Plus for $0.97/month",
+    "proTitle": "Pro — $29/mo",
+    "proBody": "Plus, plus batch ZIP, API access, chain of custody, 50 MB",
+    "proAria": "Upgrade to UD Converter Pro for $29/month",
+    "dismiss": "Maybe later"
+  }
+}

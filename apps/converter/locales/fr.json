@@ -1,0 +1,101 @@
+{
+  "header": {
+    "title": "Convertir n'importe quoi",
+    "subtitle": "PDF, DOCX, CSV, JSON, XLSX, images et bien d'autres. Gratuit, sans inscription, votre fichier ne quitte jamais le cycle de requête."
+  },
+  "fileUpload": {
+    "uploadAria": "Télécharger un fichier à convertir",
+    "dropHere": "Déposez votre fichier ici",
+    "tapToBrowse": "ou appuyez pour parcourir",
+    "sizeAndChangeTemplate": "{{size}} · cliquez pour modifier"
+  },
+  "formats": {
+    "fromLabel": "De",
+    "toLabel": "Vers",
+    "fromAria": "Format source",
+    "toAria": "Format cible",
+    "defaultSuffix": " (par défaut)",
+    "comingSoonSuffix": " — bientôt disponible",
+    "comingSoonTitle": "Bientôt disponible"
+  },
+  "convertButton": {
+    "selectFirst": "Sélectionnez d'abord un fichier",
+    "comingSoonTemplate": "{{from}} → {{to}} — bientôt disponible",
+    "comingSoonAriaTemplate": "{{from}} → {{to}} pas encore pris en charge — choisissez un autre format cible",
+    "convertToTemplate": "Convertir en {{format}}",
+    "convertAriaTemplate": "Convertir {{from}} en {{to}}"
+  },
+  "errors": {
+    "generic": "Impossible de traiter ce fichier.",
+    "limitReached": "Limite de la version gratuite atteinte.",
+    "network": "Impossible de joindre le convertisseur.",
+    "tryAgain": "Réessayer"
+  },
+  "progress": {
+    "convertingTemplate": "Conversion de {{fileName}}…",
+    "elapsedTemplate": "{{seconds}}s écoulées",
+    "pageProgressTemplate": "Traitement de la page {{now}} sur {{total}}…",
+    "percentElapsedTemplate": "{{percent}}% · {{seconds}}s écoulées",
+    "gaugeProgressAria": "Progression de la conversion : {{percent}} pour cent",
+    "gaugePercentTemplate": "{{percent}}% · {{seconds}}s sur ~{{total}}s",
+    "gaugeWaitNote": "Les fichiers volumineux prennent plus de temps. Patientez."
+  },
+  "success": {
+    "fileReadyTemplate": "Votre fichier {{format}} est prêt",
+    "downloadAgain": "Télécharger à nouveau",
+    "downloadAriaTemplate": "Télécharger {{name}}",
+    "convertAnother": "Convertir un autre",
+    "convertAnotherAria": "Convertir un autre fichier",
+    "warningsHeadlineSingular": "1 remarque sur cette conversion :",
+    "warningsHeadlinePluralTemplate": "{{n}} remarques sur cette conversion :",
+    "bookmarkTipPrefix": "Conseil : ajouter à vos favoris",
+    "bookmarkTipDomain": "converter.hive.baby",
+    "bookmarkTipSuffix": "pour la prochaine fois."
+  },
+  "share": {
+    "headline": "Parlez à un ami de UD Converter",
+    "subhead": "Gratuit, sans inscription, fonctionne dans n'importe quel navigateur.",
+    "copyLink": "🔗 Copier le lien",
+    "linkCopied": "✓ Lien copié",
+    "copyAria": "Copier le lien vers UD Converter",
+    "twitter": "🐦 Twitter",
+    "twitterAria": "Partager sur Twitter",
+    "email": "✉️ Email",
+    "emailAria": "Partager par email",
+    "whatsapp": "💬 WhatsApp",
+    "whatsappAria": "Partager sur WhatsApp",
+    "emailSubject": "Essayez UD Converter",
+    "shareText": "Je viens d'utiliser UD Converter pour convertir un fichier. Pas de comptes, pas de suivi, gratuit pour toujours — essayez-le.",
+    "copyPrompt": "Copiez ce lien :"
+  },
+  "related": {
+    "headline": "Essayez ces autres moteurs Hive gratuits",
+    "seeAll": "Voir tous les moteurs Hive →"
+  },
+  "tier": {
+    "checking": "Vérification de votre abonnement…",
+    "proLabel": "Pro",
+    "proBody": "conversions illimitées + lot + API",
+    "plusLabel": "Plus",
+    "plusBody": "conversions illimitées sur un seul fichier",
+    "freeLabel": "Version gratuite",
+    "freeRemainingTemplate": "{{remaining}} sur {{limit}} conversions restantes aujourd'hui",
+    "upgradeCta": "Passer à la version payante — à partir de $0.97/mois",
+    "upgradeAria": "Voir les tarifs — passer à UD Converter Plus ou Pro"
+  },
+  "paywall": {
+    "ariaLabel": "Limite de la version gratuite atteinte",
+    "title": "Limite de la version gratuite atteinte",
+    "bodyUsedTemplateSingular": "Vous avez utilisé votre {{used}} conversion gratuite (limite : {{limit}}).",
+    "bodyUsedTemplatePlural": "Vous avez utilisé vos {{used}} conversions gratuites (limite : {{limit}}).",
+    "bodyFallback": "Vous avez utilisé vos conversions gratuites pour le moment.",
+    "bodySuffix": "Pour continuer à convertir, passez à la version payante.",
+    "plusTitle": "Plus — $0.97/mois",
+    "plusBody": "Conversions illimitées, jusqu'à 25 Mo / 100 pages",
+    "plusAria": "Passer à UD Converter Plus pour $0.97/mois",
+    "proTitle": "Pro — $29/mois",
+    "proBody": "Plus, en plus du ZIP en lot, accès API, chaîne de responsabilité, 50 Mo",
+    "proAria": "Passer à UD Converter Pro pour $29/mois",
+    "dismiss": "Peut-être plus tard"
+  }
+}

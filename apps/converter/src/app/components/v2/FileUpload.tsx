@@ -6,6 +6,7 @@
 // onFileSelected fires.
 
 import { useCallback, useRef, useState } from 'react'
+import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
 const GOLD_DIM = '#8a6f1f'
@@ -23,6 +24,7 @@ function formatFileSize(bytes: number): string {
 }
 
 export function FileUpload({ onFileSelected, selectedFile, disabled = false }: Props) {
+  const s = useStrings()
   const inputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
 
@@ -47,7 +49,7 @@ export function FileUpload({ onFileSelected, selectedFile, disabled = false }: P
       onDragLeave={() => setIsDragging(false)}
       onClick={() => !disabled && inputRef.current?.click()}
       role="button"
-      aria-label="Upload a file to convert"
+      aria-label={s.fileUpload.uploadAria}
       tabIndex={disabled ? -1 : 0}
       onKeyDown={(e) => {
         if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
@@ -79,17 +81,17 @@ export function FileUpload({ onFileSelected, selectedFile, disabled = false }: P
             {selectedFile.name}
           </p>
           <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0 }}>
-            {formatFileSize(selectedFile.size)} · click to change
+            {s.fileUpload.sizeAndChangeTemplate.replace('{{size}}', formatFileSize(selectedFile.size))}
           </p>
         </>
       ) : (
         <>
           <div style={{ fontSize: 36 }}>📄</div>
           <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--ud-ink)', margin: 0 }}>
-            Drop your file here
+            {s.fileUpload.dropHere}
           </p>
           <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0 }}>
-            or tap to browse
+            {s.fileUpload.tapToBrowse}
           </p>
         </>
       )}
