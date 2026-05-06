@@ -16,7 +16,11 @@
     "toAria": "صيغة الهدف",
     "defaultSuffix": " (الافتراضي)",
     "comingSoonSuffix": " — قريبًا",
-    "comingSoonTitle": "قريبًا"
+    "comingSoonTitle": "قريبًا",
+    "formatRequestPrompt": "لا ترى تنسيقك؟",
+    "formatRequestCta": "أخبرنا",
+    "formatRequestSubject": "UD Converter — طلب زوج تنسيق",
+    "formatRequestBody": "أود تحويل {{from}} إلى تنسيق لم أتمكن من العثور عليه في القائمة المنسدلة. التنسيق الذي أحتاجه هو:"
   },
   "convertButton": {
     "selectFirst": "اختر ملفًا أولاً",
@@ -81,7 +85,11 @@
     "freeLabel": "المستوى المجاني",
     "freeRemainingTemplate": "{{remaining}} من {{limit}} تحويلات متبقية اليوم",
     "upgradeCta": "ترقية — من $0.97/شهر",
-    "upgradeAria": "عرض الأسعار — ترقية إلى UD Converter Plus أو Pro"
+    "upgradeAria": "عرض الأسعار — ترقية إلى UD Converter Plus أو Pro",
+    "lifetimeExhausted": "انتهت النسخة المجانية — قم بالترقية لمتابعة التحويل",
+    "dailyCooldownTemplate": "التحويل المجاني التالي في ~24h · {{remaining}} من {{limit}} متبقية مدى الحياة",
+    "freshTemplate": "التحويل المجاني الأول متاح الآن · {{limit}} تحويلات مجانية مدى الحياة",
+    "lifetimeRemainingTemplate": "{{remaining}} من {{limit}} تحويلات مجانية متبقية مدى الحياة"
   },
   "paywall": {
     "ariaLabel": "تم الوصول إلى حد المستوى المجاني",

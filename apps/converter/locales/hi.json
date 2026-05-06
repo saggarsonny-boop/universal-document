@@ -16,7 +16,11 @@
     "toAria": "लक्ष्य प्रारूप",
     "defaultSuffix": " (डिफ़ॉल्ट)",
     "comingSoonSuffix": " — जल्द आ रहा है",
-    "comingSoonTitle": "जल्द आ रहा है"
+    "comingSoonTitle": "जल्द आ रहा है",
+    "formatRequestPrompt": "अपना फॉर्मेट नहीं देख रहे हैं?",
+    "formatRequestCta": "हमें बताएं",
+    "formatRequestSubject": "UD Converter — फॉर्मेट पेयर अनुरोध",
+    "formatRequestBody": "मैं {{from}} को एक फॉर्मेट में परिवर्तित करना चाहता हूं जो मुझे ड्रॉपडाउन में नहीं मिला। मुझे जिस फॉर्मेट की आवश्यकता है वह है:"
   },
   "convertButton": {
     "selectFirst": "पहले एक फ़ाइल चुनें",
@@ -81,7 +85,11 @@
     "freeLabel": "निःशुल्क स्तर",
     "freeRemainingTemplate": "आज {{remaining}} से {{limit}} रूपांतरण शेष हैं",
     "upgradeCta": "अपग्रेड करें — $0.97/माह से शुरू",
-    "upgradeAria": "मूल्य निर्धारण देखें — UD Converter Plus या Pro में अपग्रेड करें"
+    "upgradeAria": "मूल्य निर्धारण देखें — UD Converter Plus या Pro में अपग्रेड करें",
+    "lifetimeExhausted": "फ्री टियर समाप्त — परिवर्तित करना जारी रखने के लिए अपग्रेड करें",
+    "dailyCooldownTemplate": "अगली फ्री रूपांतरण ~24h में · {{remaining}} का {{limit}} आजीवन शेष",
+    "freshTemplate": "पहली फ्री रूपांतरण अभी उपलब्ध · {{limit}} आजीवन फ्री",
+    "lifetimeRemainingTemplate": "{{remaining}} का {{limit}} आजीवन फ्री रूपांतरण शेष"
   },
   "paywall": {
     "ariaLabel": "निःशुल्क स्तर की सीमा पहुंच गई",

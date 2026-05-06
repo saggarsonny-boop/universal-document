@@ -131,6 +131,19 @@ export function compatibleOutputs(input: ClientInputFormat): Set<ClientOutputFor
   return out
 }
 
+// Inputs that have at least one supported output. PR #11 hid unsupported
+// pairs from the To dropdown; this complements that by hiding inputs which
+// have zero outputs at all (`odt`, `tsv`, `yaml`, `svg` are advertised in
+// INPUT_FORMATS as future-ready labels but no PAIR has them as the source
+// side, so picking them used to leave the To dropdown showing only the
+// UDS-only safety fallback).
+const SUPPORTED_INPUTS_SET: Set<ClientInputFormat> = new Set(PAIRS.map(([f]) => f))
+
+/** Is this input format the source side of at least one supported pair? */
+export function isInputSupported(input: ClientInputFormat): boolean {
+  return SUPPORTED_INPUTS_SET.has(input)
+}
+
 // Browser-side format detection from File. Mirrors router.ts's MIME +
 // extension fallback chain (without magic-byte inspection — clients have
 // File.type from the browser which is generally reliable).
