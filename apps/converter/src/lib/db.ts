@@ -47,6 +47,28 @@ export async function ensureSchema() {
       created_at TIMESTAMPTZ DEFAULT NOW()
     )
   `
+  // UD Converter v2 cost telemetry. Every conversion (orchestrated or
+  // legacy) writes one row here so we can monitor average cost-per-
+  // conversion against the <$0.001 target. Indexed on timestamp for
+  // dashboard queries; cost is NUMERIC so 6-decimal-place precision
+  // (sub-thousandths-of-a-cent) survives.
+  await sql`
+    CREATE TABLE IF NOT EXISTS conversion_costs (
+      id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+      timestamp TIMESTAMPTZ DEFAULT NOW(),
+      user_tier TEXT NOT NULL,
+      route TEXT NOT NULL,
+      input_format TEXT,
+      output_format TEXT,
+      input_tokens INTEGER DEFAULT 0,
+      output_tokens INTEGER DEFAULT 0,
+      estimated_cost_usd NUMERIC(10, 6) DEFAULT 0,
+      file_name TEXT,
+      success BOOLEAN DEFAULT TRUE,
+      error_message TEXT
+    )
+  `
+  await sql`CREATE INDEX IF NOT EXISTS conversion_costs_timestamp_idx ON conversion_costs (timestamp DESC)`
 }
 
 export function hashIp(ip: string) {
@@ -160,4 +182,48 @@ export async function logCustody(params: {
     INSERT INTO converter_custody_log (email, api_key_prefix, file_name, file_size, output_id)
     VALUES (${params.email}, ${params.apiKeyPrefix}, ${params.fileName}, ${params.fileSize}, ${params.outputId})
   `
+}
+
+// UD Converter v2 — append a single conversion's cost telemetry. Called by
+// the orchestrator after every conversion, success or failure. Failures
+// to write are swallowed (telemetry is fire-and-forget; conversion path
+// must not be blocked by a logging hiccup).
+export async function logConversionCost(params: {
+  userTier: 'free' | 'plus' | 'pro' | 'unknown'
+  route: string
+  inputFormat?: string
+  outputFormat?: string
+  inputTokens?: number
+  outputTokens?: number
+  estimatedCostUsd?: number
+  fileName?: string
+  success?: boolean
+  errorMessage?: string
+}): Promise<void> {
+  try {
+    const sql = getDb()
+    await sql`
+      INSERT INTO conversion_costs (
+        user_tier, route, input_format, output_format,
+        input_tokens, output_tokens, estimated_cost_usd,
+        file_name, success, error_message
+      ) VALUES (
+        ${params.userTier},
+        ${params.route},
+        ${params.inputFormat ?? null},
+        ${params.outputFormat ?? null},
+        ${params.inputTokens ?? 0},
+        ${params.outputTokens ?? 0},
+        ${params.estimatedCostUsd ?? 0},
+        ${params.fileName ?? null},
+        ${params.success ?? true},
+        ${params.errorMessage ?? null}
+      )
+    `
+  } catch (err) {
+    // Telemetry is non-fatal — never block a conversion on logging.
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('[ud-converter-v2] logConversionCost failed:', err)
+    }
+  }
 }
