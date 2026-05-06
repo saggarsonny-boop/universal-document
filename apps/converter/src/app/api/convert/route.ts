@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
-import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody, logConversionCost } from '@/lib/db'
+import { ensureSchema, validateApiKey, logCustody, logConversionCost, getFreeTierState } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
 import { ensureRegistrySchema, sealDocument as registrySeal } from '@shared/lib/registry'
 import { decideRoute, type UserTier } from '@/lib/orchestrator'
+import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
-const FREE_DAILY_LIMIT = 5
 const MAX_FREE_BYTES = 10 * 1024 * 1024
 
 // Map raw thrown errors to user-facing copy + machine-readable hints. The
@@ -70,26 +71,25 @@ function getIp(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     // DB is optional — if unavailable, conversion still works without rate limiting
-    let dbAvailable = true
     try {
       await ensureSchema()
     } catch (dbErr) {
       console.warn('DB unavailable, proceeding without rate limiting:', dbErr)
-      dbAvailable = false
     }
 
-    const apiKey = req.headers.get('x-api-key')
-    let proUser: { email: string; prefix: string } | null = null
-
-    if (apiKey && dbAvailable) {
-      proUser = await validateApiKey(apiKey).catch(() => null)
-      if (proUser === null && apiKey) {
-        return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 403 })
-      }
+    // PR D — rate-limit gate. Pro x-api-key → Plus signed cookie →
+    // free-tier lifetime + daily check. Returns structured 429 on cap.
+    const decision = await checkRateLimit(req)
+    if (!decision.allow) {
+      return NextResponse.json(decision.body, { status: decision.status })
     }
+    const proUser: { email: string; prefix: string } | null = decision.tier === 'pro'
+      ? (await validateApiKey(req.headers.get('x-api-key') ?? '').catch(() => null))
+      : null
 
     const formData = await req.formData()
     const file = formData.get('file') as File | null
+    const turnstileToken = formData.get('turnstileToken')?.toString() ?? null
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
@@ -109,25 +109,29 @@ export async function POST(req: NextRequest) {
     const utilityInput = formData.get('utility')?.toString() ?? 'optimize'
     const utility: UDUtilityId = isUDUtility(utilityInput) ? utilityInput : 'optimize'
 
-    if (!proUser && dbAvailable) {
+    // Free-tier file-size cap + Turnstile captcha gate (skip for Plus + Pro).
+    if (decision.tier === 'free') {
       if (file.size > MAX_FREE_BYTES) {
         return NextResponse.json(
-          { error: 'File exceeds 10 MB free tier limit. Upgrade to Pro for larger files.', upgrade: true },
-          { status: 413 }
+          { error: 'File exceeds 10 MB free tier limit. Upgrade to Plus or Pro for larger files.', upgrade: true },
+          { status: 413 },
         )
       }
-      try {
-        const ipHash = hashIp(getIp(req))
-        const usage = await getFreeUsage(ipHash)
-        if (usage >= FREE_DAILY_LIMIT) {
+      const state = await getFreeTierState(decision.ipHash!).catch(() => ({ lifetimeCount: 0, lastConversionAt: null as Date | null }))
+      const requireCaptcha = state.lifetimeCount >= 1
+      if (requireCaptcha) {
+        const v = await verifyTurnstileToken(turnstileToken, getIp(req))
+        if (!v.ok) {
           return NextResponse.json(
-            { error: `Free tier limit: ${FREE_DAILY_LIMIT} files per day. Upgrade to Pro for unlimited conversions.`, upgrade: true, used: usage, limit: FREE_DAILY_LIMIT },
-            { status: 429 }
+            {
+              error: 'captcha_required',
+              message: 'Please complete the captcha to continue. (Turnstile verification failed: ' + (v.reason ?? 'unknown') + ')',
+              captchaRequired: true,
+              recoverable: true,
+            },
+            { status: 401 },
           )
         }
-        await incrementFreeUsage(ipHash)
-      } catch (usageErr) {
-        console.warn('Rate limiting unavailable:', usageErr)
       }
     }
 
@@ -148,7 +152,7 @@ export async function POST(req: NextRequest) {
     // wires the orchestrator into the actual conversion path for new
     // format pairs; the existing PDF→UDS path stays where it is.
     const v2TelemetryEnabled = process.env.UD_CONVERTER_V2 === 'true'
-    const userTier: UserTier = proUser ? 'pro' : 'free'
+    const userTier: UserTier = decision.tier
     let v2RouteUsed: string = 'existing-uds-pipeline'
     let v2InputFormat: string | undefined
     if (v2TelemetryEnabled) {
@@ -235,6 +239,13 @@ export async function POST(req: NextRequest) {
         fileName,
         success: true,
       })
+    }
+
+    // PR D — record the conversion against the free-tier counter only on
+    // success. Plus + Pro tiers skip (their auth path doesn't go through
+    // the IP-hash lifetime counter).
+    if (decision.tier === 'free' && decision.ipHash) {
+      void recordFreeConversionFromCheck(decision.ipHash)
     }
 
     // Register in provenance registry (fire-and-forget — conversion succeeds regardless)

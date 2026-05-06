@@ -1,22 +1,22 @@
 // /api/usage — returns the current visitor's tier + free-tier usage.
 //
-// Used by the new UI's TierIndicator on mount to show "X of N free
-// conversions today" + "Plus" / "Pro" subscriber labels. Cheap query,
-// no rate-limit cost, no auth required for the free path; Pro users
-// pass x-api-key.
+// Used by the new UI's TierIndicator on mount to render "X of N free
+// conversions remaining". Cheap query, no rate-limit cost.
 //
-// Free-tier counter today reads `converter_usage` (per-IP per-day). PR D
-// extends the schema with `lifetime_count` + `most_recent_at` so this
-// endpoint can swap to lifetime semantics without changing the client
-// contract.
+// Tier resolution order matches the rate-limit logic:
+//   1. Pro API key (x-api-key header) → tier=pro
+//   2. Plus signed cookie (ud_plus)    → tier=plus
+//   3. Otherwise                        → tier=free with lifetime + daily counters
 
 import { NextRequest, NextResponse } from 'next/server'
-import { ensureSchema, validateApiKey, hashIp, getFreeUsage } from '@/lib/db'
+import { ensureSchema, validateApiKey, hashIp, getFreeTierState } from '@/lib/db'
+import { readPlusFromRequest } from '@/lib/plus-auth'
+import { LIFETIME_FREE_LIMIT } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 export const maxDuration = 10
 
-const FREE_DAILY_LIMIT = 5  // matches the legacy /api/convert limit; PR D will lower to 1/day + 3 lifetime
+const DAILY_LIMIT = 1  // Free tier: 1 conversion per 24 hours
 
 function getIp(req: NextRequest) {
   return req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? 'unknown'
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
       dbAvailable = false
     }
 
-    // Pro-tier check first — x-api-key trumps IP-based free counting.
+    // Pro tier — x-api-key trumps everything.
     const apiKey = req.headers.get('x-api-key')
     if (apiKey && dbAvailable) {
       const pro = await validateApiKey(apiKey).catch(() => null)
@@ -38,38 +38,66 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({
           tier: 'pro',
           email: pro.email,
-          freeUsedToday: 0,
-          freeLimitToday: FREE_DAILY_LIMIT,
           unlimited: true,
+          lifetimeUsed: 0,
+          lifetimeLimit: LIFETIME_FREE_LIMIT,
+          dailyUsed: 0,
+          dailyLimit: DAILY_LIMIT,
         })
       }
     }
 
-    // Plus-tier auth lands in PR D (signed cookie set on Stripe checkout
-    // return). Until then, Plus users degrade to free-tier counting.
+    // Plus tier — `ud_plus` signed cookie.
+    const plus = await readPlusFromRequest(req).catch(() => null)
+    if (plus) {
+      return NextResponse.json({
+        tier: 'plus',
+        email: plus.email,
+        unlimited: true,
+        lifetimeUsed: 0,
+        lifetimeLimit: LIFETIME_FREE_LIMIT,
+        dailyUsed: 0,
+        dailyLimit: DAILY_LIMIT,
+      })
+    }
+
+    // Free tier — read lifetime + last-conversion state.
     if (!dbAvailable) {
       return NextResponse.json({
         tier: 'free',
-        freeUsedToday: 0,
-        freeLimitToday: FREE_DAILY_LIMIT,
         unlimited: false,
+        lifetimeUsed: 0,
+        lifetimeLimit: LIFETIME_FREE_LIMIT,
+        dailyUsed: 0,
+        dailyLimit: DAILY_LIMIT,
         dbAvailable: false,
       })
     }
 
     const ipHash = hashIp(getIp(req))
-    const used = await getFreeUsage(ipHash).catch(() => 0)
+    const state = await getFreeTierState(ipHash).catch(() => ({ lifetimeCount: 0, lastConversionAt: null as Date | null }))
+    const dailyUsed = state.lastConversionAt && Date.now() - state.lastConversionAt.getTime() < 24 * 60 * 60 * 1000 ? 1 : 0
     return NextResponse.json({
       tier: 'free',
-      freeUsedToday: used,
-      freeLimitToday: FREE_DAILY_LIMIT,
       unlimited: false,
+      lifetimeUsed: state.lifetimeCount,
+      lifetimeLimit: LIFETIME_FREE_LIMIT,
+      dailyUsed,
+      dailyLimit: DAILY_LIMIT,
     })
   } catch (e) {
     console.warn('/api/usage error:', e)
     return NextResponse.json(
-      { tier: 'free', freeUsedToday: 0, freeLimitToday: FREE_DAILY_LIMIT, unlimited: false, error: e instanceof Error ? e.message : String(e) },
-      { status: 200 },  // Fall through to a free-tier baseline rather than 500 — UI is non-critical.
+      {
+        tier: 'free',
+        unlimited: false,
+        lifetimeUsed: 0,
+        lifetimeLimit: LIFETIME_FREE_LIMIT,
+        dailyUsed: 0,
+        dailyLimit: DAILY_LIMIT,
+        error: e instanceof Error ? e.message : String(e),
+      },
+      { status: 200 },  // Non-critical UI data — fall through to free baseline rather than 500
     )
   }
 }
