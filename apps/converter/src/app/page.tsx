@@ -11,15 +11,27 @@
 //                engines cards + bookmark hint
 //   error      — error card with the structured server message + Try Again
 //
-// Routing:
-//   outputFormat === 'uds'  → POST /api/convert (legacy pipeline,
-//                              preserves PR #2's per-page graceful
-//                              degradation for PDFs)
-//   else                    → POST /api/convert/format (PR C orchestrator
-//                              endpoint that routes via PR A's router +
-//                              PR B's converter registry)
+// Routing (PR D + direct-to-blob amendment):
+//   File ≤ 4 MB         → FAST PATH: legacy multipart POST direct to
+//                         /api/convert (uds output) or /api/convert/format
+//                         (any other output). One round-trip, no blob hop.
+//   File > 4 MB         → SLOW PATH: 3-step direct-to-blob upload.
+//                            (1) /api/upload-url issues a Vercel Blob
+//                                client-upload token (validates tier,
+//                                size, mime, captcha).
+//                            (2) Browser PUTs the file directly to
+//                                Vercel Blob, bypassing the function and
+//                                edge proxy (which kills bodies > ~4.5 MB).
+//                                Real upload progress observable.
+//                            (3) /api/convert/format-by-ref fetches the
+//                                blob, runs the orchestrator, eagerly
+//                                deletes the source blob, returns the
+//                                converted file.
+//                         Free tier never hits this path (4 MB cap = fast
+//                         path always); Plus (25 MB) and Pro (50 MB) do.
 //
 import { useEffect, useMemo, useState } from 'react'
+import { upload } from '@vercel/blob/client'
 import { FileUpload } from './components/v2/FileUpload'
 import { FormatDropdowns } from './components/v2/FormatDropdowns'
 import { ProgressIndicator } from './components/v2/ProgressIndicator'
@@ -46,7 +58,20 @@ const GOLD = '#D4AF37'
 const ENGINE_NAME = 'UD Converter'
 const ENGINE_SLUG = 'ud-converter'
 
-type ConvertState = 'idle' | 'converting' | 'done' | 'error'
+type ConvertState = 'idle' | 'uploading' | 'converting' | 'done' | 'error'
+
+// Direct-to-blob threshold. Files at or below this go through the legacy
+// multipart fast path (no blob hop, no upload-url round-trip). Files above
+// need the slow path because Vercel's edge proxy kills request bodies
+// over ~4.5 MB before the function runs.
+const FAST_PATH_BYTES = 4 * 1024 * 1024
+
+// Per-tier file size caps.
+const TIER_MAX_BYTES: Record<'free' | 'plus' | 'pro', number> = {
+  free: 4 * 1024 * 1024,
+  plus: 25 * 1024 * 1024,
+  pro:  50 * 1024 * 1024,
+}
 
 type ConvertError = {
   message: string
@@ -106,6 +131,14 @@ export default function ConverterPage() {
   const [tierSnapshot, setTierSnapshot] = useState<{ tier: 'free' | 'plus' | 'pro'; lifetimeUsed: number; dailyUsed: number } | null>(null)
   // Plus signup confirmation message (set after exchanging plus_session_id → cookie).
   const [plusConfirmation, setPlusConfirmation] = useState<string | null>(null)
+  // Direct-to-blob upload progress, 0–100. Only set during the slow path's
+  // upload phase; null during fast path or once conversion starts.
+  const [uploadPercent, setUploadPercent] = useState<number | null>(null)
+
+  // Tier-derived file size cap. Default to free until /api/usage resolves;
+  // FileUpload re-renders with the right cap once tierSnapshot lands.
+  const currentTier: 'free' | 'plus' | 'pro' = tierSnapshot?.tier ?? 'free'
+  const currentMaxBytes = TIER_MAX_BYTES[currentTier]
 
   // PR D — Plus tier session-exchange. When the user lands on
   // /?plus_session_id=cs_..., POST it to /api/auth/plus-session to set
@@ -175,117 +208,156 @@ export default function ConverterPage() {
   )
 
   // PR D — Convert is disabled if free user needs a captcha but hasn't
-  // produced a token yet. Plus + Pro skip the captcha gate.
+  // produced a token yet. Plus + Pro skip the captcha gate. Also disabled
+  // during upload to prevent double-fire.
   const captchaSatisfied = !needsCaptcha || !!turnstileToken
-  const canConvert = !!file && pairSupported && state !== 'converting' && captchaSatisfied
+  const canConvert = !!file && pairSupported && state !== 'converting' && state !== 'uploading' && captchaSatisfied
 
-  async function convert() {
-    if (!file) return
-    setState('converting')
-    setError(null)
-    setDownloadBlob(null)
-    setWarnings([])
-
-    const apiKey = typeof window !== 'undefined' ? localStorage.getItem('converter_api_key') : null
-    const headers: Record<string, string> = {}
-    if (apiKey) headers['X-API-Key'] = apiKey
-
-    const form = new FormData()
-    form.append('file', file)
-    if (turnstileToken) form.append('turnstileToken', turnstileToken)
-
-    const url = outputFormat === 'uds'
-      ? '/api/convert'
-      : '/api/convert/format'
-
-    if (outputFormat !== 'uds') {
-      form.append('outputFormat', outputFormat)
-    }
-
-    try {
-      const res = await fetch(url, { method: 'POST', body: form, headers })
-
-      if (!res.ok) {
-        const data: ServerErrorBody = await res.json().catch(() => ({}) as ServerErrorBody)
-        const serverMessage = data.error ?? data.message
-        // PR D — captcha verification failed (401). Don't paywall;
-        // re-render the captcha and let the user retry.
-        if (res.status === 401 && data.captchaRequired) {
-          setError({
-            message: serverMessage ?? 'Captcha required.',
-            recoverable: true,
-            captchaRequired: true,
-          })
-          setNeedsCaptcha(true)
-          setTurnstileToken(null)
-          setState('error')
-          return
-        }
-        if (res.status === 429 || data.upgrade) {
-          // Paywall modal — structured fields from PR D's rate-limit gate.
-          setShowPaywall(true)
-          setError({
-            message: serverMessage ?? s.errors.limitReached,
-            recoverable: false,
-            upgrade: true,
-            used: data.used,
-            limit: data.limit,
-            lifetimeUsed: data.lifetime_used,
-            lifetimeLimit: data.lifetime_limit,
-            dailyUsed: data.daily_used,
-            dailyLimit: data.daily_limit,
-            retryAfterHours: data.retry_after_hours,
-            upgradeUrl: data.upgrade_url ?? '/pricing',
-          })
-          setState('error')
-          return
-        }
+  // Process a fetch Response into success state or structured error. Shared
+  // between fast and slow paths since both routes return the same shape.
+  async function handleConvertResponse(res: Response) {
+    if (!res.ok) {
+      const data: ServerErrorBody = await res.json().catch(() => ({}) as ServerErrorBody)
+      const serverMessage = data.error ?? data.message
+      if (res.status === 401 && data.captchaRequired) {
         setError({
-          message: serverMessage ?? s.errors.generic,
-          recoverable: data.recoverable ?? true,
+          message: serverMessage ?? 'Captcha required.',
+          recoverable: true,
+          captchaRequired: true,
+        })
+        setNeedsCaptcha(true)
+        setTurnstileToken(null)
+        setState('error')
+        return
+      }
+      if (res.status === 429 || data.upgrade) {
+        setShowPaywall(true)
+        setError({
+          message: serverMessage ?? s.errors.limitReached,
+          recoverable: false,
+          upgrade: true,
+          used: data.used,
+          limit: data.limit,
+          lifetimeUsed: data.lifetime_used,
+          lifetimeLimit: data.lifetime_limit,
+          dailyUsed: data.daily_used,
+          dailyLimit: data.daily_limit,
+          retryAfterHours: data.retry_after_hours,
+          upgradeUrl: data.upgrade_url ?? '/pricing',
         })
         setState('error')
         return
       }
+      setError({
+        message: serverMessage ?? s.errors.generic,
+        recoverable: data.recoverable ?? true,
+      })
+      setState('error')
+      return
+    }
 
-      const blob = await res.blob()
-      const disp = res.headers.get('Content-Disposition') ?? ''
-      const match = disp.match(/filename="([^"]+)"/)
-      const name = match?.[1] ?? file.name.replace(/\.[^.]+$/, `.${outputFormat}`)
+    const blob = await res.blob()
+    const disp = res.headers.get('Content-Disposition') ?? ''
+    const match = disp.match(/filename="([^"]+)"/)
+    const name = match?.[1] ?? (file ? file.name.replace(/\.[^.]+$/, `.${outputFormat}`) : `output.${outputFormat}`)
 
-      // Decode warnings from header (legacy /api/convert uses
-      // X-UD-Page-Warnings; new /api/convert/format uses X-UD-Warnings).
-      const wHeader = res.headers.get('X-UD-Warnings') ?? res.headers.get('X-UD-Page-Warnings')
-      if (wHeader) {
-        try {
-          const decoded = JSON.parse(atob(wHeader))
-          if (Array.isArray(decoded)) {
-            setWarnings(
-              decoded
-                .map((w: unknown) => typeof w === 'string'
-                  ? w
-                  : (w && typeof w === 'object' && 'detail' in w
-                    ? (w as { detail?: string; reason?: string; page?: number }).detail
-                      ?? `${(w as { reason?: string }).reason ?? 'note'} (page ${(w as { page?: number }).page ?? '—'})`
-                    : ''))
-                .filter((s): s is string => typeof s === 'string' && s.length > 0),
-            )
-          }
-        } catch { /* ignore */ }
+    const wHeader = res.headers.get('X-UD-Warnings') ?? res.headers.get('X-UD-Page-Warnings')
+    if (wHeader) {
+      try {
+        const decoded = JSON.parse(atob(wHeader))
+        if (Array.isArray(decoded)) {
+          setWarnings(
+            decoded
+              .map((w: unknown) => typeof w === 'string'
+                ? w
+                : (w && typeof w === 'object' && 'detail' in w
+                  ? (w as { detail?: string; reason?: string; page?: number }).detail
+                    ?? `${(w as { reason?: string }).reason ?? 'note'} (page ${(w as { page?: number }).page ?? '—'})`
+                  : ''))
+              .filter((s): s is string => typeof s === 'string' && s.length > 0),
+          )
+        }
+      } catch { /* ignore */ }
+    }
+
+    setDownloadBlob({ blob, name })
+    triggerDownload(blob, name)
+    setUsageReloadNonce(n => n + 1)
+    setState('done')
+  }
+
+  async function convert() {
+    if (!file) return
+    setError(null)
+    setDownloadBlob(null)
+    setWarnings([])
+    setUploadPercent(null)
+
+    const useFastPath = file.size <= FAST_PATH_BYTES
+
+    try {
+      if (useFastPath) {
+        // ─── FAST PATH ── multipart POST direct to /api/convert(/format) ──
+        setState('converting')
+        const apiKey = typeof window !== 'undefined' ? localStorage.getItem('converter_api_key') : null
+        const headers: Record<string, string> = {}
+        if (apiKey) headers['X-API-Key'] = apiKey
+        const form = new FormData()
+        form.append('file', file)
+        if (turnstileToken) form.append('turnstileToken', turnstileToken)
+        const url = outputFormat === 'uds' ? '/api/convert' : '/api/convert/format'
+        if (outputFormat !== 'uds') form.append('outputFormat', outputFormat)
+        const res = await fetch(url, { method: 'POST', body: form, headers })
+        await handleConvertResponse(res)
+        return
       }
 
-      setDownloadBlob({ blob, name })
-      // Trigger immediate browser download for the user's primary intent.
-      triggerDownload(blob, name)
+      // ─── SLOW PATH ── upload-to-blob then convert-by-ref ──
+      // Step 1+2: upload directly to Vercel Blob via /api/upload-url's
+      // client-token flow. The browser does the PUT to blob storage
+      // itself; the function only sees metadata.
+      setState('uploading')
+      setUploadPercent(0)
+      const uploaded = await upload(file.name, file, {
+        access: 'public',
+        handleUploadUrl: '/api/upload-url',
+        clientPayload: JSON.stringify({
+          fileSize: file.size,
+          mimeType: file.type,
+          turnstileToken: turnstileToken ?? null,
+          fromFormat: inputFormat,
+        }),
+        onUploadProgress: ({ percentage }) => setUploadPercent(Math.round(percentage)),
+      })
 
-      setUsageReloadNonce(n => n + 1)
-      setState('done')
+      // Step 3: tell the function to convert the just-uploaded blob.
+      setState('converting')
+      setUploadPercent(null)
+      const apiKey = typeof window !== 'undefined' ? localStorage.getItem('converter_api_key') : null
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      if (apiKey) headers['X-API-Key'] = apiKey
+      const res = await fetch('/api/convert/format-by-ref', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          blobUrl: uploaded.url,
+          fileName: file.name,
+          outputFormat,
+          turnstileToken: turnstileToken ?? null,
+        }),
+      })
+      await handleConvertResponse(res)
     } catch (e) {
+      // Both paths funnel network / SDK errors through here. The
+      // @vercel/blob/client `upload()` throws on validation failures
+      // (e.g. tier cap exceeded server-side); surface the raw message.
       setError({
         message: e instanceof Error ? e.message : s.errors.network,
         recoverable: true,
       })
       setState('error')
+    } finally {
+      setUploadPercent(null)
     }
   }
 
@@ -341,14 +413,20 @@ export default function ConverterPage() {
           onDownload={downloadAgain}
           onConvertAnother={reset}
         />
-      ) : state === 'converting' && file ? (
-        <ProgressIndicator fileName={file.name} fileSizeBytes={file.size} />
+      ) : (state === 'converting' || state === 'uploading') && file ? (
+        <ProgressIndicator
+          fileName={file.name}
+          fileSizeBytes={file.size}
+          uploadPercent={state === 'uploading' ? uploadPercent : null}
+        />
       ) : (
         <>
           <FileUpload
             onFileSelected={setFile}
             selectedFile={file}
-            disabled={state === 'converting'}
+            disabled={state === 'converting' || state === 'uploading'}
+            tier={currentTier}
+            maxBytes={currentMaxBytes}
           />
 
           <FormatDropdowns
@@ -356,7 +434,7 @@ export default function ConverterPage() {
             outputFormat={outputFormat}
             onInputChange={setInputFormat}
             onOutputChange={setOutputFormat}
-            disabled={state === 'converting'}
+            disabled={state === 'converting' || state === 'uploading'}
           />
 
           {/* PR D — Captcha gate. Free users on their 2nd+ conversion

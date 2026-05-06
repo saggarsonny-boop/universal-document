@@ -8,8 +8,8 @@
     "dropHere": "अपनी फ़ाइल यहां ड्रॉप करें",
     "tapToBrowse": "या ब्राउज़ करने के लिए टैप करें",
     "sizeAndChangeTemplate": "{{size}} · बदलने के लिए क्लिक करें",
-    "tooLargeTemplate": "{{maxMb}} MB से बड़ी फ़ाइलें अभी मुफ़्त योजना पर समर्थित नहीं हैं। हम बड़ी फ़ाइलों के लिए सीधे अपलोड पर काम कर रहे हैं।",
-    "maxSizeNote": "मुफ़्त योजना: प्रति फ़ाइल {{maxMb}} MB तक"
+    "tooLargeTemplate": "फ़ाइल {{maxMb}} MB की सीमा से अधिक है {{tier}} tier के लिए। बड़ी फ़ाइलों के लिए अपग्रेड करें।",
+    "maxSizeNote": "{{tier}}: प्रति फ़ाइल {{maxMb}} MB तक"
   },
   "formats": {
     "fromLabel": "से",
@@ -44,7 +44,8 @@
     "percentElapsedTemplate": "{{percent}}% · {{seconds}}s बीत गया",
     "gaugeProgressAria": "रूपांतरण प्रगति: {{percent}} प्रतिशत",
     "gaugePercentTemplate": "{{percent}}% · {{seconds}}s लगभग {{total}}s का",
-    "gaugeWaitNote": "बड़ी फ़ाइलें अधिक समय लेती हैं। धीरज रखें।"
+    "gaugeWaitNote": "बड़ी फ़ाइलें अधिक समय लेती हैं। धीरज रखें।",
+    "uploadingTemplate": "{{percent}}% अपलोड हो रहा है…"
   },
   "success": {
     "fileReadyTemplate": "आपकी {{format}} फ़ाइल तैयार है",

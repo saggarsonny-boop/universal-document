@@ -8,8 +8,8 @@
     "dropHere": "Drop your file here",
     "tapToBrowse": "or tap to browse",
     "sizeAndChangeTemplate": "{{size}} · click to change",
-    "tooLargeTemplate": "Files over {{maxMb}} MB aren't supported on free tier yet. We're working on direct upload for larger files.",
-    "maxSizeNote": "Free tier: up to {{maxMb}} MB per file"
+    "tooLargeTemplate": "File exceeds the {{maxMb}} MB cap for the {{tier}} tier. Upgrade for larger files.",
+    "maxSizeNote": "{{tier}}: up to {{maxMb}} MB per file"
   },
   "formats": {
     "fromLabel": "From",
@@ -44,7 +44,8 @@
     "percentElapsedTemplate": "{{percent}}% · {{seconds}}s elapsed",
     "gaugeProgressAria": "Conversion progress: {{percent}} percent",
     "gaugePercentTemplate": "{{percent}}% · {{seconds}}s of ~{{total}}s",
-    "gaugeWaitNote": "Large files take longer. Hang on."
+    "gaugeWaitNote": "Large files take longer. Hang on.",
+    "uploadingTemplate": "Uploading {{percent}}%…"
   },
   "success": {
     "fileReadyTemplate": "Your {{format}} file is ready",

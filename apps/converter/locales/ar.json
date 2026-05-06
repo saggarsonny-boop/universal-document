@@ -8,8 +8,8 @@
     "dropHere": "أسقط ملفك هنا",
     "tapToBrowse": "أو اضغط للاستعراض",
     "sizeAndChangeTemplate": "{{size}} · اضغط لتغيير",
-    "tooLargeTemplate": "الملفات التي تزيد عن {{maxMb}} ميجابايت غير مدعومة حاليًا في المستوى المجاني. نحن نعمل على تحميل مباشر للملفات الأكبر.",
-    "maxSizeNote": "المستوى المجاني: حتى {{maxMb}} ميجابايت لكل ملف"
+    "tooLargeTemplate": "الملف يتجاوز حد {{maxMb}} ميجابايت لمستوى {{tier}}. قم بالترقية لتحميل ملفات أكبر.",
+    "maxSizeNote": "{{tier}}: حتى {{maxMb}} ميجابايت لكل ملف"
   },
   "formats": {
     "fromLabel": "من",
@@ -44,7 +44,8 @@
     "percentElapsedTemplate": "{{percent}}% · {{seconds}}s مضت",
     "gaugeProgressAria": "تقدم التحويل: {{percent}} في المائة",
     "gaugePercentTemplate": "{{percent}}% · {{seconds}}s من ~{{total}}s",
-    "gaugeWaitNote": "الملفات الكبيرة تستغرق وقتًا أطول. استمر."
+    "gaugeWaitNote": "الملفات الكبيرة تستغرق وقتًا أطول. استمر.",
+    "uploadingTemplate": "جاري التحميل {{percent}}%…"
   },
   "success": {
     "fileReadyTemplate": "ملف {{format}} جاهز",

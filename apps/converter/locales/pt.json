@@ -8,8 +8,8 @@
     "dropHere": "Solte seu arquivo aqui",
     "tapToBrowse": "ou toque para procurar",
     "sizeAndChangeTemplate": "{{size}} · clique para alterar",
-    "tooLargeTemplate": "Arquivos maiores que {{maxMb}} MB ainda não são compatíveis com o plano gratuito. Estamos trabalhando no upload direto para arquivos maiores.",
-    "maxSizeNote": "Plano gratuito: até {{maxMb}} MB por arquivo"
+    "tooLargeTemplate": "O arquivo excede o limite de {{maxMb}} MB para {{tier}}. Atualize para arquivos maiores.",
+    "maxSizeNote": "{{tier}}: até {{maxMb}} MB por arquivo"
   },
   "formats": {
     "fromLabel": "De",
@@ -44,7 +44,8 @@
     "percentElapsedTemplate": "{{percent}}% · {{seconds}}s decorridos",
     "gaugeProgressAria": "Progresso da conversão: {{percent}} porcento",
     "gaugePercentTemplate": "{{percent}}% · {{seconds}}s de ~{{total}}s",
-    "gaugeWaitNote": "Arquivos grandes levam mais tempo. Aguarde."
+    "gaugeWaitNote": "Arquivos grandes levam mais tempo. Aguarde.",
+    "uploadingTemplate": "Enviando {{percent}}%…"
   },
   "success": {
     "fileReadyTemplate": "Seu arquivo {{format}} está pronto",

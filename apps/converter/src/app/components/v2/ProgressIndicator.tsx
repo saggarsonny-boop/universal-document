@@ -21,11 +21,17 @@ const GOLD_DIM = '#8a6f1f'
 type Props = {
   fileName: string
   fileSizeBytes: number
+  /** Upload progress 0–100 during direct-to-blob upload phase. When null,
+   *  the indicator renders the standard converting state. When non-null,
+   *  the upload header replaces the "Converting…" line and the elapsed/
+   *  page-progress sub-line shows the upload percentage. */
+  uploadPercent?: number | null
 }
 
-export function ProgressIndicator({ fileName, fileSizeBytes }: Props) {
+export function ProgressIndicator({ fileName, fileSizeBytes, uploadPercent = null }: Props) {
   const s = useStrings()
   const [elapsed, setElapsed] = useState(0)
+  const isUploading = uploadPercent !== null
 
   useEffect(() => {
     const start = Date.now()
@@ -57,10 +63,16 @@ export function ProgressIndicator({ fileName, fileSizeBytes }: Props) {
     }} role="status" aria-live="polite">
       <Spinner />
       <p style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 500, margin: 0, wordBreak: 'break-all' }}>
-        {s.progress.convertingTemplate.replace('{{fileName}}', fileName)}
+        {isUploading
+          ? s.progress.uploadingTemplate.replace('{{percent}}', String(uploadPercent ?? 0))
+          : s.progress.convertingTemplate.replace('{{fileName}}', fileName)}
       </p>
 
-      {elapsed < 3 ? (
+      {isUploading ? (
+        <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0, wordBreak: 'break-all' }}>
+          {fileName}
+        </p>
+      ) : elapsed < 3 ? (
         <p style={{ fontSize: 13, color: 'var(--ud-muted)', margin: 0 }}>
           {s.progress.elapsedTemplate.replace('{{seconds}}', String(elapsed))}
         </p>

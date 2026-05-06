@@ -1,9 +1,14 @@
 'use client'
 
 // File upload area for UD Converter v2. Drag-drop + click to browse.
-// Shows file name + size after selection. Auto-detect of input format
-// happens in the parent (page.tsx) which calls detectClientFormat after
-// onFileSelected fires.
+// Shows file name + size after selection.
+//
+// Tier-aware size cap: the parent (page.tsx) passes `tier` and
+// `maxBytes` based on the current /api/usage response. Free tier is
+// 4 MB (matches the legacy /api/convert fast path); Plus is 25 MB; Pro
+// is 50 MB. Files over the cap are rejected client-side with a localized
+// error before any network round-trip — server still re-validates at
+// /api/upload-url + /api/convert/format-by-ref.
 
 import { useCallback, useRef, useState } from 'react'
 import { useStrings } from '@/lib/strings'
@@ -11,20 +16,14 @@ import { useStrings } from '@/lib/strings'
 const GOLD = '#D4AF37'
 const GOLD_DIM = '#8a6f1f'
 
-// Pre-flight upload size cap. Vercel Hobby plan rejects request bodies
-// larger than ~4.5 MB at the edge proxy *before* the function runs, so
-// the in-app `MAX_FREE_BYTES = 10 MB` check inside /api/convert is
-// unreachable for files above the edge limit. Gate at 4 MB client-side
-// (with a small margin under 4.5) so the user gets an honest message
-// at file-pick time instead of the generic "Could not process this
-// file" toast that the edge 413 produces.
-export const MAX_PREFLIGHT_BYTES = 4 * 1024 * 1024
-export const MAX_PREFLIGHT_MB = 4
+type Tier = 'free' | 'plus' | 'pro'
 
 type Props = {
   onFileSelected: (file: File) => void
   selectedFile: File | null
   disabled?: boolean
+  tier: Tier
+  maxBytes: number
 }
 
 function formatFileSize(bytes: number): string {
@@ -33,20 +32,27 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
-export function FileUpload({ onFileSelected, selectedFile, disabled = false }: Props) {
+export function FileUpload({ onFileSelected, selectedFile, disabled = false, tier, maxBytes }: Props) {
   const s = useStrings()
   const inputRef = useRef<HTMLInputElement>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [tooLargeMsg, setTooLargeMsg] = useState<string | null>(null)
 
+  const maxMb = Math.round(maxBytes / (1024 * 1024))
+  const tierLabel = tier === 'free' ? s.tier.freeLabel : tier === 'plus' ? s.tier.plusLabel : s.tier.proLabel
+
   const handleFile = useCallback((file: File) => {
-    if (file.size > MAX_PREFLIGHT_BYTES) {
-      setTooLargeMsg(s.fileUpload.tooLargeTemplate.replace('{{maxMb}}', String(MAX_PREFLIGHT_MB)))
+    if (file.size > maxBytes) {
+      setTooLargeMsg(
+        s.fileUpload.tooLargeTemplate
+          .replace('{{maxMb}}', String(maxMb))
+          .replace('{{tier}}', tierLabel),
+      )
       return
     }
     setTooLargeMsg(null)
     onFileSelected(file)
-  }, [onFileSelected, s])
+  }, [onFileSelected, s, maxBytes, maxMb, tierLabel])
 
   const onDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -87,7 +93,7 @@ export function FileUpload({ onFileSelected, selectedFile, disabled = false }: P
         background: isDragging ? 'rgba(212, 175, 55, 0.08)' : '#ffffff',
         transition: 'all 0.15s',
         opacity: disabled ? 0.6 : 1,
-        minHeight: 140,  // touch-target floor
+        minHeight: 140,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -123,14 +129,15 @@ export function FileUpload({ onFileSelected, selectedFile, disabled = false }: P
         onChange={onPick}
         disabled={disabled}
       />
-      {/* GOLD_DIM is referenced for the focus-ring style hook; suppress unused-import warning. */}
       <span style={{ display: 'none' }} aria-hidden="true">{GOLD_DIM}</span>
       </div>
       {tooLargeMsg ? (
         <p role="alert" style={tooLargeStyle}>{tooLargeMsg}</p>
       ) : (
         <p style={maxSizeNoteStyle}>
-          {s.fileUpload.maxSizeNote.replace('{{maxMb}}', String(MAX_PREFLIGHT_MB))}
+          {s.fileUpload.maxSizeNote
+            .replace('{{maxMb}}', String(maxMb))
+            .replace('{{tier}}', tierLabel)}
         </p>
       )}
     </div>
