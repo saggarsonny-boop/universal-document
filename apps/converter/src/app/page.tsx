@@ -1,143 +1,146 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
-import AutoDemo from './components/AutoDemo'
-import FirstVisitCard from './components/FirstVisitCard'
-import TooltipTour from './components/TooltipTour'
-import UDOnboarding from '@/components/UDOnboarding'
+// UD Converter v2 — universal "any to any" UI.
+//
+// State machine:
+//   idle       — file may or may not be selected; convert button enabled
+//                iff a file is selected AND the selected format pair is
+//                supported AND the user is below their free-tier cap
+//   converting — POST in flight; ProgressIndicator visible
+//   done       — SharePage visible with download CTA + share row + related-
+//                engines cards + bookmark hint
+//   error      — error card with the structured server message + Try Again
+//
+// Routing:
+//   outputFormat === 'uds'  → POST /api/convert (legacy pipeline,
+//                              preserves PR #2's per-page graceful
+//                              degradation for PDFs)
+//   else                    → POST /api/convert/format (PR C orchestrator
+//                              endpoint that routes via PR A's router +
+//                              PR B's converter registry)
+//
+// Phase 4 deferrals (HiveOps shared package): no canonical Hive logo
+// in header, no canonical "Made with ♥ in the Hive" footer signature,
+// no install banner, no favicon set, no iOS appleWebApp meta. All
+// retrofit cleanly when packages/hive-onboarding/ ships.
+
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { FileUpload } from './components/v2/FileUpload'
+import { FormatDropdowns } from './components/v2/FormatDropdowns'
+import { ProgressIndicator } from './components/v2/ProgressIndicator'
+import { SharePage } from './components/v2/SharePage'
+import { TierIndicator } from './components/v2/TierIndicator'
+import { PaywallModal } from './components/v2/PaywallModal'
+import {
+  detectClientFormat,
+  isPairSupported,
+  type ClientInputFormat,
+  type ClientOutputFormat,
+} from '@/lib/client-formats'
+
+const GOLD = '#D4AF37'
 
 type ConvertState = 'idle' | 'converting' | 'done' | 'error'
-
-// Mirrors the PageWarning shape from src/lib/convert.ts. Duplicated here
-// rather than imported so the client bundle doesn't pull in the server-side
-// pdfjs/Anthropic dependencies.
-type PageWarning = {
-  page: number
-  reason: 'image-only' | 'sparse-text' | 'rotated' | 'extraction-failed'
-  recoverable: boolean
-  detail?: string
-}
 
 type ConvertError = {
   message: string
   recoverable: boolean
-  page?: number
-  technical?: string
+  upgrade?: boolean
+  used?: number
+  limit?: number
 }
 
-const ACCEPTED = '.pdf,.docx,.txt,.md,.csv,.html,.png,.jpg,.jpeg,.webp,.gif'
-const ACCEPTED_LABEL = 'PDF, DOCX, TXT, CSV, HTML, images'
-const FREE_LIMIT = 5
-
-const UTILITY_OPTIONS = [
-  { id: 'merge', label: 'UD Merge' },
-  { id: 'split', label: 'UD Split' },
-  { id: 'compress', label: 'UD Compress' },
-  { id: 'extract-pages', label: 'UD Extract Pages' },
-  { id: 'rearrange-pages', label: 'UD Rearrange Pages' },
-  { id: 'protect', label: 'UD Protect' },
-  { id: 'unlock', label: 'UD Unlock' },
-  { id: 'ocr', label: 'UD OCR' },
-  { id: 'watermark', label: 'UD Watermark' },
-  { id: 'page-numbers', label: 'UD Page Numbers' },
-  { id: 'compare', label: 'UD Compare' },
-  { id: 'redact', label: 'UD Redact' },
-  { id: 'optimize', label: 'UD Optimize' },
-] as const
-
-function getTodayKey() {
-  return new Date().toISOString().slice(0, 10)
-}
-
-function getUsage(): number {
-  if (typeof window === 'undefined') return 0
-  const day = localStorage.getItem('converter_day')
-  if (day !== getTodayKey()) return 0
-  return Number(localStorage.getItem('converter_count') ?? '0')
-}
-
-function incrementUsage() {
-  localStorage.setItem('converter_day', getTodayKey())
-  const next = getUsage() + 1
-  localStorage.setItem('converter_count', String(next))
-  return next
+// Server response shape for failed conversions. Both /api/convert and
+// /api/convert/format use the same error JSON: { error, recoverable, ... }.
+type ServerErrorBody = {
+  error?: string
+  message?: string
+  recoverable?: boolean
+  upgrade?: boolean
+  used?: number
+  limit?: number
 }
 
 export default function ConverterPage() {
+  const [file, setFile] = useState<File | null>(null)
+  const [inputFormat, setInputFormat] = useState<ClientInputFormat>('pdf')
+  const [outputFormat, setOutputFormat] = useState<ClientOutputFormat>('uds')
+
   const [state, setState] = useState<ConvertState>('idle')
   const [error, setError] = useState<ConvertError | null>(null)
-  const [fileName, setFileName] = useState('')
-  const [outputName, setOutputName] = useState('')
-  const [isDragging, setIsDragging] = useState(false)
-  const [usage, setUsage] = useState(0)
-  const [isPro, setIsPro] = useState(false)
-  const [utility, setUtility] = useState<(typeof UTILITY_OPTIONS)[number]['id']>('optimize')
-  // Live elapsed-seconds counter for the converting state. Replaces the old
-  // static "This usually takes a second or two." with a real ticker so users
-  // know the request hasn't silently stalled. Estimate copy ("usually
-  // 5-25s") sets expectations for documents with image content that take
-  // longer than the trivial case.
-  const [elapsedSec, setElapsedSec] = useState(0)
-  // Per-page warnings surfaced from the API on success. Rendered as a
-  // non-blocking notice on the success view so the user knows e.g. "page 8
-  // was image-only" without it looking like the conversion failed.
-  const [pageWarnings, setPageWarnings] = useState<PageWarning[]>([])
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [downloadBlob, setDownloadBlob] = useState<{ blob: Blob; name: string } | null>(null)
+  const [warnings, setWarnings] = useState<string[]>([])
+  const [showPaywall, setShowPaywall] = useState(false)
+  // Bumped after each successful conversion so the TierIndicator re-fetches the count.
+  const [usageReloadNonce, setUsageReloadNonce] = useState(0)
 
+  // Auto-detect input format when a file is selected. The user can
+  // override afterward via the From dropdown.
   useEffect(() => {
-    setUsage(getUsage())
-    const storedEmail = localStorage.getItem('converter_pro_email')
-    setIsPro(!!storedEmail)
-  }, [])
+    if (!file) return
+    const detected = detectClientFormat(file)
+    if (detected !== 'unknown') setInputFormat(detected)
+  }, [file])
 
-  // Drive the elapsed-seconds counter while a conversion is running. Resets
-  // to 0 every time the converting state begins. Stops when state leaves
-  // 'converting'.
+  // If the current outputFormat becomes incompatible after the input
+  // changes, snap back to UDS (which is universally supported).
   useEffect(() => {
-    if (state !== 'converting') return
-    setElapsedSec(0)
-    const start = Date.now()
-    const id = window.setInterval(() => {
-      setElapsedSec(Math.floor((Date.now() - start) / 1000))
-    }, 500)
-    return () => window.clearInterval(id)
-  }, [state])
+    if (!isPairSupported(inputFormat, outputFormat)) {
+      setOutputFormat('uds')
+    }
+  }, [inputFormat, outputFormat])
 
-  async function convert(file: File) {
-    setFileName(file.name)
+  const pairSupported = useMemo(
+    () => isPairSupported(inputFormat, outputFormat),
+    [inputFormat, outputFormat],
+  )
+
+  const canConvert = !!file && pairSupported && state !== 'converting'
+
+  async function convert() {
+    if (!file) return
     setState('converting')
     setError(null)
-    setPageWarnings([])
+    setDownloadBlob(null)
+    setWarnings([])
+
+    const apiKey = typeof window !== 'undefined' ? localStorage.getItem('converter_api_key') : null
+    const headers: Record<string, string> = {}
+    if (apiKey) headers['X-API-Key'] = apiKey
 
     const form = new FormData()
     form.append('file', file)
-    form.append('utility', utility)
 
-    const headers: Record<string, string> = {}
-    const apiKey = localStorage.getItem('converter_api_key')
-    if (apiKey) headers['X-API-Key'] = apiKey
+    const url = outputFormat === 'uds'
+      ? '/api/convert'
+      : '/api/convert/format'
+
+    if (outputFormat !== 'uds') {
+      form.append('outputFormat', outputFormat)
+    }
 
     try {
-      const res = await fetch('/api/convert', { method: 'POST', body: form, headers })
+      const res = await fetch(url, { method: 'POST', body: form, headers })
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        if (res.status === 429) {
+        const data: ServerErrorBody = await res.json().catch(() => ({}) as ServerErrorBody)
+        const serverMessage = data.error ?? data.message
+        if (res.status === 429 || data.upgrade) {
+          // Show the paywall modal instead of just an error toast.
+          setShowPaywall(true)
           setError({
-            message: `Free tier: ${FREE_LIMIT} files per day reached.`,
-            recoverable: true,
+            message: serverMessage ?? 'Free tier limit reached.',
+            recoverable: false,
+            upgrade: true,
+            used: data.used,
+            limit: data.limit,
           })
           setState('error')
           return
         }
-        // Structured error from the route handler — keep page + recoverable
-        // so the UI can render specific guidance instead of a generic
-        // "Conversion failed. Try again." toast.
         setError({
-          message: typeof data.error === 'string' ? data.error : 'Could not process this file.',
-          recoverable: typeof data.recoverable === 'boolean' ? data.recoverable : true,
-          page: typeof data.page === 'number' ? data.page : undefined,
-          technical: typeof data.technical === 'string' ? data.technical : undefined,
+          message: serverMessage ?? 'Could not process this file.',
+          recoverable: data.recoverable ?? true,
         })
         setState('error')
         return
@@ -146,308 +149,179 @@ export default function ConverterPage() {
       const blob = await res.blob()
       const disp = res.headers.get('Content-Disposition') ?? ''
       const match = disp.match(/filename="([^"]+)"/)
-      const name = match?.[1] ?? file.name.replace(/\.[^.]+$/, '.uds')
-      setOutputName(name)
+      const name = match?.[1] ?? file.name.replace(/\.[^.]+$/, `.${outputFormat}`)
 
-      // Decode per-page warnings from the response header (base64 JSON).
-      // Any decode failure is silently ignored — warnings are a UX
-      // nice-to-have, not part of the success contract.
-      const warningsHeader = res.headers.get('X-UD-Page-Warnings')
-      if (warningsHeader) {
+      // Decode warnings from header (legacy /api/convert uses
+      // X-UD-Page-Warnings; new /api/convert/format uses X-UD-Warnings).
+      const wHeader = res.headers.get('X-UD-Warnings') ?? res.headers.get('X-UD-Page-Warnings')
+      if (wHeader) {
         try {
-          const decoded = JSON.parse(atob(warningsHeader))
-          if (Array.isArray(decoded)) setPageWarnings(decoded as PageWarning[])
-        } catch {
-          // ignore
-        }
+          const decoded = JSON.parse(atob(wHeader))
+          if (Array.isArray(decoded)) {
+            setWarnings(
+              decoded
+                .map((w: unknown) => typeof w === 'string'
+                  ? w
+                  : (w && typeof w === 'object' && 'detail' in w
+                    ? (w as { detail?: string; reason?: string; page?: number }).detail
+                      ?? `${(w as { reason?: string }).reason ?? 'note'} (page ${(w as { page?: number }).page ?? '—'})`
+                    : ''))
+                .filter((s): s is string => typeof s === 'string' && s.length > 0),
+            )
+          }
+        } catch { /* ignore */ }
       }
 
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = name
-      a.click()
-      URL.revokeObjectURL(url)
+      setDownloadBlob({ blob, name })
+      // Trigger immediate browser download for the user's primary intent.
+      triggerDownload(blob, name)
 
-      if (!isPro) {
-        const next = incrementUsage()
-        setUsage(next)
-      }
+      setUsageReloadNonce(n => n + 1)
       setState('done')
     } catch (e) {
-      // Network failure / fetch threw / response wasn't JSON — these are the
-      // genuinely uncategorisable cases. Keep them generic but still note
-      // it's recoverable so the Try Again button shows.
       setError({
         message: e instanceof Error ? e.message : 'Could not reach the converter.',
         recoverable: true,
-        technical: e instanceof Error ? e.stack : undefined,
       })
       setState('error')
     }
   }
 
-  const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-    const file = e.dataTransfer.files[0]
-    if (file) convert(file)
-  }, [isPro]) // eslint-disable-line react-hooks/exhaustive-deps
-
   function reset() {
+    setFile(null)
+    setInputFormat('pdf')
+    setOutputFormat('uds')
     setState('idle')
     setError(null)
-    setFileName('')
-    setOutputName('')
-    setPageWarnings([])
-    if (inputRef.current) inputRef.current.value = ''
+    setDownloadBlob(null)
+    setWarnings([])
   }
 
-  const atLimit = !isPro && usage >= FREE_LIMIT
+  function downloadAgain() {
+    if (downloadBlob) triggerDownload(downloadBlob.blob, downloadBlob.name)
+  }
 
   return (
-    <main style={{ maxWidth: 600, margin: '0 auto', padding: '64px 24px 40px' }}>
-      <UDOnboarding engine="Converter" />
-      <AutoDemo />
-      <FirstVisitCard />
-      <TooltipTour engineId="udconverter" tips={[
-        { label: "Upload or drag", text: "Drop PDF, DOCX, TXT, CSV, HTML, or images — then normalize to UDS." },
-        { label: "Free tier", text: "5 free conversions per day, no account needed. The count resets at midnight." },
-        { label: "UD utilities", text: "Use Merge, Split, OCR, Redact, Optimize and more before conversion." },
-        { label: "Download", text: "Output is a UDS file with sealed visual identity and metadata links." },
-      ]} />
-
-      <div style={{ marginBottom: 48, textAlign: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
-          <a href="https://reader.hive.baby" style={{ fontSize: 13, color: 'var(--ud-muted)' }}>← UD Hub</a>
-          <span style={{ color: 'var(--ud-border)' }}>·</span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)' }}>Converter</span>
-          <span style={{ color: 'var(--ud-border)' }}>·</span>
-          <a href="/pricing" style={{ fontSize: 13, color: 'var(--ud-teal)' }}>Pricing</a>
-        </div>
-        <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: 12 }}>
-          Convert to Universal Document™
+    <main style={{ maxWidth: 640, margin: '0 auto', padding: '32px 16px 64px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* Header */}
+      <header style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 4 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--ud-ink)', margin: 0, letterSpacing: '-0.02em' }}>
+          Convert anything
         </h1>
-        <p style={{ fontSize: 15, color: 'var(--ud-muted)', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
-          Upload a {ACCEPTED_LABEL} file. Pick a UD utility, then download a normalized <code style={{ background: 'var(--ud-paper-2)', padding: '1px 6px', borderRadius: 4, fontSize: 13 }}>.uds</code> file ready for UD Reader.
+        <p style={{ fontSize: 14, color: 'var(--ud-muted)', margin: 0, lineHeight: 1.5 }}>
+          PDF, DOCX, CSV, JSON, XLSX, images, and more. Free, no signup, your file never leaves the request lifecycle.
         </p>
+      </header>
 
-        <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-          <label style={{ fontSize: 13, color: 'var(--ud-muted)', display: 'flex', alignItems: 'center', gap: 8 }}>
-            Utility
-            <select
-              value={utility}
-              onChange={(e) => setUtility(e.target.value as (typeof UTILITY_OPTIONS)[number]['id'])}
-              style={{ border: '1px solid var(--ud-border)', borderRadius: 8, padding: '6px 10px', fontSize: 13, color: 'var(--ud-ink)', background: '#fff' }}
-            >
-              {UTILITY_OPTIONS.map((option) => (
-                <option key={option.id} value={option.id}>{option.label}</option>
-              ))}
-            </select>
-          </label>
-        </div>
+      <TierIndicator reloadNonce={usageReloadNonce} />
 
-        {!isPro && (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 16, background: atLimit ? 'rgba(226,75,74,0.06)' : 'var(--ud-paper-2)', border: `1px solid ${atLimit ? 'rgba(226,75,74,0.25)' : 'var(--ud-border)'}`, borderRadius: 20, padding: '6px 14px' }}>
-            <span style={{ fontSize: 13, color: atLimit ? 'var(--ud-danger)' : 'var(--ud-muted)' }}>
-              {usage}/{FREE_LIMIT} free conversions today
-            </span>
-            {atLimit && (
-              <a href="/pricing" style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-gold)' }}>Upgrade →</a>
-            )}
-          </div>
-        )}
-
-        {isPro && (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 16, background: 'var(--ud-teal-2)', border: '1px solid rgba(10,122,106,0.25)', borderRadius: 20, padding: '6px 14px' }}>
-            <span style={{ fontSize: 13, color: 'var(--ud-teal)', fontWeight: 600 }}>⚡ Pro — unlimited</span>
-            <a href="/pro" style={{ fontSize: 13, color: 'var(--ud-muted)' }}>Manage →</a>
-          </div>
-        )}
-      </div>
-
-      {atLimit && state === 'idle' ? (
-        <div style={{ border: '1px solid rgba(226,75,74,0.25)', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: 'rgba(226,75,74,0.06)' }}>
-          <div style={{ fontSize: 40, marginBottom: 16 }}>🔒</div>
-          <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ud-danger)', marginBottom: 8 }}>Daily limit reached</p>
-          <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 24 }}>Free tier: {FREE_LIMIT} conversions per day. Resets at midnight.</p>
-          <a href="/pricing" style={{ display: 'inline-block', background: 'var(--ud-gold)', color: '#fff', borderRadius: 8, padding: '12px 28px', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
-            Upgrade to Pro — $29/month
-          </a>
-        </div>
-      ) : state === 'idle' || state === 'error' ? (
+      {state === 'done' && downloadBlob ? (
+        <SharePage
+          outputName={downloadBlob.name}
+          outputFormatLabel={outputFormat.toUpperCase()}
+          warnings={warnings}
+          onDownload={downloadAgain}
+          onConvertAnother={reset}
+        />
+      ) : state === 'converting' && file ? (
+        <ProgressIndicator fileName={file.name} fileSizeBytes={file.size} />
+      ) : (
         <>
-          <div
-            onDrop={onDrop}
-            onDragOver={e => { e.preventDefault(); setIsDragging(true) }}
-            onDragLeave={() => setIsDragging(false)}
-            onClick={() => inputRef.current?.click()}
+          <FileUpload
+            onFileSelected={setFile}
+            selectedFile={file}
+            disabled={state === 'converting'}
+          />
+
+          <FormatDropdowns
+            inputFormat={inputFormat}
+            outputFormat={outputFormat}
+            onInputChange={setInputFormat}
+            onOutputChange={setOutputFormat}
+            disabled={state === 'converting'}
+          />
+
+          <button
+            type="button"
+            onClick={convert}
+            disabled={!canConvert}
             style={{
-              border: `2px dashed ${isDragging ? 'var(--ud-teal)' : 'var(--ud-border)'}`,
-              borderRadius: 16,
-              padding: '56px 32px',
-              textAlign: 'center',
-              cursor: 'pointer',
-              background: isDragging ? 'var(--ud-teal-2)' : '#ffffff',
-              transition: 'all 0.15s',
+              background: canConvert ? GOLD : 'var(--ud-paper-2, #f2f1ee)',
+              color: canConvert ? '#1e2d3d' : 'var(--ud-muted)',
+              border: 'none',
+              borderRadius: 12,
+              padding: '16px 24px',
+              fontSize: 16,
+              fontWeight: 700,
+              cursor: canConvert ? 'pointer' : 'not-allowed',
+              minHeight: 56,
+              transition: 'background 0.15s, color 0.15s',
+              boxShadow: canConvert ? '0 4px 14px rgba(212,175,55,0.35)' : 'none',
             }}
+            aria-label={
+              !file
+                ? 'Select a file first'
+                : !pairSupported
+                  ? `${inputFormat} → ${outputFormat} not yet supported — pick another target format`
+                  : `Convert ${inputFormat} to ${outputFormat}`
+            }
           >
-            <div style={{ fontSize: 40, marginBottom: 16 }}>📄</div>
-            <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 6 }}>
-              Drop your file here
-            </p>
-            <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: 12 }}>
-              or click to browse · {ACCEPTED_LABEL} supported · max {isPro ? '50' : '10'} MB
-            </p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-              <div style={{ textAlign: 'center' as const }}>
-                <svg width="36" height="45" viewBox="0 0 64 80" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="0" y="0" width="64" height="80" rx="6" fill="#f0f4f8" stroke="#d0dde8" strokeWidth="1"/>
-                  <rect x="8" y="12" width="32" height="4" rx="2" fill="#c0cdd8"/>
-                  <rect x="8" y="22" width="40" height="3" rx="1.5" fill="#d0dde8"/>
-                  <rect x="8" y="30" width="36" height="3" rx="1.5" fill="#d0dde8"/>
-                  <rect x="8" y="38" width="28" height="3" rx="1.5" fill="#d0dde8"/>
-                  <rect x="0" y="56" width="64" height="24" rx="6" fill="#1e2d3d"/>
-                  <rect x="0" y="56" width="64" height="10" fill="#1e2d3d"/>
-                  <text x="32" y="72" textAnchor="middle" fontFamily="'Courier New', monospace" fontWeight="700" fontSize="10" fill="#ffffff">.uds</text>
-                </svg>
-                <div style={{ fontSize: 9, color: 'var(--ud-muted)', marginTop: 4 }}>output</div>
-              </div>
-            </div>
-            <input
-              ref={inputRef}
-              type="file"
-              accept={ACCEPTED}
-              style={{ display: 'none' }}
-              onChange={e => { const f = e.target.files?.[0]; if (f) convert(f); e.target.value = '' }}
-            />
-          </div>
+            {!file
+              ? 'Select a file first'
+              : !pairSupported
+                ? `${inputFormat.toUpperCase()} → ${outputFormat.toUpperCase()} — coming soon`
+                : `Convert to ${outputFormat.toUpperCase()}`}
+          </button>
 
           {state === 'error' && error && (
-            <div style={{ marginTop: 16, background: 'rgba(226,75,74,0.06)', border: '1px solid rgba(226,75,74,0.25)', borderRadius: 10, padding: '14px 16px', fontSize: 14 }}>
-              <div style={{ color: 'var(--ud-danger)', lineHeight: 1.5 }}>
-                {error.page !== undefined ? (
-                  <>
-                    <strong>Page {error.page}:</strong> {error.message}
-                  </>
-                ) : (
-                  error.message
-                )}
+            <div style={{
+              background: 'rgba(226,75,74,0.06)',
+              border: '1px solid rgba(226,75,74,0.25)',
+              borderRadius: 10,
+              padding: '14px 16px',
+              fontSize: 14,
+            }}>
+              <div style={{ color: 'var(--ud-danger, #c0392b)', lineHeight: 1.5 }}>
+                {error.message}
               </div>
-              <div style={{ marginTop: 10, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-                {error.message.toLowerCase().includes('limit') && (
-                  <a href="/pricing" style={{ color: 'var(--ud-gold)', fontSize: 13, fontWeight: 600 }}>Upgrade to Pro →</a>
-                )}
-                {error.recoverable && (
-                  <button onClick={reset} style={{ color: 'var(--ud-teal)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, padding: 0 }}>
-                    Try again
-                  </button>
-                )}
-                {error.technical && (
-                  <details style={{ fontSize: 12, color: 'var(--ud-muted)' }}>
-                    <summary style={{ cursor: 'pointer' }}>Technical detail</summary>
-                    <code style={{ display: 'block', marginTop: 6, padding: 8, background: 'var(--ud-paper-2)', borderRadius: 4, fontSize: 11, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                      {error.technical}
-                    </code>
-                  </details>
-                )}
-              </div>
+              {error.recoverable && (
+                <button
+                  onClick={reset}
+                  style={{
+                    marginTop: 8,
+                    color: 'var(--ud-teal, #0a7a6a)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: 13,
+                    padding: 0,
+                  }}
+                >
+                  Try again
+                </button>
+              )}
             </div>
           )}
         </>
-      ) : state === 'converting' ? (
-        <div style={{ border: '1px solid var(--ud-border)', borderRadius: 16, padding: '56px 32px', textAlign: 'center', background: '#fff' }}>
-          <div style={{ width: 36, height: 36, border: '3px solid var(--ud-border)', borderTopColor: 'var(--ud-gold)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 20px' }} />
-          <p style={{ fontSize: 15, color: 'var(--ud-ink)', fontWeight: 500 }}>Converting {fileName}…</p>
-          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginTop: 6 }}>
-            {/* Live elapsed-second ticker so users know the request is still
-                running. The 5–25s estimate sets expectations: most text
-                PDFs land closer to 5s; multi-page documents with image
-                content closer to 25s. The 30s Vercel function ceiling is
-                the hard upper bound — if it's not done by then, the
-                server-side classifyError() returns a 504 with split-the-
-                file guidance. */}
-            Processing… {elapsedSec}s elapsed
-            {elapsedSec > 0 && <span> · usually 5–25s for documents this size</span>}
-          </p>
-          <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
-        </div>
-      ) : (
-        <div style={{ border: '1px solid rgba(10,122,106,0.25)', borderRadius: 16, padding: '48px 32px', textAlign: 'center', background: 'var(--ud-teal-2)' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
-          <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ud-teal)', marginBottom: 6 }}>Converted successfully</p>
-          <p style={{ fontSize: 14, color: 'var(--ud-teal)', marginBottom: 8 }}>{outputName} downloaded to your device.</p>
-          <p style={{ fontSize: 13, color: 'var(--ud-muted)', marginBottom: pageWarnings.length > 0 ? 16 : 28 }}>
-            Open it in the{' '}
-            <a href="https://reader.hive.baby" style={{ color: 'var(--ud-teal)' }}>UD Reader</a>.
-          </p>
-          {pageWarnings.length > 0 && (
-            <div style={{ marginBottom: 28, background: 'rgba(200,150,10,0.08)', border: '1px solid rgba(200,150,10,0.3)', borderRadius: 10, padding: '12px 14px', textAlign: 'left' }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 6 }}>
-                {pageWarnings.length === 1 ? '1 page note:' : `${pageWarnings.length} page notes:`}
-              </p>
-              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--ud-muted)', lineHeight: 1.5 }}>
-                {pageWarnings.map((w, i) => (
-                  <li key={i} style={{ marginBottom: 4 }}>
-                    <strong style={{ color: 'var(--ud-ink)' }}>
-                      {w.page === 0 ? 'Whole document' : `Page ${w.page}`}
-                    </strong>
-                    {' — '}
-                    {w.detail ?? w.reason}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
-            <a
-              href="https://reader.hive.baby"
-              style={{ background: 'var(--ud-ink)', color: '#fff', border: 'none', borderRadius: 99, padding: '10px 22px', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
-            >Open in UD Reader →</a>
-            <a
-              href="https://validator.hive.baby"
-              style={{ background: 'transparent', color: 'var(--ud-ink)', border: '1px solid var(--ud-border)', borderRadius: 99, padding: '10px 22px', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
-            >Validate this file →</a>
-          </div>
-          <button
-            onClick={reset}
-            style={{ background: 'none', color: 'var(--ud-muted)', border: 'none', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', marginTop: 8 }}
-          >
-            Convert another file
-          </button>
-        </div>
       )}
 
-      {!isPro && (
-        <div style={{ marginTop: 28, background: 'var(--ud-gold-3)', border: '1px solid rgba(200,150,10,0.3)', borderRadius: 12, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4 }}>Need more?</p>
-            <p style={{ fontSize: 13, color: 'var(--ud-muted)' }}>Unlimited files · Batch ZIP · API access · Chain of custody</p>
-          </div>
-          <a href="/pricing" style={{ background: 'var(--ud-gold)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
-            Pro — $29/mo →
-          </a>
-        </div>
-      )}
-
-      <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid var(--ud-border)' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>How UD Converter differs from iLovePDF, Smallpdf, and Adobe Acrobat</h2>
-        <p style={{ fontSize: '0.85rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', marginBottom: '1.5rem', lineHeight: 1.6 }}>Most converters flatten your document into a new format and discard structure. UD Converter preserves headings, sections, and provenance metadata inside a structured .uds file that the full UD ecosystem can read.</p>
-        <div style={{ display: 'grid', gap: '1rem' }}>
-          {[
-            { title: 'iLovePDF / Smallpdf — file format converters', body: 'These tools convert between PDF and Word. They flatten layout but discard semantic structure: headings become styled text, sections lose meaning, and provenance is not recorded. The output is a different format, not a richer document.' },
-            { title: 'Adobe Acrobat — PDF-centric ecosystem', body: 'Acrobat converts to PDF and back. It preserves visual fidelity well but locks you into the PDF ecosystem — proprietary, expensive, and with no machine-readable document structure that other tools can parse programmatically.' },
-            { title: 'UD Converter — structure-preserving conversion', body: 'UD Converter extracts headings, paragraphs, and metadata from DOCX, PDF, TXT, and Markdown and writes them into a structured .uds file. Sections remain sections. The output is semantically navigable, not just visually similar.' },
-            { title: 'UD Converter — provenance metadata on every file', body: 'Every converted file records when it was created, from what source format, and with what tool. This chain-of-custody metadata is embedded inside the .uds structure — not in a sidecar file, not in a database, not lost after export.' },
-          ].map(card => (
-            <div key={card.title} style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem' }}>
-              <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.4rem' }}>{card.title}</div>
-              <div style={{ fontSize: '0.83rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', lineHeight: 1.6 }}>{card.body}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
+      <PaywallModal
+        open={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        used={error?.used}
+        limit={error?.limit}
+      />
     </main>
   )
+}
+
+function triggerDownload(blob: Blob, name: string) {
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = name
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  URL.revokeObjectURL(url)
 }
