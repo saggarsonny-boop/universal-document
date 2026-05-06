@@ -30,11 +30,6 @@
 //                         Free tier never hits this path (4 MB cap = fast
 //                         path always); Plus (25 MB) and Pro (50 MB) do.
 //
-// Phase 4 deferrals (HiveOps shared package): no canonical Hive logo
-// in header, no canonical "Made with ♥ in the Hive" footer signature,
-// no install banner, no favicon set, no iOS appleWebApp meta. All
-// retrofit cleanly when packages/hive-onboarding/ ships.
-
 import { useEffect, useMemo, useState } from 'react'
 import { upload } from '@vercel/blob/client'
 import { FileUpload } from './components/v2/FileUpload'
@@ -44,6 +39,7 @@ import { SharePage } from './components/v2/SharePage'
 import { TierIndicator } from './components/v2/TierIndicator'
 import { PaywallModal } from './components/v2/PaywallModal'
 import { TurnstileWidget } from './components/v2/TurnstileWidget'
+import { HiveInstallHint, HiveFirstVisitExplainer } from '@hive/onboarding'
 import {
   detectClientFormat,
   isPairSupported,
@@ -53,6 +49,14 @@ import {
 import { useStrings } from '@/lib/strings'
 
 const GOLD = '#D4AF37'
+
+// Engine identity for the shared @hive/onboarding components. UD Converter
+// uses the slug "ud-converter" externally for the localStorage isolation
+// (hive_install_hint_dismissed_ud-converter, etc.), even though the
+// engine root directory is apps/converter — the slug is the user-facing
+// identifier for the engine, not the internal directory name.
+const ENGINE_NAME = 'UD Converter'
+const ENGINE_SLUG = 'ud-converter'
 
 type ConvertState = 'idle' | 'uploading' | 'converting' | 'done' | 'error'
 
@@ -382,6 +386,9 @@ export default function ConverterPage() {
           {s.header.subtitle}
         </p>
       </header>
+
+      <HiveInstallHint engineName={ENGINE_NAME} engineSlug={ENGINE_SLUG} />
+      <HiveFirstVisitExplainer engineName={ENGINE_NAME} engineSlug={ENGINE_SLUG} />
 
       <TierIndicator reloadNonce={usageReloadNonce} />
 

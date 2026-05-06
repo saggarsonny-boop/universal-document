@@ -10,6 +10,8 @@
 // reflects the current /api/convert 5-files-per-DAY limit — PR D drops
 // it to 1/day with a 3-lifetime ceiling.
 
+import { useStrings } from '@/lib/strings'
+
 const GOLD = '#D4AF37'
 const INK = '#1e2d3d'
 
@@ -23,13 +25,29 @@ type Props = {
 }
 
 export function PaywallModal({ open, onClose, used, limit }: Props) {
+  const s = useStrings()
   if (!open) return null
+
+  // Body copy: three branches depending on whether we got structured
+  // {used, limit} fields back from the rate-limit gate. Singular vs
+  // plural via the catalog's two templates so the localized engine
+  // doesn't have to do English-style "1 conversion" / "N conversions"
+  // pluralization in the consumer.
+  let bodyMain: string
+  if (used !== undefined && limit !== undefined) {
+    const tpl = used === 1
+      ? s.paywall.bodyUsedTemplateSingular
+      : s.paywall.bodyUsedTemplatePlural
+    bodyMain = tpl.replace('{{used}}', String(used)).replace('{{limit}}', String(limit))
+  } else {
+    bodyMain = s.paywall.bodyFallback
+  }
 
   return (
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Free tier limit reached"
+      aria-label={s.paywall.ariaLabel}
       onClick={onClose}
       style={{
         position: 'fixed',
@@ -57,24 +75,20 @@ export function PaywallModal({ open, onClose, used, limit }: Props) {
         }}
       >
         <div style={{ fontSize: 22, fontWeight: 700, color: INK }}>
-          Free tier limit reached
+          {s.paywall.title}
         </div>
         <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: 'var(--ud-muted)' }}>
-          {used !== undefined && limit !== undefined
-            ? `You've used your ${used} free ${used === 1 ? 'conversion' : 'conversions'} (limit: ${limit}).`
-            : "You've used your free conversions for now."}
-          {' '}
-          To keep converting, upgrade.
+          {bodyMain}{' '}{s.paywall.bodySuffix}
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 4 }}>
-          <a href="/pricing" style={{ ...primaryCtaStyle, background: GOLD }} aria-label="Upgrade to UD Converter Plus for $0.97/month">
-            <strong>Plus — $0.97/mo</strong>
-            <span style={subText}>Unlimited conversions, up to 25 MB / 100 pages</span>
+          <a href="/pricing" style={{ ...primaryCtaStyle, background: GOLD }} aria-label={s.paywall.plusAria}>
+            <strong>{s.paywall.plusTitle}</strong>
+            <span style={subText}>{s.paywall.plusBody}</span>
           </a>
-          <a href="/pricing" style={{ ...primaryCtaStyle, background: INK, color: '#fff' }} aria-label="Upgrade to UD Converter Pro for $29/month">
-            <strong>Pro — $29/mo</strong>
-            <span style={{ ...subText, color: 'rgba(255,255,255,0.7)' }}>Plus, plus batch ZIP, API access, chain of custody, 50 MB</span>
+          <a href="/pricing" style={{ ...primaryCtaStyle, background: INK, color: '#fff' }} aria-label={s.paywall.proAria}>
+            <strong>{s.paywall.proTitle}</strong>
+            <span style={{ ...subText, color: 'rgba(255,255,255,0.7)' }}>{s.paywall.proBody}</span>
           </a>
         </div>
 
@@ -90,7 +104,7 @@ export function PaywallModal({ open, onClose, used, limit }: Props) {
             padding: 8,
           }}
         >
-          Maybe later
+          {s.paywall.dismiss}
         </button>
       </div>
     </div>

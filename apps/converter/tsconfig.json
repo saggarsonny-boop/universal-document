@@ -17,7 +17,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["../shared/*"],
-      "@neondatabase/serverless": ["./node_modules/@neondatabase/serverless/index.d.ts"]
+      "@neondatabase/serverless": ["./node_modules/@neondatabase/serverless/index.d.ts"],
+      "@hive/onboarding": ["./src/lib/hive-onboarding/index.ts"],
+      "@hive/onboarding/*": ["./src/lib/hive-onboarding/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../shared/**/*.ts"],
