@@ -86,7 +86,14 @@ export async function POST(req: NextRequest) {
             const pre = preprocessForUD({ fileName: name, baseText: buffer.toString('utf-8'), utility })
             doc = await convertCsv(pre.normalizedText, name)
           } else if (ext === 'pdf') {
-            doc = await convertPdf(buffer, name)
+            // convertPdf now returns { doc, warnings } per the per-page
+            // graceful-degradation refactor. Batch mode discards the
+            // per-page warnings (the batch endpoint doesn't have a slot
+            // for them in its results array; surfacing them is a future
+            // enhancement). The doc itself still carries the warnings
+            // as metadata.tags so downstream readers can display them.
+            const pdfResult = await convertPdf(buffer, name)
+            doc = pdfResult.doc
             const joined = doc.blocks
               .map((block) => String(block.base_content?.text ?? block.base_content?.html ?? ''))
               .filter(Boolean)

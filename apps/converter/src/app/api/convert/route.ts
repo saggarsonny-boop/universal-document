@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx } from '@/lib/convert'
+import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
 import { ensureSchema, validateApiKey, hashIp, getFreeUsage, incrementFreeUsage, logCustody } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
@@ -10,6 +10,57 @@ export const maxDuration = 30
 
 const FREE_DAILY_LIMIT = 5
 const MAX_FREE_BYTES = 10 * 1024 * 1024
+
+// Map raw thrown errors to user-facing copy + machine-readable hints. The
+// generic "Conversion failed. Try again." message used to be the catch-all;
+// it told users nothing about whether retrying would help. Now every known
+// failure mode gets a specific message + a `recoverable` flag the client
+// uses to decide whether to offer a Try Again button.
+function classifyError(err: unknown): {
+  status: number
+  message: string
+  recoverable: boolean
+  page?: number
+  technical: string
+} {
+  const technical = err instanceof Error ? err.message : String(err)
+  const lower = technical.toLowerCase()
+
+  // Vercel function timeout — surfaces as the function being killed mid-request.
+  if (lower.includes('timeout') || lower.includes('function_invocation_timeout')) {
+    return {
+      status: 504,
+      message: 'This file took longer than 30 seconds to process. Try splitting it into smaller documents (under 5 pages each) or use the Pro tier for longer-running conversions.',
+      recoverable: true,
+      technical,
+    }
+  }
+  // Encrypted PDFs — pdfjs throws PasswordException
+  if (lower.includes('passwordexception') || lower.includes('password')) {
+    return {
+      status: 422,
+      message: 'This PDF is password-protected. Remove the password (File > Print > Save as PDF in your browser, or use a PDF tool to unlock it) and try again.',
+      recoverable: true,
+      technical,
+    }
+  }
+  // Anthropic auth / model availability
+  if (lower.includes('anthropic') || lower.includes('401') || lower.includes('403')) {
+    return {
+      status: 503,
+      message: 'AI extraction is temporarily unavailable. Try again in a minute — pdfjs fallback should still produce a result for text-based documents.',
+      recoverable: true,
+      technical,
+    }
+  }
+  // Anything else — generic but still informative
+  return {
+    status: 500,
+    message: `Could not process this file. Technical detail: ${technical.slice(0, 200)}`,
+    recoverable: true,
+    technical,
+  }
+}
 
 function getIp(req: NextRequest) {
   return req.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? req.headers.get('x-real-ip') ?? 'unknown'
@@ -82,6 +133,10 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
     let doc
+    // Per-page warnings collected during extraction (currently only
+    // populated by convertPdf; other formats append nothing). Surfaced
+    // to the client via the X-UD-Page-Warnings response header.
+    let pageWarnings: PageWarning[] = []
 
     if (ext === 'docx') {
       doc = await convertDocx(buffer, fileName)
@@ -99,7 +154,9 @@ export async function POST(req: NextRequest) {
       doc.metadata.tags.push('utility:' + utility)
       doc.metadata.tags.push('preprocessed')
     } else if (ext === 'pdf') {
-      doc = await convertPdf(buffer, fileName)
+      const pdfResult = await convertPdf(buffer, fileName)
+      doc = pdfResult.doc
+      pageWarnings = pdfResult.warnings
       const joined = doc.blocks
         .map((block) => String(block.base_content?.text ?? block.base_content?.html ?? ''))
         .filter(Boolean)
@@ -157,11 +214,26 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
         'Content-Disposition': `attachment; filename="${outputName}"`,
         'X-UD-Identity': doc.state === 'UDS' ? 'dark_blue' : 'light_blue',
+        // Page-level warnings travel as a base64-encoded JSON header so the
+        // client can render "Page 8 was image-only — re-OCR to capture"
+        // alongside the successful download. Empty array when the
+        // conversion was clean. Base64 because some warning detail strings
+        // contain characters HTTP headers don't allow raw.
+        'X-UD-Page-Warnings': Buffer.from(JSON.stringify(pageWarnings)).toString('base64'),
         ...(proUser ? { 'X-Pro': 'true' } : {}),
       },
     })
   } catch (e) {
     console.error('Convert error:', e)
-    return NextResponse.json({ error: 'Conversion failed. Check your file and try again.' }, { status: 500 })
+    const cls = classifyError(e)
+    return NextResponse.json(
+      {
+        error: cls.message,
+        recoverable: cls.recoverable,
+        page: cls.page,
+        technical: cls.technical,
+      },
+      { status: cls.status },
+    )
   }
 }
