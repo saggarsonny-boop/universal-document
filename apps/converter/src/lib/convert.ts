@@ -232,26 +232,11 @@ export type PageWarning = {
 
 const PER_PAGE_TEXT_THRESHOLD = 200
 
-// Sort PDF text items into visual reading order. pdfjs returns items in
-// the order it finds them in the content stream, which for rotated pages
-// can be visually scrambled. We sort by Y descending (top to bottom in
-// PDF coords) then X ascending (left to right). This is a coarse but
-// robust ordering that handles standard portrait pages, landscape pages,
-// and pages with `rotate` metadata without requiring per-rotation
-// special-cases (pdfjs returns items in the page's untransformed
-// coordinate system, so a single sort works for all four standard
-// rotations).
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortItemsByVisualOrder(items: any[]): any[] {
-  return [...items].sort((a, b) => {
-    const ay = a.transform?.[5] ?? 0
-    const by = b.transform?.[5] ?? 0
-    if (Math.abs(ay - by) > 2) return by - ay // top to bottom
-    const ax = a.transform?.[4] ?? 0
-    const bx = b.transform?.[4] ?? 0
-    return ax - bx // left to right
-  })
-}
+// Visual-order sorting (sortItemsByVisualOrder) was needed when this
+// module called pdfjs-dist directly — pdfjs returned text items in
+// content-stream order which scrambled rotated pages. unpdf bundles
+// equivalent ordering internally, so the helper was removed when the
+// pdfjs imports were swapped out.
 
 // Per-page extraction primary path. Returns plain text (newline-joined per
 // page) plus a list of warnings for pages that came back sparse, rotated,
@@ -259,17 +244,21 @@ function sortItemsByVisualOrder(items: any[]): any[] {
 async function extractPdfPerPage(
   buffer: Buffer,
 ): Promise<{ text: string; warnings: PageWarning[]; pdfjsAvailable: boolean }> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let pdfjsLib: any
+  // unpdf (Node-friendly wrapper around pdfjs-dist) replaced direct
+  // pdfjs-dist imports after the Vercel Node runtime cascaded through
+  // three failures: DOMMatrix not defined, then worker-src empty
+  // rejection, then chunked-bundle module resolution for pdf.worker.mjs.
+  // unpdf bundles polyfills + worker setup internally and runs entirely
+  // in the main thread. PR #2's per-page graceful degradation is preserved
+  // — the warning shapes and the empty-page fallback below match the
+  // legacy pdfjs path's output 1:1.
+  let extractText, getDocumentProxy
   try {
-    pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
-    // Worker setup for the Vercel Node runtime. pdfjs-dist 5.x rejects
-    // an empty workerSrc; setting a placeholder satisfies the validation,
-    // and disableWorker:true (passed to getDocument below) inlines the
-    // pipeline so no actual Worker is spawned.
-    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsLib.GlobalWorkerOptions.workerSrc || 'inline'
+    const unpdf = await import('unpdf')
+    extractText = unpdf.extractText
+    getDocumentProxy = unpdf.getDocumentProxy
   } catch (err) {
-    console.warn('pdfjs-dist failed to load:', err)
+    console.warn('unpdf failed to load:', err)
     return { text: '', warnings: [], pdfjsAvailable: false }
   }
 
@@ -278,62 +267,36 @@ async function extractPdfPerPage(
 
   try {
     const data = new Uint8Array(buffer)
-    const doc = await pdfjsLib.getDocument({
-      data,
-      useWorkerFetch: false,
-      isEvalSupported: false,
-      disableWorker: true,
-    }).promise
+    const pdf = await getDocumentProxy(data)
+    const result = await extractText(pdf, { mergePages: false })
+    const rawPages = Array.isArray(result.text) ? result.text : [result.text]
 
-    for (let i = 1; i <= doc.numPages; i++) {
-      try {
-        const page = await doc.getPage(i)
-        const rotation: number = page.rotate ?? 0
-        const content = await page.getTextContent()
-        const sorted = sortItemsByVisualOrder(content.items)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const pageText = sorted.map((item: any) => item.str).join(' ').trim()
+    for (let i = 0; i < rawPages.length; i++) {
+      const pageNum = i + 1
+      const pageText = (rawPages[i] ?? '').trim()
 
-        if (rotation !== 0) {
-          warnings.push({
-            page: i,
-            reason: 'rotated',
-            recoverable: true,
-            detail: `Rotated ${rotation}° — text reordered to follow visual layout.`,
-          })
-        }
-
-        if (pageText.length === 0) {
-          warnings.push({
-            page: i,
-            reason: 'image-only',
-            recoverable: true,
-            detail: 'No extractable text on this page (likely a signature, seal, or scan). Re-OCR with the OCR utility to capture image content.',
-          })
-          pageTexts.push(`[Page ${i}: image-only content — no text extracted]`)
-        } else if (pageText.length < PER_PAGE_TEXT_THRESHOLD) {
-          warnings.push({
-            page: i,
-            reason: 'sparse-text',
-            recoverable: true,
-            detail: `Only ${pageText.length} characters extracted. May contain image content not captured.`,
-          })
-          pageTexts.push(pageText)
-        } else {
-          pageTexts.push(pageText)
-        }
-      } catch (pageErr) {
+      if (pageText.length === 0) {
         warnings.push({
-          page: i,
-          reason: 'extraction-failed',
-          recoverable: false,
-          detail: pageErr instanceof Error ? pageErr.message : String(pageErr),
+          page: pageNum,
+          reason: 'image-only',
+          recoverable: true,
+          detail: 'No extractable text on this page (likely a signature, seal, or scan). Re-OCR with the OCR utility to capture image content.',
         })
-        pageTexts.push(`[Page ${i}: extraction failed]`)
+        pageTexts.push(`[Page ${pageNum}: image-only content — no text extracted]`)
+      } else if (pageText.length < PER_PAGE_TEXT_THRESHOLD) {
+        warnings.push({
+          page: pageNum,
+          reason: 'sparse-text',
+          recoverable: true,
+          detail: `Only ${pageText.length} characters extracted. May contain image content not captured.`,
+        })
+        pageTexts.push(pageText)
+      } else {
+        pageTexts.push(pageText)
       }
     }
   } catch (err) {
-    console.warn('pdfjs document open failed:', err)
+    console.warn('unpdf document open failed:', err)
     return { text: '', warnings: [], pdfjsAvailable: false }
   }
 

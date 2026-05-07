@@ -1,79 +1,53 @@
-// PDF → text and PDF → DOCX via pdfjs-dist.
+// PDF → text and PDF → DOCX via unpdf.
 //
-// Reuses PR #2's per-page extraction pattern (sortItemsByVisualOrder for
-// rotated pages, per-page warnings for image-only pages, graceful
-// degradation). For PDF → DOCX we render extracted text into HTML
-// paragraphs then run html-to-docx to produce the final .docx binary.
+// unpdf is a Node-friendly wrapper around pdfjs-dist that handles the
+// browser-global polyfills, worker setup, and import-resolution quirks
+// internally. Swapped in for direct pdfjs-dist imports after the Vercel
+// Node runtime cascaded through three failures: DOMMatrix not defined,
+// then worker-src empty rejection, then chunked-bundle module
+// resolution for pdf.worker.mjs. unpdf's API is a strict subset of
+// pdfjs's that suits text extraction without the runtime gymnastics.
+//
+// For PDF → DOCX we render extracted per-page text into HTML
+// paragraphs then run html-to-docx to produce the final .docx binary
+// (unchanged from the previous implementation).
 
-// IMPORTANT: side-effect import installs the DOMMatrix polyfill on
-// globalThis BEFORE pdfjs-dist loads. pdfjs-dist 5.x assumes a browser
-// environment and references DOMMatrix during text extraction; without
-// this polyfill, every getTextContent() call throws "DOMMatrix is not
-// defined" in the Vercel Node runtime.
+// Polyfill kept for defense-in-depth — other libraries on this server
+// path (e.g. html-to-docx, sharp) might independently reach for
+// DOMMatrix; the no-op-when-already-defined polyfill is cheap insurance.
 import '../polyfills/dom-matrix'
 
 import type { Converter } from './types'
 import { thrownToFailure } from './types'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortItemsByVisualOrder(items: any[]): any[] {
-  return [...items].sort((a, b) => {
-    const ay = a.transform?.[5] ?? 0
-    const by = b.transform?.[5] ?? 0
-    if (Math.abs(ay - by) > 2) return by - ay
-    const ax = a.transform?.[4] ?? 0
-    const bx = b.transform?.[4] ?? 0
-    return ax - bx
-  })
-}
 
 async function extractPdfPagesAsText(buffer: Buffer): Promise<{
   pages: string[]
   warnings: string[]
   pageCount: number
 }> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pdfjsLib: any = await import('pdfjs-dist/legacy/build/pdf.mjs')
-  // Worker setup for the Vercel Node runtime. pdfjs-dist 5.x rejects
-  // an empty workerSrc with "No GlobalWorkerOptions.workerSrc specified"
-  // even when disableWorker is true, so set it to a placeholder URL.
-  // The real switch is `disableWorker: true` below — pdfjs runs the
-  // entire pipeline inline on the main thread, no Worker required.
-  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsLib.GlobalWorkerOptions.workerSrc || 'inline'
+  const { extractText, getDocumentProxy } = await import('unpdf')
   const data = new Uint8Array(buffer)
-  const doc = await pdfjsLib.getDocument({
-    data,
-    useWorkerFetch: false,
-    isEvalSupported: false,
-    disableWorker: true,
-  }).promise
+  const pdf = await getDocumentProxy(data)
+  const result = await extractText(pdf, { mergePages: false })
+  const pageCount = result.totalPages
+  const rawPages = Array.isArray(result.text) ? result.text : [result.text]
 
   const pages: string[] = []
   const warnings: string[] = []
-  for (let i = 1; i <= doc.numPages; i++) {
-    try {
-      const page = await doc.getPage(i)
-      const rotation: number = page.rotate ?? 0
-      const content = await page.getTextContent()
-      const sorted = sortItemsByVisualOrder(content.items)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pageText = sorted.map((it: any) => it.str).join(' ').trim()
-      if (rotation !== 0) warnings.push(`Page ${i}: rotated ${rotation}° — text reordered to follow visual layout.`)
-      if (pageText.length === 0) {
-        warnings.push(`Page ${i}: image-only content — no extractable text. Re-OCR with the OCR utility to capture image content.`)
-        pages.push(`[Page ${i}: image-only content]`)
-      } else {
-        pages.push(pageText)
-      }
-    } catch (pageErr) {
-      warnings.push(`Page ${i}: extraction failed — ${pageErr instanceof Error ? pageErr.message : String(pageErr)}`)
-      pages.push(`[Page ${i}: extraction failed]`)
+  for (let i = 0; i < rawPages.length; i++) {
+    const pageText = (rawPages[i] ?? '').trim()
+    const pageNum = i + 1
+    if (pageText.length === 0) {
+      warnings.push(`Page ${pageNum}: image-only content — no extractable text. Re-OCR with the OCR utility to capture image content.`)
+      pages.push(`[Page ${pageNum}: image-only content]`)
+    } else {
+      pages.push(pageText)
     }
   }
-  return { pages, warnings, pageCount: doc.numPages }
+  return { pages, warnings, pageCount }
 }
 
-export const pdfToText: Converter = async (input, options) => {
+export const pdfToText: Converter = async (input, _options) => {
   try {
     const { pages, warnings, pageCount } = await extractPdfPagesAsText(input)
     const text = pages.join('\n\n--- Page break ---\n\n')
@@ -89,12 +63,9 @@ export const pdfToText: Converter = async (input, options) => {
   }
 }
 
-export const pdfToDocx: Converter = async (input, options) => {
+export const pdfToDocx: Converter = async (input, _options) => {
   try {
     const { pages, warnings, pageCount } = await extractPdfPagesAsText(input)
-    // Build minimal HTML: each page becomes a section with paragraphs.
-    // html-to-docx will render this into a Word doc with corresponding
-    // page breaks (manually inserted via <br style="page-break-before:always"/>).
     const htmlSections = pages.map((pageText, idx) => {
       const paragraphs = pageText
         .split(/\n{2,}/)
