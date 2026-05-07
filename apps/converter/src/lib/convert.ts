@@ -1,3 +1,9 @@
+// Side-effect import: installs DOMMatrix polyfill on globalThis BEFORE
+// pdfjs-dist loads (the legacy /api/convert UDS path lazy-imports
+// pdfjs-dist deeper in the file). See lib/polyfills/dom-matrix.ts for
+// why pdfjs-dist 5.x needs this in the Vercel Node runtime.
+import './polyfills/dom-matrix'
+
 import { v4 as uuidv4 } from 'uuid'
 import { createHash } from 'crypto'
 

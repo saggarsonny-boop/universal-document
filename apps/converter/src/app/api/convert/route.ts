@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
+// Side-effect import: install DOMMatrix polyfill before any pdfjs-dist
+// usage. The converter modules also import it themselves; doing it at
+// the route boundary too is defense-in-depth in case Next.js's bundler
+// hoists the pdfjs import above the converter module's polyfill import.
+import '@/lib/polyfills/dom-matrix'
+
 import { ensureSchema, validateApiKey, logCustody, logConversionCost, getFreeTierState, recordOperatorAudit } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
