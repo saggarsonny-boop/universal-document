@@ -263,7 +263,11 @@ async function extractPdfPerPage(
   let pdfjsLib: any
   try {
     pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
-    pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+    // Worker setup for the Vercel Node runtime. pdfjs-dist 5.x rejects
+    // an empty workerSrc; setting a placeholder satisfies the validation,
+    // and disableWorker:true (passed to getDocument below) inlines the
+    // pipeline so no actual Worker is spawned.
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsLib.GlobalWorkerOptions.workerSrc || 'inline'
   } catch (err) {
     console.warn('pdfjs-dist failed to load:', err)
     return { text: '', warnings: [], pdfjsAvailable: false }
@@ -278,6 +282,7 @@ async function extractPdfPerPage(
       data,
       useWorkerFetch: false,
       isEvalSupported: false,
+      disableWorker: true,
     }).promise
 
     for (let i = 1; i <= doc.numPages; i++) {

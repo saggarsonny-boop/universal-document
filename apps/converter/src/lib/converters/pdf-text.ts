@@ -34,12 +34,18 @@ async function extractPdfPagesAsText(buffer: Buffer): Promise<{
 }> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pdfjsLib: any = await import('pdfjs-dist/legacy/build/pdf.mjs')
-  pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+  // Worker setup for the Vercel Node runtime. pdfjs-dist 5.x rejects
+  // an empty workerSrc with "No GlobalWorkerOptions.workerSrc specified"
+  // even when disableWorker is true, so set it to a placeholder URL.
+  // The real switch is `disableWorker: true` below — pdfjs runs the
+  // entire pipeline inline on the main thread, no Worker required.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsLib.GlobalWorkerOptions.workerSrc || 'inline'
   const data = new Uint8Array(buffer)
   const doc = await pdfjsLib.getDocument({
     data,
     useWorkerFetch: false,
     isEvalSupported: false,
+    disableWorker: true,
   }).promise
 
   const pages: string[] = []
