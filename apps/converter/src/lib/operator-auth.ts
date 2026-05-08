@@ -138,3 +138,14 @@ export function checkOperator(req: NextRequest): OperatorDetection {
 }
 
 export const OPERATOR_COOKIE_NAME = COOKIE_NAME
+export const OPERATOR_HEADER_NAME = 'x-ud-operator-key'
+
+/** Verify an operator cookie token (raw string, no NextRequest needed).
+ * Used by server components that read cookies via next/headers. Returns
+ * the decoded payload on success or null on any failure (bad signature,
+ * expired, malformed). Same HMAC + timing-safe-compare path used by
+ * `checkOperator`; kept here so server-component code doesn't have to
+ * fabricate a NextRequest just to validate a cookie. */
+export function verifyOperatorToken(token: string): OperatorPayload | null {
+  return verify(token)
+}
