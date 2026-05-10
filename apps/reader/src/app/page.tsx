@@ -210,16 +210,21 @@ function ReaderApp() {
           <h1 style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ud-ink)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>
             UD Reader
           </h1>
-          <p style={{ color: 'var(--ud-muted)', fontSize: '0.95rem', fontFamily: 'var(--font-body)' }}>
+          <p style={{ color: 'var(--ud-muted)', fontSize: '0.95rem', fontFamily: 'var(--font-body)', marginBottom: '1.5rem' }}>
             Open any Universal Document™ file. Free forever.
           </p>
-          <p style={{ color: 'var(--ud-muted)', fontSize: '0.82rem', marginTop: '0.6rem', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
-            Lifecycle: legacy file → converter → UDS → reader clarity → UDR editing → UDS export.
-            UDR appears with light blue identity. UDS appears with dark blue identity.
-          </p>
-          <p style={{ color: 'var(--ud-muted)', fontSize: '0.78rem', marginTop: '0.45rem', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
-            Reader surfaces clarity layers, semantic sections, metadata, multilingual ribbons, permissions, and chain-of-custody as read-only.
-          </p>
+          
+          <div style={{ background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: '0.75rem', padding: '1.25rem', textAlign: 'left', maxWidth: '480px', margin: '0 auto' }}>
+            <h3 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--ud-ink)', fontFamily: 'var(--font-body)', marginBottom: '0.5rem' }}>
+              The Universal Document Lifecycle
+            </h3>
+            <p style={{ color: 'var(--ud-muted)', fontSize: '0.8rem', lineHeight: 1.6, fontFamily: 'var(--font-body)', marginBottom: '0.5rem' }}>
+              Convert any legacy file into an immutable <strong>UDS</strong> (Universal Document Sealed) archive. Edit seamlessly in <strong>UDR</strong> (Universal Document Raw) mode, then seal and export for universal interoperability.
+            </p>
+            <p style={{ color: 'var(--ud-muted)', fontSize: '0.8rem', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
+              UD Reader instantly surfaces embedded semantic structure, multilingual clarity layers, read-only permissions, and cryptographically secured chain-of-custody.
+            </p>
+          </div>
         </div>
 
         {/* Drop zone */}
