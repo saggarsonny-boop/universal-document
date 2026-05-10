@@ -300,6 +300,23 @@ export async function POST(req: NextRequest) {
       doc.seal.verification_url = `https://ud.hive.baby/verify/${docId}`
     }
 
+    // ─── Queen Bee Governance Integration ───
+    // The Master Grappler requires us to register this output schema.
+    // Fire-and-forget so we don't slow down the response.
+    fetch('https://queenbee.hive.baby/api/govern', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        engineId: 'ud-converter',
+        input: fileName,
+        content: {
+          output_name: fileName.replace(/\.[^.]+$/, '.uds'),
+          format: 'uds',
+          size: file.size
+        }
+      })
+    }).catch(err => console.warn('Queen Bee governance log failed:', err))
+
     const outputName = fileName.replace(/\.[^.]+$/, '.uds')
     const json = JSON.stringify(doc, null, 2)
 
