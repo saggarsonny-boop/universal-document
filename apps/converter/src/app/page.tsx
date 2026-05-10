@@ -40,6 +40,7 @@ import { TierIndicator } from './components/v2/TierIndicator'
 import { PaywallModal } from './components/v2/PaywallModal'
 import { TurnstileWidget } from './components/v2/TurnstileWidget'
 import { HiveInstallHint, HiveFirstVisitExplainer } from '@hive/onboarding'
+import TooltipTour from '@/components/TooltipTour'
 import {
   detectClientFormat,
   isPairSupported,
@@ -377,6 +378,7 @@ export default function ConverterPage() {
 
   return (
     <main style={{ maxWidth: 640, margin: '0 auto', padding: '32px 16px 64px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <TooltipTour />
       {/* Header */}
       <header style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 4 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--ud-ink)', margin: 0, letterSpacing: '-0.02em' }}>
@@ -421,21 +423,25 @@ export default function ConverterPage() {
         />
       ) : (
         <>
-          <FileUpload
-            onFileSelected={setFile}
-            selectedFile={file}
-            disabled={state === 'converting' || state === 'uploading'}
-            tier={currentTier}
-            maxBytes={currentMaxBytes}
-          />
+          <div id="tour-file-dropzone">
+            <FileUpload
+              onFileSelected={setFile}
+              selectedFile={file}
+              disabled={state === 'converting' || state === 'uploading'}
+              tier={currentTier}
+              maxBytes={currentMaxBytes}
+            />
+          </div>
 
-          <FormatDropdowns
-            inputFormat={inputFormat}
-            outputFormat={outputFormat}
-            onInputChange={setInputFormat}
-            onOutputChange={setOutputFormat}
-            disabled={state === 'converting' || state === 'uploading'}
-          />
+          <div id="tour-output-format">
+            <FormatDropdowns
+              inputFormat={inputFormat}
+              outputFormat={outputFormat}
+              onInputChange={setInputFormat}
+              onOutputChange={setOutputFormat}
+              disabled={state === 'converting' || state === 'uploading'}
+            />
+          </div>
 
           {/* PR D — Captcha gate. Free users on their 2nd+ conversion
               must complete the Turnstile widget before the convert
@@ -450,6 +456,7 @@ export default function ConverterPage() {
           )}
 
           <button
+            id="tour-convert-button"
             type="button"
             onClick={convert}
             disabled={!canConvert}

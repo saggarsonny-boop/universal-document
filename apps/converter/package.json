@@ -25,6 +25,7 @@
     "pdfjs-dist": "^5.6.205",
     "react": "^18",
     "react-dom": "^18",
+    "react-joyride": "^3.1.0",
     "sharp": "^0.33.5",
     "stripe": "^16.0.0",
     "tesseract.js": "^5.1.0",
