@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   title: 'UD Signer — Cryptographically Sign Any Document. Free Forever.',
   description: 'Sign PDFs, DOCX, .uds, .udr, and any file format with a tamper-evident cryptographic signature. Generates a .udsig companion proof file. No account required. Free forever.',
   keywords: 'document signing, cryptographic document signature, digital signature free, sign PDF online, tamper-evident document, document integrity proof, DocuSign alternative, Adobe Sign alternative, electronic signature tool, document hash signature',
-  icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://signer.hive.baby'),
   openGraph: {
     title: 'UD Signer — Cryptographically Sign Any Document. Free Forever.',

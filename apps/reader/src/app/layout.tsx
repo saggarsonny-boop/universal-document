@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   title: 'UD Reader — Open Any Universal Document™ File Free in Your Browser',
   description: 'Open, read, and verify any .uds or .udr file instantly in your browser. Clarity layers, multilingual switching, expiry status, tamper verification. Free forever. No install.',
   keywords: 'universal document reader, uds file opener, udr file viewer, pdf alternative reader, better than pdf viewer, open uds file, open udr file, document viewer browser, tamper evident document reader, clarity layer viewer, multilingual document reader, document expiry check',
-  icons: { icon: '/favicon.svg' },
   manifest: '/manifest.json',
   metadataBase: new URL('https://reader.hive.baby'),
   openGraph: {

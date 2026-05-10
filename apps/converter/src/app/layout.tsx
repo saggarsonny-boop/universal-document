@@ -31,16 +31,6 @@ export const metadata: Metadata = {
     title: 'UD Converter',
     statusBarStyle: 'black-translucent',
   },
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
-    ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-    shortcut: ['/favicon.ico'],
-  },
   openGraph: {
     title: 'UD Converter — Convert DOCX, PDF, TXT, and Markdown to Universal Document™ Format',
     description: 'Convert Word, PDF, TXT, and Markdown to structured .uds files with provenance metadata. Free forever.',

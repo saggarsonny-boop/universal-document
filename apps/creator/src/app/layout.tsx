@@ -13,7 +13,6 @@ const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '
 export const metadata: Metadata = {
   title: 'Universal Document™ Creator',
   description: 'Universal Document™ Creator — build .uds files with rich text, metadata, and expiry. Free forever.',
-  icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://creator.hive.baby'),
   openGraph: {
     title: 'Universal Document™ Creator',

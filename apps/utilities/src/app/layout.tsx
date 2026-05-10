@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   title: 'UD Utilities — 108 AI-Powered Document Tools. Free Forever.',
   description: 'Merge, split, OCR, watermark, sign, translate, summarise, classify, embed media, generate legal bundles, register research, and more. 108 document tools powered by AI. No account required. Free forever.',
   keywords: 'document tools online, PDF utilities free, AI document processing, OCR online free, document merge split, watermark document, legal document bundle, medical document tools, research pre-registration, iLovePDF alternative, Smallpdf alternative, document AI tools, document summariser, legal bundle generator, medical consent form',
-  icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://utilities.hive.baby'),
   openGraph: {
     title: 'UD Utilities — 108 AI-Powered Document Tools. Free Forever.',

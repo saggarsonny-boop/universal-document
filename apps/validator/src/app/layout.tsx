@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   title: 'UD Validator — Verify .uds File Integrity, Schema, Expiry, and Signatures. Free.',
   description: 'Validate any Universal Document™ .uds or .udr file instantly. Check schema compliance, expiry date, embedded signatures, and structural integrity. No upload required — runs in your browser. Free.',
   keywords: 'validate UDS file, verify universal document, document integrity check, document schema validator, document expiry checker, signature verification tool, tamper-evident document verify, digital document validator, document hash check, UDS file checker',
-  icons: { icon: '/favicon.svg' },
   metadataBase: new URL('https://validator.hive.baby'),
   openGraph: {
     title: 'UD Validator — Verify .uds File Integrity, Schema, Expiry, and Signatures. Free.',
