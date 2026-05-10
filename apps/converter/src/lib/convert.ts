@@ -23,11 +23,7 @@ export interface UDDocument {
     created_at: string
     updated_at: string
     created_by: string
-    organisation?: string
-    document_type: string
-    tags: string[]
     revoked: boolean
-    source_trace: string
   }
   manifest: {
     base_language: string
@@ -138,10 +134,7 @@ export function buildUDDocument(params: {
       created_at: now,
       updated_at: now,
       created_by: 'UD Converter',
-      document_type: params.documentType,
-      tags: ['converted', params.sourceFileName.split('.').pop() ?? 'doc'],
       revoked: false,
-      source_trace: params.sourceFileName,
     },
     manifest: {
       base_language: 'en',
@@ -370,12 +363,8 @@ export async function convertPdf(
     state: 'UDS',
   })
 
-  // Mirror warnings into metadata.tags so the warnings travel with the
-  // .uds file itself, not just the response. UDR/UDS readers can render
-  // them later when displaying provenance.
-  for (const w of warnings) {
-    doc.metadata.tags.push(`pdf-warning:${w.reason}:page-${w.page}`)
-  }
+  // Warnings are added to the returned object, but stripped from metadata
+  // to avoid strict JSON schema validation errors.
 
   return { doc, warnings }
 }

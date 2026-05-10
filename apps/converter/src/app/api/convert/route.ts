@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
 // Side-effect import: install DOMMatrix polyfill before any pdfjs-dist
 // usage. The converter modules also import it themselves; doing it at
@@ -43,7 +43,7 @@ function classifyError(err: unknown): {
   const technical = err instanceof Error ? err.message : String(err)
   const lower = technical.toLowerCase()
 
-  // Vercel function timeout — surfaces as the function being killed mid-request.
+  // Vercel function timeout â€” surfaces as the function being killed mid-request.
   if (lower.includes('timeout') || lower.includes('function_invocation_timeout')) {
     return {
       status: 504,
@@ -52,7 +52,7 @@ function classifyError(err: unknown): {
       technical,
     }
   }
-  // Encrypted PDFs — pdfjs throws PasswordException
+  // Encrypted PDFs â€” pdfjs throws PasswordException
   if (lower.includes('passwordexception') || lower.includes('password')) {
     return {
       status: 422,
@@ -65,12 +65,12 @@ function classifyError(err: unknown): {
   if (lower.includes('anthropic') || lower.includes('401') || lower.includes('403')) {
     return {
       status: 503,
-      message: 'AI extraction is temporarily unavailable. Try again in a minute — pdfjs fallback should still produce a result for text-based documents.',
+      message: 'AI extraction is temporarily unavailable. Try again in a minute â€” pdfjs fallback should still produce a result for text-based documents.',
       recoverable: true,
       technical,
     }
   }
-  // Anything else — generic but still informative
+  // Anything else â€” generic but still informative
   return {
     status: 500,
     message: `Could not process this file. Technical detail: ${technical.slice(0, 200)}`,
@@ -85,14 +85,14 @@ function getIp(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    // DB is optional — if unavailable, conversion still works without rate limiting
+    // DB is optional â€” if unavailable, conversion still works without rate limiting
     try {
       await ensureSchema()
     } catch (dbErr) {
       console.warn('DB unavailable, proceeding without rate limiting:', dbErr)
     }
 
-    // PR D — rate-limit gate. Pro x-api-key → Plus signed cookie →
+    // PR D â€” rate-limit gate. Pro x-api-key â†’ Plus signed cookie â†’
     // free-tier lifetime + daily check. Returns structured 429 on cap.
     const decision = await checkRateLimit(req)
     if (!decision.allow) {
@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Pre-flight 4 MB cap (defense-in-depth — see header comment).
+    // Pre-flight 4 MB cap (defense-in-depth â€” see header comment).
     if (file.size > MAX_PREFLIGHT_BYTES) {
       return NextResponse.json(
         {
@@ -171,14 +171,14 @@ export async function POST(req: NextRequest) {
     // to the client via the X-UD-Page-Warnings response header.
     let pageWarnings: PageWarning[] = []
 
-    // ─── UD Converter v2 telemetry (PR A — feature-flagged) ──────────────
+    // â”€â”€â”€ UD Converter v2 telemetry (PR A â€” feature-flagged) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // When UD_CONVERTER_V2 env var is "true", we call the v2 orchestrator's
-    // route-selection function in parallel with the existing PDF→UDS path
+    // route-selection function in parallel with the existing PDFâ†’UDS path
     // so cost telemetry starts flowing into the conversion_costs table
-    // immediately. This is observation-only in PR A — the actual conversion
+    // immediately. This is observation-only in PR A â€” the actual conversion
     // continues to run through the existing convert.ts code below. PR B
     // wires the orchestrator into the actual conversion path for new
-    // format pairs; the existing PDF→UDS path stays where it is.
+    // format pairs; the existing PDFâ†’UDS path stays where it is.
     const v2TelemetryEnabled = process.env.UD_CONVERTER_V2 === 'true'
     const userTier: UserTier = decision.tier
     let v2RouteUsed: string = 'existing-uds-pipeline'
@@ -207,13 +207,9 @@ export async function POST(req: NextRequest) {
       const rawHtml = buffer.toString('utf-8')
       const pre = preprocessForUD({ fileName, baseText: rawHtml.replace(/<[^>]+>/g, ' '), utility })
       doc = await convertHtml(pre.normalizedText, fileName)
-      doc.metadata.tags.push('utility:' + utility)
-      doc.metadata.tags.push('html-normalized')
     } else if (ext === 'csv') {
       const pre = preprocessForUD({ fileName, baseText: buffer.toString('utf-8'), utility })
       doc = await convertCsv(pre.normalizedText, fileName)
-      doc.metadata.tags.push('utility:' + utility)
-      doc.metadata.tags.push('preprocessed')
     } else if (ext === 'pdf') {
       const pdfResult = await convertPdf(buffer, fileName)
       doc = pdfResult.doc
@@ -224,8 +220,6 @@ export async function POST(req: NextRequest) {
         .join('\n')
       const pre = preprocessForUD({ fileName, baseText: joined, utility })
       doc.blocks = await convertTxt(pre.normalizedText, fileName).then((d) => d.blocks)
-      doc.metadata.tags.push('utility:' + utility)
-      doc.metadata.tags.push('pdf-normalized')
     } else if (['png', 'jpg', 'jpeg', 'webp', 'gif'].includes(ext)) {
       doc = await convertImage(fileName)
       const pre = preprocessForUD({
@@ -234,14 +228,10 @@ export async function POST(req: NextRequest) {
         utility,
       })
       doc.blocks = await convertTxt(pre.normalizedText, fileName).then((d) => d.blocks)
-      doc.metadata.tags.push('utility:' + utility)
-      doc.metadata.tags.push('image-normalized')
     } else {
       const text = buffer.toString('utf-8')
       const pre = preprocessForUD({ fileName, baseText: text, utility })
       doc = await convertTxt(pre.normalizedText, fileName)
-      doc.metadata.tags.push('utility:' + utility)
-      doc.metadata.tags.push('preprocessed')
     }
 
     if (proUser) {
@@ -252,7 +242,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // ─── UD Converter v2 cost telemetry (PR A — fire-and-forget) ─────────
+    // â”€â”€â”€ UD Converter v2 cost telemetry (PR A â€” fire-and-forget) â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Logged AFTER successful conversion. Cost is 0 for the existing-uds-
     // pipeline route since PR #2's path bills against ANTHROPIC_API_KEY at
     // a global level rather than per-conversion. PR B will populate
@@ -269,7 +259,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // PR D — record the conversion against the free-tier counter only on
+    // PR D â€” record the conversion against the free-tier counter only on
     // success. Plus + Pro tiers skip (their auth path doesn't go through
     // the IP-hash lifetime counter).
     if (decision.tier === 'free' && decision.ipHash) {
@@ -286,7 +276,7 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Register in provenance registry (fire-and-forget — conversion succeeds regardless)
+    // Register in provenance registry (fire-and-forget â€” conversion succeeds regardless)
     if (doc.seal?.hash && doc.metadata.id) {
       const docId = doc.metadata.id
       const docHash = doc.seal.hash
@@ -300,7 +290,7 @@ export async function POST(req: NextRequest) {
       doc.seal.verification_url = `https://ud.hive.baby/verify/${docId}`
     }
 
-    // ─── Queen Bee Governance Integration ───
+    // â”€â”€â”€ Queen Bee Governance Integration â”€â”€â”€
     // The Master Grappler requires us to register this output schema.
     // Fire-and-forget so we don't slow down the response.
     fetch('https://queenbee.hive.baby/api/govern', {
@@ -327,7 +317,7 @@ export async function POST(req: NextRequest) {
         'Content-Disposition': `attachment; filename="${outputName}"`,
         'X-UD-Identity': doc.state === 'UDS' ? 'dark_blue' : 'light_blue',
         // Page-level warnings travel as a base64-encoded JSON header so the
-        // client can render "Page 8 was image-only — re-OCR to capture"
+        // client can render "Page 8 was image-only â€” re-OCR to capture"
         // alongside the successful download. Empty array when the
         // conversion was clean. Base64 because some warning detail strings
         // contain characters HTTP headers don't allow raw.
@@ -338,7 +328,7 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     console.error('Convert error:', e)
     const cls = classifyError(e)
-    // Telemetry on failure path too — best effort, non-blocking.
+    // Telemetry on failure path too â€” best effort, non-blocking.
     if (process.env.UD_CONVERTER_V2 === 'true') {
       void logConversionCost({
         userTier: 'unknown',

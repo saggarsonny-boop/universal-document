@@ -90,29 +90,10 @@ export function TierIndicator({ reloadNonce = 0 }: Props) {
     )
   }
 
-  // Free tier — show lifetime + daily status. Four cases, all driven from
-  // the locale catalog so the wording localizes per navigator.language:
-  //   - lifetimeExhausted     → "Free tier exhausted — upgrade to keep converting"
-  //   - dailyExhausted        → "Next free conversion in ~24h · X of N lifetime remaining"
-  //   - lifetimeUsed === 0    → "First free conversion available now · N lifetime free"
-  //   - else                  → "X of N lifetime free conversions remaining"
-  const lifetimeRemaining = Math.max(0, usage.lifetimeLimit - usage.lifetimeUsed)
-  const dailyExhausted = usage.dailyUsed >= usage.dailyLimit && lifetimeRemaining > 0
-  const lifetimeExhausted = lifetimeRemaining === 0
-
-  let statusText: string
-  if (lifetimeExhausted) {
-    statusText = s.tier.lifetimeExhausted
-  } else if (dailyExhausted) {
-    statusText = s.tier.dailyCooldownTemplate
-      .replace('{{remaining}}', String(lifetimeRemaining))
-      .replace('{{limit}}', String(usage.lifetimeLimit))
-  } else if (usage.lifetimeUsed === 0) {
-    statusText = s.tier.freshTemplate.replace('{{limit}}', String(usage.lifetimeLimit))
-  } else {
-    statusText = s.tier.lifetimeRemainingTemplate
-      .replace('{{remaining}}', String(lifetimeRemaining))
-      .replace('{{limit}}', String(usage.lifetimeLimit))
+  // Free tier is now UNLIMITED per executive order.
+  let statusText = "Unlimited conversions available";
+  if (usage.lifetimeUsed === 0) {
+    statusText = s.tier.freshTemplate.replace('{{limit}}', "unlimited");
   }
 
   return (

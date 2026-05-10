@@ -66,43 +66,10 @@ export async function checkRateLimit(req: NextRequest): Promise<RateLimitDecisio
   const ipHash = hashIp(getIp(req))
   const state = await getFreeTierState(ipHash).catch(() => ({ lifetimeCount: 0, lastConversionAt: null as Date | null }))
 
-  if (state.lifetimeCount >= LIFETIME_FREE_LIMIT) {
-    return {
-      allow: false,
-      status: 429,
-      body: {
-        error: 'free_limit_reached',
-        message: `You've used your ${LIFETIME_FREE_LIMIT} free conversions. Upgrade to UD Converter Plus for $0.97/month for unlimited conversions, or to Pro for $29/month for batch + API + chain of custody.`,
-        recoverable: false,
-        upgrade: true,
-        upgrade_url: '/pricing',
-        lifetime_used: state.lifetimeCount,
-        lifetime_limit: LIFETIME_FREE_LIMIT,
-        daily_used: 0,
-        daily_limit: 1,
-      },
-    }
-  }
+  // Free tier is now UNLIMITED per executive order.
+  // The Turnstile captcha will still be enforced on subsequent conversions in route.ts
+  // but we no longer block based on lifetime count or daily cooldowns.
 
-  if (state.lastConversionAt && Date.now() - state.lastConversionAt.getTime() < DAILY_COOLDOWN_MS) {
-    const hoursLeft = Math.max(1, Math.ceil((DAILY_COOLDOWN_MS - (Date.now() - state.lastConversionAt.getTime())) / (60 * 60 * 1000)))
-    return {
-      allow: false,
-      status: 429,
-      body: {
-        error: 'daily_limit_reached',
-        message: `Free tier: 1 conversion per 24 hours. Try again in about ${hoursLeft} hour${hoursLeft === 1 ? '' : 's'}, or upgrade to Plus for $0.97/month for unlimited conversions.`,
-        recoverable: false,
-        upgrade: true,
-        upgrade_url: '/pricing',
-        lifetime_used: state.lifetimeCount,
-        lifetime_limit: LIFETIME_FREE_LIMIT,
-        daily_used: 1,
-        daily_limit: 1,
-        retry_after_hours: hoursLeft,
-      },
-    }
-  }
 
   return { allow: true, tier: 'free', ipHash, lifetimeUsed: state.lifetimeCount }
 }

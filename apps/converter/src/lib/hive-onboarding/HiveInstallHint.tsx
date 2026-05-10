@@ -25,6 +25,7 @@ const GOLD = "#D4AF37";
 const GOLD_DIM = "#8a6f1f";
 const PAPER = "#f5f1e6";
 const MUTED = "#9a9588";
+const INK = "#0a0a0a";
 
 function isStandalone(): boolean {
   if (typeof window === "undefined") return false;
@@ -111,7 +112,7 @@ const bannerStyle: React.CSSProperties = {
   borderRadius: 12,
   border: `1px solid ${GOLD_DIM}`,
   background: "linear-gradient(180deg, rgba(212, 175, 55, 0.10) 0%, rgba(212, 175, 55, 0.04) 100%)",
-  color: PAPER,
+  color: INK,
   fontSize: 13,
   lineHeight: 1.45,
   textAlign: "left",
@@ -126,7 +127,7 @@ const contentColumnStyle: React.CSSProperties = {
 };
 
 const textStyle: React.CSSProperties = {
-  color: PAPER,
+  color: "#1e2d3d",
 };
 
 const ctaRowStyle: React.CSSProperties = {
