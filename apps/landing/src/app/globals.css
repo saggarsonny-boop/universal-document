@@ -270,3 +270,34 @@ a:hover { color: var(--ud-teal); }
     font-size: 13px;
   }
 }
+
+
+/* --- PROJECT FABULOUS ENHANCEMENTS --- */
+.fabulous-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.fabulous-skeleton {
+  background: linear-gradient(90deg, var(--ud-paper-2, #f2f1ee) 25%, var(--ud-paper-3, #e8e6e0) 50%, var(--ud-paper-2, #f2f1ee) 75%);
+  background-size: 200% 100%;
+  animation: fabulous-shimmer 1.5s infinite;
+  border-radius: var(--ud-radius, 8px);
+}
+
+@keyframes fabulous-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.fabulous-hover {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+.fabulous-hover:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+/* ------------------------------------- */
