@@ -1,0 +1,63 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "1218efea-66df-4112-aa01-b5f5e5227311",
+    "title": "dummy",
+    "created_at": "2026-05-10T14:27:23.326Z",
+    "updated_at": "2026-05-10T14:27:23.326Z",
+    "created_by": "UD Converter",
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": true,
+      "allow_print": true,
+      "allow_export": true,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "43457fb2a955",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Dummy PDF file"
+      },
+      "provenance": {
+        "source": "dummy.pdf",
+        "imported_from": "dummy.pdf",
+        "imported_at": "2026-05-10T14:27:23.326Z"
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-05-10T14:27:23.326Z",
+    "sealed_by": "UD Converter",
+    "hash": "ff261bf2da183d07a80bcc0e287e3acb45d9ef43475cd0d615ab1a14c036a8e0",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "UD Converter",
+        "timestamp": "2026-05-10T14:27:23.326Z",
+        "note": "Converted from dummy.pdf"
+      },
+      {
+        "event": "sealed",
+        "actor": "UD Converter",
+        "timestamp": "2026-05-10T14:27:23.326Z",
+        "note": "Auto-sealed on conversion"
+      }
+    ],
+    "verification_url": "https://ud.hive.baby/verify/1218efea-66df-4112-aa01-b5f5e5227311"
+  }
+}

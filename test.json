@@ -1,0 +1,71 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDS",
+  "metadata": {
+    "id": "fba079a8-300e-44ab-9086-6abfbe36298f",
+    "title": "ud mark uds",
+    "created_at": "2026-05-10T14:22:04.293Z",
+    "updated_at": "2026-05-10T14:22:04.293Z",
+    "created_by": "UD Converter",
+    "document_type": "image-import",
+    "tags": [
+      "converted",
+      "png",
+      "utility:optimize",
+      "image-normalized"
+    ],
+    "revoked": false,
+    "source_trace": "ud-mark-uds.png"
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {
+        "code": "en",
+        "label": "English",
+        "direction": "ltr"
+      }
+    ],
+    "clarity_layer_manifest": [],
+    "permissions": {
+      "allow_copy": true,
+      "allow_print": true,
+      "allow_export": true,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "efd667261841",
+      "type": "paragraph",
+      "base_content": {
+        "text": "Image imported for UD preprocessing. OCR utility: disabled."
+      },
+      "provenance": {
+        "source": "ud-mark-uds.png",
+        "imported_from": "ud-mark-uds.png",
+        "imported_at": "2026-05-10T14:22:04.293Z"
+      }
+    }
+  ],
+  "seal": {
+    "sealed_at": "2026-05-10T14:22:04.293Z",
+    "sealed_by": "UD Converter",
+    "hash": "bcacd7ad8b610008ba0806bbc764723d22783bba30b885aaa82a0e10b3107243",
+    "chain_of_custody": [
+      {
+        "event": "created",
+        "actor": "UD Converter",
+        "timestamp": "2026-05-10T14:22:04.293Z",
+        "note": "Converted from ud-mark-uds.png"
+      },
+      {
+        "event": "sealed",
+        "actor": "UD Converter",
+        "timestamp": "2026-05-10T14:22:04.293Z",
+        "note": "Auto-sealed on conversion"
+      }
+    ],
+    "verification_url": "https://ud.hive.baby/verify/fba079a8-300e-44ab-9086-6abfbe36298f"
+  }
+}
