@@ -27,6 +27,7 @@ export interface UDDocument {
     document_type: string
     tags: string[]
     revoked: boolean
+    source_trace: string
   }
   manifest: {
     base_language: string
@@ -140,6 +141,7 @@ export function buildUDDocument(params: {
       document_type: params.documentType,
       tags: ['converted', params.sourceFileName.split('.').pop() ?? 'doc'],
       revoked: false,
+      source_trace: params.sourceFileName,
     },
     manifest: {
       base_language: 'en',
