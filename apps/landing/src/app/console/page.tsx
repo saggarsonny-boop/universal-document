@@ -113,7 +113,7 @@ export default function ConsolePage() {
     if (!data?.testers) return
     const cols = ['tester_id', 'email', 'name', 'engine_name', 'email_verified', 'created_at', 'credit_earned_usd', 'credit_granted_usd']
     const rows = [cols.join(','), ...data.testers.map(t =>
-      cols.map(c => JSON.stringify((t as Record<string, unknown>)[c] ?? '')).join(',')
+      cols.map(c => JSON.stringify((t as unknown as Record<string, unknown>)[c] ?? '')).join(',')
     )]
     const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob)
