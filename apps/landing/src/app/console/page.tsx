@@ -171,7 +171,7 @@ export default function ConsolePage() {
     return matchSearch && matchEngine
   })
 
-  const engineSlugs = [...new Set(testers.map(t => t.engine_slug))]
+  const engineSlugs = Array.from(new Set(testers.map(t => t.engine_slug)))
 
   const countryData = (() => {
     if (!data?.analytics) return {}
