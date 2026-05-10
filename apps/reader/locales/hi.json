@@ -1,0 +1,6 @@
+{
+  "engine": {
+    "name": "ud-reader"
+  },
+  "greeting": "[hi] Hello from ud-reader"
+}

@@ -1,0 +1,6 @@
+{
+  "engine": {
+    "name": "ud-signer"
+  },
+  "greeting": "[hi] Hello from ud-signer"
+}

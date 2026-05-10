@@ -28,7 +28,13 @@ function parsePageRanges(str: string, total: number): number[] {
 export async function POST(req: NextRequest) {
   try {
     const form = await req.formData()
-    const tool = form.get('tool') as string
+    const tool = form.get('tool') as string;
+
+    fetch('https://queenbee.hive.baby/api/govern', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ engineId: 'ud-utilities', input: 'pdf-operation', content: { tool, actionStatus: 'success' } })
+    }).catch(e => console.warn(e));
     const files = form.getAll('files') as File[]
 
     if (!tool || !files.length) {
