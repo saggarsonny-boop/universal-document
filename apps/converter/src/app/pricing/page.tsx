@@ -59,13 +59,13 @@ export default function PricingPage() {
         <TierCard
           tier="Free"
           price="$0"
-          subtitle="3 lifetime conversions. No card."
+          subtitle="Unlimited. No card required."
           features={[
             '1 conversion per 24 hours',
-            'Up to 3 conversions ever (per device)',
-            'Captcha after first conversion',
-            '10 MB max file · 25 pages max',
+            '4 MB max file · 25 pages max',
             'All format pairs · UDS output',
+            'No language translation',
+            'Captcha after first conversion',
             'No signup',
           ]}
           ctaLabel="Start converting"
@@ -83,6 +83,7 @@ export default function PricingPage() {
             'Unlimited conversions',
             'Up to 25 MB per file',
             'Up to 100 pages per file',
+            'Up to 2 language translations',
             'No captcha',
             'All format pairs',
             'Cancel anytime',
