@@ -199,7 +199,7 @@ export default function ConsolePage() {
   const topCountries = Object.entries(countryData).sort((a, b) => b[1] - a[1]).slice(0, 10)
   const maxCountry = topCountries[0]?.[1] || 1
 
-  const s: Record<string, React.CSSProperties> = {
+  const s: any = {
     page: { minHeight: '100vh', background: '#0d1117', color: '#e6edf3', fontFamily: 'var(--font-mono, monospace)' },
     header: { background: '#161b22', borderBottom: '1px solid #30363d', padding: '16px 32px', display: 'flex', alignItems: 'center', gap: 24 },
     title: { color: '#f0a500', fontSize: 16, fontWeight: 700, letterSpacing: '0.05em' },
