@@ -1,14 +1,14 @@
-'use client'
+﻿'use client'
 
-// PR D — pricing page rewritten for the three-tier UD Converter v2
+// PR D â€” pricing page rewritten for the three-tier UD Converter v2
 // pricing model:
 //   Free:  3 lifetime conversions, 1 per 24h, captcha after 1st, 10MB / 25 pages
 //   Plus:  $0.97/mo unlimited single-file conversions, 25 MB / 100 pages
 //   Pro:   $29/mo unlimited everything + batch + API + 50 MB + chain of custody
 //
 // Subscribe CTAs POST to /api/checkout with the appropriate plan key:
-//   Plus → { plan: 'plus_monthly' } → success_url=/?plus_session_id=…
-//   Pro  → { plan: 'monthly' }      → success_url=/pro?session_id=…
+//   Plus â†’ { plan: 'plus_monthly' } â†’ success_url=/?plus_session_id=â€¦
+//   Pro  â†’ { plan: 'monthly' }      â†’ success_url=/pro?session_id=â€¦
 // (existing Pro yearly $249 plan is still selectable from the Pro card.)
 
 import { useState } from 'react'
@@ -55,15 +55,15 @@ export default function PricingPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, maxWidth: 1080, margin: '0 auto 56px' }}>
-        {/* ─── Free ────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€ Free â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <TierCard
           tier="Free"
           price="$0"
           subtitle="Unlimited. No card required."
           features={[
             '1 conversion per 24 hours',
-            '4 MB max file · 25 pages max',
-            'All format pairs · UDS output',
+            '4 MB max file Â· 25 pages max',
+            'All format pairs Â· UDS output',
             'No language translation',
             'Captcha after first conversion',
             'No signup',
@@ -73,7 +73,7 @@ export default function PricingPage() {
           variant="plain"
         />
 
-        {/* ─── Plus ────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€ Plus â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <TierCard
           tier="Plus"
           price="$0.97"
@@ -88,14 +88,14 @@ export default function PricingPage() {
             'All format pairs',
             'Cancel anytime',
           ]}
-          ctaLabel={loading === 'plus_monthly' ? 'Loading…' : 'Subscribe to Plus'}
+          ctaLabel={loading === 'plus_monthly' ? 'Loadingâ€¦' : 'Subscribe to Plus'}
           ctaOnClick={() => startCheckout('plus_monthly')}
           ctaDisabled={loading !== null}
           variant="gold"
           ribbon="Best value"
         />
 
-        {/* ─── Pro ─────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€ Pro â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <TierCard
           tier="Pro"
           price="$29"
@@ -108,14 +108,15 @@ export default function PricingPage() {
             'API access',
             'Chain of custody logging',
             'Priority processing',
+            'Cancel anytime',
           ]}
-          ctaLabel={loading === 'monthly' ? 'Loading…' : 'Subscribe to Pro'}
+          ctaLabel={loading === 'monthly' ? 'Loadingâ€¦' : 'Subscribe to Pro'}
           ctaOnClick={() => startCheckout('monthly')}
           ctaDisabled={loading !== null}
           variant="ink"
           ribbon={null}
           secondaryCta={{
-            label: loading === 'yearly' ? 'Loading…' : 'Or $249/year — save $99',
+            label: loading === 'yearly' ? 'Loadingâ€¦' : 'Or $249/year â€” save $99',
             onClick: () => startCheckout('yearly'),
             disabled: loading !== null,
           }}
@@ -141,7 +142,7 @@ export default function PricingPage() {
           Need enterprise volume, self-hosting, or custom integration?
         </p>
         <a href="mailto:press@universaldocument.solutions" style={{ fontSize: 14, fontWeight: 600, color: INK, textDecoration: 'none' }}>
-          Contact Universal Document™ Incorporated →
+          Contact Universal Documentâ„¢ Incorporated â†’
         </a>
       </div>
     </main>
@@ -221,7 +222,7 @@ function TierCard(p: TierCardProps) {
             marginBottom: 10,
             lineHeight: 1.5,
           }}>
-            <span style={{ color: isInk ? GOLD : 'var(--ud-teal, #0a7a6a)', fontWeight: 700, flexShrink: 0 }}>✓</span>
+            <span style={{ color: isInk ? GOLD : 'var(--ud-teal, #0a7a6a)', fontWeight: 700, flexShrink: 0 }}>âœ“</span>
             <span>{f}</span>
           </div>
         ))}
@@ -307,3 +308,4 @@ function ctaButtonStyle(variant: 'plain' | 'gold' | 'ink'): React.CSSProperties 
     display: 'block',
   }
 }
+
