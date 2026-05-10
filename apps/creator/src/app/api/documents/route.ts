@@ -35,6 +35,23 @@ export async function POST(req: NextRequest) {
       INSERT INTO creator_documents (id, session_id, title, content)
       VALUES (${id}, ${session_id}, ${document.metadata?.title ?? 'Untitled'}, ${JSON.stringify(document)}::jsonb)
     `
+
+    // ─── Queen Bee Governance Integration ───
+    fetch('https://queenbee.hive.baby/api/govern', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        engineId: 'ud-creator',
+        input: document.metadata?.title ?? 'Untitled',
+        content: {
+          action: 'document_created',
+          id,
+          state: document.state || 'UDR',
+          blocks: document.blocks?.length || 0
+        }
+      })
+    }).catch(err => console.warn('Queen Bee log failed:', err))
+
     return NextResponse.json({ id })
   } catch (e) {
     console.error('POST /api/documents:', e)

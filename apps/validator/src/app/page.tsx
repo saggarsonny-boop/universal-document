@@ -144,7 +144,19 @@ export default function ValidatorPage() {
     const reader = new FileReader()
     reader.onload = (e) => {
       const text = e.target?.result as string
-      setResult(validate(text))
+      const res = validate(text)
+      setResult(res)
+
+      // ─── Queen Bee Governance Integration ───
+      fetch('https://queenbee.hive.baby/api/govern', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          engineId: 'ud-validator',
+          input: 'document_validated',
+          content: { valid: res.valid, id: res.doc.metadata?.id }
+        })
+      }).catch(err => console.warn('Queen Bee log failed:', err))
     }
     reader.readAsText(file)
   }, [])

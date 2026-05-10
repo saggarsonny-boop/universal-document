@@ -29,6 +29,21 @@ function ReaderApp() {
     }
     setDoc(raw as UDDocument)
     setAppState('viewing')
+
+    // ─── Queen Bee Governance Integration ───
+    fetch('https://queenbee.hive.baby/api/govern', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        engineId: 'ud-reader',
+        input: 'document_opened',
+        content: {
+          id: (raw as UDDocument).metadata?.id,
+          title: (raw as UDDocument).metadata?.title,
+          state: (raw as UDDocument).state
+        }
+      })
+    }).catch(err => console.warn('Queen Bee log failed:', err))
   }
 
   function handleFile(file: File) {

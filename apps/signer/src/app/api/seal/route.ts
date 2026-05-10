@@ -49,6 +49,17 @@ export async function POST(req: NextRequest) {
         issuer_ip = ${issuerIp}
     `
 
+    // ─── Queen Bee Governance Integration ───
+    fetch('https://queenbee.hive.baby/api/govern', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        engineId: 'ud-signer',
+        input: 'document_sealed',
+        content: { id, hash, title }
+      })
+    }).catch(err => console.warn('Queen Bee log failed:', err))
+
     return NextResponse.json({ ok: true })
   } catch (err: unknown) {
     console.error('Signer registry write error:', err)
