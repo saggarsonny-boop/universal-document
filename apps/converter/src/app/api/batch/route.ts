@@ -110,7 +110,7 @@ export async function POST(req: NextRequest) {
           }
           const outputId = uuidv4()
           doc.metadata.id = outputId
-          doc.metadata.tags.push('utility:' + utility)
+
           outputZip.file(name.replace(/\.[^.]+$/, '.uds'), JSON.stringify(doc, null, 2))
           results.push({ file: name, status: 'ok' })
           await logCustody({ email: proUser.email, apiKeyPrefix: proUser.prefix, fileName: name, fileSize: buffer.length, outputId })
