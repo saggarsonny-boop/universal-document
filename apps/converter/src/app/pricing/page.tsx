@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 // PR D â€” pricing page rewritten for the three-tier UD Converter v2
 // pricing model:
@@ -55,17 +55,16 @@ export default function PricingPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, maxWidth: 1080, margin: '0 auto 56px' }}>
-        {/* â”€â”€â”€ Free â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ———————————————————————————————————————————————————————— */}
         <TierCard
           tier="Free"
           price="$0"
           subtitle="Unlimited. No card required."
           features={[
-            '1 conversion per 24 hours',
-            '4 MB max file Â· 25 pages max',
-            'All format pairs Â· UDS output',
-            'No language translation',
+            'Unlimited conversions',
             'Captcha after first conversion',
+            '10 MB max file · 25 pages max',
+            'All format pairs · UDS output',
             'No signup',
           ]}
           ctaLabel="Start converting"
