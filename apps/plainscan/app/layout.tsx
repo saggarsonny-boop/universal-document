@@ -2,9 +2,14 @@
 // below. Canonical Hive ink (#0a0a0a) used in app/globals.css.
 
 import type { Metadata, Viewport } from "next";
+import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
 import HiveFooter from "@/components/HiveFooter";
 import ServiceWorkerRegistrar from "@/components/ServiceWorkerRegistrar";
 import "./globals.css";
+
+const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700'], variable: '--font-display', display: 'swap' })
+const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body', display: 'swap' })
+const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL || "https://plainscan.hive.baby";
@@ -62,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body className="min-h-screen antialiased">
         {children}
         <footer className="site-footer">

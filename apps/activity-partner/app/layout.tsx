@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
 import { ClerkProvider } from "@clerk/nextjs";
 import { ServiceWorkerRegistrar } from "./_lib/ServiceWorkerRegistrar";
 import { HiveHeader } from "./_lib/HiveHeader";
+
+const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700'], variable: '--font-display', display: 'swap' })
+const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body', display: 'swap' })
+const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby";
 
@@ -54,7 +59,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
         <head>
           <meta name="robots" content="noindex,nofollow" />
         </head>
@@ -64,7 +69,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             background: "#0a0a0a",
             color: "#f5f1e6",
             fontFamily:
-              "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              "var(--font-body), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
             WebkitFontSmoothing: "antialiased",
             minHeight: "100dvh",
           }}
