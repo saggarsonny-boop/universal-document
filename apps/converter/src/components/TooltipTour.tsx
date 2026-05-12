@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState, useEffect } from 'react';
 import Joyride, { STATUS } from 'react-joyride';
 
@@ -12,7 +12,7 @@ export default function TooltipTour() {
     }
   }, []);
 
-  const handleJoyrideCallback = (data) => {
+  const handleJoyrideCallback = (data: any) => {
     const { status } = data;
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       localStorage.setItem('ud-converter-tour-seen', 'true');

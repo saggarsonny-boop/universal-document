@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     const jsonResponse = await handleUpload({
       body,
       request: req,
-      onBeforeGenerateToken: async (_pathname, clientPayloadRaw) => {
+      onBeforeGenerateToken: async (_pathname: string, clientPayloadRaw: any) => {
         // 1. Tier check (free-tier lifetime/daily caps run here too).
         const decision = await checkRateLimit(req)
         if (!decision.allow) {

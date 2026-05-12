@@ -328,7 +328,7 @@ export default function ConverterPage() {
           turnstileToken: turnstileToken ?? null,
           fromFormat: inputFormat,
         }),
-        onUploadProgress: ({ percentage }) => setUploadPercent(Math.round(percentage)),
+        onUploadProgress: ({ percentage }: any) => setUploadPercent(Math.round(percentage)),
       })
 
       // Step 3: tell the function to convert the just-uploaded blob.

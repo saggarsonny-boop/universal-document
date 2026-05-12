@@ -274,7 +274,7 @@ export async function POST(req: NextRequest) {
     // has been removed is a no-op. The `void` swallows any cleanup
     // error so it can't mask the actual response.
     if (blobUrlForCleanup) {
-      void del(blobUrlForCleanup).catch((err) => {
+      void del(blobUrlForCleanup).catch((err: any) => {
         console.warn('Failed to delete source blob (will orphan in storage):', err)
       })
     }

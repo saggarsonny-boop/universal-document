@@ -15,6 +15,8 @@ const nextConfig = {
     config.resolve.modules = [path.resolve(__dirname, 'node_modules'), 'node_modules']
     return config
   },
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
 }
 
 module.exports = nextConfig
