@@ -1,0 +1,269 @@
+{
+  "footer": {
+    "tagline": {
+      "line1": "Sem anúncios. Sem investidores. Sem agenda oculta.",
+      "line2": "Gratuito no plano básico, para sempre."
+    },
+    "privacy": "Nunca compartilhamos sua localização exata, nome real ou dados de contato com ninguém até você aceitar explicitamente uma solicitação de compartilhamento de contato. Todos os perfis são privados. Não indexamos perfis em mecanismos de busca e não geramos páginas de perfil públicas.",
+    "signature": {
+      "madeWith": "Feito com",
+      "inThe": "no",
+      "brand": "Hive"
+    }
+  },
+  "home": {
+    "title": "Encontre alguém para fazer a coisa com você.",
+    "tagline": "Esportes, caminhadas, sessões de estudo, intercâmbios de idiomas, aulas de arte — traga uma atividade, encontre um parceiro, nos seus termos.",
+    "cta": "Comece agora",
+    "ctaAria": "Comece agora — escolha sua faixa etária",
+    "signInPrompt": "Já tem uma conta? Faça login",
+    "pillars": {
+      "private": {
+        "title": "Privado por padrão",
+        "body": "Seu perfil nunca é indexado por mecanismos de busca. Sua localização exata nunca é compartilhada. Nomes reais continuam sendo seus."
+      },
+      "safe": {
+        "title": "Segurança, não teatro",
+        "body": "Encontros públicos apenas no plano gratuito. Pontuação de confiança. Distintivos verificados. Relatórios reais que chegam a algum lugar."
+      },
+      "free": {
+        "title": "Gratuito para sempre",
+        "body": "Sem anúncios. Sem investidores. Sem isca de engajamento. Recursos pagos opcionais assim que a Fase 5 sair."
+      }
+    },
+    "install": {
+      "banner": "Adicione HiveActivityPartner à sua tela inicial — abre como um app, sem precisar da loja de apps."
+    },
+    "firstVisit": {
+      "body": "Escolha sua faixa etária e crie um perfil. A Fase 2 adiciona o seletor de atividades; a Fase 3 ativa o matching."
+    }
+  },
+  "signup": {
+    "title": "Conte-nos sua faixa etária",
+    "lead": "Nunca mostramos sua idade exata — mas precisamos saber que você tem 18+ antes de qualquer perfil sair do ar. Esta é a única pergunta que não deixaremos você pular.",
+    "legend": "Sua faixa etária",
+    "help": "Obrigatório no cadastro. Usamos para manter matches em faixas compatíveis. Escolha a faixa que combina com você.",
+    "continue": "Continuar",
+    "alreadyHaveAccount": "Já tem uma conta? Faça login",
+    "errorPick": "Escolha uma faixa etária antes de continuar.",
+    "options": {
+      "under18": "Tenho menos de 18 anos",
+      "requiresVerification": "Verificação Stripe Identity obrigatória para esta faixa — completa após o cadastro."
+    }
+  },
+  "under18": {
+    "title": "HiveActivityPartner é apenas para maiores de 18 anos.",
+    "lead": "Não podemos cadastrá-lo. Essa é uma regra firme, não é algo que vamos fazer exceção — encontrar estranhos já é arriscado o suficiente para adultos, e não estamos no negócio de colocar menores de 18 anos nesses ambientes.",
+    "resourcesTitle": "Alguns bons recursos para você (ou para o adulto que mostrou isso)",
+    "resources": {
+      "commonSense": "resenhas honestas de apps e jogos, com uma visão realista do que é realmente arriscado versus apenas barulho.",
+      "connectSafely": "guias baseados em pesquisa sobre segurança online, escritos para adolescentes e pais.",
+      "thinkuknow": "educação em segurança online da Agência Nacional de Crime do Reino Unido, com recursos adequados à idade a partir dos 4 anos."
+    },
+    "parentNote": "Pais: se chegaram aqui porque viram HiveActivityPartner na tela do seu filho, o link quase certamente veio de outro lugar — não fazemos marketing para menores de 18 anos e nunca indexamos páginas publicamente. Vale a pena conversar sobre como ele descobriu.",
+    "back": "← Voltar para home"
+  },
+  "categories": {
+    "sport": "Esporte",
+    "fitness": "Fitness",
+    "creative": "Criativo",
+    "intellectual": "Intelectual",
+    "outdoor": "Ao ar livre",
+    "social": "Social"
+  },
+  "activities": {
+    "tennis": "Tênis",
+    "badminton": "Badminton",
+    "padel": "Padel",
+    "tableTennis": "Tênis de mesa",
+    "squash": "Squash",
+    "basketball": "Basquete",
+    "football": "Futebol",
+    "futsal": "Futsal",
+    "americanFootball": "Futebol americano",
+    "baseball": "Beisebol",
+    "softball": "Softbol",
+    "cricket": "Cricket",
+    "rugby": "Rugby",
+    "fieldHockey": "Hóquei em campo",
+    "iceHockey": "Hóquei no gelo",
+    "lacrosse": "Lacrosse",
+    "volleyball": "Voleibol",
+    "beachVolleyball": "Voleibol de praia",
+    "ultimateFrisbee": "Ultimate Frisbee",
+    "golf": "Golfe",
+    "swimming": "Natação",
+    "waterPolo": "Polo aquático",
+    "surfing": "Surfe",
+    "sailing": "Vela",
+    "rowing": "Remo",
+    "running": "Corrida",
+    "jogging": "Trote",
+    "walking": "Caminhada",
+    "hiking": "Trilha",
+    "cycling": "Ciclismo",
+    "mountainBiking": "Bicicleta de montanha",
+    "gymWorkout": "Treino na academia",
+    "weightlifting": "Levantamento de peso",
+    "crossfit": "CrossFit",
+    "yoga": "Yoga",
+    "pilates": "Pilates",
+    "climbing": "Escalada",
+    "bouldering": "Boulder",
+    "dancing": "Dança",
+    "martialArts": "Artes marciais",
+    "boxing": "Boxe",
+    "mma": "MMA",
+    "kickboxing": "Kickboxing",
+    "lifeDrawing": "Desenho de modelo vivo",
+    "painting": "Pintura",
+    "sketching": "Esboço",
+    "photography": "Fotografia",
+    "pottery": "Cerâmica",
+    "ceramics": "Cerâmica artística",
+    "knitting": "Tricô",
+    "crochet": "Crochê",
+    "sewing": "Costura",
+    "woodworking": "Carpintaria",
+    "jewelryMaking": "Joalheria",
+    "calligraphy": "Caligrafia",
+    "songwriting": "Composição de músicas",
+    "musicJamming": "Jam de músicas",
+    "choir": "Coral",
+    "bandPractice": "Ensaio de banda",
+    "theater": "Teatro",
+    "improv": "Improviso",
+    "chess": "Xadrez",
+    "go": "Go",
+    "scrabble": "Scrabble",
+    "boardGames": "Jogos de tabuleiro",
+    "languageExchange": "Intercâmbio de idiomas",
+    "studySession": "Sessão de estudo",
+    "bookClub": "Clube do livro",
+    "philosophyDiscussion": "Discussão de filosofia",
+    "debate": "Debate",
+    "pairProgramming": "Programação em par",
+    "trivia": "Trivia",
+    "birdWatching": "Observação de pássaros",
+    "gardening": "Jardinagem",
+    "fishing": "Pesca",
+    "camping": "Acampamento",
+    "picnic": "Piquenique",
+    "kayaking": "Canoagem",
+    "paddleboarding": "Stand-up paddle",
+    "skiing": "Esqui",
+    "snowboarding": "Snowboard",
+    "coffeeChat": "Bate-papo tomando café",
+    "brunch": "Brunch",
+    "dinner": "Jantar",
+    "movieNight": "Noite de filme",
+    "museumVisit": "Visita a museu",
+    "galleryVisit": "Visita a galeria",
+    "concert": "Concerto",
+    "gig": "Show"
+  },
+  "skillLevel": {
+    "label": "Nível de habilidade",
+    "beginner": "Iniciante",
+    "intermediate": "Intermediário",
+    "advanced": "Avançado",
+    "any": "Qualquer nível"
+  },
+  "frequency": {
+    "label": "Com que frequência",
+    "oneTime": "Uma única vez",
+    "weekly": "Semanal",
+    "monthly": "Mensal",
+    "flexible": "Flexível"
+  },
+  "timeWindow": {
+    "label": "Quando você está livre",
+    "weekdayMornings": "Manhãs de semana",
+    "weekdayAfternoons": "Tardes de semana",
+    "weekdayEvenings": "Noites de semana",
+    "weekendMornings": "Manhãs de fim de semana",
+    "weekendAfternoons": "Tardes de fim de semana",
+    "weekendEvenings": "Noites de fim de semana",
+    "flexible": "Flexível"
+  },
+  "radius": {
+    "label": "Quão longe você viaja",
+    "walk": "A pé",
+    "bike": "De bicicleta",
+    "transit": "De transporte público",
+    "drive": "Dirigindo"
+  },
+  "addActivity": {
+    "title": "Adicione uma atividade",
+    "lead": "Escolha algo que você realmente quer fazer com alguém. Pode editar ou remover a qualquer momento.",
+    "stepActivity": "Escolha uma atividade",
+    "stepDetails": "Conte-nos os detalhes",
+    "stepReview": "Revisar",
+    "activityLabel": "Atividade",
+    "activityHelp": "Não encontra? Pode solicitar uma nova atividade no final da lista.",
+    "categoryLabel": "Categoria",
+    "noteLabel": "Uma nota curta (opcional)",
+    "noteHelp": "Uma frase sobre o que você está procurando. Visível para parceiros em potencial.",
+    "notePlaceholder": "Ex.: procurando parceiro de duplas em noites de semana, nível intermediário.",
+    "submit": "Adicionar atividade",
+    "submitting": "Adicionando…",
+    "cancel": "Cancelar",
+    "save": "Salvar mudanças",
+    "edit": "Editar",
+    "remove": "Remover",
+    "removeConfirm": "Remover esta atividade do seu perfil? Pode adicioná-la novamente depois.",
+    "successAdded": "Atividade adicionada.",
+    "successUpdated": "Atividade atualizada.",
+    "successRemoved": "Atividade removida."
+  },
+  "myActivities": {
+    "title": "Suas atividades",
+    "addAnother": "Adicionar outra atividade",
+    "viewMatches": "Ver matches em potencial"
+  },
+  "requestActivity": {
+    "title": "Solicite uma nova atividade",
+    "lead": "Não encontra sua atividade na lista? Conte-nos sobre ela e vamos revisar para o catálogo.",
+    "nameLabel": "Nome da atividade",
+    "namePlaceholder": "Ex.: golfe de frisbee, capoeira, sketch urbano",
+    "categoryLabel": "Categoria que melhor se encaixa",
+    "justificationLabel": "Por que isso deveria estar no catálogo?",
+    "justificationHelp": "Uma ou duas frases sobre o que é a atividade e por que combina com o HAP. Ajuda moderadores a decidirem rápido.",
+    "justificationPlaceholder": "Ex.: golfe de frisbee é amplamente praticado em parques públicos, pouco equipamento, fácil encontrar parceiro, sem barreira de habilidade.",
+    "submit": "Enviar solicitação",
+    "submitting": "Enviando…",
+    "successTitle": "Solicitação recebida.",
+    "successBody": "Sua solicitação será revisada por moderadores, geralmente em até 48 horas. Você verá o resultado na sua página de atividades.",
+    "viewMyRequests": "Ver minhas solicitações"
+  },
+  "moderation": {
+    "statusLabel": "Status",
+    "pendingReview": "Pendente de revisão",
+    "approved": "Aprovado",
+    "rejected": "Rejeitado",
+    "archived": "Arquivado",
+    "rejectedReasonLabel": "Motivo",
+    "noReasonGiven": "Nenhum motivo informado.",
+    "submittedOn": "Enviado",
+    "reviewedOn": "Revisado"
+  },
+  "empty": {
+    "noActivities": "Você ainda não adicionou nenhuma atividade — adicione a primeira para começar a encontrar parceiros.",
+    "noRequests": "Você ainda não solicitou nenhuma atividade nova.",
+    "noPendingRequests": "Nenhuma solicitação de atividade pendente de revisão.",
+    "noActivitiesInCategory": "Nenhuma atividade nesta categoria ainda.",
+    "noMatches": "Nenhum match em potencial ainda — volte quando mais pessoas na sua área adicionarem atividades que combinam."
+  },
+  "errors": {
+    "required": "Este campo é obrigatório.",
+    "tooLong": "Isso é um pouco longo demais — tente {max} caracteres ou menos.",
+    "tooShort": "Isso é um pouco curto demais — pelo menos {min} caracteres por favor.",
+    "network": "Erro de rede — verifique sua conexão e tente novamente.",
+    "tryAgain": "Tente novamente",
+    "couldNotSave": "Não consegui salvar suas mudanças. Tente novamente em um momento.",
+    "couldNotLoad": "Não consegui carregar esta página. Atualize para tentar novamente.",
+    "alreadyAdded": "Você já adicionou essa atividade.",
+    "pickActivity": "Escolha uma atividade antes de continuar.",
+    "pickCategory": "Escolha uma categoria antes de enviar."
+  }
+}

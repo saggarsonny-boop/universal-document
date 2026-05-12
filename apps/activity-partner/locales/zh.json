@@ -1,0 +1,269 @@
+{
+  "footer": {
+    "tagline": {
+      "line1": "无广告。无投资者。无议程。",
+      "line2": "基础版本永久免费。"
+    },
+    "privacy": "在你明确接受联系分享请求之前，我们永远不会将你的精确位置、真实姓名或联系信息分享给任何人。所有资料都是私密的。我们不在搜索引擎中索引资料，也不生成公开的资料页面。",
+    "signature": {
+      "madeWith": "由",
+      "inThe": "在",
+      "brand": "Hive"
+    }
+  },
+  "home": {
+    "title": "找个人一起去活动。",
+    "tagline": "运动、散步、学习会、语言交换、艺术课程——带上你的活动，找到一个伙伴，一切按你的条件来。",
+    "cta": "开始使用",
+    "ctaAria": "开始使用——选择你的年龄段",
+    "signInPrompt": "已经有账户？登录",
+    "pillars": {
+      "private": {
+        "title": "默认隐私",
+        "body": "你的资料永远不会被搜索引擎索引。你的精确位置永远不会被分享。真实姓名永远是你的。"
+      },
+      "safe": {
+        "title": "安全，不是表面工作",
+        "body": "公开见面仅限免费版。信任评分。验证徽章。真实的举报会被处理。"
+      },
+      "free": {
+        "title": "永久免费",
+        "body": "无广告。无投资者。无诱导行为。第5阶段推出后提供可选付费功能。"
+      }
+    },
+    "install": {
+      "banner": "将 HiveActivityPartner 添加到主屏幕——像应用一样打开，无需应用商店。"
+    },
+    "firstVisit": {
+      "body": "选择你的年龄段，然后创建资料。第2阶段增加活动选择器；第3阶段开启匹配功能。"
+    }
+  },
+  "signup": {
+    "title": "告诉我们你的年龄段",
+    "lead": "我们永远不会显示你的确切年龄——但在任何资料上线之前，我们必须确认你年满18岁。这是唯一一个我们不会让你跳过的问题。",
+    "legend": "你的年龄段",
+    "help": "注册时必填。我们用它来保持匹配在兼容的范围内。选择适合你的段。",
+    "continue": "继续",
+    "alreadyHaveAccount": "已经有账户？登录",
+    "errorPick": "继续前请选择一个年龄段。",
+    "options": {
+      "under18": "我未满18岁",
+      "requiresVerification": "此年龄段需要 Stripe Identity 验证——注册后完成。"
+    }
+  },
+  "under18": {
+    "title": "HiveActivityPartner 仅限18岁及以上。",
+    "lead": "我们无法为你注册。这是一条硬性规则，不会通融——与陌生人见面对成年人来说风险已经足够大，我们不会将未满18岁的人置于这样的环境中。",
+    "resourcesTitle": "一些有用的资源（适合你或向你展示此页面的成年人）",
+    "resources": {
+      "commonSense": "应用和游戏的诚实评价，以及关于什么是真正风险与什么只是噪音的清醒观点。",
+      "connectSafely": "以研究为基础的在线安全指南，为青少年和家长所写。",
+      "thinkuknow": "来自英国国家犯罪局的在线安全教育，提供从4岁到各年龄段的适龄资源。"
+    },
+    "parentNote": "家长们：如果你看到孩子的屏幕上有 HiveActivityPartner 而来到这里，该链接几乎肯定来自其他地方——我们不会向未满18岁的人营销，也从不公开索引页面。值得和他们谈谈他们是怎么找到它的。",
+    "back": "← 返回主页"
+  },
+  "categories": {
+    "sport": "运动",
+    "fitness": "健身",
+    "creative": "创意",
+    "intellectual": "知识性",
+    "outdoor": "户外",
+    "social": "社交"
+  },
+  "activities": {
+    "tennis": "网球",
+    "badminton": "羽毛球",
+    "padel": "Padel",
+    "tableTennis": "乒乓球",
+    "squash": "壁球",
+    "basketball": "篮球",
+    "football": "足球",
+    "futsal": "室内足球",
+    "americanFootball": "美式足球",
+    "baseball": "棒球",
+    "softball": "垒球",
+    "cricket": "板球",
+    "rugby": "橄榄球",
+    "fieldHockey": "曲棍球",
+    "iceHockey": "冰球",
+    "lacrosse": "长曲棍球",
+    "volleyball": "排球",
+    "beachVolleyball": "沙滩排球",
+    "ultimateFrisbee": "飞盘",
+    "golf": "高尔夫",
+    "swimming": "游泳",
+    "waterPolo": "水球",
+    "surfing": "冲浪",
+    "sailing": "帆船",
+    "rowing": "赛艇",
+    "running": "跑步",
+    "jogging": "慢跑",
+    "walking": "散步",
+    "hiking": "登山",
+    "cycling": "骑自行车",
+    "mountainBiking": "山地自行车",
+    "gymWorkout": "健身房锻炼",
+    "weightlifting": "举重",
+    "crossfit": "CrossFit",
+    "yoga": "瑜伽",
+    "pilates": "普拉提",
+    "climbing": "攀岩",
+    "bouldering": "抱石",
+    "dancing": "舞蹈",
+    "martialArts": "武术",
+    "boxing": "拳击",
+    "mma": "MMA",
+    "kickboxing": "踢拳",
+    "lifeDrawing": "人物素描",
+    "painting": "绘画",
+    "sketching": "速写",
+    "photography": "摄影",
+    "pottery": "陶艺",
+    "ceramics": "陶瓷",
+    "knitting": "编织",
+    "crochet": "钩编",
+    "sewing": "缝纫",
+    "woodworking": "木工",
+    "jewelryMaking": "珠宝制作",
+    "calligraphy": "书法",
+    "songwriting": "作曲",
+    "musicJamming": "音乐即兴演奏",
+    "choir": "合唱团",
+    "bandPractice": "乐队排练",
+    "theater": "戏剧",
+    "improv": "即兴表演",
+    "chess": "国际象棋",
+    "go": "围棋",
+    "scrabble": "拼字游戏",
+    "boardGames": "桌游",
+    "languageExchange": "语言交换",
+    "studySession": "学习会",
+    "bookClub": "读书会",
+    "philosophyDiscussion": "哲学讨论",
+    "debate": "辩论",
+    "pairProgramming": "配对编程",
+    "trivia": "知识竞猜",
+    "birdWatching": "观鸟",
+    "gardening": "园艺",
+    "fishing": "钓鱼",
+    "camping": "露营",
+    "picnic": "野餐",
+    "kayaking": "皮划艇",
+    "paddleboarding": "水上立式划板",
+    "skiing": "滑雪",
+    "snowboarding": "单板滑雪",
+    "coffeeChat": "咖啡聊天",
+    "brunch": "早午餐",
+    "dinner": "晚餐",
+    "movieNight": "电影之夜",
+    "museumVisit": "博物馆参观",
+    "galleryVisit": "画廊参观",
+    "concert": "音乐会",
+    "gig": "演出"
+  },
+  "skillLevel": {
+    "label": "技能水平",
+    "beginner": "初级",
+    "intermediate": "中级",
+    "advanced": "高级",
+    "any": "任何水平"
+  },
+  "frequency": {
+    "label": "频率",
+    "oneTime": "一次性",
+    "weekly": "每周",
+    "monthly": "每月",
+    "flexible": "灵活"
+  },
+  "timeWindow": {
+    "label": "你何时有空",
+    "weekdayMornings": "工作日上午",
+    "weekdayAfternoons": "工作日下午",
+    "weekdayEvenings": "工作日晚上",
+    "weekendMornings": "周末上午",
+    "weekendAfternoons": "周末下午",
+    "weekendEvenings": "周末晚上",
+    "flexible": "灵活"
+  },
+  "radius": {
+    "label": "你愿意走多远",
+    "walk": "步行距离",
+    "bike": "骑行距离",
+    "transit": "交通便利",
+    "drive": "驾车距离"
+  },
+  "addActivity": {
+    "title": "添加活动",
+    "lead": "选择你真正想和别人一起做的事。你可以随时编辑或删除它。",
+    "stepActivity": "选择活动",
+    "stepDetails": "告诉我们细节",
+    "stepReview": "审核",
+    "activityLabel": "活动",
+    "activityHelp": "没看到？你可以在列表底部请求添加新活动。",
+    "categoryLabel": "类别",
+    "noteLabel": "简短备注（可选）",
+    "noteHelp": "一句话说明你想要什么。潜在伙伴可以看到。",
+    "notePlaceholder": "例如：寻找工作日晚上的双打搭档，中级水平。",
+    "submit": "添加活动",
+    "submitting": "添加中…",
+    "cancel": "取消",
+    "save": "保存变更",
+    "edit": "编辑",
+    "remove": "移除",
+    "removeConfirm": "从你的资料中移除此活动？你可以稍后再添加。",
+    "successAdded": "活动已添加。",
+    "successUpdated": "活动已更新。",
+    "successRemoved": "活动已移除。"
+  },
+  "myActivities": {
+    "title": "你的活动",
+    "addAnother": "添加另一个活动",
+    "viewMatches": "查看潜在伙伴"
+  },
+  "requestActivity": {
+    "title": "请求添加新活动",
+    "lead": "没看到你的活动？告诉我们，我们会将其添加到目录中。",
+    "nameLabel": "活动名称",
+    "namePlaceholder": "例如：飞盘高尔夫、卡波耶拉、城市速写",
+    "categoryLabel": "最符合的类别",
+    "justificationLabel": "为什么应该在目录中包含这项活动？",
+    "justificationHelp": "一两句话说明这项活动是什么以及为什么适合 HAP。帮助版主快速决定。",
+    "justificationPlaceholder": "例如：飞盘高尔夫在公园广泛开展，设备简单，容易找到伙伴，无技能门槛。",
+    "submit": "提交请求",
+    "submitting": "提交中…",
+    "successTitle": "请求已收到。",
+    "successBody": "版主会审核你的请求，通常在48小时内完成。你会在活动页面上看到结果。",
+    "viewMyRequests": "查看我的请求"
+  },
+  "moderation": {
+    "statusLabel": "状态",
+    "pendingReview": "待审核",
+    "approved": "已批准",
+    "rejected": "已拒绝",
+    "archived": "已归档",
+    "rejectedReasonLabel": "原因",
+    "noReasonGiven": "未提供原因。",
+    "submittedOn": "提交于",
+    "reviewedOn": "审核于"
+  },
+  "empty": {
+    "noActivities": "你还没有添加任何活动——添加你的第一个活动来开始寻找伙伴。",
+    "noRequests": "你还没有请求添加任何新活动。",
+    "noPendingRequests": "没有待审核的活动请求。",
+    "noActivitiesInCategory": "此类别中还没有活动。",
+    "noMatches": "还没有潜在伙伴——等更多人在你所在地区添加重叠的活动后再来看看。"
+  },
+  "errors": {
+    "required": "此字段必填。",
+    "tooLong": "有点太长了——请尝试 {max} 个字符或更少。",
+    "tooShort": "有点太短了——至少需要 {min} 个字符。",
+    "network": "网络错误——检查你的连接并重试。",
+    "tryAgain": "重试",
+    "couldNotSave": "无法保存你的变更。请稍后再试。",
+    "couldNotLoad": "无法加载此页面。刷新以重试。",
+    "alreadyAdded": "你已经添加了那项活动。",
+    "pickActivity": "继续前请选择一项活动。",
+    "pickCategory": "提交前请选择一个类别。"
+  }
+}
