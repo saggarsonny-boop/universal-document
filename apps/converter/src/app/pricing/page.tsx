@@ -59,10 +59,9 @@ export default function PricingPage() {
         <TierCard
           tier="Free"
           price="$0"
-          subtitle="3 lifetime conversions. No card."
+          subtitle="Unlimited. No card required."
           features={[
-            '1 conversion per 24 hours',
-            'Up to 3 conversions ever (per device)',
+            'Unlimited conversions',
             'Captcha after first conversion',
             '10 MB max file · 25 pages max',
             'All format pairs · UDS output',
