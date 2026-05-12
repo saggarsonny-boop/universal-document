@@ -1,14 +1,14 @@
 'use client'
 
-// PR D â€” pricing page rewritten for the three-tier UD Converter v2
+// PR D — pricing page rewritten for the three-tier UD Converter v2
 // pricing model:
 //   Free:  3 lifetime conversions, 1 per 24h, captcha after 1st, 10MB / 25 pages
 //   Plus:  $0.97/mo unlimited single-file conversions, 25 MB / 100 pages
 //   Pro:   $29/mo unlimited everything + batch + API + 50 MB + chain of custody
 //
 // Subscribe CTAs POST to /api/checkout with the appropriate plan key:
-//   Plus â†’ { plan: 'plus_monthly' } â†’ success_url=/?plus_session_id=â€¦
-//   Pro  â†’ { plan: 'monthly' }      â†’ success_url=/pro?session_id=â€¦
+//   Plus → { plan: 'plus_monthly' } → success_url=/?plus_session_id=…
+//   Pro  → { plan: 'monthly' }      → success_url=/pro?session_id=…
 // (existing Pro yearly $249 plan is still selectable from the Pro card.)
 
 import { useState } from 'react'
@@ -87,7 +87,7 @@ export default function PricingPage() {
             'All format pairs',
             'Cancel anytime',
           ]}
-          ctaLabel={loading === 'plus_monthly' ? 'Loadingâ€¦' : 'Subscribe to Plus'}
+          ctaLabel={loading === 'plus_monthly' ? 'Loading…' : 'Subscribe to Plus'}
           ctaOnClick={() => startCheckout('plus_monthly')}
           ctaDisabled={loading !== null}
           variant="gold"
@@ -109,13 +109,13 @@ export default function PricingPage() {
             'Priority processing',
             'Cancel anytime',
           ]}
-          ctaLabel={loading === 'monthly' ? 'Loadingâ€¦' : 'Subscribe to Pro'}
+          ctaLabel={loading === 'monthly' ? 'Loading…' : 'Subscribe to Pro'}
           ctaOnClick={() => startCheckout('monthly')}
           ctaDisabled={loading !== null}
           variant="ink"
           ribbon={null}
           secondaryCta={{
-            label: loading === 'yearly' ? 'Loadingâ€¦' : 'Or $249/year â€” save $99',
+            label: loading === 'yearly' ? 'Loading…' : 'Or $249/year — save $99',
             onClick: () => startCheckout('yearly'),
             disabled: loading !== null,
           }}
@@ -141,7 +141,7 @@ export default function PricingPage() {
           Need enterprise volume, self-hosting, or custom integration?
         </p>
         <a href="mailto:press@universaldocument.solutions" style={{ fontSize: 14, fontWeight: 600, color: INK, textDecoration: 'none' }}>
-          Contact Universal Documentâ„¢ Incorporated â†’
+          Contact Universal Document™ Incorporated →
         </a>
       </div>
     </main>
@@ -221,7 +221,7 @@ function TierCard(p: TierCardProps) {
             marginBottom: 10,
             lineHeight: 1.5,
           }}>
-            <span style={{ color: isInk ? GOLD : 'var(--ud-teal, #0a7a6a)', fontWeight: 700, flexShrink: 0 }}>âœ“</span>
+            <span style={{ color: isInk ? GOLD : 'var(--ud-teal, #0a7a6a)', fontWeight: 700, flexShrink: 0 }}>✓</span>
             <span>{f}</span>
           </div>
         ))}
