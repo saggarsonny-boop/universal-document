@@ -15,6 +15,7 @@ import { LIFETIME_FREE_LIMIT } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 export const maxDuration = 10
+export const dynamic = 'force-dynamic'
 
 const DAILY_LIMIT = 1  // Free tier: 1 conversion per 24 hours
 
