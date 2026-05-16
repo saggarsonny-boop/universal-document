@@ -430,7 +430,7 @@ export default function Home() {
               <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$5k Deposit</div>
               <div style={{ textAlign: 'left', marginBottom: '2rem', flex: 1 }}>
                 <p style={{ color: '#a1a1aa', marginBottom: '1rem', lineHeight: '1.6' }}>
-                  A $150,000/year Enterprise Master License requires an initial $5,000 Provisioning Deposit to initiate the Machine Over Human (MOH) automated pipeline.
+                  <strong>Zero Risk. Fixed Cost.</strong> The $5,000 Setup Deposit is a hard-capped, zero-overage stress test of your future workforce. 100% of this deposit is credited toward your $150,000/year Enterprise Master license upon conversion.
                 </p>
                 <div style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37', fontSize: '0.9rem', color: '#e2e8f0', lineHeight: '1.5' }}>
                   <strong>How the MOH Pipeline Works:</strong><br/>
