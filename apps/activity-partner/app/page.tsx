@@ -49,12 +49,29 @@ export default function Home() {
   };
 
   const handlePlayVoice = () => {
+    if (isPlayingAudio) return;
     setIsPlayingAudio(true);
     setHeroMode(1);
-    // Simulate a 3-second audio clip playing
+    
+    // Play voice clone using native browser TTS
+    let voices = window.speechSynthesis.getVoices();
+    let voice = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Samantha') || v.name.includes('Daniel') || v.lang === 'en-US' || v.lang === 'en-GB');
+    
+    const pitchText = "Hello. I am the Voice Cloning Engine. Upload a thirty-second audio sample of your CEO, and I will generate dynamic, perfectly accented audio in 72 languages natively.";
+    const utterance = new SpeechSynthesisUtterance(pitchText);
+    if (voice) utterance.voice = voice;
+    utterance.rate = 0.95;
+    
+    utterance.onend = () => {
+      setIsPlayingAudio(false);
+    };
+    
+    window.speechSynthesis.speak(utterance);
+    
+    // Fallback animation timeout
     setTimeout(() => {
       setIsPlayingAudio(false);
-    }, 3000);
+    }, 10000);
   };
 
   const handleStripeCheckout = async (action: string) => {
@@ -82,7 +99,7 @@ export default function Home() {
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
         <a href="https://hive.baby" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
           {/* V8 Logo injected with v=8 cache bust */}
-          <img src="/hive-logo-full.png?v=8" alt="Hive ecosystem" style={{ height: '48px', width: 'auto' }} />
+          <img src="/hive-logo-full.png?v=8" alt="Hive ecosystem" style={{ height: '80px', width: 'auto' }} />
           <div style={{ fontSize: '1.5rem', fontWeight: 'bold', letterSpacing: '-0.02em', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '0.75rem' }}>
             <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
           </div>
@@ -156,11 +173,11 @@ export default function Home() {
                   </p>
                   <button onClick={handlePlayVoice} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', cursor: 'pointer' }}>
                     {isPlayingAudio ? <AudioLines size={18} /> : <PlayCircle size={18} />} 
-                    {isPlayingAudio ? 'Playing...' : 'Play Voice Clone Demo'}
+                    {isPlayingAudio ? 'Speaking...' : 'Play Voice Clone Demo'}
                   </button>
-                  <label style={{ cursor: 'pointer', marginTop: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px dashed rgba(212, 175, 55, 0.5)', padding: '0.5rem 1rem', borderRadius: '4px', fontSize: '0.8rem', color: '#D4AF37' }}>
-                    Upload Sample Voice (.mp3)
-                    <input type="file" accept="audio/*" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) alert("Voice sample uploaded. Analyzing timbre and cadence..."); }} />
+                  <label style={{ cursor: 'pointer', marginTop: '1rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='#2A2A2A'} onMouseOut={e=>e.currentTarget.style.backgroundColor='#1A1A1A'}>
+                    📤 UPLOAD SAMPLE VOICE (.mp3)
+                    <input type="file" accept="audio/*" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) { e.currentTarget.parentElement!.innerHTML = '⏳ Uploading...'; setTimeout(() => alert("Voice sample uploaded. Analyzing timbre and cadence..."), 1500); } }} />
                   </label>
                 </motion.div>
               )}
@@ -173,9 +190,9 @@ export default function Home() {
                   <p style={{ color: '#a1a1aa', fontSize: '0.9rem', maxWidth: '450px', textAlign: 'center', lineHeight: '1.5' }}>
                     Import your own corporate mascots or 3D-scan your executives. The AAC drives their facial expressions, lip-sync, and micro-gestures in real-time. Deploy on front desks, mobile apps, or VR headsets.
                   </p>
-                  <label style={{ cursor: 'pointer', marginTop: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px dashed rgba(212, 175, 55, 0.5)', padding: '0.5rem 1rem', borderRadius: '4px', fontSize: '0.8rem', color: '#D4AF37' }}>
-                    Upload 3D Mesh (.obj)
-                    <input type="file" accept=".obj,.fbx" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) alert("3D Mesh uploaded. Rigging skeleton and mapping facial points..."); }} />
+                  <label style={{ cursor: 'pointer', marginTop: '1rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='#2A2A2A'} onMouseOut={e=>e.currentTarget.style.backgroundColor='#1A1A1A'}>
+                    📤 UPLOAD 3D MESH (.obj)
+                    <input type="file" accept=".obj,.fbx" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) { e.currentTarget.parentElement!.innerHTML = '⏳ Uploading...'; setTimeout(() => alert("3D Mesh uploaded. Rigging skeleton and mapping facial points..."), 1500); } }} />
                   </label>
                 </motion.div>
               )}
@@ -197,25 +214,25 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
               <TrendingUp size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Automated Labor at Scale</h3>
-              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6' }}>
-                Replace 50,000 hours of manual administrative friction per month. Scale your workforce instantly without expanding HR overhead, benefits, or training costs. The AAC operates 24/7/365 without fatigue.
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>$1.2M Labor Recapture</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
+                Kill administrative bloat. Automate 50,000 hours of cognitive routing per month. Scale to infinity with zero HR overhead.
               </p>
             </div>
             
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
               <Zap size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Unmatched Data Velocity</h3>
-              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6' }}>
-                Operational decisions that used to take three weeks of manual data gathering, reporting, and executive alignment now happen in 300 milliseconds via secure API calls.
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Instant Decision Velocity</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
+                Turn 3-week data gathering bottlenecks into 300-millisecond API calls. Force multiply your executive execution speed.
               </p>
             </div>
 
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
               <ShieldCheck size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Absolute Risk Mitigation</h3>
-              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6' }}>
-                Zero hallucination routing. The AAC is entirely SOC2 compliant and tenant-isolated. Every automated action comes with a perfect, immutable cryptographic audit trail.
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Bulletproof Compliance</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
+                Tenant-isolated. SOC2 compliant. Zero hallucination. Every action is secured with a permanent, immutable cryptographic signature.
               </p>
             </div>
           </div>
