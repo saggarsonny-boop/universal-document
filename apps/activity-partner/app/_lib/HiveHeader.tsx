@@ -38,10 +38,10 @@ export function HiveHeader() {
         style={linkStyle}
       >
         <picture>
-          <source srcSet="/hive-logo-full.webp" type="image/webp" />
+          <source srcSet="/hive-logo-full.webp?v=8" type="image/webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/hive-logo-full.png"
+            src="/hive-logo-full.png?v=8"
             alt="Hive ecosystem"
             className="hive-header-logo"
           />

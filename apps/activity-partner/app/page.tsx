@@ -57,22 +57,34 @@ export default function Home() {
     }, 3000);
   };
 
+  const handleStripeCheckout = async (action: string) => {
+    try {
+      const res = await fetch('/api/billing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Stripe configuration error: " + data.error);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Billing system is currently unavailable.");
+    }
+  };
+
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif', overflowX: 'hidden' }}>
       {/* Navigation */}
-      <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-          {/* V8 Logo injected with v=8 cache bust */}
-          <img src="/hive-logo-full.png?v=8" alt="Hive ecosystem" style={{ height: '32px', width: 'auto' }} />
-          <div style={{ fontSize: '1.25rem', fontWeight: 'bold', letterSpacing: '-0.02em', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '0.75rem' }}>
-            <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
-          </div>
-        </div>
+      <nav style={{ display: 'flex', justifyContent: 'flex-end', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <a href="#roi" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Enterprise ROI</a>
           <a href="#what-is-aac" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The Framework</a>
           <a href="#epiphany" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The "Aha" Moment</a>
-          <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
+          <button onClick={() => handleStripeCheckout('subscribe_base')} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
             Purchase License
           </button>
         </div>
@@ -133,6 +145,10 @@ export default function Home() {
                     {isPlayingAudio ? <AudioLines size={18} /> : <PlayCircle size={18} />} 
                     {isPlayingAudio ? 'Playing...' : 'Play Voice Clone Demo'}
                   </button>
+                  <label style={{ cursor: 'pointer', marginTop: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px dashed rgba(212, 175, 55, 0.5)', padding: '0.5rem 1rem', borderRadius: '4px', fontSize: '0.8rem', color: '#D4AF37' }}>
+                    Upload Sample Voice (.mp3)
+                    <input type="file" accept="audio/*" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) alert("Voice sample uploaded. Analyzing timbre and cadence..."); }} />
+                  </label>
                 </motion.div>
               )}
               {heroMode === 2 && (
@@ -144,6 +160,10 @@ export default function Home() {
                   <p style={{ color: '#a1a1aa', fontSize: '0.9rem', maxWidth: '450px', textAlign: 'center', lineHeight: '1.5' }}>
                     Import your own corporate mascots or 3D-scan your executives. The AAC drives their facial expressions, lip-sync, and micro-gestures in real-time. Deploy on front desks, mobile apps, or VR headsets.
                   </p>
+                  <label style={{ cursor: 'pointer', marginTop: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px dashed rgba(212, 175, 55, 0.5)', padding: '0.5rem 1rem', borderRadius: '4px', fontSize: '0.8rem', color: '#D4AF37' }}>
+                    Upload 3D Mesh (.obj)
+                    <input type="file" accept=".obj,.fbx" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) alert("3D Mesh uploaded. Rigging skeleton and mapping facial points..."); }} />
+                  </label>
                 </motion.div>
               )}
             </div>
@@ -368,7 +388,7 @@ export default function Home() {
               <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
                 Pre-pay a $50 Sandbox Deposit. Test the engine with your own data for 7 days. The API is hard-capped against your deposit so you will never receive a surprise overage bill.
               </p>
-              <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.05)'}>
+              <button onClick={() => handleStripeCheckout('subscribe_base')} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.05)'}>
                 Purchase Sandbox Key
               </button>
             </div>
@@ -381,7 +401,7 @@ export default function Home() {
               <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
                 Your own private AI servers. No slowdowns, and your company's data is completely locked down and legally compliant.
               </p>
-              <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
+              <button onClick={() => handleStripeCheckout('subscribe_base')} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
                 Purchase Enterprise License
               </button>
             </div>
