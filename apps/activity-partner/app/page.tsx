@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle } from "lucide-react";
+import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building } from "lucide-react";
 
 export default function Home() {
   // Epiphany Sandbox State
@@ -9,6 +9,15 @@ export default function Home() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [epiphanyData, setEpiphanyData] = useState<any>(null);
+  const [heroMode, setHeroMode] = useState(0); // 0: Text, 1: Voice, 2: Avatar
+
+  // Cycle hero modes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroMode(prev => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleEpiphanyDemo = async () => {
     setIsProcessing(true);
@@ -41,23 +50,23 @@ export default function Home() {
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif', overflowX: 'hidden' }}>
       {/* Navigation */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ fontSize: '1.25rem', fontWeight: 'bold', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Zap size={20} color="#D4AF37" />
-          Hive <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+          <img src="/hive-logo-full.png" alt="Hive ecosystem" style={{ height: '32px', width: 'auto' }} />
+          <div style={{ fontSize: '1.25rem', fontWeight: 'bold', letterSpacing: '-0.02em', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '0.75rem' }}>
+            <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          <a href="#what-is-aac" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The Framework</a>
           <a href="#epiphany" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The "Aha" Moment</a>
-          <a href="#developers" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>API Docs</a>
           <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
-            Generate API Keys
+            Purchase License
           </button>
         </div>
       </nav>
 
-      {/* Hero Section with Embedded Pitch Video */}
+      {/* Hero Section */}
       <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '6rem 2rem', textAlign: 'center', position: 'relative' }}>
-        
-        {/* Background glow */}
         <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(5,5,5,0) 70%)', zIndex: 0, pointerEvents: 'none' }} />
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ position: 'relative', zIndex: 10 }}>
@@ -69,28 +78,96 @@ export default function Home() {
             <span style={{ background: 'linear-gradient(90deg, #D4AF37 0%, #F3E5AB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Deploy a Digital Workforce.</span>
           </h1>
           <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 3rem auto', lineHeight: '1.6' }}>
-            Instantly augment your enterprise with an infinitely scalable substrate. It reasons, it routes, and it executes across 72 languages natively. Your biggest bottleneck is friction—we eliminate it at the API level.
+            Instantly augment your enterprise with an infinitely scalable AI substrate. It reasons, it routes, and it executes across 72 languages natively. Your biggest bottleneck is friction—we eliminate it at the API level.
           </p>
 
-          {/* Embedded Executive Pitch / Demo */}
-          <div style={{ margin: '0 auto 4rem auto', width: '100%', maxWidth: '900px', height: '500px', backgroundColor: '#0B0F19', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
-            {/* Embedded Iframe pointing to the interactive pitch */}
-            <iframe 
-              src="/executive_pitch.html" 
-              style={{ width: '100%', height: '100%', border: 'none' }}
-              title="Executive Pitch Demo"
-            ></iframe>
+          {/* Animated Hero Demo replacing the 404 Iframe */}
+          <div style={{ margin: '0 auto 4rem auto', width: '100%', maxWidth: '800px', height: '400px', backgroundColor: '#0A0A0C', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
+            
+            <div style={{ padding: '1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'center', gap: '2rem', backgroundColor: 'rgba(255,255,255,0.02)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 0 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><MessageSquare size={18} /> Intelligent Text</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 1 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><Mic size={18} /> Voice Companion</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 2 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><User size={18} /> Embodied Avatar</div>
+            </div>
+            
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative' }}>
+              {heroMode === 0 && (
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ textAlign: 'left', width: '100%', maxWidth: '500px', backgroundColor: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ color: '#a1a1aa', marginBottom: '0.5rem', fontSize: '0.9rem' }}>User Input:</div>
+                  <div style={{ color: '#fff', marginBottom: '1.5rem', fontFamily: 'monospace' }}>"Draft a Q3 summary for the board..."</div>
+                  <div style={{ color: '#D4AF37', marginBottom: '0.5rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><Zap size={14} /> AAC Response:</div>
+                  <div style={{ color: '#d1d5db', lineHeight: '1.6', borderLeft: '2px solid #D4AF37', paddingLeft: '1rem' }}>Q3 Revenue grew by 14% YoY, driven primarily by enterprise expansion in the APAC region...</div>
+                </motion.div>
+              )}
+              {heroMode === 1 && (
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}><Mic size={32} color="#D4AF37" /></motion.div>
+                  </div>
+                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>"Listening to Patient Consult..."</div>
+                  <div style={{ color: '#10b981', fontSize: '0.9rem', fontFamily: 'monospace' }}>Transcribing \u0026 Formatting to EMR...</div>
+                </motion.div>
+              )}
+              {heroMode === 2 && (
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+                  <div style={{ width: '120px', height: '120px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212, 175, 55, 0.5)', overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.2) 100%)' }} />
+                    <User size={64} color="#D4AF37" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+                  </div>
+                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>Fully Embodied Interactive Kiosk</div>
+                  <div style={{ color: '#a1a1aa', fontSize: '0.9rem' }}>Deploy on front desks, mobile apps, or VR headsets.</div>
+                </motion.div>
+              )}
+            </div>
           </div>
         </motion.div>
       </main>
+
+      {/* What is AAC / Value Proposition Section */}
+      <section id="what-is-aac" style={{ backgroundColor: '#080808', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>What exactly is the AAC?</h2>
+            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
+              The Adaptive AI Activity Companion (AAC) is not a chatbot. It is a multimodal intelligence engine that conforms to the exact needs of the user interacting with it. You can deploy it as a frictionless writing companion, a voice-native auditor, or a visually embodied avatar.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <Building size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Janitor</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Voice-dictate maintenance logs in Spanish. The AAC instantly translates them, formats them into compliance reports, and automatically orders low supplies via API.</p>
+            </div>
+            
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <Activity size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Nurse</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Speak patient vitals naturally into a mobile device while walking the floor. The AAC structures the unstructured audio directly into the Electronic Medical Record.</p>
+            </div>
+
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <Stethoscope size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Doctor</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Ambient listening during patient consults. The AAC acts as a silent scribe, instantly generating accurate clinical notes and billing codes the moment the patient leaves.</p>
+            </div>
+
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <Briefcase size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The CFO / Board</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Command the engine to pull raw operational data from 50 different locations, analyze risk exposure, and generate an executive financial summary in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* The "Epiphany" / Aha Moment Section */}
       <section id="epiphany" style={{ backgroundColor: '#0A0A0C', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>The <span style={{ color: '#D4AF37' }}>"Aha"</span> Moment</h2>
-            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '600px', margin: '0 auto' }}>
-              Paste a chaotic block of raw data. Watch the AAC API instantly reason, structure, route, and translate it for three different departments simultaneously.
+            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
+              <strong>Demo it yourself below.</strong> Type in a messy, typo-ridden thought or leave the placeholder text. Hit the Execute button and watch the AAC instantly structure it perfectly for three entirely different departments.
             </p>
           </div>
 
@@ -108,7 +185,7 @@ export default function Home() {
               <button 
                 onClick={handleEpiphanyDemo}
                 disabled={isProcessing}
-                style={{ marginTop: '1.5rem', backgroundColor: '#D4AF37', color: '#000', padding: '1rem', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '600', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s' }}
+                style={{ marginTop: '1.5rem', backgroundColor: '#D4AF37', color: '#000', padding: '1rem', borderRadius: '8px', fontSize: '1.1rem', fontWeight: '800', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }}
               >
                 {isProcessing ? <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}><Zap size={20} /></motion.div> : <><PlayCircle size={20} /> Execute Omnilingual Routing</>}
               </button>
@@ -120,10 +197,10 @@ export default function Home() {
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: showResults ? 1 : 0.3, x: 0 }} transition={{ delay: 0.1 }} style={{ backgroundColor: 'rgba(255,255,255,0.02)', border: showResults ? '1px solid rgba(212, 175, 55, 0.4)' : '1px dashed rgba(255,255,255,0.1)', borderRadius: '12px', padding: '1.5rem' }}>
                 <div style={{ color: '#D4AF37', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
                   <span>Routed to: CFO / Executive</span>
-                  {showResults && <span style={{ color: '#10b981' }}>Processed Live via Anthropic</span>}
+                  {showResults && <span style={{ color: '#10b981' }}>Processed Live via Engine</span>}
                 </div>
                 <div style={{ color: showResults ? '#fff' : '#52525b', fontSize: '0.95rem', lineHeight: '1.5' }}>
-                  {showResults ? epiphanyData?.executive_summary : "Awaiting execution..."}
+                  {showResults ? epiphanyData?.executive_summary : "Awaiting execution... Click the button to the left."}
                 </div>
               </motion.div>
 
@@ -214,14 +291,16 @@ export default function Home() {
       {/* Pricing CTA */}
       <section style={{ backgroundColor: 'rgba(212, 175, 55, 0.03)', padding: '6rem 2rem', borderTop: '1px solid rgba(212, 175, 55, 0.1)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '3rem' }}>Ready to Deploy?</h2>
+          <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '3rem' }}>Deploy the AI Workforce Now</h2>
           
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '900px', margin: '0 auto' }}>
-            {/* Startup Tier */}
+            {/* Sandbox Tier */}
             <div style={{ backgroundColor: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column' }}>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Growth / Small Teams</h3>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Growth / Sandbox</h3>
               <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Pay-as-you-go</div>
-              <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1 }}>Perfect for testing the engine and integrating into initial workflows.</p>
+              <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
+                Test the engine with your own data for 7 days. We enforce a hard-capped $50 API limit so you never see a surprise bill.
+              </p>
               <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.05)'}>
                 Generate Sandbox Key
               </button>
@@ -230,11 +309,13 @@ export default function Home() {
             {/* Enterprise Tier */}
             <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column', position: 'relative' }}>
               <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#D4AF37', color: '#000', padding: '0.25rem 1rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Recommended for Multinationals</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Enterprise Custom</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Unlimited SLA</div>
-              <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1 }}>Dedicated inference nodes, zero rate limits, and custom SOC2 compliance isolation.</p>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Enterprise Master</h3>
+              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>100% Guaranteed Uptime</div>
+              <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
+                Your own private AI servers. No slowdowns, and your company's data is completely locked down and legally compliant.
+              </p>
               <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
-                Contact Sales & Deploy
+                Purchase Enterprise License
               </button>
             </div>
           </div>
@@ -243,7 +324,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{ textAlign: 'center', padding: '4rem 2rem', color: '#52525b', fontSize: '0.875rem' }}>
-        <div>Made with ♥ in <span style={{ color: '#D4AF37', fontWeight: 'bold' }}>the Hive</span>.</div>
+        <div>Made with <span style={{ color: 'red' }}>♥</span> in <span style={{ color: '#D4AF37', fontWeight: 'bold' }}>the Hive</span>.</div>
         <div style={{ marginTop: '0.5rem' }}>Adaptive AI Activity Companion API (v2.0 Enterprise)</div>
       </footer>
     </div>
