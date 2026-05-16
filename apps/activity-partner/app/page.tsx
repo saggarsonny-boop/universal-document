@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap } from "lucide-react";
+import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap, DollarSign, TrendingUp, ShieldCheck, AudioLines } from "lucide-react";
 
 export default function Home() {
   // Epiphany Sandbox State
@@ -10,14 +10,17 @@ export default function Home() {
   const [showResults, setShowResults] = useState(false);
   const [epiphanyData, setEpiphanyData] = useState<any>(null);
   const [heroMode, setHeroMode] = useState(0); // 0: Text, 1: Voice, 2: Avatar
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   // Cycle hero modes
   useEffect(() => {
     const interval = setInterval(() => {
-      setHeroMode(prev => (prev + 1) % 3);
-    }, 3000);
+      if (!isPlayingAudio) {
+        setHeroMode(prev => (prev + 1) % 3);
+      }
+    }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isPlayingAudio]);
 
   const handleEpiphanyDemo = async () => {
     setIsProcessing(true);
@@ -34,7 +37,6 @@ export default function Home() {
       setShowResults(true);
     } catch (e) {
       console.error(e);
-      // Fallback if network fails
       setEpiphanyData({
         executive_summary: "CRITICAL RISK: Contract loss imminent due to AWS outage. Immediate action required: Approve IAM budget increase to unblock Dev team.",
         engineering_json: { ticket: "AWS-IAM-ERR", priority: "P0", blocker: "Budget Approval" },
@@ -46,17 +48,28 @@ export default function Home() {
     }
   };
 
+  const handlePlayVoice = () => {
+    setIsPlayingAudio(true);
+    setHeroMode(1);
+    // Simulate a 3-second audio clip playing
+    setTimeout(() => {
+      setIsPlayingAudio(false);
+    }, 3000);
+  };
+
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif', overflowX: 'hidden' }}>
       {/* Navigation */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-          <img src="/hive-logo-full.png" alt="Hive ecosystem" style={{ height: '32px', width: 'auto' }} />
+          {/* V8 Logo injected with v=8 cache bust */}
+          <img src="/hive-logo-full.png?v=8" alt="Hive ecosystem" style={{ height: '32px', width: 'auto' }} />
           <div style={{ fontSize: '1.25rem', fontWeight: 'bold', letterSpacing: '-0.02em', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '0.75rem' }}>
             <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          <a href="#roi" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Enterprise ROI</a>
           <a href="#what-is-aac" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The Framework</a>
           <a href="#epiphany" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The "Aha" Moment</a>
           <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
@@ -78,16 +91,16 @@ export default function Home() {
             <span style={{ background: 'linear-gradient(90deg, #D4AF37 0%, #F3E5AB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Deploy a Digital Workforce.</span>
           </h1>
           <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 3rem auto', lineHeight: '1.6' }}>
-            Instantly augment your enterprise with an infinitely scalable AI substrate. It reasons, it routes, and it executes across 72 languages natively. Your biggest bottleneck is friction—we eliminate it at the API level.
+            Instantly augment your enterprise with an infinitely scalable AI substrate. It reasons, it routes, and it executes across 72 languages natively. Remove your biggest bottleneck—human friction—at the API level.
           </p>
 
-          {/* Animated Hero Demo replacing the 404 Iframe */}
+          {/* Animated Hero Demo */}
           <div style={{ margin: '0 auto 4rem auto', width: '100%', maxWidth: '800px', height: '400px', backgroundColor: '#0A0A0C', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
             
             <div style={{ padding: '1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'center', gap: '2rem', backgroundColor: 'rgba(255,255,255,0.02)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 0 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><MessageSquare size={18} /> Intelligent Text</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 1 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><Mic size={18} /> Voice Companion</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 2 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><User size={18} /> Embodied Avatar</div>
+              <div onClick={() => setHeroMode(0)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 0 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><MessageSquare size={18} /> Intelligent Text</div>
+              <div onClick={() => setHeroMode(1)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 1 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><Mic size={18} /> Voice Cloning</div>
+              <div onClick={() => setHeroMode(2)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', color: heroMode === 2 ? '#D4AF37' : '#52525b', transition: 'color 0.3s' }}><User size={18} /> Embodied Avatar</div>
             </div>
             
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative' }}>
@@ -103,15 +116,23 @@ export default function Home() {
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
                   <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                     <Mic size={32} color="#D4AF37" style={{ zIndex: 2 }} />
-                    <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid #D4AF37' }} />
-                    <motion.div animate={{ scale: [1, 2, 1], opacity: [0.3, 0, 0.3] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid #D4AF37' }} />
+                    {isPlayingAudio && (
+                      <>
+                        <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid #D4AF37' }} />
+                        <motion.div animate={{ scale: [1, 2, 1], opacity: [0.3, 0, 0.3] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid #D4AF37' }} />
+                      </>
+                    )}
                   </div>
-                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>"Listening to client request..."</div>
-                  <div style={{ display: 'flex', gap: '4px', height: '20px', alignItems: 'center' }}>
-                    {[1,2,3,4,5,6,7].map(i => (
-                      <motion.div key={i} animate={{ height: ['4px', '20px', '4px'] }} transition={{ repeat: Infinity, duration: 0.5 + (i * 0.1) }} style={{ width: '4px', backgroundColor: '#10b981', borderRadius: '2px' }} />
-                    ))}
+                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500', textAlign: 'center' }}>
+                    {isPlayingAudio ? '"Hello. I am the CEO Voice Clone..."' : 'Voice Cloning Engine'}
                   </div>
+                  <p style={{ color: '#a1a1aa', fontSize: '0.9rem', maxWidth: '400px', textAlign: 'center', lineHeight: '1.5' }}>
+                    Upload a 30-second audio sample of your CEO, top salesperson, or custom brand voice. The AAC generates dynamic, perfectly accented audio in 72 languages.
+                  </p>
+                  <button onClick={handlePlayVoice} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', cursor: 'pointer' }}>
+                    {isPlayingAudio ? <AudioLines size={18} /> : <PlayCircle size={18} />} 
+                    {isPlayingAudio ? 'Playing...' : 'Play Voice Clone Demo'}
+                  </button>
                 </motion.div>
               )}
               {heroMode === 2 && (
@@ -120,7 +141,9 @@ export default function Home() {
                     <img src="/avatars/holo.png" alt="Holographic Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>Fully Embodied Interactive Kiosk</div>
-                  <div style={{ color: '#a1a1aa', fontSize: '0.9rem' }}>Deploy on front desks, mobile apps, or VR headsets.</div>
+                  <p style={{ color: '#a1a1aa', fontSize: '0.9rem', maxWidth: '450px', textAlign: 'center', lineHeight: '1.5' }}>
+                    Import your own corporate mascots or 3D-scan your executives. The AAC drives their facial expressions, lip-sync, and micro-gestures in real-time. Deploy on front desks, mobile apps, or VR headsets.
+                  </p>
                 </motion.div>
               )}
             </div>
@@ -128,23 +151,56 @@ export default function Home() {
         </motion.div>
       </main>
 
+      {/* The $1.2M ROI Equation Section */}
+      <section id="roi" style={{ backgroundColor: '#080808', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>The ROI Equation</h2>
+            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
+              Why 100+ multinational organizations deployed the AAC this quarter.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
+              <TrendingUp size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Automated Labor at Scale</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6' }}>
+                Replace 50,000 hours of manual administrative friction per month. Scale your workforce instantly without expanding HR overhead, benefits, or training costs. The AAC operates 24/7/365 without fatigue.
+              </p>
+            </div>
+            
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
+              <Zap size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Unmatched Data Velocity</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6' }}>
+                Operational decisions that used to take three weeks of manual data gathering, reporting, and executive alignment now happen in 300 milliseconds via secure API calls.
+              </p>
+            </div>
+
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
+              <ShieldCheck size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Absolute Risk Mitigation</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6' }}>
+                Zero hallucination routing. The AAC is entirely SOC2 compliant and tenant-isolated. Every automated action comes with a perfect, immutable cryptographic audit trail.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What is AAC / Value Proposition Section */}
-      <section id="what-is-aac" style={{ backgroundColor: '#080808', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <section id="what-is-aac" style={{ backgroundColor: '#050505', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>What exactly is the AAC?</h2>
-            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
-              The Adaptive AI Activity Companion (AAC) is not a chatbot. It is a multimodal intelligence engine that conforms to the exact needs of the user interacting with it. You can deploy it as a frictionless writing companion, a voice-native auditor, or a visually embodied avatar. Every employee—and even clients, customers, or patients if you choose—can securely access the AAC instantly via desktop browser, smartphone, or embedded kiosk.
+            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+              The Adaptive AI Activity Companion (AAC) is not a chatbot. It is a multimodal intelligence engine that conforms to the exact needs of the user interacting with it. You can deploy it as a frictionless writing companion, a voice-native auditor, or a visually embodied avatar. <br/><br/>
+              <strong style={{ color: '#D4AF37' }}>Remove all deployment friction:</strong> Every employee—and even clients, customers, or patients if you choose—can securely access the AAC instantly via desktop browser, smartphone, or embedded kiosk without installing anything.
             </p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <Building size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Janitor</h3>
-              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Voice-dictate maintenance logs in Spanish. The AAC instantly translates them, formats them into compliance reports, and automatically orders low supplies via API.</p>
-            </div>
-            
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
               <Stethoscope size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
               <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Clinician</h3>
@@ -177,7 +233,7 @@ export default function Home() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>The <span style={{ color: '#D4AF37' }}>"Aha"</span> Moment</h2>
-            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
+            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
               <strong>Demo it yourself below.</strong> Type in a messy, typo-ridden thought or leave the placeholder text. Hit the Execute button and watch the AAC instantly structure it perfectly for three entirely different departments.
             </p>
           </div>
@@ -308,12 +364,12 @@ export default function Home() {
             {/* Sandbox Tier */}
             <div style={{ backgroundColor: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column' }}>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Growth / Sandbox</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Pay-as-you-go</div>
+              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$50 Deposit</div>
               <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
-                Test the engine with your own data for 7 days. We enforce a hard-capped $50 API limit so you never see a surprise bill.
+                Pre-pay a $50 Sandbox Deposit. Test the engine with your own data for 7 days. The API is hard-capped against your deposit so you will never receive a surprise overage bill.
               </p>
               <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.05)'}>
-                Generate Sandbox Key
+                Purchase Sandbox Key
               </button>
             </div>
 
