@@ -240,6 +240,72 @@ export default function Home() {
         </div>
       </section>
 
+      {/* The Moat: Competitor Takedown Section */}
+      <section id="the-moat" style={{ backgroundColor: '#0a0a0a', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}>
+        {/* Subtle red ambient glow to signify the aggressive nature of this section */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '1000px', height: '1000px', background: 'radial-gradient(circle, rgba(220, 38, 38, 0.03) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }}></div>
+        
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <div style={{ display: 'inline-block', backgroundColor: 'rgba(220, 38, 38, 0.1)', color: '#ef4444', padding: '0.5rem 1rem', borderRadius: '20px', fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>The AAC Moat</div>
+            <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Why Incumbents Fail.</h2>
+            <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
+              We don't build toys. We build autonomous digital employees. Here is exactly why the multi-billion dollar incumbents cannot compete in the enterprise boardroom.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+            {/* Copilot & Sierra Takedown */}
+            <div style={{ backgroundColor: '#050505', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(220, 38, 38, 0.2)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <MessageSquare size={24} color="#ef4444" />
+                <h3 style={{ fontSize: '1.25rem', color: '#fff', margin: 0 }}>The "Prompting" Tax</h3>
+              </div>
+              <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Microsoft Copilot & Sierra</div>
+              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are assistants, not autonomous workers. They require humans to sit there and actively manage and prompt them. Sierra is strictly text/chat focused for external customer service.
+              </p>
+              <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
+                <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Autonomous execution governed by strict cryptographic HiveOps/Queen Bee protocols. It doesn't need to be prompted; it works while you sleep.</span>
+              </div>
+            </div>
+
+            {/* Synthesia & HeyGen Takedown */}
+            <div style={{ backgroundColor: '#050505', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(220, 38, 38, 0.2)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <User size={24} color="#ef4444" />
+                <h3 style={{ fontSize: '1.25rem', color: '#fff', margin: 0 }}>The "Asynchronous" Tax</h3>
+              </div>
+              <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Synthesia & HeyGen</div>
+              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are asynchronous parlor tricks. You must type a script, click generate, and wait minutes for an MP4 video to render. They completely lack real-time reactivity.
+              </p>
+              <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
+                <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>A live, real-time, fully embodied 3D avatar kiosk with a 300ms reflex engine. You talk to it naturally, and it talks back instantly.</span>
+              </div>
+            </div>
+
+            {/* Bland AI & Vapi Takedown */}
+            <div style={{ backgroundColor: '#050505', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(220, 38, 38, 0.2)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <AudioLines size={24} color="#ef4444" />
+                <h3 style={{ fontSize: '1.25rem', color: '#fff', margin: 0 }}>The "Telephone" Tax</h3>
+              </div>
+              <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Bland AI & Vapi</div>
+              <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are strictly telephone APIs designed to talk to external customers. They lack visual embodiment and the ability to process highly secure internal enterprise data natively.
+              </p>
+              <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
+                <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Deep hardware integration potential. The AAC sits securely on a factory floor or a clinician's desk to process sensitive, multimodal internal data natively.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What is AAC / Value Proposition Section */}
       <section id="what-is-aac" style={{ backgroundColor: '#050505', padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
