@@ -129,7 +129,7 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>What exactly is the AAC?</h2>
             <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
-              The Adaptive AI Activity Companion (AAC) is not a chatbot. It is a multimodal intelligence engine that conforms to the exact needs of the user interacting with it. You can deploy it as a frictionless writing companion, a voice-native auditor, or a visually embodied avatar.
+              The Adaptive AI Activity Companion (AAC) is not a chatbot. It is a multimodal intelligence engine that conforms to the exact needs of the user interacting with it. You can deploy it as a frictionless writing companion, a voice-native auditor, or a visually embodied avatar. Every employee—and even clients, customers, or patients if you choose—can securely access the AAC instantly via desktop browser, smartphone, or embedded kiosk.
             </p>
           </div>
 
