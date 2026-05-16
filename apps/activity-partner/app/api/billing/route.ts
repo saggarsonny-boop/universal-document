@@ -16,7 +16,10 @@ export async function POST(req: Request) {
     // Live Stripe integration using environment variables for Price IDs
     let lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-    if (action === "subscribe_base") {
+    if (action === "initiate_pilot") {
+      const priceId = process.env.STRIPE_PRICE_ENTERPRISE_PILOT || "price_dummy_base";
+      lineItems = [{ price: priceId, quantity: 1 }];
+    } else if (action === "subscribe_base") {
       const priceId = process.env.STRIPE_PRICE_BASE_PLATFORM || "price_dummy_base";
       lineItems = [{ price: priceId, quantity: 1 }];
     } else if (action === "add_seats") {
@@ -33,9 +36,9 @@ export async function POST(req: Request) {
     }
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "us_bank_account"],
       line_items: lineItems,
-      mode: "subscription",
+      mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby"}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby"}/enterprise`,
     });

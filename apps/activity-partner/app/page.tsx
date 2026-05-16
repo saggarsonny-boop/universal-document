@@ -108,8 +108,8 @@ export default function Home() {
           <a href="#roi" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Enterprise ROI</a>
           <a href="#what-is-aac" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The Framework</a>
           <a href="#epiphany" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The "Aha" Moment</a>
-          <button onClick={() => handleStripeCheckout('subscribe_base')} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
-            Purchase License
+          <button onClick={() => handleStripeCheckout('initiate_pilot')} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
+            Initiate Pilot ($5k Deposit)
           </button>
         </div>
       </nav>
@@ -426,13 +426,19 @@ export default function Home() {
             {/* Enterprise Tier */}
             <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column', position: 'relative' }}>
               <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#D4AF37', color: '#000', padding: '0.25rem 1rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Recommended for Multinationals</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Enterprise Master</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>100% Guaranteed Uptime</div>
-              <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
-                Your own private AI servers. No slowdowns, and your company's data is completely locked down and legally compliant.
-              </p>
-              <button onClick={() => handleStripeCheckout('subscribe_base')} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
-                Purchase Enterprise License
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Enterprise Pilot (MOH Protocol)</h3>
+              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$5k Deposit</div>
+              <div style={{ textAlign: 'left', marginBottom: '2rem', flex: 1 }}>
+                <p style={{ color: '#a1a1aa', marginBottom: '1rem', lineHeight: '1.6' }}>
+                  A $150,000/year Enterprise Master License requires an initial $5,000 Provisioning Deposit to initiate the Machine Over Human (MOH) automated pipeline.
+                </p>
+                <div style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37', fontSize: '0.9rem', color: '#e2e8f0', lineHeight: '1.5' }}>
+                  <strong>How the MOH Pipeline Works:</strong><br/>
+                  We do not do manual onboarding. The moment your deposit clears, our HiveOps agent autonomously spins up your isolated Neon database tenant, ingests your proprietary SOPs into our Anthropic substrate, and rigs your voice/avatar API endpoints. You will have a functioning pilot in 72 hours.
+                </div>
+              </div>
+              <button onClick={() => handleStripeCheckout('initiate_pilot')} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
+                Initiate Pilot Provisioning
               </button>
             </div>
           </div>

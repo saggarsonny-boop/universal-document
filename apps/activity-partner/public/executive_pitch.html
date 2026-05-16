@@ -175,7 +175,7 @@
         <h1>You are not buying software.</h1>
         <p>You are buying an immortal workforce that operates at the speed of light.</p>
         <h2 class="gold-text" style="font-size: 3rem; margin-top: 2rem;">Welcome to the future of execution.</h2>
-        <a href="#" id="purchase-cta" class="cta-btn" style="opacity: 0; transition: opacity 2s ease-in;">Purchase Enterprise License Now</a>
+        <a href="#" id="purchase-cta" class="cta-btn" style="opacity: 0; transition: opacity 2s ease-in;">Initiate Enterprise Pilot</a>
     </div>
 
     <script>
@@ -278,7 +278,7 @@
                 const res = await fetch('/api/billing', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'subscribe_base' })
+                    body: JSON.stringify({ action: 'initiate_pilot' })
                 });
                 const data = await res.json();
                 if (data.url) {
