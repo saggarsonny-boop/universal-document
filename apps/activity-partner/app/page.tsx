@@ -1,49 +1,9 @@
-<<<<<<< Updated upstream
-'use client';
-
-import { useState } from "react";
-import { ArrowRight, ShieldCheck, Zap, Activity } from "lucide-react";
-
-const GOLD = "#D4AF37";
-const GOLD_MUTED = "#C5A880";
-const PAPER = "#f5f1e6";
-const MUTED = "#888";
-
-export default function Home() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle'|'loading'|'sent'>('idle');
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setStatus('loading');
-    
-    // Generate a temporary session ID for the unauthenticated user
-    const tempSessionId = crypto.randomUUID();
-    
-    try {
-      const res = await fetch('/api/auth/send-magic-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, session_id: tempSessionId })
-      });
-      if (res.ok) {
-        setStatus('sent');
-      } else {
-        setStatus('idle');
-      }
-    } catch {
-      setStatus('idle');
-=======
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle } from "lucide-react";
-import CheckoutModal from "../src/components/CheckoutModal";
 
 export default function Home() {
-  const [isCheckoutOpen, setCheckoutOpen] = useState(false);
-  
   // Epiphany Sandbox State
   const [rawInput, setRawInput] = useState("Meeting notes 10/24: Server migration failed again. Dev team says it's an AWS permission issue but finance hasn't approved the IAM role budget increase. Also the French client (Pierre) called and was furious about the downtime. We need to fix the AWS thing, get the budget approved by CFO, and apologize to Pierre by EOD or we lose the contract.");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -74,215 +34,10 @@ export default function Home() {
       setShowResults(true);
     } finally {
       setIsProcessing(false);
->>>>>>> Stashed changes
     }
   };
 
   return (
-<<<<<<< Updated upstream
-    <main style={mainStyle}>
-      <div style={glowStyle} />
-      
-      <div style={containerStyle}>
-        <div style={heroStyle}>
-          <div style={badgeStyle}>Adaptive AI Activity Companion</div>
-          <h1 style={titleStyle}>Enterprise-Grade Intelligence.<br/><span style={{ color: GOLD }}>Zero Hallucinations.</span></h1>
-          <p style={taglineStyle}>
-            Deploy tenant-isolated, highly configurable AI agents into your clinical, practice, or corporate environment. Built on Anthropic's Claude 3.
-          </p>
-        </div>
-
-        <div style={authCardStyle}>
-          {status === 'sent' ? (
-            <div style={{ textAlign: "center", padding: "24px 0" }}>
-              <ShieldCheck size={48} color={GOLD} style={{ margin: "0 auto 16px" }} />
-              <h3 style={{ margin: "0 0 8px", color: PAPER, fontSize: 20 }}>Secure Link Sent</h3>
-              <p style={{ color: MUTED, margin: 0, fontSize: 14 }}>Check {email} for your authentication link.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleLogin} style={formStyle}>
-              <h3 style={{ margin: "0 0 16px", color: PAPER, fontSize: 18, fontWeight: 500 }}>Access Portal</h3>
-              <div style={{ display: "flex", gap: 12 }}>
-                <input 
-                  type="email" 
-                  placeholder="name@company.com" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={inputStyle}
-                  required
-                />
-                <button type="submit" disabled={status === 'loading'} style={submitBtnStyle}>
-                  {status === 'loading' ? 'Authenticating...' : <><ArrowRight size={18} /> Continue</>}
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-
-        <div style={gridStyle}>
-          <div style={featureCardStyle}>
-            <Activity size={24} color={GOLD_MUTED} style={{ marginBottom: 16 }} />
-            <h4 style={featureTitleStyle}>Tenant Isolated</h4>
-            <p style={featureBodyStyle}>Data never bleeds. Every deployment sits within its own secure Neon Postgres silo.</p>
-          </div>
-          <div style={featureCardStyle}>
-            <ShieldCheck size={24} color={GOLD_MUTED} style={{ marginBottom: 16 }} />
-            <h4 style={featureTitleStyle}>Strict Guardrails</h4>
-            <p style={featureBodyStyle}>Machine-level safety limits engineered for high-liability environments.</p>
-          </div>
-          <div style={featureCardStyle}>
-            <Zap size={24} color={GOLD_MUTED} style={{ marginBottom: 16 }} />
-            <h4 style={featureTitleStyle}>Instant Provisioning</h4>
-            <p style={featureBodyStyle}>Automated seat-license billing means scaling your intelligence layer takes seconds.</p>
-          </div>
-        </div>
-      </div>
-    </main>
-  );
-}
-
-const mainStyle: React.CSSProperties = {
-  position: "relative",
-  overflow: "hidden",
-  fontFamily: "system-ui, sans-serif",
-  backgroundColor: "#050505",
-  minHeight: "100dvh",
-  color: PAPER
-};
-
-const glowStyle: React.CSSProperties = {
-  position: "absolute",
-  top: "-20%",
-  left: "50%",
-  transform: "translateX(-50%)",
-  width: "80vw",
-  height: "50vh",
-  background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, rgba(5,5,5,0) 70%)",
-  pointerEvents: "none",
-  zIndex: 0
-};
-
-const containerStyle: React.CSSProperties = {
-  position: "relative",
-  zIndex: 1,
-  maxWidth: 1000,
-  margin: "0 auto",
-  padding: "80px 24px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center"
-};
-
-const heroStyle: React.CSSProperties = {
-  textAlign: "center",
-  marginBottom: 64,
-  maxWidth: 800
-};
-
-const badgeStyle: React.CSSProperties = {
-  display: "inline-block",
-  padding: "6px 16px",
-  borderRadius: 100,
-  border: `1px solid rgba(212, 175, 55, 0.3)`,
-  color: GOLD,
-  fontSize: 13,
-  fontWeight: 600,
-  letterSpacing: "0.05em",
-  textTransform: "uppercase",
-  marginBottom: 24,
-  backgroundColor: "rgba(212, 175, 55, 0.05)"
-};
-
-const titleStyle: React.CSSProperties = {
-  margin: "0 0 24px",
-  fontSize: "clamp(32px, 5vw, 56px)",
-  lineHeight: 1.1,
-  letterSpacing: "-0.03em",
-  fontWeight: 600,
-};
-
-const taglineStyle: React.CSSProperties = {
-  margin: 0,
-  fontSize: "clamp(16px, 2vw, 20px)",
-  color: MUTED,
-  lineHeight: 1.6,
-  maxWidth: 600,
-  marginInline: "auto"
-};
-
-const authCardStyle: React.CSSProperties = {
-  width: "100%",
-  maxWidth: 480,
-  background: "rgba(15, 15, 15, 0.6)",
-  backdropFilter: "blur(20px)",
-  border: "1px solid rgba(255, 255, 255, 0.08)",
-  borderRadius: 16,
-  padding: 32,
-  marginBottom: 80,
-  boxShadow: "0 24px 48px rgba(0,0,0,0.4)"
-};
-
-const formStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column"
-};
-
-const inputStyle: React.CSSProperties = {
-  flex: 1,
-  padding: "14px 16px",
-  background: "#0a0a0a",
-  border: "1px solid #333",
-  borderRadius: 8,
-  color: PAPER,
-  fontSize: 15,
-  outline: "none",
-  transition: "border-color 0.2s"
-};
-
-const submitBtnStyle: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
-  gap: 8,
-  padding: "0 24px",
-  background: GOLD,
-  color: "#000",
-  border: "none",
-  borderRadius: 8,
-  fontWeight: 600,
-  fontSize: 15,
-  cursor: "pointer",
-  transition: "opacity 0.2s"
-};
-
-const gridStyle: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-  gap: 24,
-  width: "100%"
-};
-
-const featureCardStyle: React.CSSProperties = {
-  padding: 32,
-  background: "#0a0a0a",
-  border: "1px solid #1a1a1a",
-  borderRadius: 16,
-  transition: "border-color 0.3s"
-};
-
-const featureTitleStyle: React.CSSProperties = {
-  margin: "0 0 12px",
-  fontSize: 18,
-  fontWeight: 500,
-  color: PAPER
-};
-
-const featureBodyStyle: React.CSSProperties = {
-  margin: 0,
-  fontSize: 15,
-  color: MUTED,
-  lineHeight: 1.6
-};
-=======
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif', overflowX: 'hidden' }}>
       {/* Navigation */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
@@ -293,7 +48,7 @@ const featureBodyStyle: React.CSSProperties = {
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <a href="#epiphany" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The "Aha" Moment</a>
           <a href="#developers" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>API Docs</a>
-          <button onClick={() => setCheckoutOpen(true)} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
+          <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
             Generate API Keys
           </button>
         </div>
@@ -321,7 +76,7 @@ const featureBodyStyle: React.CSSProperties = {
           <div style={{ margin: '0 auto 4rem auto', width: '100%', maxWidth: '900px', height: '500px', backgroundColor: '#0B0F19', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
             {/* Embedded Iframe pointing to the interactive pitch */}
             <iframe 
-              src="file:///C:/Users/Sonny%20Saggar/.gemini/antigravity/scratch/executive_pitch.html" 
+              src="/executive_pitch.html" 
               style={{ width: '100%', height: '100%', border: 'none' }}
               title="Executive Pitch Demo"
             ></iframe>
@@ -467,7 +222,7 @@ const featureBodyStyle: React.CSSProperties = {
               <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Growth / Small Teams</h3>
               <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Pay-as-you-go</div>
               <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1 }}>Perfect for testing the engine and integrating into initial workflows.</p>
-              <button onClick={() => setCheckoutOpen(true)} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.05)'}>
+              <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.1)'} onMouseOut={e=>e.currentTarget.style.backgroundColor='rgba(255,255,255,0.05)'}>
                 Generate Sandbox Key
               </button>
             </div>
@@ -478,7 +233,7 @@ const featureBodyStyle: React.CSSProperties = {
               <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Enterprise Custom</h3>
               <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Unlimited SLA</div>
               <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1 }}>Dedicated inference nodes, zero rate limits, and custom SOC2 compliance isolation.</p>
-              <button onClick={() => setCheckoutOpen(true)} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
+              <button onClick={() => window.location.href='/sign-up'} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
                 Contact Sales & Deploy
               </button>
             </div>
@@ -491,10 +246,6 @@ const featureBodyStyle: React.CSSProperties = {
         <div>Made with ♥ in <span style={{ color: '#D4AF37', fontWeight: 'bold' }}>the Hive</span>.</div>
         <div style={{ marginTop: '0.5rem' }}>Adaptive AI Activity Companion API (v2.0 Enterprise)</div>
       </footer>
-
-      {/* Checkout Modal */}
-      <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setCheckoutOpen(false)} />
     </div>
   );
 }
->>>>>>> Stashed changes
