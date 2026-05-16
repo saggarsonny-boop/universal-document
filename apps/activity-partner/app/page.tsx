@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building } from "lucide-react";
+import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap } from "lucide-react";
 
 export default function Home() {
   // Epiphany Sandbox State
@@ -101,18 +101,23 @@ export default function Home() {
               )}
               {heroMode === 1 && (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}><Mic size={32} color="#D4AF37" /></motion.div>
+                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                    <Mic size={32} color="#D4AF37" style={{ zIndex: 2 }} />
+                    <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid #D4AF37' }} />
+                    <motion.div animate={{ scale: [1, 2, 1], opacity: [0.3, 0, 0.3] }} transition={{ repeat: Infinity, duration: 2 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '1px solid #D4AF37' }} />
                   </div>
-                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>"Listening to Patient Consult..."</div>
-                  <div style={{ color: '#10b981', fontSize: '0.9rem', fontFamily: 'monospace' }}>Transcribing \u0026 Formatting to EMR...</div>
+                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>"Listening to client request..."</div>
+                  <div style={{ display: 'flex', gap: '4px', height: '20px', alignItems: 'center' }}>
+                    {[1,2,3,4,5,6,7].map(i => (
+                      <motion.div key={i} animate={{ height: ['4px', '20px', '4px'] }} transition={{ repeat: Infinity, duration: 0.5 + (i * 0.1) }} style={{ width: '4px', backgroundColor: '#10b981', borderRadius: '2px' }} />
+                    ))}
+                  </div>
                 </motion.div>
               )}
               {heroMode === 2 && (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-                  <div style={{ width: '120px', height: '120px', borderRadius: '16px', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212, 175, 55, 0.5)', overflow: 'hidden', position: 'relative' }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.2) 100%)' }} />
-                    <User size={64} color="#D4AF37" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+                  <div style={{ width: '140px', height: '140px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)', border: '2px solid rgba(212, 175, 55, 0.5)', overflow: 'hidden', position: 'relative', boxShadow: '0 0 30px rgba(212,175,55,0.2)' }}>
+                    <img src="/avatars/holo.png" alt="Holographic Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>Fully Embodied Interactive Kiosk</div>
                   <div style={{ color: '#a1a1aa', fontSize: '0.9rem' }}>Deploy on front desks, mobile apps, or VR headsets.</div>
@@ -141,15 +146,21 @@ export default function Home() {
             </div>
             
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <Activity size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Nurse</h3>
-              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Speak patient vitals naturally into a mobile device while walking the floor. The AAC structures the unstructured audio directly into the Electronic Medical Record.</p>
+              <Stethoscope size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Clinician</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Ambient listening during patient consults. The AAC acts as a silent scribe, instantly generating accurate clinical notes and billing codes the moment the patient leaves.</p>
             </div>
 
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <Stethoscope size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Doctor</h3>
-              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Ambient listening during patient consults. The AAC acts as a silent scribe, instantly generating accurate clinical notes and billing codes the moment the patient leaves.</p>
+              <Factory size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Factory Floor</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Workers dictate machinery issues over loud background noise. The AAC parses the issue, immediately pages the on-call engineer, and logs the downtime into the ERP system.</p>
+            </div>
+
+            <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <GraduationCap size={32} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>For The Educator</h3>
+              <p style={{ color: '#a1a1aa', fontSize: '0.95rem', lineHeight: '1.6' }}>Teachers submit messy bullet points of a lesson. The AAC automatically generates a full syllabus, creates a 10-question quiz, and translates it for ESL students in real-time.</p>
             </div>
 
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
