@@ -79,7 +79,14 @@ export default function Home() {
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#ffffff', fontFamily: 'Inter, system-ui, sans-serif', overflowX: 'hidden' }}>
       {/* Navigation */}
-      <nav style={{ display: 'flex', justifyContent: 'flex-end', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
+      <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
+        <a href="https://hive.baby" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+          {/* V8 Logo injected with v=8 cache bust */}
+          <img src="/hive-logo-full.png?v=8" alt="Hive ecosystem" style={{ height: '48px', width: 'auto' }} />
+          <div style={{ fontSize: '1.5rem', fontWeight: 'bold', letterSpacing: '-0.02em', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '0.75rem' }}>
+            <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
+          </div>
+        </a>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <a href="#roi" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Enterprise ROI</a>
           <a href="#what-is-aac" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The Framework</a>

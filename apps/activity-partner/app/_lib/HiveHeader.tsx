@@ -22,8 +22,8 @@ const linkStyle: React.CSSProperties = {
 };
 
 const HEADER_STYLE = `
-.hive-header-logo { height: 32px; width: auto; display: block; }
-@media (min-width: 768px) { .hive-header-logo { height: 40px; } }
+.hive-header-logo { height: 48px; width: auto; display: block; }
+@media (min-width: 768px) { .hive-header-logo { height: 56px; } }
 `;
 
 export function HiveHeader() {
