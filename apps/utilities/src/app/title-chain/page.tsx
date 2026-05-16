@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 interface HistoryEntry {
@@ -202,7 +201,7 @@ export default function TitleChain() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="title-chain" tips={tourSteps['title-chain']} />
+      
     </div>
   )
 }

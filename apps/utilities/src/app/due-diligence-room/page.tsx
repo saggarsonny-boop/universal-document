@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type Section = 'Corporate' | 'Financial' | 'Legal' | 'IP' | 'HR' | 'Regulatory' | 'Other'
@@ -293,7 +292,7 @@ export default function DueDiligenceRoomPage() {
         Processed in your browser. No files stored on our servers. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="due-diligence-room" tips={tourSteps['due-diligence-room']} />
+      
     </div>
   )
 }

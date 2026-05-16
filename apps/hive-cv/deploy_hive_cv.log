@@ -1,0 +1,3 @@
+The "--name" option is deprecated (https://vercel.link/name-flag)
+Error: You specified `VERCEL_ORG_ID` but you forgot to specify `VERCEL_PROJECT_ID`. You need to specify both to deploy to a custom project.
+

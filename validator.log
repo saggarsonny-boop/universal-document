@@ -1,0 +1,78 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/validator
+Uploading [--------------------] (0.0B/633B)
+Uploading [===========---------] (376.0B/633B)
+Uploading [====================] (633.0B/633B)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/validator/AwYQaDN743jR7wmSEEhvEcF5juiz [3s]
+Production: https://validator-rlwhcbwca-saggarsonny-3909s-projects.vercel.app [3s]
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 4 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Downloading 798 deployment files...
+Building: Downloading 798 deployment files...
+Building: Restored build cache from previous deployment (3zi4rHHmr6ffNGGtLXWEUAVfbMUc)
+Building: Running "vercel build"
+Building: Vercel CLI 53.3.2
+Building: Installing dependencies...
+Building: up to date in 847ms
+Building: 3 packages are looking for funding
+Building: run `npm fund` for details
+Building: Detected Next.js version: 14.2.3
+Building: Running "npm run build"
+Building: > ud-validator@0.1.0 build
+Building: > next build
+Building: ▲ Next.js 14.2.3
+Building: Creating an optimized production build ...
+Building: ✓ Compiled successfully
+Building: Linting and checking validity of types ...
+Building: Collecting page data ...
+Building: Generating static pages (0/7) ...
+Building: Generating static pages (1/7)
+Building: Generating static pages (3/7)
+Building: Generating static pages (5/7)
+Building: ✓ Generating static pages (7/7)
+Building: Finalizing page optimization ...
+Building: Collecting build traces ...
+Building: Route (app)                              Size     First Load JS
+Building: ┌ ○ /                                    6.56 kB        93.7 kB
+Building: ├ ○ /_not-found                          871 B            88 kB
+Building: ├ ƒ /api/verify                          0 B                0 B
+Building: ├ ○ /icon.png                            0 B                0 B
+Building: └ ○ /sitemap.xml                         0 B                0 B
+Building: + First Load JS shared by all            87.2 kB
+Building: ├ chunks/23-1dc8beb859dbe02f.js        31.6 kB
+Building: ├ chunks/fd9d1056-1f4c605cebad2e8d.js  53.6 kB
+Building: └ other shared chunks (total)          1.92 kB
+Building: ○  (Static)   prerendered as static content
+Building: ƒ  (Dynamic)  server-rendered on demand
+Building: Traced Next.js server files in: 42.394ms
+Building: Created all serverless functions in: 571.309ms
+Building: Collected static files (public/, static/, .next/static): 6.424ms
+Building: Build Completed in /vercel/output [23s]
+Building: Deploying outputs...
+[2K[1A[2K[GProduction: https://validator-rlwhcbwca-saggarsonny-3909s-projects.vercel.app [2m]
+Completing...
+Aliased: https://validator.hive.baby [2m]
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_AwYQaDN743jR7wmSEEhvEcF5juiz",
+    "url": "https://validator-rlwhcbwca-saggarsonny-3909s-projects.vercel.app",
+    "inspectorUrl": "https://vercel.com/saggarsonny-3909s-projects/validator/AwYQaDN743jR7wmSEEhvEcF5juiz",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_AwYQaDN743jR7wmSEEhvEcF5juiz"
+  },
+  "message": "Deployment validator-rlwhcbwca-saggarsonny-3909s-projects.vercel.app ready.",
+  "next": [
+    {
+      "command": "vercel inspect validator-rlwhcbwca-saggarsonny-3909s-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

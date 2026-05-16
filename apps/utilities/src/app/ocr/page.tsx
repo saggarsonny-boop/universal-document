@@ -1,6 +1,5 @@
 'use client'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function OCR() {
@@ -13,7 +12,7 @@ export default function OCR() {
         acceptTypes=".pdf,.png,.jpg,.jpeg,.tiff,.tif,.bmp,.webp"
         freeLabel="AI · Free tier: 5/day"
       />
-      <TooltipTour engineId="ocr" tips={tourSteps['ocr']} />
+      
     </>
   )
 }

@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type Beneficiary = { id: string; name: string; relationship: string; share: string; bequest: string }
@@ -262,7 +261,7 @@ export default function WillPage() {
         Runs in your browser. No data stored. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="will" tips={tourSteps['will']} />
+      
     </div>
   )
 }

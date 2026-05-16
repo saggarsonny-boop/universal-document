@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 async function sha256hex(data: Uint8Array): Promise<string> {
@@ -169,7 +168,7 @@ export default function DocumentVaultPage() {
 
   return (
     <main className="min-h-screen bg-[#fafaf8] text-[#1e2d3d]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-      <TooltipTour engineId="document-vault" tips={tourSteps['document-vault'] ?? []} />
+      
 
       <div className="bg-[#c8960a] text-white text-center py-2 text-sm font-medium">
         Beta — Enterprise features free during beta

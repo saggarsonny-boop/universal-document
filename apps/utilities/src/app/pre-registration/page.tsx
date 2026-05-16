@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function PreRegistration() {
@@ -147,7 +146,7 @@ export default function PreRegistration() {
       <div style={{ marginTop: 40, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Runs in your browser. No data sent to any server. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
-      <TooltipTour engineId="pre-registration" tips={tourSteps['pre-registration']} />
+      
     </div>
   )
 }

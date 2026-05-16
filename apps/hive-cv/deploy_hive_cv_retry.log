@@ -1,0 +1,206 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/hive-cv
+Uploading [--------------------] (0.0B/18.4KB)
+Uploading [=======-------------] (6.7KB/18.4KB)
+Uploading [====================] (18.4KB/18.4KB)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/hive-cv/6hvSo3FmbKfn2DcH1KxTiN2cawZH [2s]
+Production: https://hive-d78im32wp-saggarsonny-3909s-projects.vercel.app [2s]
+Building...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 4 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Previous build caches not available.
+Building: Downloading 22 deployment files...
+Building: Running "vercel build"
+Building: Vercel CLI 53.3.2
+Building: Installing dependencies...
+Building: added 361 packages in 14s
+Building: 143 packages are looking for funding
+Building: run `npm fund` for details
+Building: Detected Next.js version: 16.2.6
+Building: Running "npm run build"
+Building: > hive-cv@0.1.0 build
+Building: > next build
+Building: Applying modifyConfig from Vercel
+Building: Attention: Next.js now collects completely anonymous telemetry regarding usage.
+Building: This information is used to shape Next.js' roadmap and prioritize features.
+Building: You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+Building: https://nextjs.org/telemetry
+Building: ▲ Next.js 16.2.6 (Turbopack)
+Building: Creating an optimized production build ...
+Building: > Build error occurred
+Building: Error: Turbopack build failed with 1 errors:
+Building: ./src/app/page.tsx:76:27
+Building: Unterminated template
+Building: 74 |               onDragOver={e => e.preventDefault()}
+Building: 75 |               onDrop={handleDrop}
+Building: >  76 |               className={\`border-2 border-dashed rounded-xl p-10 text-center transition-...
+Building: |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  77 |             >
+Building: | ^^^^^^^^^^^^^
+Building: >  78 |               {!file ? (
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  79 |                 <>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: >  80 |                   <UploadCloud className="mx-auto text-neutral-500 mb-4" size={40} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  81 |                   <p className="text-neutral-300 font-medium mb-1">Drag and drop your PDF...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  82 |                   <p className="text-neutral-500 text-sm">or click to browse files</p>
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  83 |                 </>
+Building: | ^^^^^^^^^^^^^^^^^^^
+Building: >  84 |               ) : (
+Building: | ^^^^^^^^^^^^^^^^^^^
+Building: >  85 |                 <>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: >  86 |                   <FileText className="mx-auto text-[#D4AF37] mb-4" size={40} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  87 |                   <p className="text-[#D4AF37] font-medium">{file.name}</p>
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  88 |                   <p className="text-neutral-500 text-sm mt-1">{(file.size / 1024).toFixe...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  89 |                 </>
+Building: | ^^^^^^^^^^^^^^^^^^^
+Building: >  90 |               )}
+Building: | ^^^^^^^^^^^^^^^^
+Building: >  91 |             </div>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: >  92 |
+Building: | ^
+Building: >  93 |             <button
+Building: | ^^^^^^^^^^^^^^^^^^^^
+Building: >  94 |               onClick={handleProcess}
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  95 |               disabled={!file || processing}
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  96 |               className={\`w-full py-4 rounded-xl font-bold flex items-center justify-cen...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  97 |             >
+Building: | ^^^^^^^^^^^^^
+Building: >  98 |               {processing ? (
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: >  99 |                 <span className="animate-pulse flex items-center gap-2">
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 100 |                   <SearchCode size={20} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 101 |                   Parsing Semantics & Sealing...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 102 |                 </span>
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 103 |               ) : (
+Building: | ^^^^^^^^^^^^^^^^^^^
+Building: > 104 |                 <>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: > 105 |                   <Lock size={20} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 106 |                   Generate UDS Resume
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 107 |                 </>
+Building: | ^^^^^^^^^^^^^^^^^^^
+Building: > 108 |               )}
+Building: | ^^^^^^^^^^^^^^^^
+Building: > 109 |             </button>
+Building: | ^^^^^^^^^^^^^^^^^^^^^
+Building: > 110 |           </div>
+Building: | ^^^^^^^^^^^^^^^^
+Building: > 111 |         ) : (
+Building: | ^^^^^^^^^^^^^
+Building: > 112 |           <div className="text-center py-8 space-y-6 animate-in fade-in zoom-in duration-...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 113 |             <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center ju...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 114 |               <CheckCircle className="text-emerald-500" size={40} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 115 |             </div>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: > 116 |             <h2 className="text-2xl font-bold text-white">Resume Cryptographically Sealed...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 117 |             <p className="text-neutral-400 text-sm max-w-md mx-auto">
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 118 |               Your resume has been converted into a tamper-evident Universal Document. It...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 119 |             </p>
+Building: | ^^^^^^^^^^^^^^^^
+Building: > 120 |
+Building: | ^^^^^^^^^^^^
+Building: > 121 |             <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4 my-6 ...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 122 |               <p className="text-xs text-neutral-500 font-mono mb-2 uppercase tracking-wi...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 123 |               <p className="text-emerald-400 font-mono text-sm break-all">0x8F92...E4A1_V...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 124 |             </div>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: > 125 |
+Building: | ^
+Building: > 126 |             <button
+Building: | ^^^^^^^^^^^^^^^^^^^^
+Building: > 127 |               onClick={downloadUds}
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 128 |               className="w-full bg-[#D4AF37] hover:bg-[#b5952f] text-black py-4 rounded-x...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 129 |             >
+Building: | ^^^^^^^^^^^^^
+Building: > 130 |               <HardDriveDownload size={20} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 131 |               Download Resume_Verified.uds
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 132 |             </button>
+Building: | ^^^^^^^^^^^^^^^^^^^^^
+Building: > 133 |
+Building: | ^
+Building: > 134 |             <div className="pt-6 border-t border-neutral-800 mt-6">
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 135 |               <p className="text-neutral-500 text-sm">
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 136 |                 Recruiters must use the Universal Document Reader to view your private Cl...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 137 |               </p>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: > 138 |               <a href="https://reader.hive.baby" target="_blank" rel="noopener noreferrer...
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 139 |                 Get the UD Reader <ChevronRight size={14} />
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 140 |               </a>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: > 141 |             </div>
+Building: | ^^^^^^^^^^^^^^^^^^
+Building: > 142 |           </div>
+Building: | ^^^^^^^^^^^^^^^^
+Building: > 143 |         )}
+Building: | ^^^^^^^^^^
+Building: > 144 |       </div>
+Building: | ^^^^^^^^^^^^
+Building: > 145 |
+Building: | ^^^^^^
+Building: > 146 |       <div className="mt-20 text-neutral-600 text-sm">
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 147 |         <p>A Universal Document Ecosystem Protocol</p>
+Building: | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Building: > 148 |       </div>
+Building: | ^^^^^^^^^^^^
+Building: > 149 |     </main>
+Building: | ^^^^^^^^^^^
+Building: > 150 |   );
+Building: | ^^^^
+Building: > 151 | }
+Building: | ^
+Building: > 152 |
+Building: | ^
+Building: Parsing ecmascript source code failed
+Building: at <unknown> (./src/app/page.tsx:76:27)
+Building: Error: Command "npm run build" exited with 1
+{
+  "id": "dpl_6hvSo3FmbKfn2DcH1KxTiN2cawZH",
+  "url": "https://hive-d78im32wp-saggarsonny-3909s-projects.vercel.app",
+  "inspectorUrl": "https://vercel.com/saggarsonny-3909s-projects/hive-cv/6hvSo3FmbKfn2DcH1KxTiN2cawZH",
+  "readyState": "ERROR",
+  "target": "production",
+  "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_6hvSo3FmbKfn2DcH1KxTiN2cawZH",
+  "error": {
+    "name": "BUILD_ERROR",
+    "message": "Command \"npm run build\" exited with 1"
+  }
+}

@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
+  
+  --color-gold: #D4AF37;
+  --color-gold-hover: #b5952f;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #d4d4d4;
+  overflow-x: hidden;
+}
+
+.kintsugi-line {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
+  height: 1px;
+  width: 100%;
+}
+
+.kintsugi-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+.kintsugi-border {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

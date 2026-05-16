@@ -59,12 +59,12 @@ export default function PricingPage() {
         <TierCard
           tier="Free"
           price="$0"
-          subtitle="Unlimited. No card required."
+          subtitle="Unlimited UDS Conversions. No card required."
           features={[
-            'Unlimited conversions',
-            'Captcha after first conversion',
+            'Unlimited conversions to UDS',
+            'No API costs',
             '10 MB max file · 25 pages max',
-            'All format pairs · UDS output',
+            'All format pairs',
             'No signup',
           ]}
           ctaLabel="Start converting"

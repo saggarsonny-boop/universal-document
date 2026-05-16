@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
-import { ClerkProvider } from "@clerk/nextjs";
 import { ServiceWorkerRegistrar } from "./_lib/ServiceWorkerRegistrar";
 import { HiveHeader } from "./_lib/HiveHeader";
 
@@ -11,19 +10,19 @@ const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby";
 
-const TITLE = "HiveActivityPartner — Find someone to do the thing with";
-const DESCRIPTION = "Meet a stranger to share an activity with — safely, on your terms. Private profiles, never indexed. Free at the base tier, forever.";
+const TITLE = "Adaptive AI Activity Companion (AAC) - Enterprise Portal";
+const DESCRIPTION = "Enterprise-grade AI companion deployment portal. Highly configurable, tenant-isolated AI agents for clinical, practice, and corporate domains.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "HiveActivityPartner",
+  applicationName: "Adaptive AI Activity Companion",
   manifest: "/manifest.json",
   alternates: { canonical: APP_URL },
   appleWebApp: {
     capable: true,
-    title: "HiveActivityPartner",
+    title: "AAC Enterprise",
     statusBarStyle: "black-translucent",
   },
   icons: {
@@ -38,17 +37,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: APP_URL,
-    siteName: "HiveActivityPartner",
+    siteName: "AAC Enterprise",
     title: TITLE,
     description: DESCRIPTION,
   },
-  // Privacy hard rule: the entire engine is noindex,nofollow. Profiles are
-  // private; we never want a search engine surfacing a HAP page.
   robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#D4AF37",
+  themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -58,27 +55,25 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
-        <head>
-          <meta name="robots" content="noindex,nofollow" />
-        </head>
-        <body
-          style={{
-            margin: 0,
-            background: "#0a0a0a",
-            color: "#f5f1e6",
-            fontFamily:
-              "var(--font-body), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-            WebkitFontSmoothing: "antialiased",
-            minHeight: "100dvh",
-          }}
-        >
-          <HiveHeader />
-          {children}
-          <ServiceWorkerRegistrar />
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
+      <head>
+        <meta name="robots" content="noindex,nofollow" />
+      </head>
+      <body
+        style={{
+          margin: 0,
+          background: "#0a0a0a",
+          color: "#f5f1e6",
+          fontFamily:
+            "var(--font-body), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          WebkitFontSmoothing: "antialiased",
+          minHeight: "100dvh",
+        }}
+      >
+        <HiveHeader />
+        {children}
+        <ServiceWorkerRegistrar />
+      </body>
+    </html>
   );
 }

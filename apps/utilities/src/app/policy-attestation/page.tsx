@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 async function sha256hex(text: string): Promise<string> {
@@ -283,7 +282,7 @@ export default function PolicyAttestationPage() {
         Processed in your browser. No data stored on our servers. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="policy-attestation" tips={tourSteps['policy-attestation']} />
+      
     </div>
   )
 }

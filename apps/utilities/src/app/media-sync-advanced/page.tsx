@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 interface ChapterMarker { id: number; timestamp: string; title: string; linkedSection: string }
@@ -193,7 +192,7 @@ export default function MediaSyncAdvanced() {
       <div style={{ marginTop: 24, padding: '16px', background: 'var(--ud-paper-2)', border: '1px solid var(--ud-border)', borderRadius: 'var(--ud-radius)', fontSize: 13, color: 'var(--ud-muted)', fontFamily: 'var(--font-body)', textAlign: 'center' }}>
         Powered by Claude. Sync data embedded in .uds — no external service required. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
-      <TooltipTour engineId="media-sync-advanced" tips={tourSteps['media-sync-advanced']} />
+      
     </div>
   )
 }

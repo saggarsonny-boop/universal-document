@@ -1,0 +1,33 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/hive-hemodynamics
+Uploading [--------------------] (0.0B/13.1KB)
+Uploading [====================] (13.1KB/13.1KB)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/hive-hemodynamics/J8fC3MrbpcR7MPJ4TPjViHzHEcw5 [2s]
+Production: https://hive-hemodynamics-als70s6mz-saggarsonny-3909s-projects.vercel.app [2s]
+Building...
+Building...
+[2K[1A[2K[GProduction: https://hive-hemodynamics-als70s6mz-saggarsonny-3909s-projects.vercel.app [29s]
+Completing...
+Aliased: https://hemodynamics.hive.baby [29s]
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_J8fC3MrbpcR7MPJ4TPjViHzHEcw5",
+    "url": "https://hive-hemodynamics-als70s6mz-saggarsonny-3909s-projects.vercel.app",
+    "inspectorUrl": "https://vercel.com/saggarsonny-3909s-projects/hive-hemodynamics/J8fC3MrbpcR7MPJ4TPjViHzHEcw5",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_J8fC3MrbpcR7MPJ4TPjViHzHEcw5"
+  },
+  "message": "Deployment hive-hemodynamics-als70s6mz-saggarsonny-3909s-projects.vercel.app ready.",
+  "next": [
+    {
+      "command": "vercel inspect hive-hemodynamics-als70s6mz-saggarsonny-3909s-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

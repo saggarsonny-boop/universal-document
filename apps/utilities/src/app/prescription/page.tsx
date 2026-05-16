@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const LANGS = ['English','Spanish','French','German','Arabic','Mandarin','Hindi','Portuguese','Polish','Urdu']
@@ -115,7 +114,7 @@ export default function Prescription() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="prescription" tips={tourSteps['prescription']} />
+      
     </div>
   )
 }

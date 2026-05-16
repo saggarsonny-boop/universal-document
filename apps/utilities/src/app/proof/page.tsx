@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type InputMode = 'file' | 'text'
@@ -274,7 +273,7 @@ export default function ProofPage() {
         Hashing runs in your browser. Content never leaves your device. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="proof" tips={tourSteps['proof']} />
+      
     </div>
   )
 }

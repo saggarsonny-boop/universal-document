@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type Entry = { id: string; name: string; detail: string; date: string }
@@ -94,7 +93,7 @@ export default function MedicalHistoryPage() {
 
   return (
     <div style={{ background: '#fafaf8', minHeight: '100vh', color: '#1e2d3d' }}>
-      <TooltipTour engineId="medical-history" tips={tourSteps['medical-history'] ?? []} />
+      
       <div style={{ background: '#c8960a', color: '#fff', textAlign: 'center', padding: '8px 16px', fontSize: 13, fontWeight: 600 }}>Beta · All features free during beta</div>
       <div style={{ maxWidth: 680, margin: '0 auto', padding: '48px 24px' }}>
         <div style={{ marginBottom: 16 }}>

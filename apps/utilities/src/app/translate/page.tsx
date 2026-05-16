@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const LANGUAGES = [
@@ -157,7 +156,7 @@ export default function Translate() {
         Translation powered by Claude. Output embedded as a parallel language stream in the .uds file.
         Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
-      <TooltipTour engineId="translate" tips={tourSteps['translate']} />
+      
     </div>
   )
 }

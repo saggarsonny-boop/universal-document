@@ -54,14 +54,14 @@ export default function PricingPage() {
         {/* Pro */}
         <div style={card.featured}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ud-gold)', marginBottom: 16 }}>Pro</p>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, color: '#fff', marginBottom: 4 }}>$29<span style={{ fontSize: 16, fontWeight: 400, opacity: 0.7 }}>/month</span></p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 28 }}>Or $249/year — save $99.</p>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, color: '#fff', marginBottom: 4 }}>$9<span style={{ fontSize: 16, fontWeight: 400, opacity: 0.7 }}>/month</span></p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 28 }}>Subsidized pricing. We charge API Cost + 50% to drive IDE adoption.</p>
           {[
-            'Unlimited documents',
+            'Unlimited UDS/UDR generation',
+            'Full Audience Review Dashboard',
             'Clarity layers (multi-audience)',
             'Multilingual ribbons',
-            'Full chain of custody',
-            'Advanced expiry and revocation',
+            'Advanced expiry and self-destruct',
             'Permission controls per section',
             'AI document analysis',
             'Template library',

@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function BatesStamp() {
@@ -127,7 +126,7 @@ export default function BatesStamp() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="bates-stamp" tips={tourSteps['bates-stamp']} />
+      
     </div>
   )
 }

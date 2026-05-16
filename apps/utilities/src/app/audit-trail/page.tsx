@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 interface Event { label: string; at: string; by?: string; detail?: string; hash?: string; category: string }
@@ -131,7 +130,7 @@ export default function AuditTrail() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="audit-trail" tips={tourSteps['audit-trail']} />
+      
     </div>
   )
 }

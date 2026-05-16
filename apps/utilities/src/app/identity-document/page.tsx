@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 async function sha256hex(data: Uint8Array): Promise<string> {
@@ -84,7 +83,7 @@ export default function IdentityDocumentPage() {
 
   return (
     <div style={{ background: '#fafaf8', minHeight: '100vh', color: '#1e2d3d' }}>
-      <TooltipTour engineId="identity-document" tips={tourSteps['identity-document'] ?? []} />
+      
       <div style={{ background: '#c8960a', color: '#fff', textAlign: 'center', padding: '8px 16px', fontSize: 13, fontWeight: 600 }}>
         Beta · All features free during beta
       </div>

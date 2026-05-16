@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function Rearrange() {
@@ -32,7 +31,7 @@ export default function Rearrange() {
           </div>
         }
       />
-      <TooltipTour engineId="rearrange" tips={tourSteps['rearrange']} />
+      
     </>
   )
 }

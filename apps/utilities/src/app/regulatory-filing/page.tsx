@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const FILING_TYPES = ['Annual Return','Compliance Report','Incident Report','Data Breach Notification','Environmental Report','Licence Renewal','Regulatory Notice','Other']
@@ -126,7 +125,7 @@ export default function RegulatoryFiling() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="regulatory-filing" tips={tourSteps['regulatory-filing']} />
+      
     </div>
   )
 }

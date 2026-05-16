@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const POLICY_TYPES = ['Home & Contents','Motor','Life','Health & Medical','Travel','Public Liability','Professional Indemnity','Employers Liability','Business Interruption','Cyber','Other']
@@ -115,7 +114,7 @@ export default function InsurancePolicy() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="insurance-policy" tips={tourSteps['insurance-policy']} />
+      
     </div>
   )
 }

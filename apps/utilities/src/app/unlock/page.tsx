@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function Unlock() {
@@ -33,7 +32,7 @@ export default function Unlock() {
           </div>
         }
       />
-      <TooltipTour engineId="unlock" tips={tourSteps['unlock']} />
+      
     </>
   )
 }

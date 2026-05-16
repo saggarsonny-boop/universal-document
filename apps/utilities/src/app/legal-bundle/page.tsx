@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function LegalBundle() {
@@ -125,7 +124,7 @@ export default function LegalBundle() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="legal-bundle" tips={tourSteps['legal-bundle']} />
+      
     </div>
   )
 }

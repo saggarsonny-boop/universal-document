@@ -1,131 +1,241 @@
-// Landing page. Plain English, mobile-first, no marketing fluff.
-// CTA routes to /signup which captures the age band BEFORE Clerk.
-//
-// Plain <a> rather than next/link: under Next 16.2.3 + React 19 + Clerk 6 +
-// Turbopack, the Link onClick handler preventDefaults the click but never
-// triggers router.push (verified with Playwright on prod). Native <a>
-// navigation reliably reaches /signup.
+'use client';
 
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import { strings } from "./_lib/strings";
-import { HiveFooter } from "./_lib/HiveFooter";
-import { HiveInstallHint } from "./_lib/HiveInstallHint";
-import { HiveFirstVisitExplainer } from "./_lib/HiveFirstVisitExplainer";
+import { useState } from "react";
+import { ArrowRight, ShieldCheck, Zap, Activity } from "lucide-react";
 
 const GOLD = "#D4AF37";
+const GOLD_MUTED = "#C5A880";
 const PAPER = "#f5f1e6";
-const MUTED = "#9a9588";
+const MUTED = "#888";
 
-export default async function Home() {
-  const { userId } = await auth();
-  if (userId) {
-    // Signed-in users skip the marketing page and go straight to their
-    // profile setup or self-view; setup is idempotent.
-    redirect("/profile/setup");
-  }
+export default function Home() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle'|'loading'|'sent'>('idle');
 
-  const s = strings.home;
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus('loading');
+    
+    // Generate a temporary session ID for the unauthenticated user
+    const tempSessionId = crypto.randomUUID();
+    
+    try {
+      const res = await fetch('/api/auth/send-magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, session_id: tempSessionId })
+      });
+      if (res.ok) {
+        setStatus('sent');
+      } else {
+        setStatus('idle');
+      }
+    } catch {
+      setStatus('idle');
+    }
+  };
+
   return (
     <main style={mainStyle}>
-      <h1 style={titleStyle}>{s.title}</h1>
-      <p style={taglineStyle}>{s.tagline}</p>
+      <div style={glowStyle} />
+      
+      <div style={containerStyle}>
+        <div style={heroStyle}>
+          <div style={badgeStyle}>Adaptive AI Activity Companion</div>
+          <h1 style={titleStyle}>Enterprise-Grade Intelligence.<br/><span style={{ color: GOLD }}>Zero Hallucinations.</span></h1>
+          <p style={taglineStyle}>
+            Deploy tenant-isolated, highly configurable AI agents into your clinical, practice, or corporate environment. Built on Anthropic's Claude 3.
+          </p>
+        </div>
 
-      <div style={pillarsStyle}>
-        <div style={pillarStyle}>
-          <strong style={{ color: PAPER }}>{s.pillars.private.title}</strong>
-          <span>{s.pillars.private.body}</span>
+        <div style={authCardStyle}>
+          {status === 'sent' ? (
+            <div style={{ textAlign: "center", padding: "24px 0" }}>
+              <ShieldCheck size={48} color={GOLD} style={{ margin: "0 auto 16px" }} />
+              <h3 style={{ margin: "0 0 8px", color: PAPER, fontSize: 20 }}>Secure Link Sent</h3>
+              <p style={{ color: MUTED, margin: 0, fontSize: 14 }}>Check {email} for your authentication link.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleLogin} style={formStyle}>
+              <h3 style={{ margin: "0 0 16px", color: PAPER, fontSize: 18, fontWeight: 500 }}>Access Portal</h3>
+              <div style={{ display: "flex", gap: 12 }}>
+                <input 
+                  type="email" 
+                  placeholder="name@company.com" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={inputStyle}
+                  required
+                />
+                <button type="submit" disabled={status === 'loading'} style={submitBtnStyle}>
+                  {status === 'loading' ? 'Authenticating...' : <><ArrowRight size={18} /> Continue</>}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
-        <div style={pillarStyle}>
-          <strong style={{ color: PAPER }}>{s.pillars.safe.title}</strong>
-          <span>{s.pillars.safe.body}</span>
-        </div>
-        <div style={pillarStyle}>
-          <strong style={{ color: PAPER }}>{s.pillars.free.title}</strong>
-          <span>{s.pillars.free.body}</span>
+
+        <div style={gridStyle}>
+          <div style={featureCardStyle}>
+            <Activity size={24} color={GOLD_MUTED} style={{ marginBottom: 16 }} />
+            <h4 style={featureTitleStyle}>Tenant Isolated</h4>
+            <p style={featureBodyStyle}>Data never bleeds. Every deployment sits within its own secure Neon Postgres silo.</p>
+          </div>
+          <div style={featureCardStyle}>
+            <ShieldCheck size={24} color={GOLD_MUTED} style={{ marginBottom: 16 }} />
+            <h4 style={featureTitleStyle}>Strict Guardrails</h4>
+            <p style={featureBodyStyle}>Machine-level safety limits engineered for high-liability environments.</p>
+          </div>
+          <div style={featureCardStyle}>
+            <Zap size={24} color={GOLD_MUTED} style={{ marginBottom: 16 }} />
+            <h4 style={featureTitleStyle}>Instant Provisioning</h4>
+            <p style={featureBodyStyle}>Automated seat-license billing means scaling your intelligence layer takes seconds.</p>
+          </div>
         </div>
       </div>
-
-      <a href="/signup" style={ctaStyle} aria-label={s.ctaAria}>
-        {s.cta}
-      </a>
-      <a href="/sign-in" style={signInLinkStyle}>
-        {s.signInPrompt}
-      </a>
-
-      <HiveInstallHint />
-      <HiveFirstVisitExplainer />
-      <HiveFooter />
     </main>
   );
 }
 
 const mainStyle: React.CSSProperties = {
+  position: "relative",
+  overflow: "hidden",
+  fontFamily: "system-ui, sans-serif",
+  backgroundColor: "#050505",
+  minHeight: "100dvh",
+  color: PAPER
+};
+
+const glowStyle: React.CSSProperties = {
+  position: "absolute",
+  top: "-20%",
+  left: "50%",
+  transform: "translateX(-50%)",
+  width: "80vw",
+  height: "50vh",
+  background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, rgba(5,5,5,0) 70%)",
+  pointerEvents: "none",
+  zIndex: 0
+};
+
+const containerStyle: React.CSSProperties = {
+  position: "relative",
+  zIndex: 1,
+  maxWidth: 1000,
+  margin: "0 auto",
+  padding: "80px 24px",
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
-  padding: "16px 20px 0",
-  maxWidth: 560,
-  margin: "0 auto",
-  minHeight: "calc(100dvh - 60px)",
+  alignItems: "center"
+};
+
+const heroStyle: React.CSSProperties = {
+  textAlign: "center",
+  marginBottom: 64,
+  maxWidth: 800
+};
+
+const badgeStyle: React.CSSProperties = {
+  display: "inline-block",
+  padding: "6px 16px",
+  borderRadius: 100,
+  border: `1px solid rgba(212, 175, 55, 0.3)`,
+  color: GOLD,
+  fontSize: 13,
+  fontWeight: 600,
+  letterSpacing: "0.05em",
+  textTransform: "uppercase",
+  marginBottom: 24,
+  backgroundColor: "rgba(212, 175, 55, 0.05)"
 };
 
 const titleStyle: React.CSSProperties = {
-  margin: "20px 0 8px",
-  fontSize: 30,
-  lineHeight: 1.15,
-  textAlign: "center",
-  color: PAPER,
+  margin: "0 0 24px",
+  fontSize: "clamp(32px, 5vw, 56px)",
+  lineHeight: 1.1,
+  letterSpacing: "-0.03em",
   fontWeight: 600,
 };
 
 const taglineStyle: React.CSSProperties = {
-  marginTop: 0,
-  marginBottom: 24,
+  margin: 0,
+  fontSize: "clamp(16px, 2vw, 20px)",
   color: MUTED,
-  textAlign: "center",
-  fontSize: 16,
-  lineHeight: 1.5,
+  lineHeight: 1.6,
+  maxWidth: 600,
+  marginInline: "auto"
 };
 
-const pillarsStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: 14,
+const authCardStyle: React.CSSProperties = {
   width: "100%",
-  marginBottom: 32,
+  maxWidth: 480,
+  background: "rgba(15, 15, 15, 0.6)",
+  backdropFilter: "blur(20px)",
+  border: "1px solid rgba(255, 255, 255, 0.08)",
+  borderRadius: 16,
+  padding: 32,
+  marginBottom: 80,
+  boxShadow: "0 24px 48px rgba(0,0,0,0.4)"
 };
 
-const pillarStyle: React.CSSProperties = {
+const formStyle: React.CSSProperties = {
   display: "flex",
-  flexDirection: "column",
-  gap: 4,
-  padding: "12px 14px",
-  border: "1px solid #2a2a2a",
-  borderRadius: 10,
-  fontSize: 14,
-  lineHeight: 1.5,
-  color: MUTED,
+  flexDirection: "column"
 };
 
-const ctaStyle: React.CSSProperties = {
+const inputStyle: React.CSSProperties = {
+  flex: 1,
+  padding: "14px 16px",
+  background: "#0a0a0a",
+  border: "1px solid #333",
+  borderRadius: 8,
+  color: PAPER,
+  fontSize: 15,
+  outline: "none",
+  transition: "border-color 0.2s"
+};
+
+const submitBtnStyle: React.CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
-  justifyContent: "center",
-  minWidth: 200,
-  minHeight: 48,
-  padding: "12px 24px",
+  gap: 8,
+  padding: "0 24px",
   background: GOLD,
-  color: "#0a0a0a",
-  borderRadius: 10,
+  color: "#000",
+  border: "none",
+  borderRadius: 8,
   fontWeight: 600,
-  textDecoration: "none",
-  fontSize: 16,
+  fontSize: 15,
+  cursor: "pointer",
+  transition: "opacity 0.2s"
 };
 
-const signInLinkStyle: React.CSSProperties = {
-  marginTop: 16,
+const gridStyle: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+  gap: 24,
+  width: "100%"
+};
+
+const featureCardStyle: React.CSSProperties = {
+  padding: 32,
+  background: "#0a0a0a",
+  border: "1px solid #1a1a1a",
+  borderRadius: 16,
+  transition: "border-color 0.3s"
+};
+
+const featureTitleStyle: React.CSSProperties = {
+  margin: "0 0 12px",
+  fontSize: 18,
+  fontWeight: 500,
+  color: PAPER
+};
+
+const featureBodyStyle: React.CSSProperties = {
+  margin: 0,
+  fontSize: 15,
   color: MUTED,
-  textDecoration: "underline",
-  fontSize: 14,
+  lineHeight: 1.6
 };

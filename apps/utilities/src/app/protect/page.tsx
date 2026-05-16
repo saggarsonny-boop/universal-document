@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function Protect() {
@@ -36,7 +35,7 @@ export default function Protect() {
           </div>
         }
       />
-      <TooltipTour engineId="protect" tips={tourSteps['protect']} />
+      
     </>
   )
 }

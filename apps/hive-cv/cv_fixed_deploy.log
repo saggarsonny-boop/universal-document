@@ -1,0 +1,16 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/hive-cv
+Uploading [--------------------] (0.0B/11.7KB)
+Uploading [====================] (11.7KB/11.7KB)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/hive-cv/DMn6x2wtXxKFViG28YCfcy1kivEF [2s]
+Production: https://hive-j5o2occkc-saggarsonny-3909s-projects.vercel.app [2s]
+https://hive-j5o2occkc-saggarsonny-3909s-projects.vercel.appBuilding...
+Building...
+[2K[1A[2K[GProduction: https://hive-j5o2occkc-saggarsonny-3909s-projects.vercel.app [28s]
+Completing...
+Aliased: https://cv.hive.baby [28s]
+We are attempting to create an SSL certificate for cv.hive.baby asynchronously.
+
+Common next commands:
+- `vercel inspect hive-j5o2occkc-saggarsonny-3909s-projects.vercel.app --logs`
+- `vercel redeploy hive-j5o2occkc-saggarsonny-3909s-projects.vercel.app`

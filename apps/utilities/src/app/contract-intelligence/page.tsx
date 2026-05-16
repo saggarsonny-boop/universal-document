@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const CONTRACT_TYPES = ['NDA', 'Service Agreement', 'Employment', 'Lease', 'Licensing', 'Other']
@@ -191,7 +190,7 @@ export default function ContractIntelligencePage() {
         Analysis powered by Claude AI. Files processed in memory — not stored. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="contract-intelligence" tips={tourSteps['contract-intelligence']} />
+      
     </div>
   )
 }

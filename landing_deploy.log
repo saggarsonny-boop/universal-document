@@ -1,0 +1,98 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/landing
+Uploading [--------------------] (0.0B/107.4KB)
+Uploading [=====---------------] (27.0KB/107.4KB)
+Uploading [==========----------] (53.9KB/107.4KB)
+Uploading [=================---] (93.8KB/107.4KB)
+Uploading [====================] (107.4KB/107.4KB)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/landing/Bz5fLzFtMVLqx6KTwjBgnfXW5GBA [3s]
+Production: https://landing-o7vtheieq-saggarsonny-3909s-projects.vercel.app [3s]
+Building...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 4 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Downloading 905 deployment files...
+Building: Restored build cache from previous deployment (Dw1qDCXiaSY69tZShSaskTWH3J3X)
+Building: Running "vercel build"
+Building: Vercel CLI 53.3.2
+Building: Installing dependencies...
+Building: up to date in 448ms
+Building: 3 packages are looking for funding
+Building: run `npm fund` for details
+Building: Detected Next.js version: 14.2.3
+Building: Running "npm run build"
+Building: > ud-landing@0.1.0 build
+Building: > next build
+Building: ▲ Next.js 14.2.3
+Building: Creating an optimized production build ...
+Building: ✓ Compiled successfully
+Building: Linting and checking validity of types ...
+Building: Collecting page data ...
+Building: Generating static pages (0/22) ...
+Building: Generating static pages (5/22)
+Building: Generating static pages (10/22)
+Building: Generating static pages (16/22)
+Building: ✓ Generating static pages (22/22)
+Building: Finalizing page optimization ...
+Building: Collecting build traces ...
+Building: Route (app)                              Size     First Load JS
+Building: ┌ ○ /                                    8.79 kB          96 kB
+Building: ├ ○ /_not-found                          871 B          88.1 kB
+Building: ├ ƒ /api/console/action                  0 B                0 B
+Building: ├ ƒ /api/console/data                    0 B                0 B
+Building: ├ ○ /api/seed-demos                      0 B                0 B
+Building: ├ ƒ /api/verify                          0 B                0 B
+Building: ├ ○ /certified                           161 B          87.4 kB
+Building: ├ ○ /console                             4.55 kB        91.8 kB
+Building: ├ ○ /csdk                                2.63 kB        89.8 kB
+Building: ├ ○ /demos                               161 B          87.4 kB
+Building: ├ ○ /docs                                161 B          87.4 kB
+Building: ├ ○ /icon.png                            0 B                0 B
+Building: ├ ○ /isdk                                3.46 kB        90.7 kB
+Building: ├ ○ /scenarios                           185 B          97.9 kB
+Building: ├ ○ /scenarios/clinical-record           2.11 kB        99.8 kB
+Building: ├ ○ /scenarios/contract-lifecycle        2.11 kB        99.8 kB
+Building: ├ ○ /scenarios/research-paper            2.11 kB        99.8 kB
+Building: ├ ○ /sitemap.xml                         0 B                0 B
+Building: ├ ○ /support                             1.99 kB        89.2 kB
+Building: ├ ƒ /verify/[id]                         161 B          87.4 kB
+Building: └ ○ /whitepaper                          4.92 kB        92.1 kB
+Building: + First Load JS shared by all            87.2 kB
+Building: ├ chunks/23-70a5c2d45a80d5ee.js        31.6 kB
+Building: ├ chunks/fd9d1056-23bdddb1df3a91c8.js  53.6 kB
+Building: └ other shared chunks (total)          1.95 kB
+Building: ○  (Static)   prerendered as static content
+Building: ƒ  (Dynamic)  server-rendered on demand
+Building: Traced Next.js server files in: 36.377ms
+Building: Created all serverless functions in: 109.211ms
+Building: Collected static files (public/, static/, .next/static): 8.248ms
+Building: Build Completed in /vercel/output [21s]
+Building: Deploying outputs...
+Building: Deployment completed
+Building: Creating build cache...
+[2K[1A[2K[GProduction: https://landing-o7vtheieq-saggarsonny-3909s-projects.vercel.app [41s]
+Completing...
+Aliased: https://landing-rho-eight-58.vercel.app [41s]
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_Bz5fLzFtMVLqx6KTwjBgnfXW5GBA",
+    "url": "https://landing-o7vtheieq-saggarsonny-3909s-projects.vercel.app",
+    "inspectorUrl": "https://vercel.com/saggarsonny-3909s-projects/landing/Bz5fLzFtMVLqx6KTwjBgnfXW5GBA",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_Bz5fLzFtMVLqx6KTwjBgnfXW5GBA"
+  },
+  "message": "Deployment landing-o7vtheieq-saggarsonny-3909s-projects.vercel.app ready.",
+  "next": [
+    {
+      "command": "vercel inspect landing-o7vtheieq-saggarsonny-3909s-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

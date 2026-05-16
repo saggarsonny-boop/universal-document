@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 interface SyncPoint { timestamp: string; text_preview: string; section_index: number }
@@ -102,7 +101,7 @@ export default function MediaSync() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="media-sync" tips={tourSteps['media-sync']} />
+      
     </div>
   )
 }

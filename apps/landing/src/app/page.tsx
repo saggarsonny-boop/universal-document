@@ -10,6 +10,7 @@ const TOOLS = [
   { name: 'UD Validator',  desc: 'Verify schema, expiry, signatures, chain-of-custody.',                 url: 'https://validator.hive.baby',       status: 'live', icon: '✅' },
   { name: 'UD Utilities',  desc: 'Merge, split, compress, OCR, protect, watermark, compare, redact.',    url: 'https://utilities.hive.baby',       status: 'live', icon: '🔧' },
   { name: 'UD Signer',     desc: 'Governed signing with legal-grade audit trails.',                      url: 'https://signer.hive.baby',          status: 'live', icon: '🔏' },
+  { name: 'Hemodynamics',  desc: 'Enterprise CHF workstation. Epic FHIR sync & Anthropic AI analysis.', url: 'https://hemodynamics.hive.baby',      status: 'live', icon: '🫀' },
   { name: 'iSDK',          desc: 'Embed Universal Document™ read/render in any device or app. Free. Under 400KB.', url: 'https://ud.hive.baby/isdk', status: 'live', icon: '⚡' },
   { name: 'cSDK',          desc: 'API access to creation, conversion, signing, and validation. For builders.', url: 'https://ud.hive.baby/csdk',    status: 'live', icon: '🛠' },
   { name: 'White Paper',   desc: 'Universal Document™ Standard 1.0 — the specification. CC BY 4.0.',    url: 'https://ud.hive.baby/whitepaper',   status: 'live', icon: '📃' },

@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const INCIDENT_CATEGORIES = [
@@ -208,7 +207,7 @@ export default function WhistleblowerPackagePage() {
 
   return (
     <div style={{ background: '#fafaf8', minHeight: '100vh', color: '#1e2d3d' }}>
-      <TooltipTour engineId="whistleblower-package" tips={tourSteps['whistleblower-package']} />
+      
 
       {/* Beta banner */}
       <div style={{ background: '#c8960a', color: '#fff', textAlign: 'center', padding: '8px 16px', fontSize: 13, fontWeight: 600 }}>

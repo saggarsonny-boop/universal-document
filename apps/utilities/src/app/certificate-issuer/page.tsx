@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const CERT_TYPES = ['Completion','Achievement','Attendance','Competency','Accreditation','Training','Award','Other']
@@ -109,7 +108,7 @@ export default function CertificateIssuer() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="certificate-issuer" tips={tourSteps['certificate-issuer']} />
+      
     </div>
   )
 }

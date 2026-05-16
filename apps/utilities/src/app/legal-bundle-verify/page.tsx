@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 interface VerifyResult {
@@ -321,7 +320,7 @@ export default function LegalBundleVerify() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="legal-bundle-verify" tips={tourSteps['legal-bundle-verify']} />
+      
     </div>
   )
 }

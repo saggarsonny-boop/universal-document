@@ -1,6 +1,5 @@
 'use client'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function Merge() {
@@ -13,7 +12,7 @@ export default function Merge() {
         acceptMultiple
         freeLabel="FREE · Unlimited"
       />
-      <TooltipTour engineId="merge" tips={tourSteps['merge']} />
+      
     </>
   )
 }

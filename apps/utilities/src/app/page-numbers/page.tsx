@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function PageNumbers() {
@@ -40,7 +39,7 @@ export default function PageNumbers() {
           </div>
         }
       />
-      <TooltipTour engineId="page-numbers" tips={tourSteps['page-numbers']} />
+      
     </>
   )
 }

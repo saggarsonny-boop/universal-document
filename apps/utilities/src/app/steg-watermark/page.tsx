@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 async function sha256Hex(text: string): Promise<string> {
@@ -105,7 +104,7 @@ export default function StegWatermark() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="steg-watermark" tips={tourSteps['steg-watermark']} />
+      
     </div>
   )
 }

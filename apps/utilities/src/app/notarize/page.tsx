@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type Mode = 'self-cert' | 'ron-prep'
@@ -293,7 +292,7 @@ export default function NotarizePage() {
         Runs in your browser. No files stored. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="notarize" tips={tourSteps['notarize']} />
+      
     </div>
   )
 }

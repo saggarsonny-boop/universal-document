@@ -1,0 +1,306 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/ud-utilities
+Uploading [--------------------] (0.0B/550B)
+Uploading [====================] (550.0B/550B)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/ud-utilities/EeVSYNYbK5eiyTY8Z4732ktU7wUv [3s]
+Production: https://ud-utilities-70mspfqhi-saggarsonny-3909s-projects.vercel.app [3s]
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 4 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Downloading 909 deployment files...
+Building: Downloading 909 deployment files...
+Building: Restored build cache from previous deployment (HL8AeBE9w8JggDac2BD7zMtzagBq)
+Building: Running "vercel build"
+Building: Vercel CLI 53.3.2
+Building: Installing dependencies...
+Building: npm warn old lockfile
+Building: npm warn old lockfile The package-lock.json file was created with an old version of npm,
+Building: npm warn old lockfile so supplemental metadata must be fetched from the registry.
+Building: npm warn old lockfile
+Building: npm warn old lockfile This is a one-time fix-up, please be patient...
+Building: npm warn old lockfile
+Building: up to date in 3s
+Building: 15 packages are looking for funding
+Building: run `npm fund` for details
+Building: Detected Next.js version: 14.2.3
+Building: Running "npm run build"
+Building: > ud-utilities@0.1.0 build
+Building: > next build
+Building: ⚠ Invalid next.config.js options detected:
+Building: ⚠     Unrecognized key(s) in object: 'serverExternalPackages'
+Building: ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+Building: ▲ Next.js 14.2.3
+Building: Creating an optimized production build ...
+Building: ✓ Compiled successfully
+Building: Linting and checking validity of types ...
+Building: Collecting page data ...
+Building: Generating static pages (0/222) ...
+Building: Generating static pages (55/222)
+Building: Generating static pages (110/222)
+Building: Generating static pages (166/222)
+Building: ✓ Generating static pages (222/222)
+Building: Finalizing page optimization ...
+Building: Collecting build traces ...
+Building: Route (app)                              Size     First Load JS
+Building: ┌ ○ /                                    13 kB           100 kB
+Building: ├ ○ /_not-found                          876 B          88.1 kB
+Building: ├ ○ /academic-paper                      1.42 kB        95.4 kB
+Building: ├ ƒ /academic-paper/api                  0 B                0 B
+Building: ├ ○ /accessibility-check                 1.42 kB        95.4 kB
+Building: ├ ƒ /accessibility-check/api             0 B                0 B
+Building: ├ ƒ /api/accessibility-check             0 B                0 B
+Building: ├ ƒ /api/classify                        0 B                0 B
+Building: ├ ƒ /api/clinical-summary                0 B                0 B
+Building: ├ ƒ /api/compare                         0 B                0 B
+Building: ├ ƒ /api/contract-intelligence           0 B                0 B
+Building: ├ ƒ /api/emr-export                      0 B                0 B
+Building: ├ ƒ /api/media-sync                      0 B                0 B
+Building: ├ ƒ /api/media-sync-advanced             0 B                0 B
+Building: ├ ƒ /api/merge                           0 B                0 B
+Building: ├ ƒ /api/pharmacy                        0 B                0 B
+Building: ├ ƒ /api/process                         0 B                0 B
+Building: ├ ƒ /api/revoke                          0 B                0 B
+Building: ├ ƒ /api/summarise                       0 B                0 B
+Building: ├ ƒ /api/translate                       0 B                0 B
+Building: ├ ○ /audio-embed                         1.42 kB        95.4 kB
+Building: ├ ƒ /audio-embed/api                     0 B                0 B
+Building: ├ ○ /audit-trail                         1.42 kB        95.4 kB
+Building: ├ ƒ /audit-trail/api                     0 B                0 B
+Building: ├ ○ /bates-stamp                         1.42 kB        95.4 kB
+Building: ├ ƒ /bates-stamp/api                     0 B                0 B
+Building: ├ ○ /board-pack                          1.42 kB        95.4 kB
+Building: ├ ƒ /board-pack/api                      0 B                0 B
+Building: ├ ○ /capture                             1.42 kB        95.4 kB
+Building: ├ ƒ /capture/api                         0 B                0 B
+Building: ├ ○ /certificate-issuer                  1.43 kB        95.4 kB
+Building: ├ ƒ /certificate-issuer/api              0 B                0 B
+Building: ├ ○ /chain-of-custody                    1.43 kB        95.4 kB
+Building: ├ ƒ /chain-of-custody/api                0 B                0 B
+Building: ├ ○ /claims-package                      1.42 kB        95.4 kB
+Building: ├ ƒ /claims-package/api                  0 B                0 B
+Building: ├ ○ /classify                            1.41 kB        95.4 kB
+Building: ├ ƒ /classify/api                        0 B                0 B
+Building: ├ ○ /clinical-summary                    1.42 kB        95.4 kB
+Building: ├ ƒ /clinical-summary/api                0 B                0 B
+Building: ├ ○ /clinical-trial-master-file          1.44 kB        95.5 kB
+Building: ├ ƒ /clinical-trial-master-file/api      0 B                0 B
+Building: ├ ○ /compare                             1.41 kB        95.4 kB
+Building: ├ ƒ /compare/api                         0 B                0 B
+Building: ├ ○ /compress                            1.41 kB        95.4 kB
+Building: ├ ƒ /compress/api                        0 B                0 B
+Building: ├ ○ /consent-form                        1.42 kB        95.4 kB
+Building: ├ ƒ /consent-form/api                    0 B                0 B
+Building: ├ ○ /consent-manager                     1.42 kB        95.4 kB
+Building: ├ ƒ /consent-manager/api                 0 B                0 B
+Building: ├ ○ /contract-intelligence               1.43 kB        95.4 kB
+Building: ├ ƒ /contract-intelligence/api           0 B                0 B
+Building: ├ ○ /contract-lifecycle                  1.42 kB        95.4 kB
+Building: ├ ƒ /contract-lifecycle/api              0 B                0 B
+Building: ├ ○ /credential                          1.41 kB        95.4 kB
+Building: ├ ƒ /credential/api                      0 B                0 B
+Building: ├ ○ /data-package                        1.42 kB        95.4 kB
+Building: ├ ƒ /data-package/api                    0 B                0 B
+Building: ├ ○ /debt-acknowledgment                 1.42 kB        95.4 kB
+Building: ├ ƒ /debt-acknowledgment/api             0 B                0 B
+Building: ├ ○ /deposition-package                  1.42 kB        95.4 kB
+Building: ├ ƒ /deposition-package/api              0 B                0 B
+Building: ├ ○ /document-intelligence               1.42 kB        95.4 kB
+Building: ├ ƒ /document-intelligence/api           0 B                0 B
+Building: ├ ○ /document-vault                      1.42 kB        95.4 kB
+Building: ├ ƒ /document-vault/api                  0 B                0 B
+Building: ├ ○ /due-diligence-room                  1.43 kB        95.5 kB
+Building: ├ ƒ /due-diligence-room/api              0 B                0 B
+Building: ├ ○ /dynamic-watermark                   1.43 kB        95.5 kB
+Building: ├ ƒ /dynamic-watermark/api               0 B                0 B
+Building: ├ ○ /emr-export                          1.42 kB        95.4 kB
+Building: ├ ƒ /emr-export/api                      0 B                0 B
+Building: ├ ○ /esg-report                          1.42 kB        95.4 kB
+Building: ├ ƒ /esg-report/api                      0 B                0 B
+Building: ├ ○ /event-ticket                        1.42 kB        95.4 kB
+Building: ├ ƒ /event-ticket/api                    0 B                0 B
+Building: ├ ○ /expire                              1.41 kB        95.4 kB
+Building: ├ ƒ /expire/api                          0 B                0 B
+Building: ├ ○ /extract-pages                       1.42 kB        95.4 kB
+Building: ├ ƒ /extract-pages/api                   0 B                0 B
+Building: ├ ○ /financial-statement                 1.42 kB        95.4 kB
+Building: ├ ƒ /financial-statement/api             0 B                0 B
+Building: ├ ○ /foi-bundle                          1.42 kB        95.4 kB
+Building: ├ ƒ /foi-bundle/api                      0 B                0 B
+Building: ├ ○ /freelance-agreement                 1.42 kB        95.4 kB
+Building: ├ ƒ /freelance-agreement/api             0 B                0 B
+Building: ├ ○ /grant-application                   1.42 kB        95.4 kB
+Building: ├ ƒ /grant-application/api               0 B                0 B
+Building: ├ ○ /highlight                           1.42 kB        95.4 kB
+Building: ├ ƒ /highlight/api                       0 B                0 B
+Building: ├ ○ /icon.png                            0 B                0 B
+Building: ├ ○ /identity-document                   1.42 kB        95.4 kB
+Building: ├ ƒ /identity-document/api               0 B                0 B
+Building: ├ ○ /insurance-claim-consumer            1.43 kB        95.5 kB
+Building: ├ ƒ /insurance-claim-consumer/api        0 B                0 B
+Building: ├ ○ /insurance-policy                    1.43 kB        95.4 kB
+Building: ├ ƒ /insurance-policy/api                0 B                0 B
+Building: ├ ○ /job-application                     1.42 kB        95.4 kB
+Building: ├ ƒ /job-application/api                 0 B                0 B
+Building: ├ ○ /legal-bundle                        1.42 kB        95.4 kB
+Building: ├ ○ /legal-bundle-verify                 1.43 kB        95.5 kB
+Building: ├ ƒ /legal-bundle-verify/api             0 B                0 B
+Building: ├ ƒ /legal-bundle/api                    0 B                0 B
+Building: ├ ○ /living-document                     1.42 kB        95.4 kB
+Building: ├ ƒ /living-document/api                 0 B                0 B
+Building: ├ ○ /media-sync                          1.42 kB        95.4 kB
+Building: ├ ○ /media-sync-advanced                 1.43 kB        95.5 kB
+Building: ├ ƒ /media-sync-advanced/api             0 B                0 B
+Building: ├ ƒ /media-sync/api                      0 B                0 B
+Building: ├ ○ /medical-history                     1.42 kB        95.4 kB
+Building: ├ ƒ /medical-history/api                 0 B                0 B
+Building: ├ ○ /medication-list                     1.42 kB        95.4 kB
+Building: ├ ƒ /medication-list/api                 0 B                0 B
+Building: ├ ○ /merge                               1.41 kB        95.4 kB
+Building: ├ ƒ /merge/api                           0 B                0 B
+Building: ├ ○ /metadata-editor                     1.42 kB        95.4 kB
+Building: ├ ƒ /metadata-editor/api                 0 B                0 B
+Building: ├ ○ /notarize                            1.41 kB        95.4 kB
+Building: ├ ƒ /notarize/api                        0 B                0 B
+Building: ├ ○ /ocr                                 1.41 kB        95.4 kB
+Building: ├ ƒ /ocr/api                             0 B                0 B
+Building: ├ ○ /optimize                            1.42 kB        95.4 kB
+Building: ├ ƒ /optimize/api                        0 B                0 B
+Building: ├ ○ /page-numbers                        1.42 kB        95.4 kB
+Building: ├ ƒ /page-numbers/api                    0 B                0 B
+Building: ├ ○ /pdf-editor                          1.42 kB        95.4 kB
+Building: ├ ƒ /pdf-editor/api                      0 B                0 B
+Building: ├ ○ /petition                            1.41 kB        95.4 kB
+Building: ├ ƒ /petition/api                        0 B                0 B
+Building: ├ ○ /pharmacy                            1.41 kB        95.4 kB
+Building: ├ ƒ /pharmacy/api                        0 B                0 B
+Building: ├ ○ /policy-attestation                  1.42 kB        95.4 kB
+Building: ├ ƒ /policy-attestation/api              0 B                0 B
+Building: ├ ○ /policy-publisher                    1.43 kB        95.4 kB
+Building: ├ ƒ /policy-publisher/api                0 B                0 B
+Building: ├ ○ /power-of-attorney                   1.43 kB        95.4 kB
+Building: ├ ƒ /power-of-attorney/api               0 B                0 B
+Building: ├ ○ /pre-registration                    1.42 kB        95.4 kB
+Building: ├ ƒ /pre-registration/api                0 B                0 B
+Building: ├ ○ /prescription                        1.42 kB        95.4 kB
+Building: ├ ƒ /prescription/api                    0 B                0 B
+Building: ├ ○ /privilege-log                       1.42 kB        95.4 kB
+Building: ├ ƒ /privilege-log/api                   0 B                0 B
+Building: ├ ○ /proof                               1.41 kB        95.4 kB
+Building: ├ ƒ /proof/api                           0 B                0 B
+Building: ├ ○ /proposal                            1.42 kB        95.4 kB
+Building: ├ ƒ /proposal/api                        0 B                0 B
+Building: ├ ○ /protect                             1.41 kB        95.4 kB
+Building: ├ ƒ /protect/api                         0 B                0 B
+Building: ├ ○ /rearrange                           1.42 kB        95.4 kB
+Building: ├ ƒ /rearrange/api                       0 B                0 B
+Building: ├ ○ /receipt                             1.41 kB        95.4 kB
+Building: ├ ƒ /receipt/api                         0 B                0 B
+Building: ├ ○ /redact                              1.41 kB        95.4 kB
+Building: ├ ƒ /redact/api                          0 B                0 B
+Building: ├ ○ /reference-letter                    1.42 kB        95.4 kB
+Building: ├ ƒ /reference-letter/api                0 B                0 B
+Building: ├ ○ /reformat                            1.42 kB        95.4 kB
+Building: ├ ƒ /reformat/api                        0 B                0 B
+Building: ├ ○ /regulatory-change-tracker           1.44 kB        95.5 kB
+Building: ├ ƒ /regulatory-change-tracker/api       0 B                0 B
+Building: ├ ○ /regulatory-filing                   1.43 kB        95.4 kB
+Building: ├ ƒ /regulatory-filing/api               0 B                0 B
+Building: ├ ○ /rental-agreement                    1.42 kB        95.4 kB
+Building: ├ ƒ /rental-agreement/api                0 B                0 B
+Building: ├ ○ /revoke                              1.41 kB        95.4 kB
+Building: ├ ƒ /revoke/api                          0 B                0 B
+Building: ├ ○ /safety-report                       1.42 kB        95.4 kB
+Building: ├ ƒ /safety-report/api                   0 B                0 B
+Building: ├ ○ /seal                                1.41 kB        95.4 kB
+Building: ├ ƒ /seal/api                            0 B                0 B
+Building: ├ ○ /separation-agreement                1.42 kB        95.4 kB
+Building: ├ ƒ /separation-agreement/api            0 B                0 B
+Building: ├ ○ /signing-workflow                    1.42 kB        95.4 kB
+Building: ├ ƒ /signing-workflow/api                0 B                0 B
+Building: ├ ○ /sitemap.xml                         0 B                0 B
+Building: ├ ○ /smart-contract                      1.42 kB        95.4 kB
+Building: ├ ƒ /smart-contract/api                  0 B                0 B
+Building: ├ ○ /smart-lease                         1.42 kB        95.4 kB
+Building: ├ ƒ /smart-lease/api                     0 B                0 B
+Building: ├ ○ /split                               1.41 kB        95.4 kB
+Building: ├ ƒ /split/api                           0 B                0 B
+Building: ├ ○ /sports-contract                     1.42 kB        95.4 kB
+Building: ├ ƒ /sports-contract/api                 0 B                0 B
+Building: ├ ○ /statement                           1.41 kB        95.4 kB
+Building: ├ ƒ /statement/api                       0 B                0 B
+Building: ├ ○ /steg-watermark                      1.42 kB        95.4 kB
+Building: ├ ƒ /steg-watermark/api                  0 B                0 B
+Building: ├ ○ /summarise                           1.41 kB        95.4 kB
+Building: ├ ƒ /summarise/api                       0 B                0 B
+Building: ├ ○ /tenancy-deposit                     1.42 kB        95.4 kB
+Building: ├ ƒ /tenancy-deposit/api                 0 B                0 B
+Building: ├ ○ /time-capsule                        1.42 kB        95.4 kB
+Building: ├ ƒ /time-capsule/api                    0 B                0 B
+Building: ├ ○ /title-chain                         1.42 kB        95.4 kB
+Building: ├ ƒ /title-chain/api                     0 B                0 B
+Building: ├ ○ /training-record                     1.42 kB        95.4 kB
+Building: ├ ƒ /training-record/api                 0 B                0 B
+Building: ├ ○ /transcript                          1.41 kB        95.4 kB
+Building: ├ ƒ /transcript/api                      0 B                0 B
+Building: ├ ○ /translate                           1.41 kB        95.4 kB
+Building: ├ ƒ /translate/api                       0 B                0 B
+Building: ├ ○ /udz-unzipper                        1.42 kB        95.4 kB
+Building: ├ ƒ /udz-unzipper/api                    0 B                0 B
+Building: ├ ○ /udz-zipper                          1.42 kB        95.4 kB
+Building: ├ ƒ /udz-zipper/api                      0 B                0 B
+Building: ├ ○ /unlock                              1.41 kB        95.4 kB
+Building: ├ ƒ /unlock/api                          0 B                0 B
+Building: ├ ○ /verify                              1.42 kB        95.4 kB
+Building: ├ ƒ /verify/api                          0 B                0 B
+Building: ├ ○ /version-history                     1.43 kB        95.4 kB
+Building: ├ ƒ /version-history/api                 0 B                0 B
+Building: ├ ○ /video-embed                         1.42 kB        95.4 kB
+Building: ├ ƒ /video-embed/api                     0 B                0 B
+Building: ├ ○ /watermark                           1.42 kB        95.4 kB
+Building: ├ ƒ /watermark/api                       0 B                0 B
+Building: ├ ○ /whistleblower-package               1.43 kB        95.4 kB
+Building: ├ ƒ /whistleblower-package/api           0 B                0 B
+Building: ├ ○ /will                                1.41 kB        95.4 kB
+Building: └ ƒ /will/api                            0 B                0 B
+Building: + First Load JS shared by all            87.2 kB
+Building: ├ chunks/7023-6faf7b526995f93e.js      31.6 kB
+Building: ├ chunks/fd9d1056-10cb64bca4873729.js  53.6 kB
+Building: └ other shared chunks (total)          1.96 kB
+Building: ƒ Middleware                             29.8 kB
+Building: ○  (Static)   prerendered as static content
+Building: ƒ  (Dynamic)  server-rendered on demand
+Building: Traced Next.js server files in: 33.118ms
+Building: Created all serverless functions in: 358.509ms
+Building: Collected static files (public/, static/, .next/static): 23.498ms
+Building: Build Completed in /vercel/output [35s]
+Building: Deploying outputs...
+Building: Deployment completed
+Building: Creating build cache...
+Building: Created build cache: 11s
+Building: Uploading build cache [161.78 MB]
+[2K[1A[2K[GProduction: https://ud-utilities-70mspfqhi-saggarsonny-3909s-projects.vercel.app [1m]
+Completing...
+Aliased: https://utilities.hive.baby [1m]
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_EeVSYNYbK5eiyTY8Z4732ktU7wUv",
+    "url": "https://ud-utilities-70mspfqhi-saggarsonny-3909s-projects.vercel.app",
+    "inspectorUrl": "https://vercel.com/saggarsonny-3909s-projects/ud-utilities/EeVSYNYbK5eiyTY8Z4732ktU7wUv",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_EeVSYNYbK5eiyTY8Z4732ktU7wUv"
+  },
+  "message": "Deployment ud-utilities-70mspfqhi-saggarsonny-3909s-projects.vercel.app ready.",
+  "next": [
+    {
+      "command": "vercel inspect ud-utilities-70mspfqhi-saggarsonny-3909s-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

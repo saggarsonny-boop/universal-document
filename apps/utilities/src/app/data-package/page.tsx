@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function DataPackage() {
@@ -116,7 +115,7 @@ export default function DataPackage() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="data-package" tips={tourSteps['data-package']} />
+      
     </div>
   )
 }

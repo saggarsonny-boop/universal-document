@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function Watermark() {
@@ -49,7 +48,7 @@ export default function Watermark() {
           </div>
         }
       />
-      <TooltipTour engineId="watermark" tips={tourSteps['watermark']} />
+      
     </>
   )
 }

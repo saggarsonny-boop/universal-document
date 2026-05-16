@@ -40,7 +40,7 @@ import { TierIndicator } from './components/v2/TierIndicator'
 import { PaywallModal } from './components/v2/PaywallModal'
 import { TurnstileWidget } from './components/v2/TurnstileWidget'
 import { HiveInstallHint, HiveFirstVisitExplainer } from '@hive/onboarding'
-import TooltipTour from '@/components/TooltipTour'
+
 import {
   detectClientFormat,
   isPairSupported,
@@ -378,7 +378,7 @@ export default function ConverterPage() {
 
   return (
     <main style={{ maxWidth: 640, margin: '0 auto', padding: '32px 16px 64px', display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <TooltipTour />
+
       {/* Header */}
       <header style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 4 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--ud-ink)', margin: 0, letterSpacing: '-0.02em' }}>

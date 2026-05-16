@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 async function sha256hex(data: Uint8Array): Promise<string> {
@@ -142,7 +141,7 @@ export default function SportsContractPage() {
 
   return (
     <main className="min-h-screen bg-[#fafaf8] text-[#1e2d3d]" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-      <TooltipTour engineId="sports-contract" tips={tourSteps['sports-contract'] ?? []} />
+      
 
       {/* Beta banner */}
       <div className="bg-[#c8960a] text-white text-center py-2 text-sm font-medium">

@@ -1,0 +1,205 @@
+Retrieving project…
+Deploying saggarsonny-3909s-projects/ud-utilities
+Uploading [--------------------] (0.0B/3.4KB)
+Uploading [=====---------------] (987.0B/3.4KB)
+Uploading [==========----------] (1.8KB/3.4KB)
+Uploading [===============-----] (2.6KB/3.4KB)
+Uploading [====================] (3.4KB/3.4KB)
+Inspect: https://vercel.com/saggarsonny-3909s-projects/ud-utilities/HL8AeBE9w8JggDac2BD7zMtzagBq [3s]
+Production: https://ud-utilities-j2npwu6uo-saggarsonny-3909s-projects.vercel.app [3s]
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 4 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Downloading 798 deployment files...
+Building: Downloading 798 deployment files...
+Building: Restored build cache from previous deployment (GPgeaYuZzCStDiHc3k964WzxQhFz)
+Building: Running "vercel build"
+Building: Vercel CLI 53.3.2
+Building: Installing dependencies...
+Building: npm warn old lockfile
+Building: npm warn old lockfile The package-lock.json file was created with an old version of npm,
+Building: npm warn old lockfile so supplemental metadata must be fetched from the registry.
+Building: npm warn old lockfile
+Building: npm warn old lockfile This is a one-time fix-up, please be patient...
+Building: npm warn old lockfile
+Building: up to date in 3s
+Building: 15 packages are looking for funding
+Building: run `npm fund` for details
+Building: Detected Next.js version: 14.2.3
+Building: Running "npm run build"
+Building: > ud-utilities@0.1.0 build
+Building: > next build
+Building: ⚠ Invalid next.config.js options detected:
+Building: ⚠     Unrecognized key(s) in object: 'serverExternalPackages'
+Building: ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+Building: ▲ Next.js 14.2.3
+Building: Creating an optimized production build ...
+Building: ✓ Compiled successfully
+Building: Linting and checking validity of types ...
+Building: Collecting page data ...
+Building: Generating static pages (0/121) ...
+Building: Generating static pages (30/121)
+Building: Generating static pages (60/121)
+Building: Generating static pages (90/121)
+Building: ✓ Generating static pages (121/121)
+Building: Finalizing page optimization ...
+Building: Collecting build traces ...
+Building: Route (app)                              Size     First Load JS
+Building: ┌ ○ /                                    13 kB           100 kB
+Building: ├ ○ /_not-found                          876 B          88.1 kB
+Building: ├ ○ /academic-paper                      3.83 kB         104 kB
+Building: ├ ○ /accessibility-check                 3.4 kB          104 kB
+Building: ├ ƒ /api/accessibility-check             0 B                0 B
+Building: ├ ƒ /api/classify                        0 B                0 B
+Building: ├ ƒ /api/clinical-summary                0 B                0 B
+Building: ├ ƒ /api/compare                         0 B                0 B
+Building: ├ ƒ /api/contract-intelligence           0 B                0 B
+Building: ├ ƒ /api/emr-export                      0 B                0 B
+Building: ├ ƒ /api/media-sync                      0 B                0 B
+Building: ├ ƒ /api/media-sync-advanced             0 B                0 B
+Building: ├ ƒ /api/merge                           0 B                0 B
+Building: ├ ƒ /api/pharmacy                        0 B                0 B
+Building: ├ ƒ /api/process                         0 B                0 B
+Building: ├ ƒ /api/revoke                          0 B                0 B
+Building: ├ ƒ /api/summarise                       0 B                0 B
+Building: ├ ƒ /api/translate                       0 B                0 B
+Building: ├ ○ /audio-embed                         3.19 kB         104 kB
+Building: ├ ○ /audit-trail                         3.77 kB         104 kB
+Building: ├ ○ /bates-stamp                         3.36 kB         104 kB
+Building: ├ ○ /board-pack                          3.98 kB         104 kB
+Building: ├ ○ /capture                             3.95 kB         104 kB
+Building: ├ ○ /certificate-issuer                  2.97 kB         103 kB
+Building: ├ ○ /chain-of-custody                    2.82 kB         103 kB
+Building: ├ ○ /claims-package                      3.67 kB         104 kB
+Building: ├ ○ /classify                            3.33 kB         104 kB
+Building: ├ ○ /clinical-summary                    3.62 kB         104 kB
+Building: ├ ○ /clinical-trial-master-file          4.63 kB         105 kB
+Building: ├ ○ /compare                             2.25 kB         103 kB
+Building: ├ ○ /compress                            2.54 kB         103 kB
+Building: ├ ○ /consent-form                        3.88 kB         104 kB
+Building: ├ ○ /consent-manager                     3.27 kB         104 kB
+Building: ├ ○ /contract-intelligence               3.35 kB         104 kB
+Building: ├ ○ /contract-lifecycle                  4.54 kB         105 kB
+Building: ├ ○ /credential                          3.06 kB         103 kB
+Building: ├ ○ /data-package                        3.6 kB          104 kB
+Building: ├ ○ /debt-acknowledgment                 3.26 kB         104 kB
+Building: ├ ○ /deposition-package                  3.33 kB         104 kB
+Building: ├ ○ /document-intelligence               4.39 kB         105 kB
+Building: ├ ○ /document-vault                      4.01 kB         104 kB
+Building: ├ ○ /due-diligence-room                  4.26 kB         105 kB
+Building: ├ ○ /dynamic-watermark                   3.23 kB         104 kB
+Building: ├ ○ /emr-export                          3.56 kB         104 kB
+Building: ├ ○ /esg-report                          4.65 kB         105 kB
+Building: ├ ○ /event-ticket                        3.5 kB          104 kB
+Building: ├ ○ /expire                              2.46 kB         103 kB
+Building: ├ ○ /extract-pages                       2.69 kB         103 kB
+Building: ├ ○ /financial-statement                 3.65 kB         104 kB
+Building: ├ ○ /foi-bundle                          3.37 kB         104 kB
+Building: ├ ○ /freelance-agreement                 4.33 kB         105 kB
+Building: ├ ○ /grant-application                   3.5 kB          104 kB
+Building: ├ ○ /highlight                           4 kB            104 kB
+Building: ├ ○ /icon.png                            0 B                0 B
+Building: ├ ○ /identity-document                   3.17 kB         103 kB
+Building: ├ ○ /insurance-claim-consumer            3.56 kB         104 kB
+Building: ├ ○ /insurance-policy                    3.12 kB         103 kB
+Building: ├ ○ /job-application                     3.56 kB         104 kB
+Building: ├ ○ /legal-bundle                        3.46 kB         104 kB
+Building: ├ ○ /legal-bundle-verify                 4.44 kB         105 kB
+Building: ├ ○ /living-document                     4.12 kB         104 kB
+Building: ├ ○ /media-sync                          3.17 kB         103 kB
+Building: ├ ○ /media-sync-advanced                 3.99 kB         104 kB
+Building: ├ ○ /medical-history                     3.51 kB         104 kB
+Building: ├ ○ /medication-list                     3.1 kB          103 kB
+Building: ├ ○ /merge                               2.55 kB         103 kB
+Building: ├ ○ /metadata-editor                     3.28 kB         104 kB
+Building: ├ ○ /notarize                            4.46 kB         105 kB
+Building: ├ ○ /ocr                                 2.62 kB         103 kB
+Building: ├ ○ /optimize                            2.55 kB         103 kB
+Building: ├ ○ /page-numbers                        2.77 kB         103 kB
+Building: ├ ○ /pdf-editor                          4.01 kB         104 kB
+Building: ├ ○ /petition                            3.6 kB          104 kB
+Building: ├ ○ /pharmacy                            3.52 kB        90.8 kB
+Building: ├ ○ /policy-attestation                  4.24 kB         105 kB
+Building: ├ ○ /policy-publisher                    3.22 kB         104 kB
+Building: ├ ○ /power-of-attorney                   3.35 kB         104 kB
+Building: ├ ○ /pre-registration                    3.61 kB         104 kB
+Building: ├ ○ /prescription                        3.24 kB         104 kB
+Building: ├ ○ /privilege-log                       3.57 kB         104 kB
+Building: ├ ○ /proof                               4.07 kB         104 kB
+Building: ├ ○ /proposal                            4.43 kB         105 kB
+Building: ├ ○ /protect                             2.71 kB         103 kB
+Building: ├ ○ /rearrange                           2.7 kB          103 kB
+Building: ├ ○ /receipt                             3.65 kB         104 kB
+Building: ├ ○ /redact                              2.56 kB         103 kB
+Building: ├ ○ /reference-letter                    3.1 kB          103 kB
+Building: ├ ○ /reformat                            2.57 kB         103 kB
+Building: ├ ○ /regulatory-change-tracker           4.13 kB         104 kB
+Building: ├ ○ /regulatory-filing                   3.24 kB         104 kB
+Building: ├ ○ /rental-agreement                    3.64 kB         104 kB
+Building: ├ ○ /revoke                              2.68 kB         103 kB
+Building: ├ ○ /safety-report                       3.99 kB         104 kB
+Building: ├ ○ /seal                                2.13 kB         102 kB
+Building: ├ ○ /separation-agreement                3.5 kB          104 kB
+Building: ├ ○ /signing-workflow                    3.92 kB         104 kB
+Building: ├ ○ /sitemap.xml                         0 B                0 B
+Building: ├ ○ /smart-contract                      3.46 kB         104 kB
+Building: ├ ○ /smart-lease                         3.31 kB         104 kB
+Building: ├ ○ /split                               2.52 kB         103 kB
+Building: ├ ○ /sports-contract                     4.63 kB         105 kB
+Building: ├ ○ /statement                           2.9 kB          103 kB
+Building: ├ ○ /steg-watermark                      10.4 kB         111 kB
+Building: ├ ○ /summarise                           2.84 kB         103 kB
+Building: ├ ○ /tenancy-deposit                     3.94 kB         104 kB
+Building: ├ ○ /time-capsule                        3.95 kB         104 kB
+Building: ├ ○ /title-chain                         3.61 kB         104 kB
+Building: ├ ○ /training-record                     3.9 kB          104 kB
+Building: ├ ○ /transcript                          3.28 kB         104 kB
+Building: ├ ○ /translate                           3.33 kB         104 kB
+Building: ├ ○ /udz-unzipper                        2.69 kB         103 kB
+Building: ├ ○ /udz-zipper                          2.72 kB         103 kB
+Building: ├ ○ /unlock                              2.67 kB         103 kB
+Building: ├ ○ /verify                              2.6 kB          103 kB
+Building: ├ ○ /version-history                     2.93 kB         103 kB
+Building: ├ ○ /video-embed                         3.42 kB         104 kB
+Building: ├ ○ /watermark                           2.85 kB         103 kB
+Building: ├ ○ /whistleblower-package               4.92 kB         105 kB
+Building: └ ○ /will                                4.22 kB         105 kB
+Building: + First Load JS shared by all            87.3 kB
+Building: ├ chunks/7023-d25d793c880dd92a.js      31.6 kB
+Building: ├ chunks/fd9d1056-10cb64bca4873729.js  53.6 kB
+Building: └ other shared chunks (total)          2.02 kB
+Building: ○  (Static)   prerendered as static content
+Building: ƒ  (Dynamic)  server-rendered on demand
+Building: Traced Next.js server files in: 32.68ms
+Building: Created all serverless functions in: 271.214ms
+Building: Collected static files (public/, static/, .next/static): 23.8ms
+Building: Build Completed in /vercel/output [43s]
+Building: Deploying outputs...
+Building: Deployment completed
+Building: Creating build cache...
+[2K[1A[2K[GProduction: https://ud-utilities-j2npwu6uo-saggarsonny-3909s-projects.vercel.app [2m]
+Completing...
+Aliased: https://utilities.hive.baby [2m]
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_HL8AeBE9w8JggDac2BD7zMtzagBq",
+    "url": "https://ud-utilities-j2npwu6uo-saggarsonny-3909s-projects.vercel.app",
+    "inspectorUrl": "https://vercel.com/saggarsonny-3909s-projects/ud-utilities/HL8AeBE9w8JggDac2BD7zMtzagBq",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_HL8AeBE9w8JggDac2BD7zMtzagBq"
+  },
+  "message": "Deployment ud-utilities-j2npwu6uo-saggarsonny-3909s-projects.vercel.app ready.",
+  "next": [
+    {
+      "command": "vercel inspect ud-utilities-j2npwu6uo-saggarsonny-3909s-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

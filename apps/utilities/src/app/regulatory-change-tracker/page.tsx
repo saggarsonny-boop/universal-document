@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type Regulator = 'FDA' | 'FCA' | 'EMA' | 'MHRA' | 'NHS' | 'SEC' | 'HMRC' | 'ICO' | 'Custom'
@@ -305,7 +304,7 @@ export default function RegulatoryChangeTrackerPage() {
         Processed in your browser. No files stored on our servers. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="regulatory-change-tracker" tips={tourSteps['regulatory-change-tracker']} />
+      
     </div>
   )
 }

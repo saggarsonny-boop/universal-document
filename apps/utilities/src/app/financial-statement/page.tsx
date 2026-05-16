@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 const STMT_TYPES = ['Income Statement','Balance Sheet','Cash Flow Statement','Statement of Changes in Equity','Management Accounts','Budget vs Actual','Other']
@@ -137,7 +136,7 @@ export default function FinancialStatement() {
           ))}
         </div>
       </div>
-      <TooltipTour engineId="financial-statement" tips={tourSteps['financial-statement']} />
+      
     </div>
   )
 }

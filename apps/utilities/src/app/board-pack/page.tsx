@@ -1,6 +1,5 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 type Classification = 'Board Confidential' | 'Restricted'
@@ -265,7 +264,7 @@ export default function BoardPackPage() {
         Processed in your browser. No files stored on our servers. Part of the <a href="https://ud.hive.baby" style={{ color: 'var(--ud-teal)' }}>Universal Document™</a> ecosystem.
       </div>
 
-      <TooltipTour engineId="board-pack" tips={tourSteps['board-pack']} />
+      
     </div>
   )
 }

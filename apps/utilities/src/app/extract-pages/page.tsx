@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import ToolPage from '@/components/ToolPage'
-import TooltipTour from '@/components/TooltipTour'
 import { tourSteps } from '@/lib/tourSteps'
 
 export default function ExtractPages() {
@@ -32,7 +31,7 @@ export default function ExtractPages() {
           </div>
         }
       />
-      <TooltipTour engineId="extract-pages" tips={tourSteps['extract-pages']} />
+      
     </>
   )
 }
