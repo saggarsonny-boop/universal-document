@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap, DollarSign, TrendingUp, ShieldCheck, AudioLines } from "lucide-react";
+import EnterpriseSandbox from "./components/EnterpriseSandbox";
 
 export default function Home() {
   // Epiphany Sandbox State
@@ -402,6 +403,17 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Interactive MOH Data Sandbox */}
+      <section style={{ backgroundColor: '#050505', padding: '2rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Test The Engine</h2>
+          <p style={{ color: '#a1a1aa', maxWidth: '600px', margin: '0 auto 2rem auto' }}>
+            Inject raw enterprise data directly into the Anthropic substrate below. This is a live demonstration of the Machine Over Human (MOH) automated routing protocol.
+          </p>
+          <EnterpriseSandbox />
         </div>
       </section>
 
