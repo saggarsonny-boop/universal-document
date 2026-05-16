@@ -214,25 +214,25 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
               <TrendingUp size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>$1.2M Labor Recapture</h3>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>The Turnover Executioner</h3>
               <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                Kill administrative bloat. Automate 50,000 hours of cognitive routing per month. Scale to infinity with zero HR overhead.
+                Your biggest operational liability isn't your software; it's that your business runs on human memory. The AAC permanently captures your institutional knowledge. Your baseline operational capability never drops again, no matter who resigns tomorrow.
               </p>
             </div>
             
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
               <Zap size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Instant Decision Velocity</h3>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Infinite Workforce Cloning</h3>
               <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                Turn 3-week data gathering bottlenecks into 300-millisecond API calls. Force multiply your executive execution speed.
+                You pay $65k/year for an administrator who works 40 hours a week and speaks one language. The AAC is a digital clone of your best employee that works 168 hours a week, speaks 72 languages natively, and scales from 1 to 10,000 concurrent conversations instantly.
               </p>
             </div>
 
             <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '2.5rem', borderRadius: '12px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
               <ShieldCheck size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Bulletproof Compliance</h3>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Zero-Friction Integration</h3>
               <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                Tenant-isolated. SOC2 compliant. Zero hallucination. Every action is secured with a permanent, immutable cryptographic signature.
+                Every enterprise software you've ever bought required a 6-month integration plan. The AAC requires zero training because it operates entirely through natural conversation. If your employees know how to talk, they know how to use the AAC.
               </p>
             </div>
           </div>
