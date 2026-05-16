@@ -12,6 +12,10 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",
     "@neondatabase/serverless": "^0.9.0",
+<<<<<<< Updated upstream
+=======
+    "framer-motion": "^12.38.0",
+>>>>>>> Stashed changes
     "lucide-react": "^1.16.0",
     "next": "16.2.3",
     "pg": "^8.20.0",
