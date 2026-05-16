@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAC Executive Pitch</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #050505;
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #start-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #A68A28 100%);
+            color: #0B0F19;
+            border: none;
+            padding: 1.5rem 4rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 100;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        #start-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            transform: scale(0.95);
+            padding: 0 10%;
+            box-sizing: border-box;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #FFF 0%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .gold-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #94A3B8;
+            max-width: 1000px;
+            line-height: 1.6;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 5rem;
+            margin-top: 4rem;
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .metric-value {
+            font-size: 6rem;
+            font-weight: 800;
+            color: #D4AF37;
+        }
+
+        .metric-label {
+            font-size: 1.2rem;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        #particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .content {
+            z-index: 10;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #D4AF37 0%, #A68A28 100%);
+            color: #000;
+            border: none;
+            padding: 1.5rem 4rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 3rem;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            transition: transform 0.3s;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles"></canvas>
+
+    <button id="start-btn">Begin Audio Briefing</button>
+
+    <div class="slide content" id="slide-1">
+        <h1>You lead a multinational with <br/><span class="gold-text">50,000 employees.</span></h1>
+        <p>Your biggest bottleneck isn't talent. It's friction. Language barriers, routing delays, and repetitive cognitive tasks are costing you millions daily.</p>
+    </div>
+
+    <div class="slide content" id="slide-2">
+        <h1>The AAC is not just an API.</h1>
+        <p>It is an infinitely scalable <strong class="gold-text">Digital Workforce.</strong> Instantly deployable into your existing proprietary systems.</p>
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value">72</div>
+                <div class="metric-label">Locales Natively</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Training Hours</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">24/7</div>
+                <div class="metric-label">Uptime</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide content" id="slide-3">
+        <h1 class="gold-text">Instant Omnilingual Routing</h1>
+        <p>An employee in Tokyo submits a request in Japanese. The AAC processes it, cross-references corporate policy, and routes an actionable summary to a manager in Paris in flawless French. All in under 2 seconds.</p>
+    </div>
+
+    <div class="slide content" id="slide-4">
+        <h1>No Burnout. Immediate Compliance.</h1>
+        <p>The substrate enforces your governance rules universally. It reasons, it executes, and it scales seamlessly as your demand spikes.</p>
+    </div>
+
+    <div class="slide content" id="slide-5">
+        <h1>You are not buying software.</h1>
+        <p>You are augmenting your entire enterprise with a hive mind that operates at the speed of light.</p>
+        <h2 class="gold-text" style="font-size: 3rem; margin-top: 2rem;">Welcome to the future of efficiency.</h2>
+        <a href="#" id="purchase-cta" class="cta-btn" style="opacity: 0; transition: opacity 2s ease-in;">Purchase Enterprise License Now</a>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const slides = document.querySelectorAll('.slide');
+        
+        const script = [
+            "You lead a multinational with fifty thousand employees. Your biggest bottleneck isn't talent. It is friction. Language barriers, routing delays, and repetitive cognitive tasks are costing you millions daily.",
+            "The Adaptive A I Activity Companion is not just an API. It is an infinitely scalable Digital Workforce. Instantly deployable into your existing proprietary systems. Operating across 72 languages natively. Zero training hours required.",
+            "Imagine instant omni-lingual routing. An employee in Tokyo submits a request in Japanese. The system processes it, cross-references corporate policy, and routes an actionable summary to a manager in Paris in flawless French, in under two seconds.",
+            "No burnout. Immediate compliance. The substrate enforces your governance rules universally. It reasons, it executes, and it scales seamlessly as your demand spikes.",
+            "You are not buying software. You are augmenting your entire enterprise with a hive mind that operates at the speed of light. Welcome to the future of operational efficiency."
+        ];
+
+        // Particles
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particlesArray = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01;
+            }
+            draw() {
+                ctx.fillStyle = '#D4AF37';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < 150; i++) particlesArray.push(new Particle());
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Audio Pitch Logic
+        startBtn.addEventListener('click', () => {
+            startBtn.style.display = 'none';
+            
+            let voices = window.speechSynthesis.getVoices();
+            let voice = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Samantha') || v.name.includes('Daniel') || v.lang === 'en-US' || v.lang === 'en-GB');
+            
+            let currentSlide = 0;
+
+            function playSlide() {
+                if (currentSlide >= slides.length) return;
+
+                slides.forEach(s => s.classList.remove('active'));
+                slides[currentSlide].classList.add('active');
+
+                const utterance = new SpeechSynthesisUtterance(script[currentSlide]);
+                if (voice) utterance.voice = voice;
+                utterance.rate = 0.95; 
+                utterance.pitch = 0.9;
+                
+                utterance.onend = () => {
+                    if (currentSlide === slides.length - 1) {
+                        // On last slide finish, show CTA
+                        document.getElementById('purchase-cta').style.opacity = '1';
+                    } else {
+                        currentSlide++;
+                        setTimeout(playSlide, 1000);
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+
+            if (voices.length === 0) {
+                window.speechSynthesis.onvoiceschanged = () => {
+                    voices = window.speechSynthesis.getVoices();
+                    voice = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Samantha') || v.name.includes('Daniel') || v.lang === 'en-US' || v.lang === 'en-GB');
+                    playSlide();
+                };
+            } else {
+                playSlide();
+            }
+        });
+
+        // Hook up the Stripe API
+        document.getElementById('purchase-cta').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch('/api/billing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'subscribe_base' })
+                });
+                const data = await res.json();
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert("Stripe configuration error: " + data.error);
+                }
+            } catch (err) {
+                alert("Billing system unavailable.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -102,9 +102,15 @@ export default function Home() {
             Don't Buy Software. <br/>
             <span style={{ background: 'linear-gradient(90deg, #D4AF37 0%, #F3E5AB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Deploy a Digital Workforce.</span>
           </h1>
-          <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 3rem auto', lineHeight: '1.6' }}>
-            Instantly augment your enterprise with an infinitely scalable AI substrate. It reasons, it routes, and it executes across 72 languages natively. Remove your biggest bottleneck—human friction—at the API level.
+          <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 2rem auto', lineHeight: '1.6' }}>
+            Instantly augment your enterprise with an infinitely scalable AI substrate. It reasons, it routes, and it executes across 72 languages natively. Remove your biggest bottleneck (human friction) at the API level.
           </p>
+          
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
+            <a href="/executive_pitch.html" target="_blank" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', color: '#D4AF37', border: '1px solid rgba(212, 175, 55, 0.5)', padding: '0.75rem 2rem', borderRadius: '50px', fontWeight: '600', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.1)' }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.2)'} onMouseOut={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'}>
+              <PlayCircle size={20} /> Play Executive Audio Briefing
+            </a>
+          </div>
 
           {/* Animated Hero Demo */}
           <div style={{ margin: '0 auto 4rem auto', width: '100%', maxWidth: '800px', height: '400px', backgroundColor: '#0A0A0C', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
@@ -216,7 +222,7 @@ export default function Home() {
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>What exactly is the AAC?</h2>
             <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
               The Adaptive AI Activity Companion (AAC) is not a chatbot. It is a multimodal intelligence engine that conforms to the exact needs of the user interacting with it. You can deploy it as a frictionless writing companion, a voice-native auditor, or a visually embodied avatar. <br/><br/>
-              <strong style={{ color: '#D4AF37' }}>Remove all deployment friction:</strong> Every employee—and even clients, customers, or patients if you choose—can securely access the AAC instantly via desktop browser, smartphone, or embedded kiosk without installing anything.
+              <strong style={{ color: '#D4AF37' }}>Remove all deployment friction:</strong> Every employee, and even clients, customers, or patients if you choose, can securely access the AAC instantly via desktop browser, smartphone, or embedded kiosk without installing anything.
             </p>
           </div>
 
