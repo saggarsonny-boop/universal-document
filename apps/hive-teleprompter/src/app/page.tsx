@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Play, FastForward, Rewind, FlipHorizontal, Settings2, Plus, Minus, Maximize2, Mic, MicOff, Cloud, LogOut, Video, VideoOff, Circle, Download } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useCompletion } from "ai/react";
 
 export default function Teleprompter() {
   const [text, setText] = useState<string>("Paste your script here...\n\nWelcome to The Hive Teleprompter.\n\nAdjust the speed and size using the controls.\n\nYou can mirror the text if you are using a physical teleprompter glass rig.\n\nToggle Voice Tracking to let the engine follow your speech.\n\nReady to begin?");
@@ -29,6 +30,31 @@ export default function Teleprompter() {
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+
+  // AI Script Generation
+  const { completion, input, handleInputChange, handleSubmit, isLoading } = useCompletion({
+    api: '/api/generate',
+    body: {
+      isPremium: session && (session.user as any)?.plan === 'PREMIUM'
+    },
+    onFinish: (prompt, result) => {
+      setText(result);
+    },
+    onError: (err) => {
+      if (err.message.includes('403')) {
+        setPaywallMessage("Upgrade to Premium: Autonomous script generation requires dedicated Anthropic AI compute. Upgrade now to generate unlimited scripts.");
+      } else {
+        alert("Generation failed: " + err.message);
+      }
+    }
+  });
+
+  // Sync completion to text area while loading
+  useEffect(() => {
+    if (isLoading && completion) {
+      setText(completion);
+    }
+  }, [completion, isLoading]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
@@ -377,6 +403,35 @@ export default function Teleprompter() {
               PRIVATE & SECURE: ENCRYPTED LOCALLY (No Cloud Storage)
             </div>
           </div>
+          
+          {/* AI Generator UI */}
+          <div className="mb-2 bg-neutral-900/80 border border-[#D4AF37]/50 rounded-xl p-4 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (!session || (session.user as any)?.plan !== 'PREMIUM') {
+                setPaywallMessage("Upgrade to Premium: Autonomous script generation requires dedicated Anthropic AI compute. Upgrade now to generate unlimited scripts.");
+                return;
+              }
+              handleSubmit(e);
+            }} className="flex flex-col md:flex-row gap-4">
+              <input 
+                type="text" 
+                placeholder="✨ Generate with Hive AI (e.g. Write a 60s pitch about Vercel vs Cloudflare)"
+                value={input}
+                onChange={handleInputChange}
+                className="flex-1 bg-black border border-neutral-800 rounded-lg px-4 py-3 text-sm focus:border-[#D4AF37] outline-none text-white transition-colors"
+                disabled={isLoading}
+              />
+              <button 
+                type="submit" 
+                disabled={isLoading || !input}
+                className="bg-[#D4AF37] hover:bg-[#b0902c] disabled:opacity-50 text-black px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-xs transition-all shadow-[0_0_15px_rgba(212,175,55,0.3)] whitespace-nowrap"
+              >
+                {isLoading ? "Generating..." : "Generate Script"}
+              </button>
+            </form>
+          </div>
+
           <textarea
             className="flex-1 w-full bg-neutral-900/50 backdrop-blur border border-neutral-800 rounded-xl p-8 text-xl md:text-2xl text-neutral-300 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] resize-none leading-relaxed transition-all shadow-inner"
             value={text}
@@ -466,8 +521,8 @@ export default function Teleprompter() {
               <div className="text-3xl font-bold text-white mb-6">$19<span className="text-sm text-neutral-500 font-normal">/month</span></div>
               <ul className="space-y-3 text-sm text-neutral-400 mb-8 flex-1">
                 <li className="flex items-center gap-2">✓ Everything in Pro</li>
+                <li className="flex items-center gap-2 text-[#D4AF37]">✨ Unlimited AI Script Generation</li>
                 <li className="flex items-center gap-2 text-[#D4AF37]">✓ AI Eye-Contact Correction</li>
-                <li className="flex items-center gap-2">✓ Unlimited Scripts</li>
               </ul>
               <button disabled className="w-full py-3 rounded-lg font-bold bg-neutral-800 text-neutral-500 cursor-not-allowed">Deploying Soon</button>
             </div>
