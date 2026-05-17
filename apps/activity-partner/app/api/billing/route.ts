@@ -16,8 +16,11 @@ export async function POST(req: Request) {
     // Live Stripe integration using environment variables for Price IDs
     let lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-    if (action === "initiate_pilot") {
+    if (action === "initiate_pilot_turnkey") {
       const priceId = process.env.STRIPE_PRICE_ENTERPRISE_PILOT || "price_dummy_base";
+      lineItems = [{ price: priceId, quantity: 1 }];
+    } else if (action === "initiate_pilot_byok") {
+      const priceId = process.env.STRIPE_PRICE_PILOT_BYOK || "price_1TXtl7PIZtoQZOG1hm2YLHm7";
       lineItems = [{ price: priceId, quantity: 1 }];
     } else if (action === "subscribe_base") {
       const priceId = process.env.STRIPE_PRICE_BASE_PLATFORM || "price_dummy_base";

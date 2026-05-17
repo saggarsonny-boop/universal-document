@@ -10,34 +10,34 @@ const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby";
 
-const TITLE = "Adaptive AI Activity Companion (AAC) - Enterprise Portal";
-const DESCRIPTION = "Enterprise-grade AI companion deployment portal. Highly configurable, tenant-isolated AI agents for clinical, practice, and corporate domains.";
+const TITLE = "Hive AAC™ (Autonomous AI Companion) - Enterprise Portal";
+const DESCRIPTION = "Enterprise-grade Autonomous AI Companion deployment portal. Highly configurable, tenant-isolated AI agents for clinical, practice, and corporate domains.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "Adaptive AI Activity Companion",
+  applicationName: "Hive AAC",
   manifest: "/manifest.json",
   alternates: { canonical: APP_URL },
   appleWebApp: {
     capable: true,
-    title: "AAC Enterprise",
+    title: "Hive AAC",
     statusBarStyle: "black-translucent",
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/hive-mark.svg", sizes: "any" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: ["/favicon.ico"],
+    shortcut: ["/hive-mark.svg"],
   },
   openGraph: {
     type: "website",
     url: APP_URL,
-    siteName: "AAC Enterprise",
+    siteName: "Hive AAC",
     title: TITLE,
     description: DESCRIPTION,
   },

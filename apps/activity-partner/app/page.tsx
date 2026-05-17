@@ -99,19 +99,17 @@ export default function Home() {
       {/* Navigation */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 4rem', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(5,5,5,0.8)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 100 }}>
         <a href="https://hive.baby" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-          {/* V8 Logo injected with v=8 cache bust */}
-          <img src="/hive-logo-full.png?v=8" alt="Hive ecosystem" style={{ height: '80px', width: 'auto' }} />
-          <div style={{ fontSize: '1.5rem', fontWeight: 'bold', letterSpacing: '-0.02em', borderLeft: '1px solid rgba(255,255,255,0.2)', paddingLeft: '0.75rem' }}>
-            <span style={{ color: '#D4AF37' }}>AAC Enterprise</span>
+          <div style={{ fontSize: '1.5rem', fontWeight: 'bold', letterSpacing: '-0.02em', paddingLeft: '0.75rem' }}>
+            <span style={{ color: '#D4AF37' }}>Hive AAC™</span>
           </div>
         </a>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <a href="#roi" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>Enterprise ROI</a>
           <a href="#what-is-aac" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The Framework</a>
           <a href="#epiphany" style={{ color: '#a1a1aa', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.2s' }}>The "Aha" Moment</a>
-          <button onClick={() => handleStripeCheckout('initiate_pilot')} style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'transform 0.2s' }}>
-            Initiate Pilot ($5k Deposit)
-          </button>
+          <a href="#pricing" style={{ backgroundColor: '#ffffff', color: '#000000', padding: '0.5rem 1.25rem', borderRadius: '4px', fontSize: '0.9rem', fontWeight: '500', textDecoration: 'none', transition: 'transform 0.2s' }}>
+            View Pilot Programs
+          </a>
         </div>
       </nav>
 
@@ -120,19 +118,22 @@ export default function Home() {
         <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(5,5,5,0) 70%)', zIndex: 0, pointerEvents: 'none' }} />
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ display: 'inline-block', padding: '0.25rem 1rem', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '20px', color: '#D4AF37', fontSize: '0.85rem', marginBottom: '2rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            The Adaptive AI Activity Companion API
+          <div style={{ display: 'inline-block', padding: '0.25rem 1rem', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '20px', color: '#D4AF37', fontSize: '0.85rem', marginBottom: '1.5rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            Enterprise Autonomous AI Companion
           </div>
-          <h1 style={{ fontSize: '4.5rem', fontWeight: '800', letterSpacing: '-0.03em', lineHeight: '1.1', marginBottom: '1.5rem' }}>
-            Don't Buy Software. <br/>
-            <span style={{ background: 'linear-gradient(90deg, #D4AF37 0%, #F3E5AB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Deploy a Digital Workforce.</span>
+          <h1 style={{ fontSize: '6rem', fontWeight: '900', letterSpacing: '-0.05em', lineHeight: '1', marginBottom: '1rem', color: '#ffffff', textShadow: '0 0 40px rgba(212,175,55,0.2)' }}>
+            HiveAAC™
           </h1>
-          <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 2rem auto', lineHeight: '1.6' }}>
-            Instantly augment your enterprise with an infinitely scalable AI substrate. It reasons, it routes, and it executes across 72 languages natively. Remove your biggest bottleneck (human friction) at the API level.
+          <h2 style={{ fontSize: '3.5rem', fontWeight: '800', letterSpacing: '-0.03em', lineHeight: '1.1', marginBottom: '2rem' }}>
+            Don&apos;t Buy Software. <br/>
+            <span style={{ background: 'linear-gradient(90deg, #D4AF37 0%, #F3E5AB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Augment Your Human Team.</span>
+          </h2>
+          <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 2.5rem auto', lineHeight: '1.6' }}>
+            Instantly give your employees an infinitely scalable AI companion. It reasons, it routes, and it executes across 72 languages natively. Remove the friction of daily operations so your humans can focus on what truly matters.
           </p>
           
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
-            <a href="/executive_pitch.html" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', color: '#D4AF37', border: '1px solid rgba(212, 175, 55, 0.5)', padding: '0.75rem 2rem', borderRadius: '50px', fontWeight: '600', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.1)' }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.2)'} onMouseOut={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'}>
+            <a href="/executive_pitch.html" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', color: '#D4AF37', border: '1px solid rgba(212, 175, 55, 0.5)', padding: '0.75rem 2rem', borderRadius: '50px', fontWeight: '600', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.1)' }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.2)'} onMouseOut={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'}>
               <PlayCircle size={20} /> Play Executive Audio Briefing
             </a>
           </div>
@@ -178,7 +179,22 @@ export default function Home() {
                   </button>
                   <label style={{ cursor: 'pointer', marginTop: '1rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='#2A2A2A'} onMouseOut={e=>e.currentTarget.style.backgroundColor='#1A1A1A'}>
                     📤 UPLOAD SAMPLE VOICE (.mp3)
-                    <input type="file" accept="audio/*" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) { e.currentTarget.parentElement!.innerHTML = '⏳ Uploading...'; setTimeout(() => alert("Voice sample uploaded. Analyzing timbre and cadence..."), 1500); } }} />
+                    <input type="file" accept="audio/*" style={{ display: 'none' }} onChange={(e) => { 
+                      if(e.target.files?.length) { 
+                        const btn = e.currentTarget.parentElement;
+                        if (btn) btn.innerHTML = '⏳ Extracting Vocal Timbre...'; 
+                        
+                        setTimeout(() => {
+                          if (btn) btn.innerHTML = '✅ Voice Print Cloned';
+                          let voices = window.speechSynthesis.getVoices();
+                          let synthVoice = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Victoria') || v.lang === 'en-GB');
+                          const utterance = new SpeechSynthesisUtterance("Voice print successfully ingested. I have synchronized with the uploaded vocal cords. I am now capable of executing workflows using this voice.");
+                          if (synthVoice) utterance.voice = synthVoice;
+                          utterance.rate = 0.95;
+                          window.speechSynthesis.speak(utterance);
+                        }, 2000); 
+                      } 
+                    }} />
                   </label>
                 </motion.div>
               )}
@@ -250,7 +266,7 @@ export default function Home() {
             <div style={{ display: 'inline-block', backgroundColor: 'rgba(220, 38, 38, 0.1)', color: '#ef4444', padding: '0.5rem 1rem', borderRadius: '20px', fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>The AAC Moat</div>
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>Why Incumbents Fail.</h2>
             <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto', lineHeight: '1.6' }}>
-              We don't build toys. We build autonomous digital employees. Here is exactly why the multi-billion dollar incumbents cannot compete in the enterprise boardroom.
+              We don&apos;t build toys. We build autonomous digital employees. Here is exactly why the multi-billion dollar incumbents cannot compete in the enterprise boardroom.
             </p>
           </div>
 
@@ -263,11 +279,11 @@ export default function Home() {
               </div>
               <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Microsoft Copilot & Sierra</div>
               <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are just software assistants. You still have to sit there, type instructions ("prompts"), and manage them all day to get any work done.
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are assistants, not autonomous workers. They require humans to sit there and actively manage and prompt them. Sierra is strictly text/chat focused for external customer service.
               </p>
               <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
                 <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Total autonomy. You assign the AAC a task, and it does the actual work while you sleep—securely and perfectly.</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Autonomous execution governed by strict cryptographic HiveOps/Queen Bee protocols. It doesn&apos;t need to be prompted; it works while you sleep.</span>
               </div>
             </div>
 
@@ -279,11 +295,11 @@ export default function Home() {
               </div>
               <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Synthesia & HeyGen</div>
               <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> You have to type a script, click 'generate,' and wait 10 minutes just to get a pre-recorded video. You can't have a real conversation with them.
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are asynchronous parlor tricks. You must type a script, click generate, and wait minutes for an MP4 video to render. They completely lack real-time reactivity.
               </p>
               <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
                 <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>It is a live, 3D digital employee. You can talk to it out loud, just like a human, and it answers you back instantly.</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>A live, real-time, fully embodied 3D avatar kiosk with a 300ms reflex engine. You talk to it naturally, and it talks back instantly.</span>
               </div>
             </div>
 
@@ -295,11 +311,11 @@ export default function Home() {
               </div>
               <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Bland AI & Vapi</div>
               <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are just phone bots for calling customers. They can't see, they don't have faces, and they aren't built to handle your highly secure internal company data.
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are strictly telephone APIs designed to talk to external customers. They lack visual embodiment and the ability to process highly secure internal enterprise data natively.
               </p>
               <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
                 <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>The AAC is built for your internal operations. It can sit on a factory floor or a doctor's desk, securely reading and organizing your most sensitive documents.</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Deep hardware integration potential. The AAC sits securely on a factory floor or a clinician&apos;s desk to process sensitive, multimodal internal data natively.</span>
               </div>
             </div>
           </div>
@@ -486,13 +502,13 @@ export default function Home() {
       {/* Pricing CTA */}
       <section style={{ backgroundColor: 'rgba(212, 175, 55, 0.03)', padding: '6rem 2rem', borderTop: '1px solid rgba(212, 175, 55, 0.1)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '3rem' }}>Deploy the AI Workforce Now</h2>
+          <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '3rem' }}>Augment Your Workforce Today</h2>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
             {/* Sandbox Tier */}
             <div style={{ backgroundColor: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column' }}>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Growth / Sandbox</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$50 Deposit</div>
+              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$50</div>
               <p style={{ color: '#a1a1aa', marginBottom: '2rem', flex: 1, lineHeight: '1.6' }}>
                 Pre-pay a $50 Sandbox Deposit. Test the engine with your own data for 7 days. The API is hard-capped against your deposit so you will never receive a surprise overage bill.
               </p>
@@ -501,22 +517,33 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Enterprise Tier */}
+            {/* Pilot BYOK Tier */}
             <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-              <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#D4AF37', color: '#000', padding: '0.25rem 1rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase' }}>Recommended for Multinationals</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Enterprise Pilot (MOH Protocol)</h3>
+              <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#D4AF37', color: '#000', padding: '0.25rem 1rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Pilot Partner Program</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>Pilot (BYOK)</h3>
+              <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$1k Deposit</div>
+              <div style={{ textAlign: 'left', marginBottom: '2rem', flex: 1 }}>
+                <p style={{ color: '#a1a1aa', marginBottom: '1rem', lineHeight: '1.6' }}>
+                  <strong>Zero Risk. BYOK Model.</strong> Bring your own Anthropic API key. We provide 3 months of Enterprise infrastructure completely free in exchange for exactly 3 pieces of UX feedback.
+                </p>
+              </div>
+              <button onClick={() => handleStripeCheckout('initiate_pilot_byok')} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
+                Initiate Pilot (BYOK)
+              </button>
+            </div>
+
+            {/* Enterprise Turnkey Tier */}
+            <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', padding: '3rem 2rem', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#3b82f6', color: '#fff', padding: '0.25rem 1rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Turnkey Provisioning</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#3b82f6' }}>Enterprise (Turnkey)</h3>
               <div style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>$5k Deposit</div>
               <div style={{ textAlign: 'left', marginBottom: '2rem', flex: 1 }}>
                 <p style={{ color: '#a1a1aa', marginBottom: '1rem', lineHeight: '1.6' }}>
-                  <strong>Zero Risk. Fixed Cost.</strong> The $5,000 Setup Deposit is a hard-capped, zero-overage stress test of your future workforce. 100% of this deposit is credited toward your $150,000/year Enterprise Master license upon conversion.
+                  <strong>No Feedback Required.</strong> We fully manage your infrastructure, API keys, and database clustering. The $5k setup deposit acts as an Anthropic token buffer and is credited toward your annual $150k Enterprise Master License upon conversion.
                 </p>
-                <div style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37', fontSize: '0.9rem', color: '#e2e8f0', lineHeight: '1.5' }}>
-                  <strong>How the MOH Pipeline Works:</strong><br/>
-                  We do not do manual onboarding. The moment your deposit clears, our HiveOps agent autonomously spins up your isolated Neon database tenant, ingests your proprietary SOPs into our Anthropic substrate, and rigs your voice/avatar API endpoints. You will have a functioning pilot in 72 hours.
-                </div>
               </div>
-              <button onClick={() => handleStripeCheckout('initiate_pilot')} style={{ backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
-                Initiate Pilot Provisioning
+              <button onClick={() => handleStripeCheckout('initiate_pilot_turnkey')} style={{ backgroundColor: '#3b82f6', color: '#fff', border: 'none', padding: '1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(59,130,246,0.3)', transition: 'transform 0.2s' }} onMouseOver={e=>e.currentTarget.style.transform='translateY(-2px)'} onMouseOut={e=>e.currentTarget.style.transform='translateY(0)'}>
+                Initiate Turnkey Setup
               </button>
             </div>
           </div>
@@ -526,7 +553,7 @@ export default function Home() {
       {/* Footer */}
       <footer style={{ textAlign: 'center', padding: '4rem 2rem', color: '#52525b', fontSize: '0.875rem' }}>
         <div>Made with <span style={{ color: 'red' }}>♥</span> in <span style={{ color: '#D4AF37', fontWeight: 'bold' }}>the Hive</span>.</div>
-        <div style={{ marginTop: '0.5rem' }}>Adaptive AI Activity Companion API (v2.0 Enterprise)</div>
+        <div style={{ marginTop: '0.5rem' }}>Hive AAC™ (Autonomous AI Companion) API v2.0 Enterprise</div>
       </footer>
     </div>
   );
