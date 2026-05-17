@@ -132,7 +132,7 @@ export default function Home() {
           </p>
           
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
-            <a href="/executive_pitch.html" target="_blank" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', color: '#D4AF37', border: '1px solid rgba(212, 175, 55, 0.5)', padding: '0.75rem 2rem', borderRadius: '50px', fontWeight: '600', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.1)' }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.2)'} onMouseOut={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'}>
+            <a href="/executive_pitch.html" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(212, 175, 55, 0.1)', color: '#D4AF37', border: '1px solid rgba(212, 175, 55, 0.5)', padding: '0.75rem 2rem', borderRadius: '50px', fontWeight: '600', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.1)' }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.2)'} onMouseOut={e => e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)'}>
               <PlayCircle size={20} /> Play Executive Audio Briefing
             </a>
           </div>
