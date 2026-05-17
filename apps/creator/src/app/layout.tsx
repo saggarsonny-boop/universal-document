@@ -32,6 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <UDFooter />
         <Analytics />
         <SpeedInsights />
+      
+        <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
   )

@@ -77,6 +77,8 @@ export default function RootLayout({
           <HiveFooter />
         </footer>
         <ServiceWorkerRegistrar />
+      
+        <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
   );

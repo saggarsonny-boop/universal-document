@@ -8,7 +8,7 @@ const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body', display: 'swap' })
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby";
+const APP_URL = "https://activity.hive.baby";
 
 const TITLE = "Hive AAC™ (Autonomous AI Companion) - Enterprise Portal";
 const DESCRIPTION = "Enterprise-grade Autonomous AI Companion deployment portal. Highly configurable, tenant-isolated AI agents for clinical, practice, and corporate domains.";
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
   },
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
@@ -57,7 +57,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <head>
-        <meta name="robots" content="noindex,nofollow" />
       </head>
       <body
         style={{
@@ -73,6 +72,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <HiveHeader />
         {children}
         <ServiceWorkerRegistrar />
+      
+        <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
   );

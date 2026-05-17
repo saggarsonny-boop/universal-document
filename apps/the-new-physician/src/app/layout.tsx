@@ -52,6 +52,8 @@ export default function RootLayout({
         {children}
         <RssTicker />
         <Analytics />
+      
+        <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
   );

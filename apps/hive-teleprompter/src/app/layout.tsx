@@ -71,6 +71,8 @@ export default function RootLayout({
           {children}
         </Providers>
         <Analytics />
+      
+        <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
   );

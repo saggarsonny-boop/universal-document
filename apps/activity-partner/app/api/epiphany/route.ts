@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
-import Anthropic from '@anthropic-ai/sdk';
+import { generateObject } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+import { z } from 'zod';
+
+export const maxDuration = 60; // Fortification patch
 
 export async function POST(req: Request) {
   let input = "";
@@ -11,32 +15,39 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing input" }, { status: 400 });
     }
 
-    // Using the secure environment variable to prevent GitHub secret leaks
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+    if (!process.env.ANTHROPIC_API_KEY) {
+      // Fallback
+      return NextResponse.json({
+        executive_summary: `[SIMULATED OFFLINE MODE] Data ingested: "${input.substring(0, 30)}...". Identified critical context mismatch. Routing to operations for immediate review.`,
+        engineering_json: { ticket: "SYS-MOH-ROUTING", priority: "P1", blocker: "Context Validation" },
+        french_translation: `[SIMULATED OFFLINE MODE] Entrée reçue: "${input.substring(0, 30)}...". Traitement en cours.`
+      });
+    }
+
+    const { object } = await generateObject({
+      model: anthropic("claude-3-haiku-20240307"),
+      schema: z.object({
+        executive_summary: z.string().describe("A 1-2 sentence executive summary highlighting risk/ROI."),
+        engineering_json: z.object({
+          ticket: z.string(),
+          priority: z.enum(["P0", "P1", "P2", "P3"]),
+          blocker: z.string()
+        }),
+        french_translation: z.string().describe("A professional translation of the core problem into French to send to the client.")
+      }),
+      system: `You are the Adaptive AI Activity Companion substrate. Your job is to take raw, messy input and instantly route it into three streams with zero hallucinations.`,
+      prompt: `Process the following raw input:\n\n${input}`,
+      temperature: 0.0,
+      topP: 0.1,
     });
 
-    const msg = await anthropic.messages.create({
-      model: "claude-3-haiku-20240307",
-      max_tokens: 1000,
-      system: "You are the Adaptive AI Activity Companion substrate. Your job is to take raw, messy input and instantly route it into three streams. Stream 1: A 1-2 sentence executive summary highlighting risk/ROI. Stream 2: A strictly formatted JSON payload for Engineering/DevOps containing 'ticket', 'priority' (P0-P3), and 'blocker'. Stream 3: A professional translation of the core problem into French to send to the client. You must respond in ONLY the following JSON format: { \"executive_summary\": \"...\", \"engineering_json\": { \"ticket\": \"...\", \"priority\": \"...\", \"blocker\": \"...\" }, \"french_translation\": \"...\" }",
-      messages: [
-        { role: "user", content: input }
-      ],
-    });
-
-    const responseText = msg.content[0].text;
-    const parsedData = JSON.parse(responseText);
-
-    return NextResponse.json(parsedData);
+    return NextResponse.json(object);
   } catch (error) {
     console.error("Epiphany Error:", error);
-    // Dynamic Fallback to prove to the user the engine works even if Anthropic is restricted
-    const simulatedResponse = {
+    return NextResponse.json({
       executive_summary: `[SIMULATED OFFLINE MODE] Data ingested: "${input ? input.substring(0, 30) : ''}...". Identified critical context mismatch. Routing to operations for immediate review.`,
       engineering_json: { ticket: "SYS-MOH-ROUTING", priority: "P1", blocker: "Context Validation" },
       french_translation: `[SIMULATED OFFLINE MODE] Entrée reçue: "${input ? input.substring(0, 30) : ''}...". Traitement en cours.`
-    };
-    return NextResponse.json(simulatedResponse);
+    });
   }
 }

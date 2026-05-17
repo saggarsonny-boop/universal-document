@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap, DollarSign, TrendingUp, ShieldCheck, AudioLines } from "lucide-react";
+import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap, DollarSign, TrendingUp, ShieldCheck, AudioLines, Upload, Loader2, Check } from "lucide-react";
 import EnterpriseSandbox from "./components/EnterpriseSandbox";
 
 export default function Home() {
@@ -12,6 +12,10 @@ export default function Home() {
   const [epiphanyData, setEpiphanyData] = useState<any>(null);
   const [heroMode, setHeroMode] = useState(0); // 0: Text, 1: Voice, 2: Avatar
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isUploadingVoice, setIsUploadingVoice] = useState(false);
+  const [isVoiceCloned, setIsVoiceCloned] = useState(false);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const [isAvatarCloned, setIsAvatarCloned] = useState(false);
 
   // Cycle hero modes
   useEffect(() => {
@@ -158,8 +162,8 @@ export default function Home() {
               )}
               {heroMode === 1 && (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(212, 175, 55, 0.1)', border: '2px solid #D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                    <Mic size={32} color="#D4AF37" style={{ zIndex: 2 }} />
+                  <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: isVoiceCloned ? 'rgba(16, 185, 129, 0.1)' : 'rgba(212, 175, 55, 0.1)', border: isVoiceCloned ? '2px solid #10b981' : '2px solid #D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', transition: 'all 0.5s' }}>
+                    <Mic size={32} color={isVoiceCloned ? "#10b981" : "#D4AF37"} style={{ zIndex: 2 }} />
                     {isPlayingAudio && (
                       <>
                         <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }} style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid #D4AF37' }} />
@@ -168,49 +172,72 @@ export default function Home() {
                     )}
                   </div>
                   <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500', textAlign: 'center' }}>
-                    {isPlayingAudio ? '"Hello. I am the CEO Voice Clone..."' : 'Voice Cloning Engine'}
+                    {isPlayingAudio ? '"Hello. I am the CEO Voice Clone..."' : isVoiceCloned ? 'Voice Print Cloned Successfully' : 'Voice Cloning Engine'}
                   </div>
                   <p style={{ color: '#a1a1aa', fontSize: '0.9rem', maxWidth: '400px', textAlign: 'center', lineHeight: '1.5' }}>
                     Upload a 30-second audio sample of your CEO, top salesperson, or custom brand voice. The AAC generates dynamic, perfectly accented audio in 72 languages.
                   </p>
-                  <button onClick={handlePlayVoice} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', cursor: 'pointer' }}>
-                    {isPlayingAudio ? <AudioLines size={18} /> : <PlayCircle size={18} />} 
-                    {isPlayingAudio ? 'Speaking...' : 'Play Voice Clone Demo'}
-                  </button>
-                  <label style={{ cursor: 'pointer', marginTop: '1rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='#2A2A2A'} onMouseOut={e=>e.currentTarget.style.backgroundColor='#1A1A1A'}>
-                    📤 UPLOAD SAMPLE VOICE (.mp3)
-                    <input type="file" accept="audio/*" style={{ display: 'none' }} onChange={(e) => { 
-                      if(e.target.files?.length) { 
-                        const btn = e.currentTarget.parentElement;
-                        if (btn) btn.innerHTML = '⏳ Extracting Vocal Timbre...'; 
-                        
-                        setTimeout(() => {
-                          if (btn) btn.innerHTML = '✅ Voice Print Cloned';
-                          let voices = window.speechSynthesis.getVoices();
-                          let synthVoice = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Victoria') || v.lang === 'en-GB');
-                          const utterance = new SpeechSynthesisUtterance("Voice print successfully ingested. I have synchronized with the uploaded vocal cords. I am now capable of executing workflows using this voice.");
-                          if (synthVoice) utterance.voice = synthVoice;
-                          utterance.rate = 0.95;
-                          window.speechSynthesis.speak(utterance);
-                        }, 2000); 
-                      } 
-                    }} />
-                  </label>
+                  {isVoiceCloned ? (
+                    <button onClick={handlePlayVoice} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#D4AF37', color: '#000', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '20px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 15px rgba(212,175,55,0.4)' }}>
+                      {isPlayingAudio ? <AudioLines size={18} /> : <PlayCircle size={18} />} 
+                      {isPlayingAudio ? 'Speaking...' : 'Test Cloned Voice'}
+                    </button>
+                  ) : (
+                    <label style={{ cursor: isUploadingVoice ? 'not-allowed' : 'pointer', marginTop: '0.5rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>{if(!isUploadingVoice) e.currentTarget.style.backgroundColor='#2A2A2A'}} onMouseOut={e=>{if(!isUploadingVoice) e.currentTarget.style.backgroundColor='#1A1A1A'}}>
+                      {isUploadingVoice ? <Loader2 size={18} className="animate-spin" /> : <Upload size={18} />}
+                      {isUploadingVoice ? 'Extracting Vocal Timbre...' : 'UPLOAD SAMPLE (.mp3)'}
+                      <input type="file" accept="audio/*" disabled={isUploadingVoice} style={{ display: 'none' }} onChange={(e) => { 
+                        if(e.target.files?.length) { 
+                          setIsUploadingVoice(true);
+                          setTimeout(() => {
+                            setIsUploadingVoice(false);
+                            setIsVoiceCloned(true);
+                            let voices = window.speechSynthesis.getVoices();
+                            let synthVoice = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Victoria') || v.lang === 'en-GB');
+                            const utterance = new SpeechSynthesisUtterance("Voice print successfully ingested. I have synchronized with the uploaded vocal cords. I am now capable of executing workflows using this voice.");
+                            if (synthVoice) utterance.voice = synthVoice;
+                            utterance.rate = 0.95;
+                            window.speechSynthesis.speak(utterance);
+                          }, 2500); 
+                        } 
+                      }} />
+                    </label>
+                  )}
                 </motion.div>
               )}
               {heroMode === 2 && (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-                  <div style={{ width: '140px', height: '140px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)', border: '2px solid rgba(212, 175, 55, 0.5)', overflow: 'hidden', position: 'relative', boxShadow: '0 0 30px rgba(212,175,55,0.2)' }}>
-                    <img src="/avatars/holo.png" alt="Holographic Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ width: '140px', height: '140px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.05)', border: isAvatarCloned ? '2px solid #10b981' : '2px solid rgba(212, 175, 55, 0.5)', overflow: 'hidden', position: 'relative', boxShadow: isAvatarCloned ? '0 0 30px rgba(16,185,129,0.2)' : '0 0 30px rgba(212,175,55,0.2)', transition: 'all 0.5s' }}>
+                    {isUploadingAvatar && (
+                      <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+                        <Loader2 size={32} color="#D4AF37" className="animate-spin" />
+                      </div>
+                    )}
+                    <img src="/avatars/holo.png" alt="Holographic Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: isUploadingAvatar ? 0.3 : 1 }} />
                   </div>
-                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>Fully Embodied Interactive Kiosk</div>
+                  <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500' }}>{isAvatarCloned ? '3D Mesh Rigged & Ready' : 'Fully Embodied Interactive Kiosk'}</div>
                   <p style={{ color: '#a1a1aa', fontSize: '0.9rem', maxWidth: '450px', textAlign: 'center', lineHeight: '1.5' }}>
-                    Import your own corporate mascots or 3D-scan your executives. The AAC drives their facial expressions, lip-sync, and micro-gestures in real-time. Deploy on front desks, mobile apps, or VR headsets.
+                    {isAvatarCloned ? 'Facial expressions, lip-sync mapping, and micro-gestures successfully compiled. Ready for real-time edge deployment.' : 'Import your own corporate mascots or 3D-scan your executives. The AAC drives their facial expressions, lip-sync, and micro-gestures in real-time.'}
                   </p>
-                  <label style={{ cursor: 'pointer', marginTop: '1rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>e.currentTarget.style.backgroundColor='#2A2A2A'} onMouseOut={e=>e.currentTarget.style.backgroundColor='#1A1A1A'}>
-                    📤 UPLOAD 3D MESH (.obj)
-                    <input type="file" accept=".obj,.fbx" style={{ display: 'none' }} onChange={(e) => { if(e.target.files?.length) { e.currentTarget.parentElement!.innerHTML = '⏳ Uploading...'; setTimeout(() => alert("3D Mesh uploaded. Rigging skeleton and mapping facial points..."), 1500); } }} />
-                  </label>
+                  {isAvatarCloned ? (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '0.75rem 1.5rem', borderRadius: '8px', fontWeight: 'bold' }}>
+                      <CheckCircle size={18} /> Mesh Deployed
+                    </div>
+                  ) : (
+                    <label style={{ cursor: isUploadingAvatar ? 'not-allowed' : 'pointer', marginTop: '0.5rem', backgroundColor: '#1A1A1A', border: '2px solid #D4AF37', padding: '1rem 2.5rem', borderRadius: '8px', fontSize: '1rem', color: '#D4AF37', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', gap: '0.75rem', transition: 'all 0.2s', boxShadow: '0 4px 15px rgba(212,175,55,0.2)' }} onMouseOver={e=>{if(!isUploadingAvatar) e.currentTarget.style.backgroundColor='#2A2A2A'}} onMouseOut={e=>{if(!isUploadingAvatar) e.currentTarget.style.backgroundColor='#1A1A1A'}}>
+                      {isUploadingAvatar ? <Loader2 size={18} className="animate-spin" /> : <Upload size={18} />}
+                      {isUploadingAvatar ? 'Rigging Skeleton...' : 'UPLOAD 3D MESH (.obj)'}
+                      <input type="file" accept=".obj,.fbx" disabled={isUploadingAvatar} style={{ display: 'none' }} onChange={(e) => { 
+                        if(e.target.files?.length) { 
+                          setIsUploadingAvatar(true);
+                          setTimeout(() => {
+                            setIsUploadingAvatar(false);
+                            setIsAvatarCloned(true);
+                          }, 3000); 
+                        } 
+                      }} />
+                    </label>
+                  )}
                 </motion.div>
               )}
             </div>

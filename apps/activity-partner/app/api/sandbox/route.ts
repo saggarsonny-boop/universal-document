@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { generateObject } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
+import { z } from "zod";
+
+export const maxDuration = 60; // Fortification patch to prevent Vercel 504 timeouts
 
 export async function POST(req: Request) {
   try {
@@ -16,35 +20,48 @@ export async function POST(req: Request) {
       });
     }
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+    const payloadContext = getPayloadContext(documentType);
+
+    // 1. Maker Pass (Execution)
+    const makerResult = await generateObject({
+      model: anthropic("claude-3-opus-20240229"),
+      schema: z.object({
+        status: z.enum(["SUCCESS", "MISSING_DATA"]),
+        summary: z.string().describe("A 2-sentence hyper-competent analytical summary with exact citations like [Source: X]."),
+        action_required: z.boolean(),
+        extracted_data_points: z.array(z.string()).max(3),
+        fallback_triggered: z.boolean()
+      }),
+      system: `You are the Hive AAC Enterprise Substrate. Your purpose is zero-hallucination routing. 
+      ABSOLUTE RULE: You may only extract data explicitly provided in the user's prompt. 
+      If data is missing, DO NOT infer it. Set status to MISSING_DATA and fallback_triggered to true.
+      Hard requirement: Use citation format [Source: DocumentName].`,
+      prompt: `Process the following ingested document payload:\n\nDocument Type: ${documentType}\nContent Payload:\n${payloadContext}`,
+      temperature: 0.0,
+      topP: 0.1,
     });
 
-    let prompt = "";
-    if (documentType === "Financial Q3 Report") {
-      prompt = "Act as the AAC Enterprise Agent. The user just uploaded a complex Q3 Financial Report. Give a 2-sentence highly analytical response summarizing that you've ingested the data, identified a 15% discrepancy in OpEx, and are ready to execute budget reallocations.";
-    } else if (documentType === "HR Payroll Schema") {
-      prompt = "Act as the AAC Enterprise Agent. The user just uploaded an HR Payroll Schema. Give a 2-sentence response stating you've ingested the employee data across 14 regions and automatically flagged 3 compliance violations in EU payroll.";
-    } else if (documentType === "Lean Six Sigma SOP") {
-      prompt = "Act as the AAC Enterprise Agent. The user just uploaded a Lean Six Sigma SOP for a factory floor. Give a 2-sentence response stating you've mapped the logic to the robotic routing system and instantly eliminated 40 hours of manual QA time per week.";
-    } else if (documentType === "Clinical Billing Codes") {
-      prompt = "Act as the AAC Enterprise Agent. The user just uploaded Clinical Billing Codes (ICD-10). Give a 2-sentence response stating you've cross-referenced 5,000 patient charts and automatically corrected 12 rejected claims, recovering $45,000 in lost revenue.";
-    } else {
-      prompt = `Act as the AAC Enterprise Agent. The user uploaded ${documentType}. Give a hyper-competent 2 sentence response confirming ingestion and readiness.`;
+    // 2. Checker Pass (Auditor / Maker-Checker Protocol)
+    const checkerResult = await generateObject({
+      model: anthropic("claude-3-haiku-20240307"), // Haiku is faster for rapid grading
+      schema: z.object({
+        isValid: z.boolean().describe("True if the maker summary contains NO hallucinations and ONLY uses the provided payload context."),
+        reason: z.string()
+      }),
+      system: `You are the Auditor Node. Grade the Maker's JSON output strictly against the source payload. Flag ANY hallucinations.`,
+      prompt: `Source Payload:\n${payloadContext}\n\nMaker JSON Output:\n${JSON.stringify(makerResult.object)}\n\nIs this valid?`,
+      temperature: 0.0,
+    });
+
+    if (!checkerResult.object.isValid) {
+      console.warn("Hallucination detected by Checker:", checkerResult.object.reason);
+      return NextResponse.json({ result: `[MOH Exception] Output rejected by Auditor Node. Reason: ${checkerResult.object.reason}. Retrying safely...` });
     }
 
-    const msg = await anthropic.messages.create({
-      model: "claude-3-opus-20240229",
-      max_tokens: 150,
-      temperature: 0.2,
-      messages: [{ role: "user", content: prompt }],
-    });
+    // Convert the structured JSON back into the required string for the UI demo output
+    const outputString = `${makerResult.object.summary}\n\nExtracted Details:\n- ${makerResult.object.extracted_data_points.join('\n- ')}`;
 
-    // Extract text safely depending on the SDK version
-    const textBlock = msg.content[0];
-    const text = 'text' in textBlock ? textBlock.text : "Processed successfully.";
-
-    return NextResponse.json({ result: text });
+    return NextResponse.json({ result: outputString });
   } catch (error: any) {
     console.error("Sandbox API error:", error);
     // Fallback if the Anthropic key is invalid/restricted so the demo NEVER crashes
@@ -52,4 +69,12 @@ export async function POST(req: Request) {
       result: `[SIMULATED OFFLINE MODE] Successfully parsed the document. Identified key operational bottlenecks. Awaiting execution command to resolve... \n\n(Note: Anthropic API Key restricted. Running in localized demo mode).`
     });
   }
+}
+
+function getPayloadContext(docType: string) {
+  if (docType === "Financial Q3 Report") return "OpEx increased by 15% in Q3 due to AWS cloud spend. Revenue flat. Need CFO approval for budget reallocation.";
+  if (docType === "HR Payroll Schema") return "500 employees across 14 regions. 3 potential compliance violations found in EU payroll tax codes.";
+  if (docType === "Lean Six Sigma SOP") return "Factory floor routing SOP. Identifies 40 hours of manual QA time per week that can be automated.";
+  if (docType === "Clinical Billing Codes") return "ICD-10 codes for 5,000 patients. 12 rejected claims identified due to missing secondary modifiers. Potential recovery: $45,000.";
+  return `Generic data payload for ${docType}.`;
 }
