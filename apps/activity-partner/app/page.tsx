@@ -263,11 +263,11 @@ export default function Home() {
               </div>
               <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Microsoft Copilot & Sierra</div>
               <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are assistants, not autonomous workers. They require humans to sit there and actively manage and prompt them. Sierra is strictly text/chat focused for external customer service.
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are just software assistants. You still have to sit there, type instructions ("prompts"), and manage them all day to get any work done.
               </p>
               <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
                 <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Autonomous execution governed by strict cryptographic HiveOps/Queen Bee protocols. It doesn't need to be prompted; it works while you sleep.</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Total autonomy. You assign the AAC a task, and it does the actual work while you sleep—securely and perfectly.</span>
               </div>
             </div>
 
@@ -279,11 +279,11 @@ export default function Home() {
               </div>
               <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Synthesia & HeyGen</div>
               <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are asynchronous parlor tricks. You must type a script, click generate, and wait minutes for an MP4 video to render. They completely lack real-time reactivity.
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> You have to type a script, click 'generate,' and wait 10 minutes just to get a pre-recorded video. You can't have a real conversation with them.
               </p>
               <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
                 <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>A live, real-time, fully embodied 3D avatar kiosk with a 300ms reflex engine. You talk to it naturally, and it talks back instantly.</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>It is a live, 3D digital employee. You can talk to it out loud, just like a human, and it answers you back instantly.</span>
               </div>
             </div>
 
@@ -295,11 +295,11 @@ export default function Home() {
               </div>
               <div style={{ color: '#ef4444', fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase' }}>vs. Bland AI & Vapi</div>
               <p style={{ color: '#a1a1aa', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are strictly telephone APIs designed to talk to external customers. They lack visual embodiment and the ability to process highly secure internal enterprise data natively.
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Their Flaw:</span> They are just phone bots for calling customers. They can't see, they don't have faces, and they aren't built to handle your highly secure internal company data.
               </p>
               <div style={{ backgroundColor: 'rgba(212, 175, 55, 0.05)', padding: '1rem', borderRadius: '8px', borderLeft: '3px solid #D4AF37' }}>
                 <span style={{ color: '#D4AF37', fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>The AAC Advantage:</span>
-                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>Deep hardware integration potential. The AAC sits securely on a factory floor or a clinician's desk to process sensitive, multimodal internal data natively.</span>
+                <span style={{ color: '#fff', fontSize: '0.95rem', lineHeight: '1.5', display: 'block' }}>The AAC is built for your internal operations. It can sit on a factory floor or a doctor's desk, securely reading and organizing your most sensitive documents.</span>
               </div>
             </div>
           </div>
