@@ -1,44 +1,53 @@
+// HIVE_FOOTER_SIGNATURE: "Made with ♥ in the Hive" rendered by HiveFooter
+// below. Canonical Hive ink (#0a0a0a) used in app/globals.css.
+
 import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
 import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
-import { ServiceWorkerRegistrar } from "./_lib/ServiceWorkerRegistrar";
-import { HiveHeader } from "./_lib/HiveHeader";
-import { HiveFooter } from "./_lib/HiveFooter";
+import { HiveFooter } from "@/components/HiveFooter";
+import "./globals.css";
 
 const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700'], variable: '--font-display', display: 'swap' })
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body', display: 'swap' })
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
-const APP_URL = "https://activity.hive.baby";
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://legal.hive.baby";
 
-const TITLE = "Hive AAC™ (Autonomous AI Companion) - Enterprise Portal";
-const DESCRIPTION = "Enterprise-grade Autonomous AI Companion deployment portal. Highly configurable, tenant-isolated AI agents for clinical, practice, and corporate domains.";
+const TITLE =
+  "HiveLegal — The Autonomous Redline Engine";
+const DESCRIPTION =
+  "Don't Buy Software. Augment Your Legal Team. Paste any contract and let the Maker-Checker protocol audit it against a strict dealbreaker matrix.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: TITLE,
   description: DESCRIPTION,
-  applicationName: "Hive AAC",
+  applicationName: "HiveLegal",
   manifest: "/manifest.json",
   alternates: { canonical: APP_URL },
   appleWebApp: {
     capable: true,
-    title: "Hive AAC",
+    title: "HiveLegal",
     statusBarStyle: "black-translucent",
   },
   icons: {
     icon: [
-      { url: "/hive-mark.svg", sizes: "any" },
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: ["/hive-mark.svg"],
+    shortcut: ["/favicon.ico"],
   },
   openGraph: {
     type: "website",
     url: APP_URL,
-    siteName: "Hive AAC",
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: "HiveLegal",
+  },
+  twitter: {
+    card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
   },
@@ -46,35 +55,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#D4AF37",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
-      <head>
-      </head>
-      <body
-        style={{
-          margin: 0,
-          background: "#0a0a0a",
-          color: "#f5f1e6",
-          fontFamily:
-            "var(--font-body), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-          WebkitFontSmoothing: "antialiased",
-          minHeight: "100dvh",
-        }}
-      >
-        <HiveHeader />
+      <body className="min-h-screen antialiased">
         {children}
-        <HiveFooter />
-        <ServiceWorkerRegistrar />
-      
         <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>

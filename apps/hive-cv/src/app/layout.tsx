@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { HiveFooter } from "@/components/HiveFooter";
 import { Geist, Geist_Mono } from "next/font/google";
+import { HiveFooter } from "@/components/HiveFooter";
 import "./globals.css";
+import { HiveFooter } from "@/components/HiveFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +31,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}
+        <HiveFooter />
         <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>

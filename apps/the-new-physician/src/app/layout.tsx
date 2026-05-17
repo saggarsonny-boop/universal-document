@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
+import { HiveFooter } from "@/components/HiveFooter";
 import { Inter, Playfair_Display } from "next/font/google";
+import { HiveFooter } from "@/components/HiveFooter";
 import { Analytics } from "@vercel/analytics/react";
+import { HiveFooter } from "@/components/HiveFooter";
 import RssTicker from "./RssTicker";
+import { HiveFooter } from "@/components/HiveFooter";
 import AweLighting from "./AweLighting";
+import { HiveFooter } from "@/components/HiveFooter";
 import "./globals.css";
+import { HiveFooter } from "@/components/HiveFooter";
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -53,6 +59,7 @@ export default function RootLayout({
         <RssTicker />
         <Analytics />
       
+        <HiveFooter />
         <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { HiveFooter } from "@/components/HiveFooter";
 import { Inter } from "next/font/google";
+import { HiveFooter } from "@/components/HiveFooter";
 import "./globals.css";
+import { HiveFooter } from "@/components/HiveFooter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>{children}
+        <HiveFooter />
         <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
