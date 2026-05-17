@@ -39,16 +39,10 @@ export default function Home() {
 
   const handleStripeCheckout = async (action: string) => {
     try {
-      const res = await fetch('/api/billing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action })
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert("Stripe configuration error: " + data.error);
+      if (action === 'pay_per_contract') {
+        window.location.href = "https://buy.stripe.com/9B6aEZ7Qzd3rcw2bDz0RG02";
+      } else if (action === 'enterprise_license') {
+        window.location.href = "https://buy.stripe.com/7sYcN79YHe7v53AcHD0RG01";
       }
     } catch (e) {
       console.error(e);

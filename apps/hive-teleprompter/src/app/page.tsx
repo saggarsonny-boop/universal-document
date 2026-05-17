@@ -715,12 +715,11 @@ export default function Teleprompter() {
             <p className="text-neutral-400 mb-8">{paywallMessage}</p>
             <button 
               onClick={() => {
-                setPaywallMessage("");
-                setIsConfigMode(true);
+                window.location.href = "https://buy.stripe.com/7sYcN79YHe7v53AcHD0RG01";
               }}
               className="w-full py-4 bg-[#D4AF37] hover:bg-[#b0902c] text-black font-bold uppercase tracking-widest rounded-lg transition-colors shadow-[0_0_15px_rgba(212,175,55,0.3)]"
             >
-              View Founder Plan
+              Upgrade Now
             </button>
             <button 
               onClick={() => setPaywallMessage("")}
