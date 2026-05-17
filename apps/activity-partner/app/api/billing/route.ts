@@ -15,25 +15,32 @@ export async function POST(req: Request) {
 
     // Live Stripe integration using environment variables for Price IDs
     let lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    let checkoutMode: "payment" | "subscription" = "payment";
 
     if (action === "initiate_pilot_turnkey") {
       const priceId = process.env.STRIPE_PRICE_ENTERPRISE_PILOT || "price_dummy_base";
       lineItems = [{ price: priceId, quantity: 1 }];
+      checkoutMode = "payment";
     } else if (action === "initiate_pilot_byok") {
       const priceId = process.env.STRIPE_PRICE_PILOT_BYOK || "price_1TXtl7PIZtoQZOG1hm2YLHm7";
       lineItems = [{ price: priceId, quantity: 1 }];
+      checkoutMode = "payment";
     } else if (action === "subscribe_base") {
-      const priceId = process.env.STRIPE_PRICE_BASE_PLATFORM || "price_dummy_base";
+      const priceId = process.env.STRIPE_PRICE_BASE_PLATFORM || "price_1TLVIfPIZtoQZOG1UGJ0vH7S"; // Fallback to base platform if env missing
       lineItems = [{ price: priceId, quantity: 1 }];
+      checkoutMode = "subscription";
     } else if (action === "add_seats") {
       const priceId = process.env.STRIPE_PRICE_SEAT_LICENSE || "price_dummy_seat";
       lineItems = [{ price: priceId, quantity: quantity || 1 }];
+      checkoutMode = "subscription";
     } else if (action === "upgrade_voice") {
       const priceId = process.env.STRIPE_PRICE_VOICE_MODULE || "price_dummy_voice";
       lineItems = [{ price: priceId, quantity: 1 }];
+      checkoutMode = "subscription";
     } else if (action === "upgrade_imagery") {
       const priceId = process.env.STRIPE_PRICE_IMAGERY_MODULE || "price_dummy_imagery";
       lineItems = [{ price: priceId, quantity: 1 }];
+      checkoutMode = "subscription";
     } else {
       return NextResponse.json({ error: "Invalid billing action" }, { status: 400 });
     }
@@ -41,7 +48,7 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card", "us_bank_account"],
       line_items: lineItems,
-      mode: "payment",
+      mode: checkoutMode,
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby"}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || "https://activitypartner.hive.baby"}/enterprise`,
     });
