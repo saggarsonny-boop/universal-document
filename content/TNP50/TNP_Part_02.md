@@ -45,4 +45,7 @@ When the system took it away, I thought I had lost everything. I didn't know it 
 
 *I am documenting this journey in real-time. You can follow the feed directly at [newphysician.org](https://newphysician.org), where you will also find the unscripted podcasts, our community subreddit, and the technical blueprint for the future of clinical infrastructure.*
 
-*This is Part 2 of a 50-part series. Part 3, "When the System Turned Its Eyes on Me," drops next.*
+**Coming up next in the TNP50 Series:**
+* **Part 3:** When the System Turned Its Eyes on Me
+* **Part 4:** The Quiet Shame Doctors Carry
+* **Part 5:** The Night I Realized My Old Life Was Gone
