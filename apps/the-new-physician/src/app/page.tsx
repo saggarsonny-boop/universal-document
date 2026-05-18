@@ -5,13 +5,16 @@ import { motion } from "framer-motion";
 import HeartbeatTimestamp from "./HeartbeatTimestamp";
 import MagneticCard from "./MagneticCard";
 import { Mic, BookOpen, FileText, PlaySquare, Mail, ExternalLink, ArrowRight, Layout } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { TNP_EPISODES } from "../data/tnpSeries";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 export default function Home() {
   const [latestEssay, setLatestEssay] = useState<{ title: string, link: string } | null>(null);
+  const [liveEpisodes, setLiveEpisodes] = useState<Record<number, string>>({});
   const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleWaitlist = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,10 +40,35 @@ export default function Home() {
       .then(data => {
         if (data?.items?.length > 0) {
           setLatestEssay({ title: data.items[0].title, link: data.items[0].link });
+          
+          const liveMap: Record<number, string> = {};
+          data.items.forEach((item: any) => {
+             TNP_EPISODES.forEach(ep => {
+                if (item.title.includes(ep.title) || (item.title.includes("TNP") && item.title.includes(`Part ${ep.id}`))) {
+                   liveMap[ep.id] = item.link;
+                }
+             });
+          });
+          setLiveEpisodes(liveMap);
         }
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+     if (Object.keys(liveEpisodes).length > 0 && scrollRef.current) {
+        const highestLive = Math.max(...Object.keys(liveEpisodes).map(Number));
+        const element = document.getElementById(`tnp-episode-${highestLive}`);
+        if (element) {
+           setTimeout(() => {
+             scrollRef.current?.scrollTo({
+               top: element.offsetTop - scrollRef.current.offsetTop - 20,
+               behavior: 'smooth'
+             });
+           }, 300);
+        }
+     }
+  }, [liveEpisodes]);
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -188,22 +216,53 @@ export default function Home() {
                 Reflective essays and peer-reviewed architecture detailing the future of healthcare. Designed for critical thinkers willing to look past the headlines, hear all sides, and analyze the mechanics of systemic failure and reinvention.
               </p>
               
-              {/* Dynamic RSS Feed */}
-              <div className="bg-neutral-950/50 rounded-lg p-4 mb-6 border border-neutral-800/50 relative overflow-hidden group/rss">
-                <div className="absolute top-0 left-0 w-1 h-full bg-[#D4AF37]/50 group-hover/rss:bg-[#D4AF37] transition-colors"></div>
-                <div className="text-xs font-bold text-[#D4AF37] mb-1 uppercase tracking-wider">Latest Dispatch</div>
-                {latestEssay ? (
-                  <a href={latestEssay.link} target="_blank" rel="noreferrer" className="text-sm text-white hover:text-[#D4AF37] transition-colors line-clamp-2">
-                    {latestEssay.title.replace(/[^a-zA-Z0-9 :,-]/g, '').trim()}
-                  </a>
-                ) : (
-                  <div className="animate-pulse flex space-x-4">
-                    <div className="flex-1 space-y-2 py-1">
-                      <div className="h-3 bg-neutral-800 rounded w-3/4"></div>
-                      <div className="h-3 bg-neutral-800 rounded w-1/2"></div>
-                    </div>
-                  </div>
-                )}
+              {/* Scrolling TNP Series Device */}
+              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex-grow flex flex-col min-h-[300px]">
+                <div className="p-4 border-b border-neutral-800/50 shrink-0 bg-neutral-950 flex justify-between items-center">
+                  <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">The TNP Series</div>
+                  <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest bg-neutral-900 px-2 py-1 rounded">Auto-Synced</div>
+                </div>
+                <div ref={scrollRef} className="p-4 overflow-y-auto space-y-4 relative scroll-smooth flex-grow">
+                  {TNP_EPISODES.map((ep, idx) => {
+                    const isLive = !!liveEpisodes[ep.id];
+                    const link = liveEpisodes[ep.id];
+                    const isNewPhase = idx === 0 || TNP_EPISODES[idx - 1].phase !== ep.phase;
+
+                    return (
+                      <div key={ep.id} id={`tnp-episode-${ep.id}`}>
+                        {isNewPhase && (
+                          <div className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-2 mt-4 first:mt-0 sticky top-0 bg-neutral-950/90 backdrop-blur-sm py-1 z-10 border-b border-neutral-900">
+                            Phase {ep.phase}: {ep.phaseTitle}
+                          </div>
+                        )}
+                        <a 
+                          href={isLive ? link : undefined}
+                          target={isLive ? "_blank" : undefined}
+                          rel={isLive ? "noreferrer" : undefined}
+                          className={`group flex items-start gap-3 p-2 rounded-lg transition-all ${
+                            isLive 
+                              ? 'hover:bg-neutral-900 cursor-pointer' 
+                              : 'opacity-40 pointer-events-none grayscale'
+                          }`}
+                        >
+                          <div className={`mt-0.5 shrink-0 text-xs font-bold px-1.5 py-0.5 rounded border ${
+                            isLive ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30' : 'bg-neutral-900 text-neutral-500 border-neutral-800'
+                          }`}>
+                            {ep.id}
+                          </div>
+                          <div>
+                            <div className={`text-sm font-bold leading-tight ${isLive ? 'text-white group-hover:text-[#D4AF37] transition-colors' : 'text-neutral-500'}`}>
+                              {ep.title}
+                            </div>
+                            <div className="text-xs text-neutral-500 mt-1">
+                              {isLive ? 'LIVE' : 'UPCOMING'}
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="flex items-center gap-6 text-sm font-bold text-[#D4AF37] mt-auto">
@@ -236,61 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TNP Series Roadmap */}
-      <section id="series-index" className="py-24 px-6 bg-[#0a0a0a] border-t border-neutral-900 relative">
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#D4AF37]/5 to-transparent"></div>
-        <div className="max-w-4xl mx-auto relative z-10 space-y-12">
-          <div className="text-center space-y-4">
-            <h2 className="text-4xl font-display font-bold text-white">The TNP Series Roadmap</h2>
-            <p className="text-neutral-500 max-w-2xl mx-auto">The definitive chronological order of The New Physician series.</p>
-          </div>
-
-          <div className="space-y-6">
-            {/* Phase 1 */}
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
-              <h3 className="text-[#D4AF37] font-bold text-lg mb-4 uppercase tracking-widest text-sm">Phase 1: Collapse</h3>
-              <ul className="space-y-3">
-                <li className="flex items-center gap-3">
-                  <span className="bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded">LIVE</span>
-                  <span className="text-white font-medium">1. The Substrate Problem: Why the Foundation of Medicine is Cracking</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded">LIVE</span>
-                  <span className="text-white font-medium">2. The Identity I Thought Was Me</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="border border-neutral-700 text-neutral-500 text-xs font-bold px-2 py-1 rounded">SOON</span>
-                  <span className="text-neutral-400">3. When the System Turned Its Eyes on Me</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="border border-neutral-700 text-neutral-500 text-xs font-bold px-2 py-1 rounded">SOON</span>
-                  <span className="text-neutral-400">4. The Quiet Shame Doctors Carry</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <span className="border border-neutral-700 text-neutral-500 text-xs font-bold px-2 py-1 rounded">SOON</span>
-                  <span className="text-neutral-400">5. The Night I Realized My Old Life Was Gone</span>
-                </li>
-              </ul>
-            </div>
-            
-            {/* Phase 2 */}
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6 opacity-75">
-              <h3 className="text-neutral-500 font-bold text-lg mb-4 uppercase tracking-widest text-sm">Upcoming Phases</h3>
-              <div className="flex flex-wrap gap-3">
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 2: Reckoning</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 3: The Legal Fire</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 4: Inside</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 5: Loss</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 6: The Rebuild</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 7: The AI Era</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 8: The Alternative Path</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 9: Rebirth in the New Economy</span>
-                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 10: Legacy</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* TNP Series Roadmap - Deprecated by scrolling component, removed to avoid duplication */}
 
       {/* Book Teaser Section */}
       <section id="book" className="py-24 px-6 bg-[#D4AF37]/5 border-y border-[#D4AF37]/10">
