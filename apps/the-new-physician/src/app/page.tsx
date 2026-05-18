@@ -62,6 +62,7 @@ export default function Home() {
             <a href="#about" className="hover:text-[#D4AF37] transition-colors">About</a>
             <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="hover:text-[#D4AF37] transition-colors">Podcasts</a>
             <a href="#book" className="hover:text-[#D4AF37] transition-colors">Book</a>
+            <a href="#series-index" className="hover:text-[#D4AF37] transition-colors">TNP Series</a>
             <a href="#articles" className="hover:text-[#D4AF37] transition-colors">Essays</a>
             <a href="#contact" className="hover:text-[#D4AF37] transition-colors">Contact</a>
           </div>
@@ -231,6 +232,62 @@ export default function Home() {
               </a>
             </MagneticCard>
 
+          </div>
+        </div>
+      </section>
+
+      {/* TNP Series Roadmap */}
+      <section id="series-index" className="py-24 px-6 bg-[#0a0a0a] border-t border-neutral-900 relative">
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#D4AF37]/5 to-transparent"></div>
+        <div className="max-w-4xl mx-auto relative z-10 space-y-12">
+          <div className="text-center space-y-4">
+            <h2 className="text-4xl font-display font-bold text-white">The TNP Series Roadmap</h2>
+            <p className="text-neutral-500 max-w-2xl mx-auto">The definitive chronological order of The New Physician series.</p>
+          </div>
+
+          <div className="space-y-6">
+            {/* Phase 1 */}
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
+              <h3 className="text-[#D4AF37] font-bold text-lg mb-4 uppercase tracking-widest text-sm">Phase 1: Collapse</h3>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3">
+                  <span className="bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded">LIVE</span>
+                  <span className="text-white font-medium">1. The Substrate Problem: Why the Foundation of Medicine is Cracking</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="bg-[#D4AF37] text-black text-xs font-bold px-2 py-1 rounded">LIVE</span>
+                  <span className="text-white font-medium">2. The Identity I Thought Was Me</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="border border-neutral-700 text-neutral-500 text-xs font-bold px-2 py-1 rounded">SOON</span>
+                  <span className="text-neutral-400">3. When the System Turned Its Eyes on Me</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="border border-neutral-700 text-neutral-500 text-xs font-bold px-2 py-1 rounded">SOON</span>
+                  <span className="text-neutral-400">4. The Quiet Shame Doctors Carry</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="border border-neutral-700 text-neutral-500 text-xs font-bold px-2 py-1 rounded">SOON</span>
+                  <span className="text-neutral-400">5. The Night I Realized My Old Life Was Gone</span>
+                </li>
+              </ul>
+            </div>
+            
+            {/* Phase 2 */}
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6 opacity-75">
+              <h3 className="text-neutral-500 font-bold text-lg mb-4 uppercase tracking-widest text-sm">Upcoming Phases</h3>
+              <div className="flex flex-wrap gap-3">
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 2: Reckoning</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 3: The Legal Fire</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 4: Inside</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 5: Loss</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 6: The Rebuild</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 7: The AI Era</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 8: The Alternative Path</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 9: Rebirth in the New Economy</span>
+                <span className="border border-neutral-800 text-neutral-400 text-xs font-bold px-3 py-1.5 rounded-full">Phase 10: Legacy</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
