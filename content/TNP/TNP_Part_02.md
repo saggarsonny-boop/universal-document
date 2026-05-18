@@ -1,15 +1,15 @@
 # 🩺✨ Part 2: The Identity I Thought Was Me
-*The New Physician (TNP50) Series | By Dr. Sonny Saggar | May 18, 2026*
+*The TNP Series | By Dr. Sonny Saggar | May 18, 2026*
 
 For twenty-five years, I knew exactly who I was. 
 
-If you asked me to introduce myself, the answer was automatic, practiced, and bulletproof. I was an ER physician. I was the founder of a massive urgent care network. I was a commercial real estate developer. I was a provider who carried the weight of my family, my employees, and my patients without breaking a sweat. 
+If you asked me to introduce myself, the answer was automatic, practiced, and bulletproof. I was an ER physician. I was the founder of an urgent care network of four centers. I dabbled in real estate in depressed areas in an effort to resuscitate them, specifically North City and Downtown St. Louis. I was a provider who carried the weight of my family, my employees, and my patients without breaking a sweat. 
 
 I was the guy who could walk into a Level 1 trauma, assess a chaotic, bleeding room in three seconds, and issue the orders that saved a life. I was the guy who could leave that shift, put on a suit, and negotiate a triple-net lease for a new commercial property. 
 
 I was invincible because I was useful. 
 
-But I didn’t realize that over time, I had stopped being a person. I had become a utility. My entire identity—my self-worth, my ego, my relationships—was inextricably linked to my output. I believed that as long as I was generating value, building fortresses of security for my family, and saving lives in the ER, I was untouchable. 
+But I didn’t realize that over time, I had stopped being a person. I had become a utility. My entire identity, my self-worth, my ego, my relationships, was inextricably linked to my output. I believed that as long as I was generating value, building fortresses of security for my family, and saving lives in the ER, I was untouchable. 
 
 ### The Armor We Wear
 
@@ -25,7 +25,7 @@ But the perception gap was massive. While I thought my relentless drive and unbr
 
 What happens when the system turns on you? What happens when the things that define you are systematically stripped away?
 
-When the legal fire started, the titles vanished. Suddenly, I wasn't the brilliant ER doctor. I wasn't the invincible founder. The hospital boards I sat on, the businesses I built, the social status I had accumulated—it all evaporated overnight. 
+When the legal fire started, the titles vanished. Suddenly, I wasn't the brilliant ER doctor. I wasn't the invincible founder. The hospital boards I sat on, the businesses I built, the social status I had accumulated, it all evaporated overnight. 
 
 When you strip away the white coat, the stethoscope, the corner office, and the bank accounts, what is left? 
 
@@ -45,7 +45,7 @@ When the system took it away, I thought I had lost everything. I didn't know it 
 
 *I am documenting this journey in real-time. You can follow the feed directly at [newphysician.org](https://newphysician.org), where you will also find the unscripted podcasts, our community subreddit, and the technical blueprint for the future of clinical infrastructure.*
 
-**Coming up next in the TNP50 Series:**
+**Coming up next in the TNP Series:**
 * **Part 3:** When the System Turned Its Eyes on Me
 * **Part 4:** The Quiet Shame Doctors Carry
 * **Part 5:** The Night I Realized My Old Life Was Gone
