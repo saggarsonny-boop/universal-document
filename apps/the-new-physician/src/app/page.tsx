@@ -16,6 +16,9 @@ export default function Home() {
   const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const liveEpisodeIds = Object.keys(liveEpisodes).map(Number);
+  const highestLive = liveEpisodeIds.length > 0 ? Math.max(...liveEpisodeIds) : null;
+
   const handleWaitlist = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setWaitlistStatus("loading");
@@ -43,8 +46,15 @@ export default function Home() {
           
           const liveMap: Record<number, string> = {};
           data.items.forEach((item: any) => {
+             const cleanItem = item.title.toLowerCase().replace(/[^a-z0-9]/g, " ");
+             const isTNP = cleanItem.includes("tnp") || cleanItem.includes("new physician");
+             
              TNP_EPISODES.forEach(ep => {
-                if (item.title.includes(ep.title) || (item.title.includes("TNP") && item.title.includes(`Part ${ep.id}`))) {
+                const cleanEp = ep.title.toLowerCase().replace(/[^a-z0-9]/g, " ");
+                const titleMatch = cleanItem.includes(cleanEp.substring(0, 30));
+                const partMatch = isTNP && new RegExp(`part\\s*#?\\s*${ep.id}\\b`).test(cleanItem);
+                
+                if (titleMatch || partMatch) {
                    liveMap[ep.id] = item.link;
                 }
              });
@@ -56,19 +66,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-     if (Object.keys(liveEpisodes).length > 0 && scrollRef.current) {
-        const highestLive = Math.max(...Object.keys(liveEpisodes).map(Number));
+     if (highestLive && scrollRef.current) {
         const element = document.getElementById(`tnp-episode-${highestLive}`);
         if (element) {
            setTimeout(() => {
-             scrollRef.current?.scrollTo({
-               top: element.offsetTop - scrollRef.current.offsetTop - 20,
-               behavior: 'smooth'
-             });
+              if (scrollRef.current) {
+                 scrollRef.current.scrollTo({
+                   top: element.offsetTop - scrollRef.current.clientHeight / 2 + element.clientHeight / 2,
+                   behavior: 'smooth'
+                 });
+              }
            }, 300);
         }
      }
-  }, [liveEpisodes]);
+  }, [highestLive]);
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -239,14 +250,20 @@ export default function Home() {
                           href={isLive ? link : undefined}
                           target={isLive ? "_blank" : undefined}
                           rel={isLive ? "noreferrer" : undefined}
-                          className={`group flex items-start gap-3 p-2 rounded-lg transition-all ${
+                          className={`group flex items-start gap-3 p-2 rounded-lg transition-all border ${
                             isLive 
-                              ? 'hover:bg-neutral-900 cursor-pointer' 
-                              : 'opacity-40 pointer-events-none grayscale'
+                              ? ep.id === highestLive
+                                ? 'bg-[#D4AF37]/10 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.25)] cursor-pointer'
+                                : 'hover:bg-neutral-900 border-transparent cursor-pointer'
+                              : 'opacity-40 pointer-events-none grayscale border-transparent'
                           }`}
                         >
                           <div className={`mt-0.5 shrink-0 text-xs font-bold px-1.5 py-0.5 rounded border ${
-                            isLive ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30' : 'bg-neutral-900 text-neutral-500 border-neutral-800'
+                            isLive 
+                              ? ep.id === highestLive
+                                ? 'bg-[#D4AF37] text-black border-[#D4AF37]'
+                                : 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30' 
+                              : 'bg-neutral-900 text-neutral-500 border-neutral-800'
                           }`}>
                             {ep.id}
                           </div>
@@ -254,8 +271,22 @@ export default function Home() {
                             <div className={`text-sm font-bold leading-tight ${isLive ? 'text-white group-hover:text-[#D4AF37] transition-colors' : 'text-neutral-500'}`}>
                               {ep.title}
                             </div>
-                            <div className="text-xs text-neutral-500 mt-1">
-                              {isLive ? 'LIVE' : 'UPCOMING'}
+                            <div className="text-xs mt-1 flex items-center gap-1.5">
+                              {isLive ? (
+                                ep.id === highestLive ? (
+                                  <>
+                                    <span className="relative flex h-2 w-2">
+                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"></span>
+                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]"></span>
+                                    </span>
+                                    <span className="text-[#D4AF37] font-bold tracking-wide">CURRENT BENCHMARK</span>
+                                  </>
+                                ) : (
+                                  <span className="text-neutral-400">LIVE</span>
+                                )
+                              ) : (
+                                <span className="text-neutral-500">UPCOMING</span>
+                              )}
                             </div>
                           </div>
                         </a>
