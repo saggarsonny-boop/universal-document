@@ -21,21 +21,50 @@ async function getLinkedInUserId() {
   return response.data.sub;
 }
 
-async function postToLinkedIn(userId, article) {
+async function getSubstackLinkForTitle(title) {
+  try {
+    const res = await axios.get('https://api.rss2json.com/v1/api.json?rss_url=https://drsonny.substack.com/feed');
+    if (res.data && res.data.items) {
+      const lowerTitle = title.toLowerCase().trim();
+      const match = res.data.items.find(item => {
+        const subT = item.title.toLowerCase().trim();
+        return subT === lowerTitle || subT.includes(lowerTitle) || lowerTitle.includes(subT);
+      });
+      if (match) {
+        console.log(`Found matching Substack URL: ${match.link}`);
+        return match.link;
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching Substack feed:', err.message);
+  }
+  
+  // Dynamic fallback predicted Substack link
+  const slug = title
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-');
+  const predicted = `https://drsonny.substack.com/p/${slug}`;
+  console.log(`Fallback predicted Substack URL: ${predicted}`);
+  return predicted;
+}
+
+async function postToLinkedIn(userId, article, substackUrl) {
   const postBody = {
     author: `urn:li:person:${userId}`,
     lifecycleState: "PUBLISHED",
     specificContent: {
       "com.linkedin.ugc.ShareContent": {
         shareCommentary: {
-          text: `New Dispatch:\n\n${article.title}\n\nRead the full Systems Autopsy on the structural failure and reinvention of modern medicine.\n\n#TheNewPhysician #TheHive #Medicine #SystemsEngineering #HealthcareInnovation`
+          text: `New Dispatch:\n\n${article.title}\n\nRead the full Systems Autopsy on the structural failure and reinvention of modern medicine.\n\n📖 Substack: ${substackUrl}\n📖 Medium: ${article.link}\n\n#TheNewPhysician #TheHive #Medicine #SystemsEngineering #HealthcareInnovation`
         },
         shareMediaCategory: "ARTICLE",
         media: [
           {
             status: "READY",
             description: { text: "Read the latest dispatch from The New Physician." },
-            originalUrl: article.link,
+            originalUrl: substackUrl,
             title: { text: article.title }
           }
         ]
@@ -76,7 +105,8 @@ async function run() {
     console.log(`New article found! Publishing: ${article.title}`);
     
     const userId = await getLinkedInUserId();
-    await postToLinkedIn(userId, article);
+    const substackUrl = await getSubstackLinkForTitle(article.title);
+    await postToLinkedIn(userId, article, substackUrl);
     
     fs.writeFileSync(LAST_POSTED_FILE, article.link);
     console.log('Successfully published to LinkedIn and recorded state.');
