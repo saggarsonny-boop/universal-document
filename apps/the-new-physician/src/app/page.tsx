@@ -46,11 +46,11 @@ export default function Home() {
           
           const liveMap: Record<number, string> = {};
           data.items.forEach((item: any) => {
-             const cleanItem = item.title.toLowerCase().replace(/[^a-z0-9]/g, " ");
+             const cleanItem = item.title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
              const isTNP = cleanItem.includes("tnp") || cleanItem.includes("new physician");
              
              TNP_EPISODES.forEach(ep => {
-                const cleanEp = ep.title.toLowerCase().replace(/[^a-z0-9]/g, " ");
+                const cleanEp = ep.title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
                 const titleMatch = cleanItem.includes(cleanEp.substring(0, 30));
                 const partMatch = isTNP && new RegExp(`part\\s*#?\\s*${ep.id}\\b`).test(cleanItem);
                 
@@ -67,17 +67,15 @@ export default function Home() {
 
   useEffect(() => {
      if (highestLive && scrollRef.current) {
-        const element = document.getElementById(`tnp-episode-${highestLive}`);
-        if (element) {
-           setTimeout(() => {
-              if (scrollRef.current) {
-                 scrollRef.current.scrollTo({
-                   top: element.offsetTop - scrollRef.current.clientHeight / 2 + element.clientHeight / 2,
-                   behavior: 'smooth'
-                 });
-              }
-           }, 300);
-        }
+        setTimeout(() => {
+           const element = document.getElementById(`tnp-episode-${highestLive}`);
+           if (element && scrollRef.current) {
+              scrollRef.current.scrollTo({
+                top: element.offsetTop - scrollRef.current.clientHeight / 2 + element.clientHeight / 2,
+                behavior: 'smooth'
+              });
+           }
+        }, 500);
      }
   }, [highestLive]);
   const fadeIn = {
@@ -233,7 +231,7 @@ export default function Home() {
                   <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">The TNP Series</div>
                   <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest bg-neutral-900 px-2 py-1 rounded">Auto-Synced</div>
                 </div>
-                <div ref={scrollRef} className="p-4 overflow-y-auto space-y-4 relative scroll-smooth flex-grow">
+                <div ref={scrollRef} className="p-4 overflow-y-auto space-y-4 relative scroll-smooth flex-grow custom-scrollbar">
                   {TNP_EPISODES.map((ep, idx) => {
                     const isLive = !!liveEpisodes[ep.id];
                     const link = liveEpisodes[ep.id];
@@ -254,7 +252,7 @@ export default function Home() {
                             isLive 
                               ? ep.id === highestLive
                                 ? 'bg-[#D4AF37]/10 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.25)] cursor-pointer'
-                                : 'hover:bg-neutral-900 border-transparent cursor-pointer'
+                                : 'hover:bg-[#D4AF37]/5 hover:border-[#D4AF37]/20 border-transparent cursor-pointer'
                               : 'opacity-40 pointer-events-none grayscale border-transparent'
                           }`}
                         >
@@ -262,13 +260,13 @@ export default function Home() {
                             isLive 
                               ? ep.id === highestLive
                                 ? 'bg-[#D4AF37] text-black border-[#D4AF37]'
-                                : 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30' 
+                                : 'bg-[#D4AF37]/20 text-[#D4AF37] border-[#D4AF37]/40' 
                               : 'bg-neutral-900 text-neutral-500 border-neutral-800'
                           }`}>
                             {ep.id}
                           </div>
                           <div>
-                            <div className={`text-sm font-bold leading-tight ${isLive ? 'text-white group-hover:text-[#D4AF37] transition-colors' : 'text-neutral-500'}`}>
+                            <div className={`text-sm font-bold leading-tight ${isLive ? 'text-[#D4AF37] group-hover:text-white transition-colors' : 'text-neutral-500'}`}>
                               {ep.title}
                             </div>
                             <div className="text-xs mt-1 flex items-center gap-1.5">
@@ -282,7 +280,7 @@ export default function Home() {
                                     <span className="text-[#D4AF37] font-bold tracking-wide">CURRENT BENCHMARK</span>
                                   </>
                                 ) : (
-                                  <span className="text-neutral-400">LIVE</span>
+                                  <span className="text-[#D4AF37]/80 font-bold tracking-wide">LIVE</span>
                                 )
                               ) : (
                                 <span className="text-neutral-500">UPCOMING</span>
