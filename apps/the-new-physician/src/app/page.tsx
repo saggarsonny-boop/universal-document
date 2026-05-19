@@ -217,7 +217,7 @@ export default function Home() {
               </p>
               
               {/* Scrolling TNP Series Device */}
-              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex-grow flex flex-col min-h-[300px]">
+              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex flex-col h-[350px]">
                 <div className="p-4 border-b border-neutral-800/50 shrink-0 bg-neutral-950 flex justify-between items-center">
                   <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">The TNP Series</div>
                   <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest bg-neutral-900 px-2 py-1 rounded">Auto-Synced</div>
