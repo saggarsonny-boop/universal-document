@@ -251,8 +251,8 @@ export default function Home() {
                           className={`group flex items-start gap-3 p-2 rounded-lg transition-all border ${
                             isLive 
                               ? ep.id === highestLive
-                                ? 'bg-[#D4AF37]/10 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.25)] cursor-pointer'
-                                : 'hover:bg-[#D4AF37]/5 hover:border-[#D4AF37]/20 border-transparent cursor-pointer'
+                                ? 'bg-[#D4AF37]/15 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.25)] cursor-pointer'
+                                : 'bg-[#D4AF37]/5 border-[#D4AF37]/15 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/35 cursor-pointer shadow-[0_0_10px_rgba(212,175,55,0.03)]'
                               : 'opacity-40 pointer-events-none grayscale border-transparent'
                           }`}
                         >
