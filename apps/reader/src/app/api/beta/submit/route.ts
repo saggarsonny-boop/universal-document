@@ -11,11 +11,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid or incomplete review payload' }, { status: 400 })
     }
 
-    const scratchDir = '/Users/sonnyneo/universal-document-t4/scratch'
-    const filePath = path.join(scratchDir, 'beta_submissions.json')
+    let scratchDir = '/Users/sonnyneo/universal-document-t4/scratch'
+    try {
+      await fs.mkdir(scratchDir, { recursive: true })
+    } catch {
+      // Fallback to /tmp in serverless/Vercel environments where the local user directory is write-protected or absent
+      scratchDir = '/tmp'
+      await fs.mkdir(scratchDir, { recursive: true })
+    }
 
-    // Safeguard scratch directory existence
-    await fs.mkdir(scratchDir, { recursive: true })
+    const filePath = path.join(scratchDir, 'beta_submissions.json')
 
     let submissions: any[] = []
     try {
@@ -41,6 +46,9 @@ export async function POST(req: NextRequest) {
     }
 
     submissions.push(newRecord)
+
+    // Log to console so that it is captured in serverless application logs (like Vercel Logs)
+    console.log(`[BETA SUBMISSION] ID: ${newRecord.id}, System: ${newRecord.systemTitle}, Rating: ${newRecord.rating}, Comments: ${newRecord.comments}`)
 
     await fs.writeFile(filePath, JSON.stringify(submissions, null, 2), 'utf-8')
 
