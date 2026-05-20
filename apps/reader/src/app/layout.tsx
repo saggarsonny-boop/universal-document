@@ -11,15 +11,15 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], vari
 const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'UD Reader — Open Any Universal Document™ File Free in Your Browser',
+  title: 'UD Reader - Open Any Universal Document™ File Free in Your Browser',
   description: 'Open, read, and verify any .uds or .udr file instantly in your browser. Clarity layers, multilingual switching, expiry status, tamper verification. Free forever. No install.',
   keywords: 'universal document reader, uds file opener, udr file viewer, pdf alternative reader, better than pdf viewer, open uds file, open udr file, document viewer browser, tamper evident document reader, clarity layer viewer, multilingual document reader, document expiry check',
   manifest: '/manifest.json',
-  metadataBase: new URL('https://reader.hive.baby'),
+  metadataBase: new URL('https://reader.network.baby'),
   openGraph: {
-    title: 'UD Reader — Open Any Universal Document™ File Free in Your Browser',
+    title: 'UD Reader - Open Any Universal Document™ File Free in Your Browser',
     description: 'Open, read, and verify any .uds or .udr file in your browser. Tamper verification, expiry status, multilingual switching, clarity layers. Free forever.',
-    url: 'https://reader.hive.baby',
+    url: 'https://reader.network.baby',
     siteName: 'Universal Document™',
     type: 'website',
   },
@@ -38,9 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}} />
       </head>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <UDNav engine="UD Reader" />
+        <UDNav systemName="UD Reader" />
         <div style={{ background: '#c8960a', color: '#1e2d3d', fontFamily: 'var(--font-mono)', fontSize: 12, textAlign: 'center', padding: '0 24px', height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', letterSpacing: '0.05em', textTransform: 'uppercase', flexShrink: 0 }}>
-          ✦ All Pro features free during beta — no account required · no credit card · full access while we build ✦
+          ✦ All Pro features free during beta - no account required · no credit card · full access while we build ✦
         </div>
         <main style={{ flex: 1 }}>{children}</main>
         <UDFooter />

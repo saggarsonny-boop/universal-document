@@ -1,13 +1,13 @@
 'use client'
 
 const NAV_LINKS = [
-  { label: 'Reader',      href: 'https://reader.hive.baby' },
-  { label: 'Converter',   href: 'https://converter.hive.baby' },
-  { label: 'Creator',     href: 'https://creator.hive.baby' },
-  { label: 'Validator',   href: 'https://validator.hive.baby' },
-  { label: 'Utilities',   href: 'https://utilities.hive.baby' },
-  { label: 'White Paper', href: 'https://universaldocument.hive.baby' },
-  { label: 'Certified',   href: 'https://universaldocument.hive.baby/certified' },
+  { label: 'Reader',      href: 'https://reader.network.baby' },
+  { label: 'Converter',   href: 'https://converter.network.baby' },
+  { label: 'Creator',     href: 'https://creator.network.baby' },
+  { label: 'Validator',   href: 'https://validator.network.baby' },
+  { label: 'Utilities',   href: 'https://utilities.network.baby' },
+  { label: 'White Paper', href: 'https://universaldocument.network.baby' },
+  { label: 'Certified',   href: 'https://universaldocument.network.baby/certified' },
 ]
 
 export default function UDFooter() {
@@ -31,28 +31,28 @@ export default function UDFooter() {
           ))}
         </div>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ud-muted)', marginBottom: 10 }}>
-          <a href="mailto:hive@hive.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>hive@hive.baby</a>
+          <a href="mailto:support@network.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>support@network.baby</a>
           {' · '}
-          <a href="https://universaldocument.hive.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.hive.baby</a>
+          <a href="https://universaldocument.network.baby" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.network.baby</a>
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 4 }}>
           Universal Document™ is a pending trademark (USPTO Serial No. 99774346)
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-muted)', marginBottom: 10 }}>
           Need help?{' '}
-          <a href="https://support.hive.baby" style={{ color: 'var(--ud-teal)', textDecoration: 'none', fontWeight: 600 }}>
-            Priority Support — from $1.99/mo →
+          <a href="https://support.network.baby" style={{ color: 'var(--ud-teal)', textDecoration: 'none', fontWeight: 600 }}>
+            Priority Support - from $1.99/mo →
           </a>
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ud-border-2)', marginBottom: 16 }}>
           © 2026 Universal Document Incorporated
         </p>
-        <a href="https://hive.baby" style={{
+        <a href="https://network.baby" style={{
           fontSize: 18, textDecoration: 'none', opacity: 0.45, transition: 'opacity 0.15s', display: 'inline-block',
         }}
         onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
         onMouseLeave={e => (e.currentTarget.style.opacity = '0.45')}
-        title="Back to Hive">🌍</a>
+        title="Back to Network">🌍</a>
       </div>
     </footer>
   )

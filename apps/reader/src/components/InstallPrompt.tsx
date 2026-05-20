@@ -30,7 +30,7 @@ export default function InstallPrompt() {
       gap: 16, flexWrap: 'wrap',
     }}>
       <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ud-muted)' }}>
-        Install UD Reader — open .uds files like any other app
+        Install UD Reader - open .uds files like any other app
       </span>
       <button
         onClick={async () => {

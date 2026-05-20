@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react'
 
 interface Tip { label: string; text: string }
-interface Props { engineId: string; tips: Tip[] }
+interface Props { systemId: string; tips: Tip[] }
 
-const GLOBAL_KEY = 'hive_ud_tour_dismissed'
+const GLOBAL_KEY = 'ud_tour_dismissed'
 
-export default function TooltipTour({ tips }: Props) {
+export default function TooltipTour({ systemId, tips }: Props) {
   const [step, setStep] = useState<number | null>(null)
 
   useEffect(() => {

@@ -41,6 +41,42 @@ const schema = {
         expiry: { type: 'string', format: 'date-time' },
         revoked: { type: 'boolean' },
         revocation_url: { type: 'string', format: 'uri' },
+        visual_identity: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            role: { type: 'string' },
+            watermark_hex: { type: 'string' },
+            watermark_tone: { type: 'string' },
+            file_metadata: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                format_family: { type: 'string' },
+                extension_hint: { type: 'string' },
+              },
+            },
+            icon: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                desktop: { type: 'string' },
+                finder_preview: { type: 'string' },
+                explorer_preview: { type: 'string' },
+                preview_pane: { type: 'string' },
+              },
+            },
+          },
+        },
+        viral_links: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            open_in_reader: { type: 'string', format: 'uri' },
+            convert_to_uds: { type: 'string', format: 'uri' },
+            create_udr: { type: 'string', format: 'uri' },
+          },
+        },
       },
     },
     manifest: {

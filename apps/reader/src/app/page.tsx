@@ -203,7 +203,7 @@ function ReaderApp() {
 
   return (
     <div style={centeredPage}>
-      <UDOnboarding engine="Reader" />
+      <UDOnboarding systemName="Reader" />
       <div style={{ maxWidth: '560px', width: '100%' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
@@ -298,7 +298,7 @@ function ReaderApp() {
         <InstallPrompt />
 
         <div style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--ud-muted)', fontFamily: 'var(--font-mono)' }}>
-          Universal Document™ · iSDF v0.1.0 · The Hive Engines · Free forever
+          Universal Document™ · iSDF v0.1.0 · The Network Processors · Free forever
         </div>
 
         {/* Comparison section */}
@@ -316,16 +316,16 @@ function ReaderApp() {
                 body: 'Opens a flat image of a document. No structure, no layers, no metadata you can act on. Cannot tell you if the document has expired, been tampered with, or who it was intended for.',
               },
               {
-                title: 'UD Reader — tamper verification',
-                body: 'Every .uds file carries its seal hash. UD Reader checks it on open and shows you the result — intact, modified, or unverified — before you read a single word.',
+                title: 'UD Reader - tamper verification',
+                body: 'Every .uds file carries its seal hash. UD Reader checks it on open and shows you the result - intact, modified, or unverified - before you read a single word.',
               },
               {
-                title: 'UD Reader — expiry & audience switching',
+                title: 'UD Reader - expiry & audience switching',
                 body: 'Documents can carry expiry dates and audience-specific clarity layers. UD Reader shows you whether a document is still valid and lets you switch between patient, clinician, and legal views in one tap.',
               },
               {
-                title: 'UD Reader — multilingual & chain of custody',
-                body: 'If a document contains translated versions, switch language without leaving the reader. Chain-of-custody provenance — who created, converted, or sealed the file — is visible in a single panel.',
+                title: 'UD Reader - multilingual & chain of custody',
+                body: 'If a document contains translated versions, switch language without leaving the reader. Chain-of-custody provenance - who created, converted, or sealed the file - is visible in a single panel.',
               },
             ].map((card) => (
               <div key={card.title} style={{
@@ -342,10 +342,10 @@ function ReaderApp() {
         </div>
 
       </div>
-      <TooltipTour engineId="reader" tips={[
+      <TooltipTour systemId="reader" tips={[
         { label: 'Open a file', text: 'Drag a .uds or .udr file to open it. The document renders with full formatting preserved.' },
         { label: 'Sealed documents', text: '.uds files show a tamper-evident seal indicator. Green = intact. Red = the document has been modified since sealing.' },
-        { label: 'Block structure', text: 'Universal Documents use structured blocks — headings, paragraphs, lists, tables — not visual layout.' },
+        { label: 'Block structure', text: 'Universal Documents use structured blocks - headings, paragraphs, lists, tables - not visual layout.' },
         { label: 'No data sent', text: 'Reading runs locally. Your document never leaves your device.' },
       ]} />
     </div>

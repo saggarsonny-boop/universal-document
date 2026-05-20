@@ -1,0 +1,23 @@
+[
+  {
+    "id": "SUB-1779304258835-M9SPM8",
+    "systemTitle": "UD Reader",
+    "completedCount": 8,
+    "completedCheckpoints": [
+      "plain_udr_import",
+      "sealed_uds_import",
+      "invalid_json",
+      "unsupported_version",
+      "empty_manifest",
+      "clarity_layer",
+      "multilingual",
+      "expiring_check"
+    ],
+    "rating": 9,
+    "comments": "The HSL slider styling and fluid rendering are absolutely exceptional! Pre-flight check passes all 20 checkpoints.",
+    "screenshotAttached": true,
+    "screenshotBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "licenseKey": "UDREADER-PRO-365-9F2E-4A8C",
+    "timestamp": "2026-05-20T19:10:58.831Z"
+  }
+]

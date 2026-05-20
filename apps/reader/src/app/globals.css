@@ -1,4 +1,4 @@
-/* Fonts loaded via next/font/google in layout.tsx — UD Design System v1.0 2026-04-22 */
+/* Fonts loaded via next/font/google in layout.tsx - UD Design System v1.0 2026-04-22 */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,7 +26,7 @@
   --font-body:    'DM Sans', system-ui, sans-serif;
   --font-mono:    'DM Mono', 'Courier New', monospace;
 
-  /* Typography scale — WCAG minimums */
+  /* Typography scale - WCAG minimums */
   --ud-text-base: 16px;
   --ud-text-sm:   14px;
   --ud-text-xs:   13px;
@@ -56,11 +56,11 @@ a { color: var(--ud-ink); text-decoration: none; }
 a:hover { color: var(--ud-teal); }
 
 /* Planet button spin */
-@keyframes hive-planet-spin {
+@keyframes network-planet-spin {
   from { transform: rotate(0deg) }
   to   { transform: rotate(360deg) }
 }
-.hive-planet { animation: hive-planet-spin 12s linear infinite; display: inline-block; }
+.network-planet { animation: network-planet-spin 12s linear infinite; display: inline-block; }
 
 /* Shared entrance animation */
 @keyframes ud-fade-in {
@@ -159,7 +159,7 @@ a:hover { color: var(--ud-teal); }
   background: var(--ud-teal-2);
 }
 
-/* Legacy var aliases — existing page components use these names */
+/* Legacy var aliases - existing page components use these names */
 :root {
   --bg:       var(--ud-paper);
   --surface:  #ffffff;

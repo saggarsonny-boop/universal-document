@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 export default function OpenPage() {
   useEffect(() => {
     if (!('launchQueue' in window)) {
-      // File Handling API not supported — redirect home
+      // File Handling API not supported - redirect home
       window.location.href = '/'
       return
     }

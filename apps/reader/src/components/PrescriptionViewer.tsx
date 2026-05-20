@@ -26,7 +26,7 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
 
   useEffect(() => {
     if (!metadata.id || !seal?.hash) return
-    fetch(`https://ud.hive.baby/api/verify?id=${encodeURIComponent(metadata.id)}`)
+    fetch(`https://ud.network.baby/api/verify?id=${encodeURIComponent(metadata.id)}`)
       .then(r => r.json())
       .then((data: { registered: boolean; hash?: string; revoked?: boolean; sealed_at?: string; blockchain_tx?: string | null }) => {
         if (!data.registered) { setRegistry({ registered: false }); return }
@@ -41,7 +41,7 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
       .catch(() => setRegistry({ registered: false, error: 'Registry unavailable' }))
   }, [metadata.id, seal?.hash])
 
-  // Parse heading/paragraph blocks — each block: { id, type, base_content: { text } }
+  // Parse heading/paragraph blocks - each block: { id, type, base_content: { text } }
   let section = ''
   const fields: Record<string, string> = {}
   const clinicalNotes: string[] = []
@@ -231,7 +231,7 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
             </div>
           )}
 
-          {/* Medication — prominent */}
+          {/* Medication - prominent */}
           <div style={{
             background: '#f8fafc',
             border: '1.5px solid #e2e8f0',
@@ -343,7 +343,7 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
           </div>
         </div>
 
-        {/* Footer — seal */}
+        {/* Footer - seal */}
         <div style={{
           background: '#f9fafb',
           borderTop: '1px solid #e5e7eb',
@@ -360,7 +360,7 @@ export function PrescriptionViewer({ doc }: { doc: UDDocument }) {
           <div style={{ fontSize: 10, fontFamily: 'monospace', color: isVerified ? '#059669' : '#9ca3af' }}>
             {registry === null ? '○ Checking registry…' :
               isVerified ? '✓ Verified · registry match' :
-              sealFailed ? '✗ Hash mismatch — document modified' :
+              sealFailed ? '✗ Hash mismatch - document modified' :
               notInRegistry ? '○ Not in registry' :
               registry?.error ? '○ Registry unavailable' :
               '○ Pending verification'}

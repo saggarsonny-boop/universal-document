@@ -11,18 +11,18 @@ interface Step {
 const STEPS: Record<string, Step[]> = {
   Converter: [
     { icon: '📄', iconAnim: 'ud-bounce', title: 'Convert any document', body: 'Turn PDF, DOCX, TXT, or MD into a Universal Document™ (.uds) file.' },
-    { icon: '⬆️', iconAnim: 'ud-rise', title: 'Drag or click to upload', body: 'Drop your file anywhere on the page — conversion happens instantly in your browser.' },
+    { icon: '⬆️', iconAnim: 'ud-rise', title: 'Drag or click to upload', body: 'Drop your file anywhere on the page - conversion happens instantly in your browser.' },
     { icon: '🆓', title: 'Free forever', body: 'Up to 5 files per day, free. No account needed.' },
   ],
   Reader: [
     { icon: '📖', iconAnim: 'ud-bounce', title: 'Open any Universal Document™', body: 'UD Reader opens .uds and .udr files directly in your browser.' },
-    { icon: '🖱️', iconAnim: 'ud-rise', title: 'Drag a file here, or paste a URL', body: 'No upload required — your document stays on your device.' },
+    { icon: '🖱️', iconAnim: 'ud-rise', title: 'Drag a file here, or paste a URL', body: 'No upload required - your document stays on your device.' },
     { icon: '🌍', title: 'Opens in your language', body: 'Multilingual documents adapt automatically to your locale.' },
   ],
   Creator: [
     { icon: '✏️', iconAnim: 'ud-bounce', title: 'Create Universal Document™', body: 'Write structured documents from scratch with the block editor.' },
     { icon: '⬛', iconAnim: 'ud-rise', title: 'Blocks: headings, paragraphs, lists', body: 'Click + to add a block. Press Enter to continue. Bold, italic, and links supported.' },
-    { icon: '⬇️', title: 'Export as .uds', body: 'Download your document — it opens in any UD Reader, forever.' },
+    { icon: '⬇️', title: 'Export as .uds', body: 'Download your document - it opens in any UD Reader, forever.' },
   ],
   Validator: [
     { icon: '✅', iconAnim: 'ud-bounce', title: 'Verify any Universal Document™', body: 'Drop a .uds file to instantly check its structure and integrity.' },
@@ -38,12 +38,12 @@ const CTA: Record<string, string> = {
   Validator: 'Validate a file →',
 }
 
-export default function UDOnboarding({ engine }: { engine: string }) {
+export default function UDOnboarding({ systemName }: { systemName: string }) {
   const [visible, setVisible] = useState(false)
   const [step, setStep] = useState(0)
   const [fading, setFading] = useState(false)
-  const steps = STEPS[engine] ?? []
-  const key = `ud-${engine.toLowerCase()}-onboarded`
+  const steps = STEPS[systemName] ?? []
+  const key = `ud-${systemName.toLowerCase()}-onboarded`
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -162,7 +162,7 @@ export default function UDOnboarding({ engine }: { engine: string }) {
               (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
               ;(e.currentTarget as HTMLElement).style.boxShadow = '0 2px 8px rgba(30,45,61,0.2)'
             }}
-            >{CTA[engine] ?? 'Got it'}</button>
+            >{CTA[systemName] ?? 'Got it'}</button>
           )}
         </div>
       </div>

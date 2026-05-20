@@ -40,7 +40,7 @@ export default function DocumentViewer({ doc }: Props) {
     const sealHash = seal?.hash
     if (!docId || !sealHash) return
 
-    fetch(`https://ud.hive.baby/api/verify?id=${encodeURIComponent(docId)}`)
+    fetch(`https://ud.network.baby/api/verify?id=${encodeURIComponent(docId)}`)
       .then(r => r.json())
       .then((data: { registered: boolean; hash?: string; revoked?: boolean; sealed_at?: string; blockchain_tx?: string | null }) => {
         if (!data.registered) {
@@ -123,7 +123,7 @@ export default function DocumentViewer({ doc }: Props) {
               width: 28,
               height: 28,
               borderRadius: 6,
-              background: identity.watermark_hex,
+              background: identity?.watermark_hex || '#c8960a',
               color: '#fff',
               fontSize: '0.68rem',
               fontWeight: 700,
@@ -131,10 +131,10 @@ export default function DocumentViewer({ doc }: Props) {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              {identity.file_metadata.extension_hint.toUpperCase()}
+              {(identity?.file_metadata?.extension_hint || 'uds').toUpperCase()}
             </div>
             <div style={{ fontSize: '0.82rem', color: '#1e3a8a' }}>
-              {identity.role === 'sealed' ? 'UDS sealed identity' : 'UDR editable identity'} · {identity.watermark_tone.replace('_', ' ')} watermark
+              {identity?.role === 'sealed' ? 'UDS sealed identity' : 'UDR editable identity'} · {(identity?.watermark_tone || 'standard').replace('_', ' ')} watermark
             </div>
           </div>
           <div style={{ fontSize: '0.75rem', color: '#1d4ed8' }}>
@@ -192,12 +192,12 @@ export default function DocumentViewer({ doc }: Props) {
           ) : registry.error ? (
             <RegistryRow icon="○" color="#9ca3af" label="Registry unavailable" />
           ) : !registry.registered ? (
-            <RegistryRow icon="⚠" color="#d97706" label="Not registered — document not sealed via UD infrastructure" />
+            <RegistryRow icon="⚠" color="#d97706" label="Not registered - document not sealed via UD infrastructure" />
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <RegistryRow icon="✓" color="#059669" label={`Registered · sealed ${registry.sealed_at ? new Date(registry.sealed_at).toLocaleDateString() : ''}`} />
-              {registry.hashMatch === true && <RegistryRow icon="✓" color="#059669" label="Hash verified — document intact" />}
-              {registry.hashMatch === false && <RegistryRow icon="✗" color="#dc2626" label="Hash mismatch — document has been modified since sealing" />}
+              {registry.hashMatch === true && <RegistryRow icon="✓" color="#059669" label="Hash verified - document intact" />}
+              {registry.hashMatch === false && <RegistryRow icon="✗" color="#dc2626" label="Hash mismatch - document has been modified since sealing" />}
               {registry.revoked ? <RegistryRow icon="✗" color="#dc2626" label="Revoked" /> : <RegistryRow icon="✓" color="#059669" label="Not revoked" />}
               {registry.blockchain_tx && <RegistryRow icon="✓" color="#6366f1" label="Bitcoin anchor proof available (OpenTimestamps)" />}
               {seal.verification_url && (
@@ -276,11 +276,11 @@ export default function DocumentViewer({ doc }: Props) {
             fontSize: '4.2rem',
             fontWeight: 800,
             letterSpacing: '0.1em',
-            color: identity.watermark_hex,
+            color: identity?.watermark_hex || '#c8960a',
             textAlign: 'center',
             paddingTop: '6rem',
           }}>
-            {identity.file_metadata.extension_hint.toUpperCase()} · UNIVERSAL DOCUMENT
+            {(identity?.file_metadata?.extension_hint || 'uds').toUpperCase()} · UNIVERSAL DOCUMENT
           </div>
         )}
         {blocks.map((block) => (
@@ -300,12 +300,12 @@ export default function DocumentViewer({ doc }: Props) {
             File Preview Pane Metadata
           </div>
           <div style={{ padding: '0.9rem', fontSize: '0.8rem', color: '#334155', display: 'grid', gap: '0.4rem' }}>
-            <div>Format family: {identity.file_metadata.format_family}</div>
-            <div>Extension hint: .{identity.file_metadata.extension_hint}</div>
-            <div>Desktop icon id: {identity.icon.desktop}</div>
-            <div>Finder preview id: {identity.icon.finder_preview}</div>
-            <div>Explorer preview id: {identity.icon.explorer_preview}</div>
-            <div>Preview pane id: {identity.icon.preview_pane}</div>
+            <div>Format family: {identity?.file_metadata?.format_family || 'unknown'}</div>
+            <div>Extension hint: .{identity?.file_metadata?.extension_hint || 'uds'}</div>
+            <div>Desktop icon id: {identity?.icon?.desktop || 'none'}</div>
+            <div>Finder preview id: {identity?.icon?.finder_preview || 'none'}</div>
+            <div>Explorer preview id: {identity?.icon?.explorer_preview || 'none'}</div>
+            <div>Preview pane id: {identity?.icon?.preview_pane || 'none'}</div>
           </div>
         </div>
       )}
@@ -313,12 +313,12 @@ export default function DocumentViewer({ doc }: Props) {
       {metadata.viral_links && (
         <div style={{ marginTop: '1rem', border: '1px solid #dbeafe', borderRadius: '0.75rem', background: '#eff6ff', padding: '0.85rem 1rem' }}>
           <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e40af', marginBottom: '0.45rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Ecosystem Links
+            Environment Links
           </div>
           <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap', fontSize: '0.82rem' }}>
-            <a href={metadata.viral_links.open_in_reader} style={{ color: '#1d4ed8' }}>Open in UD Reader</a>
-            <a href={metadata.viral_links.convert_to_uds} style={{ color: '#1d4ed8' }}>Convert your files to UDS</a>
-            <a href={metadata.viral_links.create_udr} style={{ color: '#1d4ed8' }}>Create your own UDR</a>
+            {metadata.viral_links?.open_in_reader && <a href={metadata.viral_links.open_in_reader} style={{ color: '#1d4ed8' }}>Open in UD Reader</a>}
+            {metadata.viral_links?.convert_to_uds && <a href={metadata.viral_links.convert_to_uds} style={{ color: '#1d4ed8' }}>Convert your files to UDS</a>}
+            {metadata.viral_links?.create_udr && <a href={metadata.viral_links.create_udr} style={{ color: '#1d4ed8' }}>Create your own UDR</a>}
           </div>
         </div>
       )}
@@ -375,7 +375,7 @@ export default function DocumentViewer({ doc }: Props) {
 
       {/* Footer */}
       <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #f3f4f6', fontSize: '0.75rem', color: '#d1d5db', textAlign: 'center' }}>
-        Universal Document™ v{doc.ud_version} · UD Reader by The Hive Engines · Free forever
+        Universal Document™ v{doc.ud_version} · UD Reader by The Network Processors · Free forever
       </div>
 
     </div>
