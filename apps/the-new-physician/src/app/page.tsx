@@ -196,27 +196,62 @@ export default function Home() {
             <p className="text-neutral-500 max-w-2xl mx-auto">Explore the ideas, the voice, and the movement across multiple channels.</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 max-w-5xl mx-auto gap-8">
             
-            {/* Podcast Card */}
+            {/* Podcast & Allies Card */}
             <MagneticCard className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full">
               <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Mic size={24} />
               </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-3">Podcasts & Visual Media</h3>
-              <p className="text-neutral-400 mb-8 flex-grow">
-                Deep, unscripted conversations with medical leaders, short-form visual insights, and raw reflections on clinical reinvention.
+              <h3 className="text-2xl font-display font-bold text-white mb-3">Podcasts & Allies</h3>
+              <p className="text-neutral-400 mb-6 flex-grow">
+                Deep conversations with medical leaders, short-form visual insights, and key alliances fighting for physician sovereignty.
               </p>
-              <div className="flex flex-col gap-4 mt-auto border-t border-neutral-800/50 pt-6">
-                <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
-                  The New Physician Podcast <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                </a>
-                <a href="https://youtube.com/shorts/EPwICA7vr0k" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
-                  Watch YouTube Shorts <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                </a>
-                <a href="#systems-check" className="flex items-center justify-between text-sm font-bold text-neutral-500 hover:text-white transition-colors group/link">
-                  Systems Check (Coming Soon) <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                </a>
+              
+              <div className="space-y-6 mt-auto border-t border-neutral-800/50 pt-6">
+                {/* Our Feeds */}
+                <div>
+                  <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Our Feeds</div>
+                  <div className="flex flex-col gap-3">
+                    <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
+                      The New Physician Podcast <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                    </a>
+                    <a href="https://youtube.com/shorts/EPwICA7vr0k" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
+                      Watch YouTube Shorts <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Allied Coalition */}
+                <div>
+                  <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Allied Coalition Podcasts</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <a href="https://doctorscrossing.com" target="_blank" rel="noreferrer" className="group/ally flex flex-col p-2.5 rounded-lg border border-neutral-800 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]">
+                      <span className="text-[10px] font-bold text-white group-hover/ally:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
+                        Heather Fork, MD <ExternalLink size={8} className="opacity-50" />
+                      </span>
+                      <span className="text-[9px] text-neutral-500 mt-0.5">Doctor's Crossing</span>
+                    </a>
+                    <a href="https://nonclinicalphysicians.com" target="_blank" rel="noreferrer" className="group/ally flex flex-col p-2.5 rounded-lg border border-neutral-800 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]">
+                      <span className="text-[10px] font-bold text-white group-hover/ally:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
+                        John Jurica, MD <ExternalLink size={8} className="opacity-50" />
+                      </span>
+                      <span className="text-[9px] text-neutral-500 mt-0.5">PNC Careers</span>
+                    </a>
+                    <a href="https://www.vernonwilliamsmd.com" target="_blank" rel="noreferrer" className="group/ally flex flex-col p-2.5 rounded-lg border border-neutral-800 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]">
+                      <span className="text-[10px] font-bold text-white group-hover/ally:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
+                        Vernon Williams, MD <ExternalLink size={8} className="opacity-50" />
+                      </span>
+                      <span className="text-[9px] text-neutral-500 mt-0.5">Neuro-Performance</span>
+                    </a>
+                    <a href="https://therojasreport.com" target="_blank" rel="noreferrer" className="group/ally flex flex-col p-2.5 rounded-lg border border-neutral-800 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]">
+                      <span className="text-[10px] font-bold text-white group-hover/ally:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
+                        Dutch Rojas <ExternalLink size={8} className="opacity-50" />
+                      </span>
+                      <span className="text-[9px] text-neutral-500 mt-0.5">The Rojas Report</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </MagneticCard>
 
@@ -225,13 +260,13 @@ export default function Home() {
               <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <FileText size={24} />
               </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-3">The Crucible: Systems Autopsies</h3>
+              <h3 className="text-2xl font-display font-bold text-white mb-3">Crucible: Systems Autopsies</h3>
               <p className="text-neutral-400 mb-6 flex-grow">
-                Reflective essays and peer-reviewed architecture detailing the future of healthcare. Designed for critical thinkers willing to look past the headlines, hear all sides, and analyze the mechanics of systemic failure and reinvention.
+                Reflective essays and peer-reviewed architecture detailing the future of healthcare. Designed for critical thinkers analyzing systemic failure.
               </p>
               
               {/* Scrolling TNP Series Device */}
-              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex flex-col h-[350px]">
+              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex flex-col h-[230px] mb-4">
                 <div className="p-4 border-b border-neutral-800/50 shrink-0 bg-neutral-950 flex justify-between items-center">
                   <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">The TNP Series</div>
                   <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest bg-neutral-900 px-2 py-1 rounded">Auto-Synced</div>
@@ -299,115 +334,19 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-6 text-sm font-bold text-[#D4AF37] mt-auto">
-                <a href="https://medium.com/@saggarsonny" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
-                  Medium <ExternalLink size={14} />
+              <div className="flex flex-col gap-4 mt-auto">
+                <a href="https://hub.newphysician.org" className="flex items-center justify-center gap-2 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 border border-[#D4AF37]/30 text-[#D4AF37] px-4 py-2.5 rounded-xl font-bold text-xs transition-colors group/hub">
+                  Access Complete Archive in the Hub <ArrowRight size={14} className="group-hover/hub:translate-x-1 transition-transform" />
                 </a>
-                <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10558116" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
-                  SSRN <ExternalLink size={14} />
-                </a>
-              </div>
-            </MagneticCard>
 
-            {/* Featured Allies Card */}
-            <MagneticCard className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full md:col-span-2 lg:col-span-1 block">
-              <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Users size={24} />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-3">Featured Allies</h3>
-              <p className="text-neutral-400 mb-6 flex-grow">
-                A premium alliance of voices and platforms fighting for physician autonomy, clinical sovereignty, and career reinvention.
-              </p>
-              
-              {/* Scrolling Allies Device */}
-              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex flex-col h-[350px] mb-6">
-                <div className="p-4 border-b border-neutral-800/50 shrink-0 bg-neutral-950 flex justify-between items-center">
-                  <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">Allied Networks</div>
-                  <div className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest bg-[#D4AF37]/10 px-2 py-1 rounded">Active Feeds</div>
+                <div className="flex items-center justify-center gap-6 text-sm font-bold text-[#D4AF37] pt-2 border-t border-neutral-800/50">
+                  <a href="https://medium.com/@saggarsonny" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
+                    Medium <ExternalLink size={14} />
+                  </a>
+                  <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10558116" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
+                    SSRN <ExternalLink size={14} />
+                  </a>
                 </div>
-                <div className="p-4 overflow-y-auto space-y-4 relative scroll-smooth flex-grow custom-scrollbar">
-                  
-                  {/* Ally 1: Dr. Heather Fork */}
-                  <a 
-                    href="https://doctorscrossing.com" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="group/item block p-3 rounded-lg border border-neutral-800/60 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/35 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Heather Fork, MD</span>
-                      <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border border-[#D4AF37]/30 px-1.5 py-0.5 rounded bg-[#D4AF37]/5">Doctor's Crossing</span>
-                    </div>
-                    <div className="text-sm font-bold text-white mt-1.5 group-hover/item:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
-                      Career Transition Coaching <ExternalLink size={12} className="opacity-60 group-hover/item:opacity-100 transition-opacity" />
-                    </div>
-                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">
-                      Proven exit frameworks, CME courses, and assessments helping physicians navigate clinical transitions.
-                    </p>
-                  </a>
-
-                  {/* Ally 2: Dr. John Jurica */}
-                  <a 
-                    href="https://nonclinicalphysicians.com" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="group/item block p-3 rounded-lg border border-neutral-800/60 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/35 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">John Jurica, MD</span>
-                      <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border border-[#D4AF37]/30 px-1.5 py-0.5 rounded bg-[#D4AF37]/5">PNC Careers</span>
-                    </div>
-                    <div className="text-sm font-bold text-white mt-1.5 group-hover/item:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
-                      Non-Clinical Career Academy <ExternalLink size={12} className="opacity-60 group-hover/item:opacity-100 transition-opacity" />
-                    </div>
-                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">
-                      The gold standard weekly podcast for physician pivots and the private NewScript peer community.
-                    </p>
-                  </a>
-
-                  {/* Ally 3: Dr. Vernon Williams */}
-                  <a 
-                    href="https://www.vernonwilliamsmd.com" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="group/item block p-3 rounded-lg border border-neutral-800/60 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/35 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Vernon Williams, MD</span>
-                      <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border border-[#D4AF37]/30 px-1.5 py-0.5 rounded bg-[#D4AF37]/5">Neuro-Performance</span>
-                    </div>
-                    <div className="text-sm font-bold text-white mt-1.5 group-hover/item:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
-                      B-ASE Brain Optimization <ExternalLink size={12} className="opacity-60 group-hover/item:opacity-100 transition-opacity" />
-                    </div>
-                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">
-                      Elite brain acceleration and cognitive training programs designed to reverse administrative burnout.
-                    </p>
-                  </a>
-
-                  {/* Ally 4: Dutch Rojas */}
-                  <a 
-                    href="https://therojasreport.com" 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="group/item block p-3 rounded-lg border border-neutral-800/60 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/35 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">Dutch Rojas</span>
-                      <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border border-[#D4AF37]/30 px-1.5 py-0.5 rounded bg-[#D4AF37]/5">The Rojas Report</span>
-                    </div>
-                    <div className="text-sm font-bold text-white mt-1.5 group-hover/item:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
-                      Direct Care Revolution <ExternalLink size={12} className="opacity-60 group-hover/item:opacity-100 transition-opacity" />
-                    </div>
-                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">
-                      Disrupting the insurance cartel and pricing lock-ins with physician-led cash marketplaces.
-                    </p>
-                  </a>
-
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 text-sm font-bold text-[#D4AF37] mt-auto">
-                <span className="text-neutral-500 uppercase tracking-widest text-[10px] font-bold">Coalition Partners</span>
               </div>
             </MagneticCard>
 
