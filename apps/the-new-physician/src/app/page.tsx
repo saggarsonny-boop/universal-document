@@ -226,7 +226,7 @@ export default function Home() {
                       </span>
                       <span className="text-[9px] text-neutral-500 mt-0.5">Neuro-Performance</span>
                     </a>
-                    <a href="https://therojasreport.com" target="_blank" rel="noreferrer" className="group/ally flex flex-col p-2.5 rounded-lg border border-neutral-800 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]">
+                    <a href="https://therojasreport.substack.com" target="_blank" rel="noreferrer" className="group/ally flex flex-col p-2.5 rounded-lg border border-neutral-800 bg-[#D4AF37]/5 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/30 transition-all shadow-[0_0_10px_rgba(212,175,55,0.02)]">
                       <span className="text-[10px] font-bold text-white group-hover/ally:text-[#D4AF37] transition-colors flex items-center justify-between gap-1">
                         Dutch Rojas <ExternalLink size={8} className="opacity-50" />
                       </span>
