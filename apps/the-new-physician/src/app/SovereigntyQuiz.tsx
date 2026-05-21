@@ -19,17 +19,17 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     id: 1,
-    category: "EMR Compliance Burden",
-    question: "Daily EMR Checklist Overhead",
-    description: "What percentage of your daily clinical hours is spent navigating rigid documentation, clicking administrative checklists, or resolving redundant screen alerts rather than engaging in direct patient care?",
-    lowLabel: "Direct Care First (< 10%)",
-    highLabel: "Complete Checklist Prison (90%+)"
+    category: "EMR & Documentation Burden",
+    question: "Daily Administrative Documentation Overhead",
+    description: "What percentage of your daily clinical hours is spent on rigid documentation, clicking administrative checklists, or resolving redundant screen alerts rather than active patient care?",
+    lowLabel: "Direct Care First (< 10% of time)",
+    highLabel: "Severe EMR Domination (90%+ of time)"
   },
   {
     id: 2,
     category: "Coding & Keyword Pressure",
     question: "Billing-Driven Note Structuring",
-    description: "How heavily do you feel pressured to structure your notes with specific artificial billing keywords to satisfy administrative guidelines or insurance requirements rather than documenting true clinical reality?",
+    description: "How heavily are you pressured to structure your notes with specific, billing-driven keywords and macro-templates to satisfy administrative guidelines rather than capturing true clinical reality?",
     lowLabel: "Pure Clinical Precision",
     highLabel: "Total Billing Compliance"
   },
@@ -37,35 +37,76 @@ const QUESTIONS: Question[] = [
     id: 3,
     category: "Audit & Surveillance Anxiety",
     question: "Retrospective Audit & Denial Anxiety",
-    description: "How much does the ambient threat of billing audits, retrospective insurance denials, or administrative metric downgrades influence your diagnostic and treatment choices?",
-    lowLabel: "Independent Judgment",
-    highLabel: "Fear-Driven Over-Ordering"
+    description: "How much does the ambient threat of billing audits, retrospective insurance denials, or administrative downgrades influence your diagnostic and treatment choices?",
+    lowLabel: "Unbiased Clinical Judgment",
+    highLabel: "Defensive, Compliance-Driven Care"
   },
   {
     id: 4,
     category: "Technology Autonomy Deficit",
-    question: "EMR Workflow Rigidity",
-    description: "To what degree do your existing software tools (EMR, prescribing platforms, scheduling systems) restrict or overwrite your custom workflow, custom templates, or clinical autonomy?",
-    lowLabel: "Fully Customizable Tools",
-    highLabel: "Rigid Algorithmic Rails"
+    question: "EMR Workflow & Template Rigidity",
+    description: "To what degree do your clinical software tools (EMR, prescribing platforms, order sets) restrict or override your custom workflows, personal templates, and clinical preferences?",
+    lowLabel: "Highly Adaptable Software",
+    highLabel: "Rigid, Unyielding Systems"
   },
   {
     id: 5,
     category: "Cognitive Captivity (Decision Overrides)",
-    question: "Algorithmic Decision Overrides",
-    description: "How often are your evidence-based treatment plans or medication choices flagged, delayed, or overridden by insurance algorithms, peer-review mandates, or formulary guidelines?",
-    lowLabel: "Never Overridden",
-    highLabel: "Constant Prior-Auth Battle"
+    question: "Insurance & Prior-Authorization Overrides",
+    description: "How frequently are your evidence-based treatment plans, orders, or medication choices delayed, flagged, or overridden by insurance algorithms and peer-review mandates?",
+    lowLabel: "Direct Order Fulfillment",
+    highLabel: "Incessant Prior-Auth Hurdles"
   },
   {
     id: 6,
     category: "Systemic Burnout & Alienation",
-    question: "Administrative Purpose Alienation",
-    description: "How severely do you feel alienated from the core purpose of your clinical oath due to compliance-driven administrative overhead?",
-    lowLabel: "Connected to Purpose",
-    highLabel: "Severely Alienated / Burned Out"
+    question: "Professional Alienation & Burnout",
+    description: "How severely do you feel disconnected or alienated from the core healing purpose of your clinical oath due to compliance-driven administrative workloads?",
+    lowLabel: "Deeply Fulfilled & Connected",
+    highLabel: "Profoundly Exhausted / Alienated"
   }
 ];
+
+
+const getDynamicStatus = (id: number, value: number): string => {
+  if (id === 1) {
+    if (value <= 20) return "Direct Patient Focus: Documentation is minimal, fast, and does not compromise direct patient interaction.";
+    if (value <= 50) return "Moderate Friction: Noticeable administrative clicks and template-filling, but manageable within standard hours.";
+    if (value <= 80) return "Significant Administrative Capture: Over half of your clinical shift is consumed by EMR compliance tasks.";
+    return "Severe EMR Domination: Rigid documentation, screen alerts, and checklists consume nearly your entire day.";
+  }
+  if (id === 2) {
+    if (value <= 20) return "Narrative Accuracy: Notes are written purely for clinical precision and peer communication.";
+    if (value <= 50) return "Minor Distortion: Specific billing-friendly keywords and macro-templates are occasionally inserted.";
+    if (value <= 80) return "High Billing Adaptations: The clinical narrative is heavily altered to fit compliance criteria.";
+    return "Total Billing Compliance: Your documentation is written entirely to satisfy auditing codes rather than true clinical cases.";
+  }
+  if (id === 3) {
+    if (value <= 20) return "Clinical Autonomy: Diagnostic and treatment decisions are made solely based on the patient's best clinical interest.";
+    if (value <= 50) return "Strategic Awareness: Occasional worry about denial rates or documentation queries slightly affects decision-making.";
+    if (value <= 80) return "Defensive Medicine: You frequently order redundant tests or restrict choices to avoid insurance denials and audits.";
+    return "Surveillance-Driven Care: Diagnostic choices are entirely controlled by the ambient threat of audits and billing liability.";
+  }
+  if (id === 4) {
+    if (value <= 20) return "Adaptable Infrastructure: The software fully conforms to your custom templates and personal clinical workflow.";
+    if (value <= 50) return "Minor System Friction: Some rigid prescribing or charting templates, but clinical flow is preserved.";
+    if (value <= 80) return "System-Dictated Flow: EMR constraints force you to modify how you think about and sequence patient visits.";
+    return "Rigid Algorithmic Rails: Standardized software enforces complete obedience, leaving no room for clinical style.";
+  }
+  if (id === 5) {
+    if (value <= 20) return "Direct Clinical Execution: Treatment recommendations and prescriptions are approved and fulfilled immediately.";
+    if (value <= 50) return "Intermittent Delays: Common medications are approved, but advanced or non-formulary choices trigger prior-auth queries.";
+    if (value <= 80) return "Chronic Red Tape: You spend significant professional hours arguing with insurance algorithms and pharmacy benefit managers.";
+    return "Pervasive Decision Blockades: Almost every advanced clinical decision is flagged, delayed, or overridden by administrative rules.";
+  }
+  if (id === 6) {
+    if (value <= 20) return "Deep Clinical Alignment: You feel fully connected to your calling, with ample mental space for healing work.";
+    if (value <= 50) return "Erosion of Joy: Frequent administrative requirements occasionally disrupt your focus and peace of mind.";
+    if (value <= 80) return "Burnout Risk: Chronic clerical overhead has left you physically and emotionally depleted.";
+    return "Total Alienation: Complete clinical burnout. You feel entirely separated from the patient-care purpose of your medical oath.";
+  }
+  return "";
+};
 
 export default function SovereigntyQuiz() {
   const [step, setStep] = useState<number>(0);
@@ -276,13 +317,26 @@ export default function SovereigntyQuiz() {
                 <span className="text-[#D4AF37]">Audit Metric {step} of 6</span>
               </div>
 
-              <div className="space-y-3">
-                <h3 className="text-2xl font-display font-bold text-white leading-tight">
-                  {QUESTIONS[step - 1].question}
-                </h3>
-                <p className="text-neutral-400 text-base md:text-lg leading-relaxed">
-                  {QUESTIONS[step - 1].description}
-                </p>
+              <div className="space-y-4">
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-display font-bold text-white leading-tight">
+                    {QUESTIONS[step - 1].question}
+                  </h3>
+                  <p className="text-neutral-400 text-base md:text-lg leading-relaxed">
+                    {QUESTIONS[step - 1].description}
+                  </p>
+                </div>
+
+                {/* Permanent Visual Guidance Helper Box */}
+                <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/15 p-4 rounded-2xl text-xs text-neutral-400 space-y-1 leading-relaxed">
+                  <div className="flex items-center gap-2 text-[#D4AF37] font-bold uppercase tracking-wider text-[10px]">
+                    <HelpCircle size={14} />
+                    <span>How to Rate Your Autonomy</span>
+                  </div>
+                  <p>
+                    Use the slider to score your average experience: <strong>0%</strong> indicates absolute clinical agency and freedom, whereas <strong>100%</strong> indicates absolute administrative capture and systemic control.
+                  </p>
+                </div>
               </div>
 
               {/* Gold Slider Input */}
@@ -311,6 +365,16 @@ export default function SovereigntyQuiz() {
                 <div className="flex justify-between text-xs font-mono text-neutral-500">
                   <span>{QUESTIONS[step - 1].lowLabel}</span>
                   <span>{QUESTIONS[step - 1].highLabel}</span>
+                </div>
+
+                {/* Dynamic Assessment Sub-card */}
+                <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-4 transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]">
+                  <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest block mb-1">
+                    Clinical Rating Status
+                  </span>
+                  <p className="text-sm font-medium text-neutral-200 leading-normal">
+                    {getDynamicStatus(step, answers[step])}
+                  </p>
                 </div>
               </div>
 
