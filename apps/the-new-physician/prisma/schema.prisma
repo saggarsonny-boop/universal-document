@@ -7,6 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// --- Introspected Models ---
+
+model attorneys {
+  id                 String   @id
+  clerk_id           String   @unique
+  email              String   @unique
+  stripe_customer_id String?  @unique
+  subscription_tier  String   @default("FREE")
+  subscription_id    String?
+  created_at         DateTime @default(now())
+}
+
+model documents {
+  id               String    @id
+  sender_id        String
+  original_pdf_url String
+  created_at       DateTime  @default(now())
+  status           String    @default("PENDING")
+  expires_at       DateTime
+  pdf_base64       String
+  signers          signers[]
+}
+
+model signature_events {
+  id            String   @id
+  signer_id     String
+  event_type    String
+  timestamp     DateTime @default(now())
+  hash_before   String?
+  hash_after    String?
+  payload_jsonb Json?
+  signers       signers  @relation(fields: [signer_id], references: [id], onDelete: Cascade)
+}
+
+model signers {
+  id               String             @id
+  document_id      String
+  order_index      Int
+  name             String
+  email            String
+  token            String             @unique
+  status           String             @default("PENDING")
+  signed_at        DateTime?
+  ip               String?
+  fingerprint      String?
+  geolocation      String?
+  signed_base64    String?
+  signature_events signature_events[]
+  documents        documents          @relation(fields: [document_id], references: [id], onDelete: Cascade)
+}
+
+// --- The New Physician App Models ---
+
 model WaitlistEntry {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -79,4 +132,18 @@ model PodcastEpisode {
   duration    Int      // Duration in seconds
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
+}
+
+// --- HiveIMR Global Pilot Registrations ---
+
+model IMRPilotRegistration {
+  id                    String   @id @default(cuid())
+  email                 String   @unique
+  name                  String
+  practiceType          String   // "SOLO", "CLINIC", "SYSTEM"
+  stateCountry          String
+  meansTested           Boolean  @default(false)
+  systemicCaptureScore  Int
+  answers               String   @db.Text // JSON string of user answers
+  createdAt             DateTime @default(now())
 }

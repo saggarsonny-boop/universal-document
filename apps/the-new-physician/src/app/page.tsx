@@ -4,9 +4,10 @@ import { Playfair_Display } from "next/font/google";
 import { motion } from "framer-motion";
 import HeartbeatTimestamp from "./HeartbeatTimestamp";
 import MagneticCard from "./MagneticCard";
-import { Mic, BookOpen, FileText, PlaySquare, Mail, ExternalLink, ArrowRight, Layout } from "lucide-react";
+import { Mic, BookOpen, FileText, PlaySquare, Mail, ExternalLink, ArrowRight, Layout, Shield } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { TNP_EPISODES } from "../data/tnpSeries";
+import SovereigntyQuiz from "./SovereigntyQuiz";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
@@ -98,6 +99,7 @@ export default function Home() {
             <a href="https://hub.newphysician.org" className="text-[#D4AF37] border border-[#D4AF37]/50 px-4 py-1.5 rounded-full hover:bg-[#D4AF37]/10 transition-colors font-bold">Enter Hub</a>
             <a href="#about" className="hover:text-[#D4AF37] transition-colors">About</a>
             <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="hover:text-[#D4AF37] transition-colors">Podcasts</a>
+            <a href="#pilot-program" className="hover:text-[#D4AF37] transition-colors">Pilot Program</a>
             <a href="#book" className="hover:text-[#D4AF37] transition-colors">Book</a>
             <a href="#series-index" className="hover:text-[#D4AF37] transition-colors">TNP Series</a>
             <a href="#articles" className="hover:text-[#D4AF37] transition-colors">Essays</a>
@@ -201,13 +203,16 @@ export default function Home() {
               <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Mic size={24} />
               </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-3">The Podcasts</h3>
+              <h3 className="text-2xl font-display font-bold text-white mb-3">Podcasts & Visual Media</h3>
               <p className="text-neutral-400 mb-8 flex-grow">
-                Deep, unscripted conversations with medical leaders who have survived the crucible and reinvented their careers.
+                Deep, unscripted conversations with medical leaders, short-form visual insights, and raw reflections on clinical reinvention.
               </p>
               <div className="flex flex-col gap-4 mt-auto border-t border-neutral-800/50 pt-6">
                 <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
-                  The New Physician <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                  The New Physician Podcast <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                </a>
+                <a href="https://youtube.com/shorts/EPwICA7vr0k" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
+                  Watch YouTube Shorts <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
                 </a>
                 <a href="#systems-check" className="flex items-center justify-between text-sm font-bold text-neutral-500 hover:text-white transition-colors group/link">
                   Systems Check (Coming Soon) <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
@@ -304,18 +309,18 @@ export default function Home() {
               </div>
             </MagneticCard>
 
-            {/* Videos Card */}
+            {/* Sovereign Protocol Evaluation Card */}
             <MagneticCard className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full md:col-span-2 lg:col-span-1 block">
-              <a href="https://youtube.com/shorts/EPwICA7vr0k" target="_blank" rel="noreferrer" className="flex flex-col h-full">
+              <a href="#pilot-program" className="flex flex-col h-full">
                 <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <PlaySquare size={24} />
+                  <Shield size={24} />
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-3">Visual Storytelling</h3>
+                <h3 className="text-2xl font-display font-bold text-white mb-3">Sovereign Evaluation</h3>
                 <p className="text-neutral-400 mb-8 flex-grow">
-                  Short-form insights and raw video reflections. The upcoming YouTube channel documenting the rebuild.
+                  Evaluate your clinic or practice against EMR burden and technology autonomy deficits. Run the systemic capture audit and enroll in the pilot.
                 </p>
-                <div className="flex items-center gap-2 text-sm font-bold text-[#D4AF37]">
-                  Watch Shorts <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-center gap-2 text-sm font-bold text-[#D4AF37] mt-auto">
+                  Launch Audit Quiz <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </a>
             </MagneticCard>
@@ -324,7 +329,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TNP Series Roadmap - Deprecated by scrolling component, removed to avoid duplication */}
+      {/* HiveIMR Global Pilot & Sovereignty Protocol Evaluation */}
+      <SovereigntyQuiz />
 
       {/* Book Teaser Section */}
       <section id="book" className="py-24 px-6 bg-[#D4AF37]/5 border-y border-[#D4AF37]/10">
