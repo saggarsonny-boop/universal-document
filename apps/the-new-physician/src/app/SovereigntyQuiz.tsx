@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sliders, Shield, ArrowRight, ArrowLeft, CheckCircle, 
-  AlertTriangle, Heart, Lock, RefreshCw, UserCheck, HelpCircle
+  AlertTriangle, Heart, Lock, RefreshCw, UserCheck, HelpCircle,
+  Download, Copy, ExternalLink
 } from "lucide-react";
 
 interface Question {
@@ -108,6 +109,38 @@ const getDynamicStatus = (id: number, value: number): string => {
   return "";
 };
 
+const parseBlueprint = (text: string) => {
+  if (!text) return [];
+  const rawSegments = text.split(/### Part \d+:/gi);
+  const parsed: { title: string; content: string }[] = [];
+  const defaultTitles = [
+    "Executive Summary",
+    "Current Systemic Exposure",
+    "High-Autonomy Alternatives",
+    "Phase 1 Action Steps"
+  ];
+  let segmentIndex = 0;
+  for (let i = 1; i < rawSegments.length; i++) {
+    const raw = rawSegments[i].trim();
+    if (!raw) continue;
+    const lines = raw.split("\n");
+    const title = lines[0].replace(/^[#:\s]+/, "").trim();
+    const content = lines.slice(1).join("\n").trim();
+    parsed.push({
+      title: title || defaultTitles[segmentIndex] || `Part ${segmentIndex + 1}`,
+      content: content || raw
+    });
+    segmentIndex++;
+  }
+  if (parsed.length === 0 && text) {
+    return [{
+      title: "Kintsugi Blueprint",
+      content: text
+    }];
+  }
+  return parsed;
+};
+
 export default function SovereigntyQuiz() {
   const [step, setStep] = useState<number>(0);
   const [answers, setAnswers] = useState<Record<number, number>>({
@@ -128,6 +161,10 @@ export default function SovereigntyQuiz() {
   const [meansTested, setMeansTested] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [blueprintText, setBlueprintText] = useState<string>("");
+  const [udsPayload, setUdsPayload] = useState<any>(null);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [activeBlueprintPart, setActiveBlueprintPart] = useState<number>(0);
 
   const calculateScore = () => {
     const total = Object.values(answers).reduce((sum, val) => sum + val, 0);
@@ -207,7 +244,7 @@ export default function SovereigntyQuiz() {
     setSubmitError("");
 
     try {
-      const response = await fetch("/api/pilot-registration", {
+      const response = await fetch("/api/evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -226,6 +263,8 @@ export default function SovereigntyQuiz() {
         throw new Error(data.error || "Failed to submit registration");
       }
 
+      setBlueprintText(data.blueprintText || "");
+      setUdsPayload(data.uds || null);
       setStep(9);
     } catch (err: any) {
       setSubmitError(err.message || "An unexpected error occurred. Please try again.");
@@ -643,56 +682,286 @@ export default function SovereigntyQuiz() {
               key="step-9"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-neutral-950/80 border border-neutral-800 p-8 md:p-12 rounded-3xl backdrop-blur-md shadow-2xl space-y-8 text-center"
+              className="bg-neutral-950/80 border border-[#D4AF37]/35 p-8 md:p-12 rounded-3xl backdrop-blur-md shadow-[0_0_50px_rgba(212,175,55,0.08)] space-y-10 text-center relative overflow-hidden"
             >
-              {/* Success Badge */}
-              <div className="inline-flex p-4 bg-emerald-950/30 text-emerald-400 rounded-full border border-emerald-500/30 shadow-[0_0_35px_rgba(16,185,129,0.25)]">
-                <CheckCircle size={56} className="animate-pulse" />
-              </div>
+              {/* Gold light leak effect */}
+              <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-              <div className="space-y-3">
-                <div className="inline-block bg-emerald-950/40 border border-emerald-500/25 px-4 py-1.5 rounded-full text-emerald-300 text-xs font-mono tracking-wider uppercase">
-                  Thanks for applying! Your registration is complete.
+              {/* Success Badge & Notification */}
+              <div className="relative z-10 space-y-4">
+                <div className="inline-flex p-4 bg-[#D4AF37]/5 text-[#D4AF37] rounded-full border border-[#D4AF37]/30 shadow-[0_0_35px_rgba(212,175,55,0.15)] mb-2">
+                  <Shield size={48} className="animate-pulse" />
                 </div>
-                <h3 className="text-3xl font-display font-bold text-white pt-2">
-                  Pilot Registration Logged
+                <div className="inline-block bg-emerald-950/40 border border-emerald-500/25 px-5 py-2 rounded-full text-emerald-400 text-xs font-mono tracking-wider uppercase">
+                  Sovereignty Evaluation Processed & Sealed
+                </div>
+                <h3 className="text-3xl md:text-4xl font-display font-bold text-white tracking-wide">
+                  Welcome to the Sovereignty Queue
                 </h3>
-                <p className="text-xs font-mono tracking-widest text-[#D4AF37] uppercase">
-                  Global Integration Queue Active
+                <p className="text-sm font-mono tracking-widest text-[#D4AF37]/80 uppercase">
+                  REGISTRY ID: IMR-PILOT-{udsPayload?.metadata?.id?.substring(0, 8)?.toUpperCase() || "PENDING"}-{score}
                 </p>
-                <div className="w-16 h-1 bg-emerald-500 mx-auto my-3"></div>
+                <div className="w-20 h-1 bg-[#D4AF37] mx-auto my-4"></div>
               </div>
 
-              {/* Informative copy answering user questions about emails and what happens next */}
-              <div className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-lg mx-auto space-y-5">
-                <p className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl text-xs text-left text-neutral-300 leading-relaxed">
-                  <span className="font-bold text-emerald-400 block mb-1">📬 Email Delivery Dispatch Active:</span>
-                  1. A detailed candidate alert containing your raw audit metric responses has been dispatched to <strong>hive@hive.baby</strong>.<br />
-                  2. A premium HTML confirmation receipt has been sent to your secure email (<strong>{email}</strong>) from <strong>info@newphysician.org</strong>. Please check your inbox (and spam folder) within the next few minutes.
+              {/* Premium Summary Info */}
+              <div className="text-neutral-300 text-sm md:text-base leading-relaxed max-w-2xl mx-auto space-y-6 relative z-10 text-left">
+                <p>
+                  Thank you, <strong className="text-white">Dr. {name.split(" ")[1] || name}</strong>. Your sovereignty audit metrics have been processed, calibrated against global clinical friction indexes, and permanently anchored in our secure database. 
                 </p>
+                <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/25 p-5 rounded-2xl text-xs space-y-3 leading-relaxed text-neutral-300">
+                  <div className="flex items-center gap-2 text-[#D4AF37] font-mono font-bold uppercase tracking-wider">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-ping"></span>
+                    <span>Registry & Dispatch Status</span>
+                  </div>
+                  <ul className="list-disc pl-5 space-y-1.5 text-[#D4AF37]/90 font-mono">
+                    <li>Raw metrics dispatched successfully to the registry core at <strong className="text-white">hive@hive.baby</strong>.</li>
+                    <li>Secure confirmation record emailed to <strong className="text-white">{email}</strong> with a physical <code className="bg-neutral-900 px-1 py-0.5 rounded text-white text-[10px]">.uds</code> payload attachment.</li>
+                    <li>Tamper-evident verification hash computed for your evaluation: <code className="text-emerald-400 select-all break-all">{udsPayload?.seal?.hash || "PENDING"}</code></li>
+                  </ul>
+                </div>
+              </div>
 
-                <p className="text-left text-xs md:text-sm text-neutral-400 leading-relaxed">
-                  Thank you, <strong>Dr. {name.split(" ")[1] || name}</strong>. Your sovereignty evaluation (Systemic Capture Score: <strong>{score}%</strong>) has been cryptographically secured in the Neon database instance.
-                </p>
+              {/* TWO COLUMN GRID: BADGE & BLUEPRINT TABS */}
+              <div className="grid md:grid-cols-12 gap-8 pt-4 relative z-10 text-left">
                 
-                <p className="text-left text-xs md:text-sm text-neutral-400 leading-relaxed">
-                  A member of the HiveIMR Pilot integration team will review your license state (<strong>{stateCountry}</strong>), means-testing eligibility status, and EMR audit responses to configure your sandbox server layout.
-                </p>
+                {/* Hexagonal Badging Panel */}
+                <div className="md:col-span-4 flex flex-col items-center justify-start space-y-4 bg-neutral-900/40 border border-neutral-800/80 p-6 rounded-2xl backdrop-blur-sm">
+                  <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest block text-center">
+                    Sovereignty Credential
+                  </span>
+                  
+                  {/* Hexagonal SVG Badge */}
+                  <div className="w-full max-w-[200px] aspect-square transition-transform hover:scale-105 duration-300">
+                    <svg viewBox="0 0 200 200" className="w-full h-full filter drop-shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+                      <defs>
+                        <radialGradient id="hexGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                          <stop offset="0%" stopColor="#1a1608" />
+                          <stop offset="100%" stopColor="#050505" />
+                        </radialGradient>
+                        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#F3E5AB" />
+                          <stop offset="50%" stopColor="#D4AF37" />
+                          <stop offset="100%" stopColor="#AA7C11" />
+                        </linearGradient>
+                      </defs>
+                      {/* Outer Hexagon */}
+                      <polygon 
+                        points="100,10 180,55 180,145 100,190 20,145 20,55" 
+                        fill="url(#hexGrad)" 
+                        stroke="url(#goldGrad)" 
+                        strokeWidth="3.5"
+                      />
+                      {/* Inner Hexagon Border */}
+                      <polygon 
+                        points="100,18 172,60 172,140 100,182 28,140 28,60" 
+                        fill="none" 
+                        stroke="#D4AF37" 
+                        strokeWidth="1.2" 
+                        strokeDasharray="4 3"
+                        opacity="0.8"
+                      />
+                      
+                      {/* Text details */}
+                      <text x="100" y="42" fill="#D4AF37" fontSize="8" fontFamily="monospace" textAnchor="middle" letterSpacing="1.2">
+                        SOVEREIGNTY PROTOCOL
+                      </text>
+                      
+                      <text x="100" y="54" fill="#888" fontSize="7" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.5">
+                        AUTONOMY QUOTIENT
+                      </text>
+                      
+                      {/* Center Score */}
+                      <text x="100" y="112" fill="#fff" fontSize="38" fontFamily="monospace" fontWeight="bold" textAnchor="middle">
+                        {score}%
+                      </text>
+                      
+                      {/* Sub-label */}
+                      <text x="100" y="132" fill="url(#goldGrad)" fontSize="8.5" fontFamily="monospace" fontWeight="bold" textAnchor="middle" letterSpacing="0.8">
+                        {currentTier.title.toUpperCase()}
+                      </text>
+                      
+                      <path d="M 60 144 L 140 144" stroke="#D4AF37" strokeWidth="0.8" opacity="0.5" />
+                      
+                      <text x="100" y="156" fill="#666" fontSize="6.5" fontFamily="monospace" textAnchor="middle">
+                        MOH REGISTRY APPROVED
+                      </text>
+                      
+                      <text x="100" y="168" fill="#10B981" fontSize="6" fontFamily="monospace" textAnchor="middle" opacity="0.9">
+                        SEAL HASH: {udsPayload?.seal?.hash?.substring(0, 10) || "VALID"}
+                      </text>
+                    </svg>
+                  </div>
+                  
+                  <div className="text-center space-y-1">
+                    <p className="text-[11px] font-bold text-white uppercase tracking-wider">{currentTier.title}</p>
+                    <p className="text-[10px] text-neutral-400">Score of {score}% in state of {stateCountry}.</p>
+                  </div>
+                </div>
+
+                {/* Kintsugi Career Transition Blueprint Panel */}
+                <div className="md:col-span-8 flex flex-col space-y-4">
+                  <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest block">
+                    Kintsugi Career Transition Blueprint
+                  </span>
+                  
+                  {blueprintText ? (
+                    <div className="border border-[#D4AF37]/25 rounded-2xl overflow-hidden bg-neutral-950/60 shadow-[0_4px_25px_rgba(0,0,0,0.4)]">
+                      {/* Tab Selectors */}
+                      <div className="grid grid-cols-4 border-b border-neutral-800 bg-neutral-900/50">
+                        {parseBlueprint(blueprintText).map((sec, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setActiveBlueprintPart(idx)}
+                            className={`py-3 px-1.5 md:px-3 text-center transition-all border-b-2 text-[10px] md:text-xs font-mono tracking-wider uppercase font-bold ${
+                              activeBlueprintPart === idx
+                                ? "border-[#D4AF37] text-[#D4AF37] bg-black/40"
+                                : "border-transparent text-neutral-500 hover:text-neutral-300 hover:bg-neutral-900/20"
+                            }`}
+                          >
+                            Part {idx + 1}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Tab Content Box */}
+                      <div className="p-6 min-h-[220px] max-h-[360px] overflow-y-auto space-y-4">
+                        {parseBlueprint(blueprintText).map((sec, idx) => {
+                          if (idx !== activeBlueprintPart) return null;
+                          return (
+                            <div key={idx} className="space-y-3">
+                              <h4 className="text-sm font-bold font-mono text-[#D4AF37] uppercase tracking-wider flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
+                                {sec.title}
+                              </h4>
+                              
+                              <div className="text-xs md:text-sm text-neutral-300 leading-relaxed font-sans space-y-3 whitespace-pre-wrap">
+                                {sec.content}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="border border-neutral-800 rounded-2xl p-8 text-center text-neutral-500 bg-neutral-900/10 flex flex-col items-center justify-center min-h-[220px]">
+                      <RefreshCw className="animate-spin text-neutral-600 mb-3" size={24} />
+                      <p className="text-xs font-mono">Securing cryptographic blueprint segments...</p>
+                    </div>
+                  )}
+                </div>
+
               </div>
 
-              {/* Secure Token Key Box */}
-              <div className="bg-neutral-900/60 border border-neutral-800 p-4 rounded-2xl max-w-xs mx-auto">
-                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
-                  Secure Token Key
-                </span>
-                <p className="text-[12px] font-mono text-[#D4AF37] truncate mt-1 select-all font-bold">
-                  IMR-PILOT-ZDJ65Y3O-{score}
-                </p>
+              {/* DECENTRALIZED UDS PHYSICAL INTEROPERABILITY ACTIONS */}
+              <div className="border border-[#D4AF37]/20 bg-neutral-950 p-6 md:p-8 rounded-3xl space-y-6 text-left relative z-10">
+                <div className="space-y-2">
+                  <h4 className="text-lg font-bold font-display text-white flex items-center gap-2">
+                    <Download size={20} className="text-[#D4AF37]" />
+                    Sovereign Document Interoperability
+                  </h4>
+                  <p className="text-neutral-400 text-xs md:text-sm leading-relaxed">
+                    Your custom transition blueprint is encoded in a cryptographically signed <strong className="text-[#D4AF37]">.uds</strong> file format adhering to the interoperable <strong className="text-white">iSDF v0.1.0</strong> standard. Downloading this file allows you to maintain absolute ownership of your clinical diagnostic profile, independent of hospital storage nodes.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Step A: Download physical file */}
+                  <div className="bg-neutral-900/40 border border-neutral-800 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                    <div className="space-y-1.5">
+                      <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-bold">Step A</span>
+                      <h5 className="text-sm font-bold text-white">Download Offline Sovereign File</h5>
+                      <p className="text-neutral-400 text-[11px] leading-relaxed">
+                        Download the cryptographically sealed <code className="bg-neutral-950 px-1 py-0.5 rounded text-[10px] text-neutral-300">.uds</code> payload directly into your local secure system storage.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!udsPayload) return;
+                        const blob = new Blob([JSON.stringify(udsPayload, null, 2)], { type: "application/json" });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        const lastName = name.trim().split(' ').pop() || name.trim();
+                        a.href = url;
+                        a.download = `kintsugi-blueprint-${lastName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.uds`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                      }}
+                      disabled={!udsPayload}
+                      className="w-full bg-[#D4AF37] hover:bg-[#b5952f] text-black font-bold py-3 px-5 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(212,175,55,0.15)] disabled:opacity-50"
+                    >
+                      <Download size={14} />
+                      Download Career Blueprint (.uds)
+                    </button>
+                  </div>
+
+                  {/* Step B: Upload to UD Reader */}
+                  <div className="bg-neutral-900/40 border border-neutral-800 p-5 rounded-2xl flex flex-col justify-between space-y-4">
+                    <div className="space-y-1.5">
+                      <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-bold">Step B</span>
+                      <h5 className="text-sm font-bold text-white">Verify Seal in official Reader</h5>
+                      <p className="text-neutral-400 text-[11px] leading-relaxed">
+                        Import your downloaded <code className="bg-neutral-950 px-1 py-0.5 rounded text-[10px] text-neutral-300">.uds</code> file into the Universal Reader to confirm your SHA-256 seal integrity and decrypt parallel clarity layers.
+                      </p>
+                    </div>
+                    <a
+                      href="https://reader.hive.baby"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-neutral-950 border border-neutral-700 hover:border-neutral-500 hover:bg-neutral-900 text-white font-bold py-3 px-5 rounded-xl transition-all text-xs flex items-center justify-center gap-2"
+                    >
+                      <ExternalLink size={14} className="text-[#D4AF37]" />
+                      Open reader.hive.baby
+                    </a>
+                  </div>
+                </div>
               </div>
 
-              {/* Return to Homepage Button */}
-              <div className="pt-6 border-t border-neutral-900 flex flex-col sm:flex-row gap-4 justify-center">
+              {/* VIRAL POST CLIPBOARD HELPER CARD */}
+              <div className="bg-neutral-900/50 border border-neutral-800 p-6 md:p-8 rounded-3xl text-left space-y-4 relative z-10">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-widest font-bold">Share Your Sovereign Verdict</span>
+                    <h4 className="text-base font-bold text-white">Physician Autonomy Social Action</h4>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tierTitle = currentTier.title;
+                      const textToCopy = `I just audited my clinical sovereignty using the Sovereignty Protocol Evaluation. My Systemic Capture Score is ${score}% (${tierTitle}). \n\nModern healthcare systems have turned medicine into an algorithmic compliance machine. It is time for physicians to reclaim absolute clinical agency. \n\nGet your Kintsugi Career Transition Blueprint and join the decentralized pilot to restore our medical oaths: https://newphysician.org\n\n#ClinicalSovereignty #HiveIMR #KintsugiPhysician #PhysicianAutonomy`;
+                      
+                      navigator.clipboard.writeText(textToCopy);
+                      setCopiedLink(true);
+                      setTimeout(() => setCopiedLink(false), 2500);
+                    }}
+                    className="shrink-0 bg-neutral-950 hover:bg-neutral-900 border border-neutral-700 text-[#D4AF37] font-bold px-4 py-2.5 rounded-xl transition-all text-xs flex items-center justify-center gap-2 hover:shadow-[0_0_10px_rgba(212,175,55,0.1)]"
+                  >
+                    {copiedLink ? (
+                      <>
+                        <CheckCircle size={14} className="text-emerald-400" />
+                        Copied to Clipboard!
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        Copy Share Text
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="bg-neutral-950/80 border border-neutral-900 rounded-xl p-4 font-sans text-xs text-neutral-400 leading-relaxed whitespace-pre-wrap select-all italic select-none">
+                  {`I just audited my clinical sovereignty using the Sovereignty Protocol Evaluation. My Systemic Capture Score is ${score}% (${currentTier.title}). \n\nModern healthcare systems have turned medicine into an algorithmic compliance machine. It is time for physicians to reclaim absolute clinical agency. \n\nGet your Kintsugi Career Transition Blueprint and join the decentralized pilot to restore our medical oaths: https://newphysician.org\n\n#ClinicalSovereignty #HiveIMR #KintsugiPhysician #PhysicianAutonomy`}
+                </div>
+              </div>
+
+              {/* Registry Queue Return Footer Actions */}
+              <div className="pt-6 border-t border-neutral-900 flex flex-col sm:flex-row gap-4 justify-center relative z-10">
                 <button
+                  type="button"
                   onClick={() => {
                     setName("");
                     setEmail("");
@@ -708,11 +977,12 @@ export default function SovereigntyQuiz() {
                     });
                     setStep(1);
                   }}
-                  className="bg-neutral-950 border border-neutral-800 hover:border-neutral-700 text-neutral-400 hover:text-white font-bold px-8 py-3.5 rounded-full transition-all text-xs tracking-wider uppercase"
+                  className="bg-neutral-950 border border-neutral-800 hover:border-neutral-700 text-neutral-400 hover:text-white font-bold px-8 py-4 rounded-full transition-all text-xs tracking-wider uppercase"
                 >
                   Recalibrate / Restart Audit
                 </button>
                 <button
+                  type="button"
                   onClick={() => {
                     setName("");
                     setEmail("");
@@ -729,9 +999,9 @@ export default function SovereigntyQuiz() {
                     setStep(0);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-10 py-3.5 rounded-full transition-all text-xs tracking-wider uppercase shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)]"
+                  className="bg-[#D4AF37] text-black font-bold px-10 py-4 rounded-full hover:bg-[#b5952f] transition-all text-xs tracking-wider uppercase shadow-[0_0_20px_rgba(212,175,55,0.15)]"
                 >
-                  Return to Homepage
+                  Return to Portal Home
                 </button>
               </div>
             </motion.div>
