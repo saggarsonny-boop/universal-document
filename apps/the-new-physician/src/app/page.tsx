@@ -136,21 +136,6 @@ export default function Home() {
           <div className="flex justify-center mb-10">
             <HeartbeatTimestamp />
           </div>
-
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a href="https://hub.newphysician.org" className="bg-[#D4AF37] text-black px-8 py-4 rounded-full font-bold hover:bg-[#b5952f] transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:shadow-[0_0_40px_rgba(212,175,55,0.5)]">
-              <ExternalLink size={18} />
-              Enter the Premium Hub
-            </a>
-            <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="bg-neutral-800 text-white hover:bg-neutral-700 px-8 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2">
-              <Mic size={18} />
-              Podcasts
-            </a>
-            <a href="#book" className="border border-neutral-700 hover:border-[#D4AF37] text-white px-8 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2 bg-neutral-900/50 backdrop-blur-sm">
-              <BookOpen size={18} />
-              Book
-            </a>
-          </div>
         </motion.div>
       </section>
 
