@@ -643,50 +643,95 @@ export default function SovereigntyQuiz() {
               key="step-9"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-neutral-950/70 border border-neutral-800 p-8 md:p-12 rounded-3xl backdrop-blur-md shadow-2xl space-y-8 text-center"
+              className="bg-neutral-950/80 border border-neutral-800 p-8 md:p-12 rounded-3xl backdrop-blur-md shadow-2xl space-y-8 text-center"
             >
-              <div className="inline-flex p-4 bg-green-950/30 text-[#10B981] rounded-full border border-green-800/30 shadow-[0_0_25px_rgba(16,185,129,0.15)]">
-                <CheckCircle size={48} className="animate-bounce" />
+              {/* Success Badge */}
+              <div className="inline-flex p-4 bg-emerald-950/30 text-emerald-400 rounded-full border border-emerald-500/30 shadow-[0_0_35px_rgba(16,185,129,0.25)]">
+                <CheckCircle size={56} className="animate-pulse" />
               </div>
 
               <div className="space-y-3">
-                <h3 className="text-3xl font-display font-bold text-white">
+                <div className="inline-block bg-emerald-950/40 border border-emerald-500/25 px-4 py-1.5 rounded-full text-emerald-300 text-xs font-mono tracking-wider uppercase">
+                  Thanks for applying! Your registration is complete.
+                </div>
+                <h3 className="text-3xl font-display font-bold text-white pt-2">
                   Pilot Registration Logged
                 </h3>
-                <p className="text-sm font-mono tracking-widest text-[#D4AF37] uppercase">
+                <p className="text-xs font-mono tracking-widest text-[#D4AF37] uppercase">
                   Global Integration Queue Active
                 </p>
-                <div className="w-16 h-1 bg-[#D4AF37] mx-auto my-3"></div>
+                <div className="w-16 h-1 bg-emerald-500 mx-auto my-3"></div>
               </div>
 
-              <div className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-md mx-auto space-y-4">
-                <p>
-                  Thank you, **Dr. {name.split(" ")[1] || name}**. Your sovereignty evaluation (Capture Score: **{score}%**) has been cryptographically registered in the Neon database instance.
+              {/* Informative copy answering user questions about emails and what happens next */}
+              <div className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-lg mx-auto space-y-5">
+                <p className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl text-xs text-left text-neutral-300 leading-relaxed">
+                  <span className="font-bold text-emerald-400 block mb-1">📬 Email Delivery Dispatch Active:</span>
+                  1. A detailed candidate alert containing your raw audit metric responses has been dispatched to <strong>hive@hive.baby</strong>.<br />
+                  2. A premium HTML confirmation receipt has been sent to your secure email (<strong>{email}</strong>) from <strong>info@newphysician.org</strong>. Please check your inbox (and spam folder) within the next few minutes.
                 </p>
-                <p>
-                  A member of the HiveIMR Pilot integration team will review your license state (**{stateCountry}**), means-testing eligibility status, and EMR audit responses to configure your sandbox server layout.
+
+                <p className="text-left text-xs md:text-sm text-neutral-400 leading-relaxed">
+                  Thank you, <strong>Dr. {name.split(" ")[1] || name}</strong>. Your sovereignty evaluation (Systemic Capture Score: <strong>{score}%</strong>) has been cryptographically secured in the Neon database instance.
+                </p>
+                
+                <p className="text-left text-xs md:text-sm text-neutral-400 leading-relaxed">
+                  A member of the HiveIMR Pilot integration team will review your license state (<strong>{stateCountry}</strong>), means-testing eligibility status, and EMR audit responses to configure your sandbox server layout.
                 </p>
               </div>
 
-              <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/15 p-4 rounded-2xl max-w-xs mx-auto">
+              {/* Secure Token Key Box */}
+              <div className="bg-neutral-900/60 border border-neutral-800 p-4 rounded-2xl max-w-xs mx-auto">
                 <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
                   Secure Token Key
                 </span>
-                <p className="text-[11px] font-mono text-[#D4AF37] truncate mt-1">
-                  IMR-PILOT-{Math.random().toString(36).substring(2, 10).toUpperCase()}-{score}
+                <p className="text-[12px] font-mono text-[#D4AF37] truncate mt-1 select-all font-bold">
+                  IMR-PILOT-ZDJ65Y3O-{score}
                 </p>
               </div>
 
-              <div className="pt-6 border-t border-neutral-900">
+              {/* Return to Homepage Button */}
+              <div className="pt-6 border-t border-neutral-900 flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => {
                     setName("");
                     setEmail("");
-                    setStep(0);
+                    setStateCountry("");
+                    setMeansTested(false);
+                    setAnswers({
+                      1: 50,
+                      2: 50,
+                      3: 50,
+                      4: 50,
+                      5: 50,
+                      6: 50
+                    });
+                    setStep(1);
                   }}
-                  className="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-full transition-all text-xs tracking-wider uppercase"
+                  className="bg-neutral-950 border border-neutral-800 hover:border-neutral-700 text-neutral-400 hover:text-white font-bold px-8 py-3.5 rounded-full transition-all text-xs tracking-wider uppercase"
                 >
-                  New Audit Request
+                  Recalibrate / Restart Audit
+                </button>
+                <button
+                  onClick={() => {
+                    setName("");
+                    setEmail("");
+                    setStateCountry("");
+                    setMeansTested(false);
+                    setAnswers({
+                      1: 50,
+                      2: 50,
+                      3: 50,
+                      4: 50,
+                      5: 50,
+                      6: 50
+                    });
+                    setStep(0);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-10 py-3.5 rounded-full transition-all text-xs tracking-wider uppercase shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_0_30px_rgba(16,185,129,0.4)]"
+                >
+                  Return to Homepage
                 </button>
               </div>
             </motion.div>
