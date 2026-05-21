@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/react";
 import RssTicker from "./RssTicker";
 import AweLighting from "./AweLighting";
 import "./globals.css";
-import { HiveFooter } from "@/components/HiveFooter";
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -54,7 +53,6 @@ export default function RootLayout({
         <RssTicker />
         <Analytics />
       
-        <HiveFooter />
         <script src="https://marketing.hive.baby/hive-track.js" async></script>
       </body>
     </html>
