@@ -70,12 +70,7 @@ export default function PricingPage() {
               <span style={{ color: 'var(--ud-gold)', fontWeight: 700, flexShrink: 0 }}>✓</span> {f}
             </div>
           ))}
-          <a href="mailto:press@universaldocument.solutions?subject=Pro%20Creator%20enquiry" style={{
-            display: 'block', marginTop: 28, padding: '11px 0', textAlign: 'center',
-            background: 'var(--ud-gold)', borderRadius: 8, textDecoration: 'none',
-            fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14, color: '#fff',
-          }}>Get Pro →</a>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginTop: 10 }}>Annual billing available at checkout.</p>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginTop: 10 }}>Annual billing available at checkout.</p>
         </div>
 
       </div>
@@ -84,10 +79,7 @@ export default function PricingPage() {
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ud-muted)', marginBottom: 8 }}>
           Need enterprise volume, team licences, or custom integration?
         </p>
-        <a href="mailto:press@universaldocument.solutions" style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: 'var(--ud-ink)', textDecoration: 'none' }}>
-          Contact Universal Document™ Incorporated →
-        </a>
-      </div>
+              </div>
     </main>
   )
 }

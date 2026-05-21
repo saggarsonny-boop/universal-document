@@ -20,15 +20,7 @@ export default function UDFooter() {
           fontFamily: 'var(--font-body)', fontSize: 13,
           fontWeight: 600, color: 'var(--ud-ink)', marginBottom: 4,
         }}>Universal Document™ Incorporated</p>
-        <p style={{
-          fontFamily: 'var(--font-mono)', fontSize: 13,
-          color: 'var(--ud-muted)', marginBottom: 18,
-        }}>
-          <a href="https://universaldocument.solutions" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>universaldocument.solutions</a>
-          {' · '}
-          <a href="mailto:press@universaldocument.solutions" style={{ color: 'var(--ud-muted)', textDecoration: 'none' }}>press@universaldocument.solutions</a>
-        </p>
-        <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
+                <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
           {LINKS.map(t => (
             <a key={t.href} href={t.href} style={{
               fontFamily: 'var(--font-mono)', fontSize: 13,
@@ -45,13 +37,7 @@ export default function UDFooter() {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 16px' }}>
           Universal Document™ is a pending trademark (Serial 99774346). The specification is released under CC BY 4.0 and may be implemented freely by any party.
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)' }}>
-          Need help?{' '}
-          <a href="https://support.hive.baby" style={{ color: 'var(--ud-teal)', textDecoration: 'none', fontWeight: 600 }}>
-            Priority Support — from $1.99/mo →
-          </a>
-        </p>
-      </div>
+              </div>
     </footer>
   )
 }
