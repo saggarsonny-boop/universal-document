@@ -1,7 +1,7 @@
 "use client";
 
 import { Playfair_Display } from "next/font/google";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import HeartbeatTimestamp from "./HeartbeatTimestamp";
 import MagneticCard from "./MagneticCard";
 import { Mic, BookOpen, FileText, PlaySquare, Mail, ExternalLink, ArrowRight, Layout, Shield, Users } from "lucide-react";
@@ -15,7 +15,43 @@ export default function Home() {
   const [latestEssay, setLatestEssay] = useState<{ title: string, link: string } | null>(null);
   const [liveEpisodes, setLiveEpisodes] = useState<Record<number, string>>({});
   const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [manifestoIndex, setManifestoIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const MANIFESTO_QUOTES = [
+    {
+      text: "“We do not choose the shattering. We choose the repair. What happens to us is merely the shape of the crucible; what we do with the pieces is the gold of our character. In the end, what we choose to do with our lives is infinitely more important than what has happened to us.”",
+      source: "The Kintsugi Protocol • Sonny Saggar MD"
+    },
+    {
+      text: "“The system turned its eyes on me, and in that cold, auditing gaze, I found my sovereignty. They can capture the institution, but they can never capture the soul of the healer.”",
+      source: "TNP Part 3: When the System Turned Its Eyes on Me • Sonny Saggar MD"
+    },
+    {
+      text: "“A broken vessel mended with gold lacquer is more beautiful, and infinitely more resilient, than one that was never challenged. The crack is where the gold of our character shines through.”",
+      source: "The Art of Kintsugi • Sonny Saggar MD"
+    },
+    {
+      text: "“We spend the first half of our careers obeying rules we did not write. We spend the second half realizing that the sovereign authority to build a better world was ours all along.”",
+      source: "Sovereign Clinician Manifesto • Sonny Saggar MD"
+    },
+    {
+      text: "“Circumstance is the hammer; choice is the anvil. The shape of your life is not decided by the blow, but by the posture you hold when it falls.”",
+      source: "The Daily Crucible • Sonny Saggar MD"
+    },
+    {
+      text: "“The most dangerous illusion is that security lies in compliance. True security is the sovereign capacity to stand in your own truth, no matter the scale of the collapse.”",
+      source: "Essays on Autonomy • Sonny Saggar MD"
+    },
+    {
+      text: "“When the structures of the past crumble, do not weep for the ruins. Clear the dust, gather the fragments, and fuse them with gold to construct a sanctuary of healing.”",
+      source: "The Rebirth of Purpose • Sonny Saggar MD"
+    },
+    {
+      text: "“A physician bound to an algorithmic checklist is a healer in chains. To look a patient in the eye and listen, we must first refuse to be programmed.”",
+      source: "The Autopsies of Capture • Sonny Saggar MD"
+    }
+  ];
 
   const liveEpisodeIds = Object.keys(liveEpisodes).map(Number);
   const highestLive = liveEpisodeIds.length > 0 ? Math.max(...liveEpisodeIds) : null;
@@ -139,6 +175,50 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Philosophical Manifesto Transition */}
+      <section className="py-16 px-6 relative z-10 max-w-4xl mx-auto text-center">
+        <div 
+          onClick={() => setManifestoIndex((prev) => (prev + 1) % MANIFESTO_QUOTES.length)}
+          className="relative p-8 md:p-12 rounded-3xl border border-[#D4AF37]/20 bg-neutral-900/35 backdrop-blur-md overflow-hidden group shadow-[0_0_50px_rgba(212,175,55,0.02)] cursor-pointer hover:border-[#D4AF37]/45 transition-colors duration-500 select-none"
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/2 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+          
+          <div className="min-h-[220px] md:min-h-[160px] flex flex-col justify-center items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={manifestoIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="space-y-6"
+              >
+                <p className={`${playfair.className} text-xl md:text-2xl text-white italic font-light leading-relaxed tracking-wide`}>
+                  {MANIFESTO_QUOTES[manifestoIndex].text}
+                </p>
+                <div className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.25em] transition-all group-hover:tracking-[0.28em] duration-500">
+                  {MANIFESTO_QUOTES[manifestoIndex].source}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="mt-8 pt-4 border-t border-neutral-900/60 flex flex-col sm:flex-row gap-3 items-center justify-between text-[9px] font-mono text-neutral-500 tracking-wider">
+            <span className="flex items-center gap-1.5 text-neutral-600 group-hover:text-[#D4AF37]/80 transition-colors">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#D4AF37]"></span>
+              </span>
+              TAP CARD TO CONTEMPLATE MORE WISDOM
+            </span>
+            <span className="bg-neutral-950 px-2.5 py-1 rounded-full border border-neutral-800/80 group-hover:text-white transition-colors">
+              REFLECTED REPAIR {manifestoIndex + 1} OF {MANIFESTO_QUOTES.length}
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section id="about" className="py-24 px-6 bg-neutral-950 relative border-t border-neutral-900">
         <div className="max-w-4xl mx-auto">
@@ -152,7 +232,7 @@ export default function Home() {
               <h2 className="text-4xl font-display font-bold text-white">The Rebirth of Purpose</h2>
               <div className="w-12 h-1 bg-[#D4AF37]"></div>
               <p className="text-neutral-400 leading-relaxed text-lg">
-                Medicine is a crucible. Sometimes it tempers us; sometimes it shatters us. But like the Japanese art of Kintsugi, the broken pieces can be mended with gold, creating something more resilient and beautiful than before.
+                Medicine is a crucible. Sometimes it tempers us; sometimes it shatters us. But like the Japanese art of Kintsugi, the broken pieces can be mended with gold, proving that what we choose to do with our lives is infinitely more important than what happens to us.
               </p>
               <p className="text-neutral-400 leading-relaxed text-lg">
                 This space is dedicated to the physicians, the healers, and the leaders who have faced systemic collapse and chosen to rebuild themselves—and the system—anew.

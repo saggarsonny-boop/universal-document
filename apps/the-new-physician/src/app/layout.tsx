@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import RssTicker from "./RssTicker";
 import AweLighting from "./AweLighting";
+import KintsugiTrail from "./KintsugiTrail";
 import "./globals.css";
 
 const inter = Inter({ 
@@ -49,6 +50,8 @@ export default function RootLayout({
         <div className="fixed top-0 left-0 w-full h-[3px] z-[100] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-60 shadow-[0_0_10px_rgba(212,175,55,0.3)]"></div>
         {/* Global Lightning Background */}
         <AweLighting />
+        {/* Kintsugi Gold Mouse Trail */}
+        <KintsugiTrail />
         {children}
         <RssTicker />
         <Analytics />
