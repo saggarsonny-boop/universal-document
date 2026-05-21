@@ -98,11 +98,8 @@ export default function Home() {
           <div className="hidden md:flex gap-8 text-sm font-medium tracking-wide items-center">
             <a href="https://hub.newphysician.org" className="text-[#D4AF37] border border-[#D4AF37]/50 px-4 py-1.5 rounded-full hover:bg-[#D4AF37]/10 transition-colors font-bold">Enter Hub</a>
             <a href="#about" className="hover:text-[#D4AF37] transition-colors">About</a>
-            <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="hover:text-[#D4AF37] transition-colors">Podcasts</a>
             <a href="#pilot-program" className="hover:text-[#D4AF37] transition-colors">Pilot Program</a>
             <a href="#book" className="hover:text-[#D4AF37] transition-colors">Book</a>
-            <a href="#series-index" className="hover:text-[#D4AF37] transition-colors">TNP Series</a>
-            <a href="#articles" className="hover:text-[#D4AF37] transition-colors">Essays</a>
             <a href="#contact" className="hover:text-[#D4AF37] transition-colors">Contact</a>
           </div>
         </div>
