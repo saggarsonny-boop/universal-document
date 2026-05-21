@@ -601,7 +601,7 @@ export default function SovereigntyQuiz() {
                         Request Subsidized Placement (Means-Tested)
                       </span>
                       <p className="text-xs text-neutral-400 leading-normal">
-                        Check this box if your clinic is solo, rural, or severely underfunded. Dr. Saggar's HiveIMR initiative heavily subsidizes small clinics to guard against system-capture pricing traps.
+                        Check this box if your clinic is solo, rural, or severely underfunded. The HiveIMR initiative heavily subsidizes small clinics to guard against system-capture pricing traps.
                       </p>
                     </div>
                   </label>
