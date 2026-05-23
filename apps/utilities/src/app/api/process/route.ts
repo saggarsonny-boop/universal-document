@@ -1,8 +1,9 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib'
 import JSZip from 'jszip'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 90
 
 async function loadPdf(file: File): Promise<PDFDocument> {

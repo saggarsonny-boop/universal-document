@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/usage — returns the current visitor's tier + free-tier usage.
 //
 // Used by the new UI's TierIndicator on mount to render "X of N free
@@ -13,7 +14,7 @@ import { ensureSchema, validateApiKey, hashIp, getFreeTierState } from '@/lib/db
 import { readPlusFromRequest } from '@/lib/plus-auth'
 import { LIFETIME_FREE_LIMIT } from '@/lib/rate-limit'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 10
 export const dynamic = 'force-dynamic'
 

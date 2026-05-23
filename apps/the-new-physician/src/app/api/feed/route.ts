@@ -1,8 +1,7 @@
+export const runtime = "edge";
 import { NextResponse } from 'next/server';
 import RSS from 'rss';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { neon } from '@neondatabase/serverless';
 
 export async function GET() {
   try {
@@ -45,9 +44,12 @@ export async function GET() {
       ]
     });
 
-    const episodes = await prisma.podcastEpisode.findMany({
-      orderBy: { publishedAt: 'desc' }
-    });
+    const sql = neon(process.env.DATABASE_URL!);
+    const episodes = await sql`
+      SELECT id, title, description, "audioUrl", duration, "publishedAt", "createdAt"
+      FROM "PodcastEpisode"
+      ORDER BY "publishedAt" DESC
+    `;
 
     episodes.forEach((episode: any) => {
       feed.item({

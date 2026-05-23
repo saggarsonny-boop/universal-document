@@ -1,8 +1,9 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createHash } from 'crypto'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 60
 
 const PROMPT = `You are a clinical data conversion specialist. Parse this EMR/health record (HL7, FHIR, C-CDA, CCD, or plain text) and extract structured information.

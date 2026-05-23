@@ -9,7 +9,9 @@ datasource db {
 
 model WaitlistEntry {
   id        String   @id @default(cuid())
-  email     String   @unique
+  email     String?  @unique
+  score     Int?
+  answers   String?  @db.Text
   createdAt DateTime @default(now())
 }
 

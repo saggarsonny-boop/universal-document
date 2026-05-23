@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // Engine health check. Returns 200 with engine identity, a quick DB
 // liveness probe, and Phase 2 activity-stats summary. Used by the HiveOps
 // audit (V19 launch_checklist health_check) and any external monitor.

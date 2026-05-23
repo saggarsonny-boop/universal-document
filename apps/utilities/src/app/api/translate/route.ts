@@ -1,7 +1,8 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 60
 
 const LANG_CODES: Record<string, { code: string; label: string; direction: 'ltr' | 'rtl' }> = {

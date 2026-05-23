@@ -62,3 +62,43 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #D4AF37;
 }
+
+/* EKG Heartbeat Monitor Animations */
+.ekg-line {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 400;
+  animation: ekgSweep 2.5s linear infinite;
+}
+
+@keyframes ekgSweep {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.ekg-pulse-container {
+  animation: ekgPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes ekgPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.3));
+  }
+  15% {
+    transform: scale(1.05);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+  }
+  30% {
+    transform: scale(0.97);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 1px rgba(212, 175, 55, 0.2));
+  }
+  45% {
+    transform: scale(1.01);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.5));
+  }
+}

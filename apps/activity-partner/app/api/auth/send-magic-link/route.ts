@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { sql, ensureSession, ensureTables } from '@/app/_lib/db'
 import { Resend } from 'resend'

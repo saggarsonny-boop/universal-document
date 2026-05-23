@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/upload-url — issues a Vercel Blob client-upload token so files
 // > 4 MB can be uploaded direct-to-storage, bypassing Vercel's edge proxy
 // (which kills request bodies above ~4.5 MB before the function runs).
@@ -29,7 +30,7 @@ import { ensureSchema, getFreeTierState } from '@/lib/db'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 10
 
 const FREE_MAX_BYTES = 4 * 1024 * 1024

@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/convert/format-by-ref — converts a file already uploaded to Vercel
 // Blob storage (via /api/upload-url + @vercel/blob/client `upload()`).
 //
@@ -32,7 +33,7 @@ import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 import type { OutputFormat } from '@/lib/router'
 
-export const runtime = 'nodejs'
+
 // 50 MB conversions can run long, especially OCR + LLM extraction. The
 // orchestrator carries its own SOFT_TIMEOUT_MS = 25s; we give the route
 // the platform max so the orchestrator's structured timeout fires first.

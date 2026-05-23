@@ -1,6 +1,5 @@
 import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
-import { getServerSession } from "next-auth/next";
 
 export const runtime = 'edge';
 export const maxDuration = 30;
@@ -36,7 +35,7 @@ Do not include stage directions like [Smiles] or [Looks at camera]. Just write t
       prompt: `Write a teleprompter script about: ${prompt}`,
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error: any) {
     console.error("AI Generation Error:", error);
     return new Response(JSON.stringify({ error: "Failed to generate script." }), {

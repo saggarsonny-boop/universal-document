@@ -153,7 +153,7 @@ export default function Home() {
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {auditResult.redlines.map((redline: any, index: number) => (
-                      <div key={index} style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderLeft: \`4px solid \${redline.severity === 'critical' ? '#ff4444' : '#D4AF37'}\`, padding: '1.5rem', borderRadius: '0 8px 8px 0' }}>
+                      <div key={index} style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderLeft: `4px solid ${redline.severity === 'critical' ? '#ff4444' : '#D4AF37'}`, padding: '1.5rem', borderRadius: '0 8px 8px 0' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                           <ShieldAlert size={16} color={redline.severity === 'critical' ? '#ff4444' : '#D4AF37'} />
                           <span style={{ fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase', color: redline.severity === 'critical' ? '#ff4444' : '#D4AF37' }}>{redline.severity}</span>

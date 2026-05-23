@@ -4,16 +4,64 @@ import { Playfair_Display } from "next/font/google";
 import { motion } from "framer-motion";
 import HeartbeatTimestamp from "./HeartbeatTimestamp";
 import MagneticCard from "./MagneticCard";
-import { Mic, BookOpen, FileText, PlaySquare, Mail, ExternalLink, ArrowRight, Layout } from "lucide-react";
+import { Mic, BookOpen, FileText, PlaySquare, Mail, ExternalLink, ArrowRight, Layout, Activity } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { TNP_EPISODES } from "../data/tnpSeries";
+import SovereigntyQuiz from "./SovereigntyQuiz";
+import KintsugiCrackle from "./KintsugiCrackle";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
+// Live ticking digital countdown clock for Systems Check podcast
+function SystemsCheckCountdown() {
+  const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
+
+  useEffect(() => {
+    const launchDate = new Date("2026-07-27T00:00:00").getTime();
+
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const difference = launchDate - now;
+
+      if (difference <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      setTimeLeft({ days, hours, minutes, seconds });
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!timeLeft) {
+    return <div className="text-[10px] text-[#D4AF37]/80 font-mono font-bold mt-2 tracking-wider">CALCULATING...</div>;
+  }
+
+  return (
+    <div className="text-[10px] text-[#D4AF37] font-mono font-bold mt-2 tracking-wider flex gap-1.5 items-center bg-[#D4AF37]/5 px-2.5 py-1 rounded border border-[#D4AF37]/20 w-fit shadow-[0_0_10px_rgba(212,175,55,0.05)]">
+      <span>LAUNCHING IN:</span>
+      <span className="text-white">{timeLeft.days}d</span>:
+      <span className="text-white">{String(timeLeft.hours).padStart(2, '0')}h</span>:
+      <span className="text-white">{String(timeLeft.minutes).padStart(2, '0')}m</span>:
+      <span className="text-white font-medium">{String(timeLeft.seconds).padStart(2, '0')}s</span>
+    </div>
+  );
+}
+
 export default function Home() {
   const [latestEssay, setLatestEssay] = useState<{ title: string, link: string } | null>(null);
-  const [liveEpisodes, setLiveEpisodes] = useState<Record<number, string>>({});
+  const [liveEpisodes, setLiveEpisodes] = useState<Record<number, { link: string; title: string }>>({});
   const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [podcastTab, setPodcastTab] = useState<"our-shows" | "allies">("our-shows");
+  const [autopsyTab, setAutopsyTab] = useState<"tnp-series" | "academic">("tnp-series");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const liveEpisodeIds = Object.keys(liveEpisodes).map(Number);
@@ -25,7 +73,7 @@ export default function Home() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
     try {
-      const res = await fetch("/api/waitlist", {
+      const res = await fetch("/api/diagnostics", {
         method: "POST",
         body: JSON.stringify({ email }),
         headers: { "Content-Type": "application/json" }
@@ -44,7 +92,7 @@ export default function Home() {
         if (data?.items?.length > 0) {
           setLatestEssay({ title: data.items[0].title, link: data.items[0].link });
           
-          const liveMap: Record<number, string> = {};
+          const liveMap: Record<number, { link: string; title: string }> = {};
           data.items.forEach((item: any) => {
              const cleanItem = item.title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
              const isTNP = cleanItem.includes("tnp") || cleanItem.includes("new physician");
@@ -52,10 +100,22 @@ export default function Home() {
              TNP_EPISODES.forEach(ep => {
                 const cleanEp = ep.title.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
                 const titleMatch = cleanItem.includes(cleanEp.substring(0, 30));
-                const partMatch = isTNP && new RegExp(`part\\s*#?\\s*${ep.id}\\b`).test(cleanItem);
+                const partMatch = isTNP && new RegExp(`part\\s*#?\\s*0*${ep.id}\\b`).test(cleanItem);
                 
                 if (titleMatch || partMatch) {
-                   liveMap[ep.id] = item.link;
+                   // Clean up prefix from title for dynamic display in scroll feed
+                   let displayTitle = item.title;
+                   const prefixMatch = displayTitle.match(/^[\s✨🌟*#-]*\b(?:TNP|The New Physician|New Physician)\b.*?\bpart\s*#?\\s*\d+\b.*?(?::|,|-)\s*(.*)$/i) ||
+                                       displayTitle.match(/^[\s✨🌟*#-]*\bpart\s*#?\\s*\d+\b.*?(?::|,|-)\s*(.*)$/i);
+                   if (prefixMatch && prefixMatch[1]) {
+                     displayTitle = prefixMatch[1];
+                   }
+                   displayTitle = displayTitle.replace(/^["'\s]+|["'\s]+$/g, "").trim();
+                   if (displayTitle.length > 0) {
+                     displayTitle = displayTitle.charAt(0).toUpperCase() + displayTitle.slice(1);
+                   }
+                   
+                   liveMap[ep.id] = { link: item.link, title: displayTitle };
                 }
              });
           });
@@ -87,6 +147,9 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-neutral-300 font-sans selection:bg-[#D4AF37] selection:text-black">
       
+      {/* Kintsugi cursor-tracking particle trail overlay */}
+      <KintsugiCrackle />
+      
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-neutral-900">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -96,11 +159,9 @@ export default function Home() {
           </div>
           <div className="hidden md:flex gap-8 text-sm font-medium tracking-wide items-center">
             <a href="https://hub.newphysician.org" className="text-[#D4AF37] border border-[#D4AF37]/50 px-4 py-1.5 rounded-full hover:bg-[#D4AF37]/10 transition-colors font-bold">Enter Hub</a>
-            <a href="#about" className="hover:text-[#D4AF37] transition-colors">About</a>
-            <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="hover:text-[#D4AF37] transition-colors">Podcasts</a>
+            <a href="#sovereignty-quiz" className="hover:text-[#D4AF37] transition-colors">Sovereignty Quiz</a>
+            <a href="#articles" className="hover:text-[#D4AF37] transition-colors">Ecosystem</a>
             <a href="#book" className="hover:text-[#D4AF37] transition-colors">Book</a>
-            <a href="#series-index" className="hover:text-[#D4AF37] transition-colors">TNP Series</a>
-            <a href="#articles" className="hover:text-[#D4AF37] transition-colors">Essays</a>
             <a href="#contact" className="hover:text-[#D4AF37] transition-colors">Contact</a>
           </div>
         </div>
@@ -139,21 +200,20 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a href="https://hub.newphysician.org" className="bg-[#D4AF37] text-black px-8 py-4 rounded-full font-bold hover:bg-[#b5952f] transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:shadow-[0_0_40px_rgba(212,175,55,0.5)]">
+            <a href="#sovereignty-quiz" className="bg-[#D4AF37] text-black px-8 py-4 rounded-full font-bold hover:bg-[#b5952f] transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:shadow-[0_0_40px_rgba(212,175,55,0.5)]">
+              <Activity size={18} />
+              Assess Your Sovereignty
+            </a>
+            <a href="https://hub.newphysician.org" target="_blank" rel="noreferrer" className="border border-neutral-700 hover:border-[#D4AF37] text-white px-8 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2 bg-neutral-900/50 backdrop-blur-sm">
               <ExternalLink size={18} />
               Enter the Premium Hub
-            </a>
-            <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="bg-neutral-800 text-white hover:bg-neutral-700 px-8 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2">
-              <Mic size={18} />
-              Podcasts
-            </a>
-            <a href="#book" className="border border-neutral-700 hover:border-[#D4AF37] text-white px-8 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2 bg-neutral-900/50 backdrop-blur-sm">
-              <BookOpen size={18} />
-              Book
             </a>
           </div>
         </motion.div>
       </section>
+
+      {/* Sovereignty Quiz Diagnostic Assessment */}
+      <SovereigntyQuiz liveEpisodes={liveEpisodes} tnpEpisodes={TNP_EPISODES} />
 
       {/* About Section */}
       <section id="about" className="py-24 px-6 bg-neutral-950 relative border-t border-neutral-900">
@@ -171,7 +231,7 @@ export default function Home() {
                 Medicine is a crucible. Sometimes it tempers us; sometimes it shatters us. But like the Japanese art of Kintsugi, the broken pieces can be mended with gold, creating something more resilient and beautiful than before.
               </p>
               <p className="text-neutral-400 leading-relaxed text-lg">
-                This space is dedicated to the physicians, the healers, and the leaders who have faced systemic collapse and chosen to rebuild themselves—and the system—anew.
+                This space is dedicated to the physicians, the healers, and the leaders who have faced systemic collapse and chosen to rebuild themselves, and the system, anew.
               </p>
             </motion.div>
             <div className="relative aspect-square rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 group">
@@ -197,104 +257,81 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             
             {/* Podcast Card */}
-            <MagneticCard className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full">
+            <MagneticCard id="podcast-card" className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full">
               <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Mic size={24} />
               </div>
               <h3 className="text-2xl font-display font-bold text-white mb-3">The Podcasts</h3>
-              <p className="text-neutral-400 mb-8 flex-grow">
+              <p className="text-neutral-400 mb-6 flex-grow">
                 Deep, unscripted conversations with medical leaders who have survived the crucible and reinvented their careers.
               </p>
-              <div className="flex flex-col gap-4 mt-auto border-t border-neutral-800/50 pt-6">
-                <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="flex items-center justify-between text-sm font-bold text-[#D4AF37] hover:text-white transition-colors group/link">
-                  The New Physician <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+              
+              <div className="p-5 rounded-xl bg-neutral-950/80 border border-neutral-800/50 space-y-4 mb-6">
+                <div className="space-y-1">
+                  <div className="text-[10px] font-bold text-[#D4AF37] tracking-widest uppercase">OUR BROADCASTS</div>
+                  <h4 className="text-sm font-bold text-white">The New Physician & Systems Check</h4>
+                  <p className="text-xs text-neutral-400 font-light leading-relaxed">
+                    Direct dispatches and deep clinical systems checkups tracking operational failure and recovery.
+                  </p>
+                </div>
+                <div className="h-px bg-neutral-800/50"></div>
+                <div className="space-y-1">
+                  <div className="text-[10px] font-bold text-[#D4AF37] tracking-widest uppercase">ALLIED SOLUTIONS</div>
+                  <h4 className="text-sm font-bold text-white">The Sovereignty Network</h4>
+                  <p className="text-xs text-neutral-400 font-light leading-relaxed">
+                    Connecting you directly to pre-vetted career transition, performance, and cash-pay contracts.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-6 text-sm font-bold text-[#D4AF37] mb-6">
+                <a href="https://www.youtube.com/@TheNewPhysician" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
+                  YouTube Channel <ExternalLink size={14} />
                 </a>
-                <a href="#systems-check" className="flex items-center justify-between text-sm font-bold text-neutral-500 hover:text-white transition-colors group/link">
-                  Systems Check (Coming Soon) <ExternalLink size={14} className="group-hover/link:translate-x-1 transition-transform" />
+                <a href="https://youtube.com/shorts/EPwICA7vr0k" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
+                  Watch Shorts <ExternalLink size={14} />
                 </a>
               </div>
+
+              <a 
+                href="https://hub.newphysician.org" 
+                target="_blank" 
+                rel="noreferrer"
+                className="w-full text-center bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] hover:text-white py-3.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(212,175,55,0.05)] cursor-pointer mt-auto"
+              >
+                Listen in the Premium Hub <ExternalLink size={12} />
+              </a>
             </MagneticCard>
 
             {/* Articles / SSRN Card */}
-            <MagneticCard className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full">
+            <MagneticCard id="autopsies-card" className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full">
               <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <FileText size={24} />
               </div>
-              <h3 className="text-2xl font-display font-bold text-white mb-3">The Crucible: Systems Autopsies</h3>
+              <h3 className="text-2xl font-display font-bold text-white mb-3">Crucible: Systems Autopsies</h3>
               <p className="text-neutral-400 mb-6 flex-grow">
-                Reflective essays and peer-reviewed architecture detailing the future of healthcare. Designed for critical thinkers willing to look past the headlines, hear all sides, and analyze the mechanics of systemic failure and reinvention.
+                Reflective essays and peer-reviewed architecture detailing the future of healthcare. Designed for critical thinkers willing to analyze the mechanics of systemic failure and clinical reinvention.
               </p>
               
-              {/* Scrolling TNP Series Device */}
-              <div className="bg-neutral-950/50 rounded-lg border border-neutral-800/50 relative overflow-hidden flex flex-col h-[350px]">
-                <div className="p-4 border-b border-neutral-800/50 shrink-0 bg-neutral-950 flex justify-between items-center">
-                  <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider">The TNP Series</div>
-                  <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest bg-neutral-900 px-2 py-1 rounded">Auto-Synced</div>
+              <div className="p-5 rounded-xl bg-neutral-950/80 border border-neutral-800/50 space-y-4 mb-6">
+                <div className="space-y-1">
+                  <div className="text-[10px] font-bold text-[#D4AF37] tracking-widest uppercase">THE DISPATCH SERIES</div>
+                  <h4 className="text-sm font-bold text-white">The Substrate Problem & Autopsy Roadmap</h4>
+                  <p className="text-xs text-neutral-400 font-light leading-relaxed">
+                    A comprehensive multi-phase tactical series exposing institutional friction and corporate traps.
+                  </p>
                 </div>
-                <div ref={scrollRef} className="p-4 overflow-y-auto space-y-4 relative scroll-smooth flex-grow custom-scrollbar">
-                  {TNP_EPISODES.map((ep, idx) => {
-                    const isLive = !!liveEpisodes[ep.id];
-                    const link = liveEpisodes[ep.id];
-                    const isNewPhase = idx === 0 || TNP_EPISODES[idx - 1].phase !== ep.phase;
-
-                    return (
-                      <div key={ep.id} id={`tnp-episode-${ep.id}`}>
-                        {isNewPhase && (
-                          <div className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest mb-2 mt-4 first:mt-0 sticky top-0 bg-neutral-950/90 backdrop-blur-sm py-1 z-10 border-b border-neutral-900">
-                            Phase {ep.phase}: {ep.phaseTitle}
-                          </div>
-                        )}
-                        <a 
-                          href={isLive ? link : undefined}
-                          target={isLive ? "_blank" : undefined}
-                          rel={isLive ? "noreferrer" : undefined}
-                          className={`group flex items-start gap-3 p-2 rounded-lg transition-all border ${
-                            isLive 
-                              ? ep.id === highestLive
-                                ? 'bg-[#D4AF37]/15 border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.25)] cursor-pointer'
-                                : 'bg-[#D4AF37]/5 border-[#D4AF37]/15 hover:bg-[#D4AF37]/10 hover:border-[#D4AF37]/35 cursor-pointer shadow-[0_0_10px_rgba(212,175,55,0.03)]'
-                              : 'opacity-40 pointer-events-none grayscale border-transparent'
-                          }`}
-                        >
-                          <div className={`mt-0.5 shrink-0 text-xs font-bold px-1.5 py-0.5 rounded border ${
-                            isLive 
-                              ? ep.id === highestLive
-                                ? 'bg-[#D4AF37] text-black border-[#D4AF37]'
-                                : 'bg-[#D4AF37]/20 text-[#D4AF37] border-[#D4AF37]/40' 
-                              : 'bg-neutral-900 text-neutral-500 border-neutral-800'
-                          }`}>
-                            {ep.id}
-                          </div>
-                          <div>
-                            <div className={`text-sm font-bold leading-tight ${isLive ? 'text-[#D4AF37] group-hover:text-white transition-colors' : 'text-neutral-500'}`}>
-                              {ep.title}
-                            </div>
-                            <div className="text-xs mt-1 flex items-center gap-1.5">
-                              {isLive ? (
-                                ep.id === highestLive ? (
-                                  <>
-                                    <span className="relative flex h-2 w-2">
-                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"></span>
-                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]"></span>
-                                    </span>
-                                    <span className="text-[#D4AF37] font-bold tracking-wide">CURRENT BENCHMARK</span>
-                                  </>
-                                ) : (
-                                  <span className="text-[#D4AF37]/80 font-bold tracking-wide">LIVE</span>
-                                )
-                              ) : (
-                                <span className="text-neutral-500">UPCOMING</span>
-                              )}
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    );
-                  })}
+                <div className="h-px bg-neutral-800/50"></div>
+                <div className="space-y-1">
+                  <div className="text-[10px] font-bold text-[#D4AF37] tracking-widest uppercase">ACADEMIC RESEARCH</div>
+                  <h4 className="text-sm font-bold text-white">SSRN Systems Architecture & Policy</h4>
+                  <p className="text-xs text-neutral-400 font-light leading-relaxed">
+                    Formal papers documenting clinical cognitive exhaustion, digital EHR burden, and physician networks.
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-6 text-sm font-bold text-[#D4AF37] mt-auto">
+              <div className="flex items-center gap-6 text-sm font-bold text-[#D4AF37] mb-6">
                 <a href="https://medium.com/@saggarsonny" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-white transition-colors">
                   Medium <ExternalLink size={14} />
                 </a>
@@ -302,22 +339,46 @@ export default function Home() {
                   SSRN <ExternalLink size={14} />
                 </a>
               </div>
+
+              <a 
+                href="https://hub.newphysician.org" 
+                target="_blank" 
+                rel="noreferrer"
+                className="w-full text-center bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 border border-[#D4AF37]/40 text-[#D4AF37] hover:text-white py-3.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(212,175,55,0.05)] cursor-pointer mt-auto"
+              >
+                Read in the Premium Hub <ExternalLink size={12} />
+              </a>
             </MagneticCard>
 
-            {/* Videos Card */}
-            <MagneticCard className="bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/50 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full md:col-span-2 lg:col-span-1 block">
-              <a href="https://youtube.com/shorts/EPwICA7vr0k" target="_blank" rel="noreferrer" className="flex flex-col h-full">
-                <div className="w-12 h-12 bg-[#D4AF37]/10 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <PlaySquare size={24} />
+            {/* Sovereignty Quotient Promo Card */}
+            <MagneticCard className="bg-neutral-900/60 border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-2xl p-8 transition-all hover:bg-neutral-900 flex flex-col h-full md:col-span-2 lg:col-span-1 relative overflow-hidden group shadow-[0_0_30px_rgba(212,175,55,0.03)] hover:shadow-[0_0_40px_rgba(212,175,55,0.08)]">
+              {/* Subtle EKG pulse background inside the card */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(212,175,55,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(212,175,55,0.015)_1px,transparent_1px)] bg-[size:10px_10px] opacity-40 pointer-events-none"></div>
+              
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-[40px] pointer-events-none"></div>
+              
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="w-12 h-12 bg-[#D4AF37]/15 text-[#D4AF37] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-[#D4AF37]/35 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+                  <Activity size={24} className="animate-pulse text-[#D4AF37]" />
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-3">Visual Storytelling</h3>
-                <p className="text-neutral-400 mb-8 flex-grow">
-                  Short-form insights and raw video reflections. The upcoming YouTube channel documenting the rebuild.
+                
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#D4AF37]/10 border border-[#D4AF37]/25 text-[#D4AF37] text-[9px] font-bold tracking-widest uppercase w-fit mb-3">
+                  INTERACTIVE EVALUATION
+                </div>
+                
+                <h3 className="text-2xl font-display font-bold text-white mb-3">Sovereignty Quotient</h3>
+                
+                <p className="text-neutral-400 mb-8 flex-grow text-sm leading-relaxed font-light">
+                  Measure your clinical-to-operational freedom index. Discover the exact structural locks restricting your healing practice and get a custom-tailored dispatch roadmap.
                 </p>
-                <div className="flex items-center gap-2 text-sm font-bold text-[#D4AF37]">
-                  Watch Shorts <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </div>
-              </a>
+                
+                <a 
+                  href="#sovereignty-quiz" 
+                  className="w-full text-center bg-[#D4AF37] hover:bg-[#b5952f] text-black py-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(212,175,55,0.15)] cursor-pointer mt-auto"
+                >
+                  Diagnose Your Autonomy <ArrowRight size={14} />
+                </a>
+              </div>
             </MagneticCard>
 
           </div>
@@ -375,14 +436,14 @@ export default function Home() {
             The New Physician is a philosophy of systemic reinvention. But philosophies need infrastructure to become reality. While I am simply a peripheral consultant to these projects, I am sharing them because they represent the open-source, decentralized future required to fix the structural failures of modern medicine.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12 text-left">
             <a href="https://ud.hive.baby" target="_blank" rel="noreferrer" className="block bg-black border border-neutral-800 hover:border-[#D4AF37]/50 p-8 rounded-2xl transition-colors group">
               <h3 className="text-2xl font-bold text-white mb-2 flex items-center justify-between">
                 Universal Document™
                 <ExternalLink size={18} className="text-neutral-600 group-hover:text-[#D4AF37] transition-colors" />
               </h3>
               <p className="text-sm text-neutral-500 mb-4 uppercase tracking-widest font-bold">The Open Standard</p>
-              <p className="text-neutral-400">
+              <p className="text-neutral-400 text-sm leading-relaxed">
                 An open, free, AI-native document format designed as the modern successor to PDF and DOCX. Structured, tamper-evident, and built for the age of AI.
               </p>
             </a>
@@ -393,10 +454,84 @@ export default function Home() {
                 <ExternalLink size={18} className="text-neutral-600 group-hover:text-[#D4AF37] transition-colors" />
               </h3>
               <p className="text-sm text-neutral-500 mb-4 uppercase tracking-widest font-bold">The Engine Network</p>
-              <p className="text-neutral-400">
+              <p className="text-neutral-400 text-sm leading-relaxed">
                 The decentralized network of autonomous engines powering Universal Document and modern clinical infrastructure. Machine Over Human governance.
               </p>
             </a>
+
+            <div className="block bg-black border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 p-8 rounded-2xl transition-colors group relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#D4AF37]/5 rounded-full blur-2xl pointer-events-none"></div>
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-2 flex items-center justify-between font-display">
+                  HiveIMR™
+                  <Activity size={18} className="text-[#D4AF37] group-hover:scale-110 transition-transform" />
+                </h3>
+                <p className="text-sm text-[#D4AF37] mb-4 uppercase tracking-widest font-bold">The Intelligent Medical Record</p>
+                <p className="text-neutral-400 mb-6 text-sm leading-relaxed">
+                  A controlled clinical operating environment, not just an application. Traditional EHRs struggle under fragmented local hardware and outdated networks. HiveIMR requires approved hardware tiers to simplify setups, troubleshoot reliably, and secure the endpoint.
+                </p>
+
+                <div className="mt-4 border-t border-[#D4AF37]/10 pt-4 space-y-2 mb-6">
+                  <p className="text-[10px] font-bold text-[#D4AF37] tracking-wider uppercase mb-3">5 Pillars of the Operating Environment</p>
+                  
+                  <details className="group border-b border-neutral-800/50 pb-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden" name="hiveimr-pillars">
+                    <summary className="list-none flex items-center justify-between text-xs font-bold text-white hover:text-[#D4AF37] transition-colors py-1 [&::-webkit-details-marker]:hidden">
+                      <span>1. Controlled Hardware Tiers</span>
+                      <span className="text-[10px] text-neutral-500 group-open:rotate-90 transition-transform duration-200">▸</span>
+                    </summary>
+                    <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed pl-2">
+                      Simple implementation using standardized, pre-validated hardware packages rather than fragmented custom setups.
+                    </p>
+                  </details>
+
+                  <details className="group border-b border-neutral-800/50 pb-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden" name="hiveimr-pillars">
+                    <summary className="list-none flex items-center justify-between text-xs font-bold text-white hover:text-[#D4AF37] transition-colors py-1 [&::-webkit-details-marker]:hidden">
+                      <span>2. Zero Workstation Debugging</span>
+                      <span className="text-[10px] text-neutral-500 group-open:rotate-90 transition-transform duration-200">▸</span>
+                    </summary>
+                    <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed pl-2">
+                      Eliminating custom configuration errors and reducing support overhead by banning random workstation age and OS variance.
+                    </p>
+                  </details>
+
+                  <details className="group border-b border-neutral-800/50 pb-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden" name="hiveimr-pillars">
+                    <summary className="list-none flex items-center justify-between text-xs font-bold text-white hover:text-[#D4AF37] transition-colors py-1 [&::-webkit-details-marker]:hidden">
+                      <span>3. Predictable Performance</span>
+                      <span className="text-[10px] text-neutral-500 group-open:rotate-90 transition-transform duration-200">▸</span>
+                    </summary>
+                    <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed pl-2">
+                      Consistently fast and reliable workflows for radiology, pathology, dictation, and local clinical AI engines.
+                    </p>
+                  </details>
+
+                  <details className="group border-b border-neutral-800/50 pb-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden" name="hiveimr-pillars">
+                    <summary className="list-none flex items-center justify-between text-xs font-bold text-white hover:text-[#D4AF37] transition-colors py-1 [&::-webkit-details-marker]:hidden">
+                      <span>4. Governed Endpoint Security</span>
+                      <span className="text-[10px] text-neutral-500 group-open:rotate-90 transition-transform duration-200">▸</span>
+                    </summary>
+                    <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed pl-2">
+                      Centralized patching, auditing, access control, encryption, and secure backup recovery across all nodes.
+                    </p>
+                  </details>
+
+                  <details className="group pb-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden" name="hiveimr-pillars">
+                    <summary className="list-none flex items-center justify-between text-xs font-bold text-white hover:text-[#D4AF37] transition-colors py-1 [&::-webkit-details-marker]:hidden">
+                      <span>5. Complete Clinical Platform</span>
+                      <span className="text-[10px] text-neutral-500 group-open:rotate-90 transition-transform duration-200">▸</span>
+                    </summary>
+                    <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed pl-2">
+                      A cohesive, secure clinical operating environment designed as a platform rather than a fragile browser application.
+                    </p>
+                  </details>
+                </div>
+              </div>
+              <a 
+                href="#sovereignty-quiz" 
+                className="w-full text-center bg-[#D4AF37] hover:bg-[#b5952f] text-black text-xs font-bold py-3.5 rounded-xl transition-all shadow-[0_0_10px_rgba(212,175,55,0.15)] hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] cursor-pointer mt-auto block"
+              >
+                Apply for Global Pilot <ArrowRight size={12} className="inline ml-1" />
+              </a>
+            </div>
           </div>
         </div>
       </section>

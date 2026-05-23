@@ -13,6 +13,7 @@
     "@ai-sdk/anthropic": "^3.0.78",
     "@anthropic-ai/sdk": "^0.90.0",
     "@neondatabase/serverless": "^0.9.0",
+    "@react-email/render": "^2.0.8",
     "ai": "^6.0.184",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.16.0",
@@ -25,6 +26,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

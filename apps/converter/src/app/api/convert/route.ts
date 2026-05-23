@@ -1,3 +1,4 @@
+export const runtime = "edge";
 ﻿import { NextRequest, NextResponse } from 'next/server'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt, convertXlsx, type PageWarning } from '@/lib/convert'
 // Side-effect import: install DOMMatrix polyfill before any pdfjs-dist
@@ -14,7 +15,7 @@ import { decideRoute, type UserTier } from '@/lib/orchestrator'
 import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 30
 
 // Vercel Hobby's edge proxy rejects request bodies > ~4.5 MB before this

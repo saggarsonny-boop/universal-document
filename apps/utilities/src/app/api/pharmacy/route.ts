@@ -1,8 +1,9 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import crypto from 'crypto'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 60
 
 export async function POST(req: NextRequest) {

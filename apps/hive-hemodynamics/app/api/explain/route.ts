@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/explain — main pipeline.
 //
 //   1. PHI scrub the report text server-side (defence in depth alongside
@@ -33,7 +34,7 @@ import {
 } from "@/lib/cost-cap";
 import type { ExplainRequestBody, ExplainResult } from "@/types/plainscan";
 
-export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const MODEL = "claude-sonnet-4-20250514";

@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { anthropic } from "@ai-sdk/anthropic";
 import { generateObject } from "ai";
 import { z } from "zod";

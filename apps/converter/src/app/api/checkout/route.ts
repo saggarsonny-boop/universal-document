@@ -1,8 +1,9 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { getStripe, PLANS, type PlanKey } from '@/lib/stripe'
 import { ensureSchema } from '@/lib/db'
 
-export const runtime = 'nodejs'
+
 
 function isPlanKey(s: string): s is PlanKey {
   return s in PLANS
