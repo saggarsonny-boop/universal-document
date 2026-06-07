@@ -1,0 +1,83 @@
+/* CSS variables and global theme tokens for Hive AAC */
+:root {
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0A0A0C;
+  --color-accent: #D4AF37;
+  --color-accent-light: #F3E5AB;
+  --color-accent-rgb: 212, 175, 55;
+  --color-border: rgba(212, 175, 55, 0.2);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa;
+  
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+/* Glassmorphism card utility */
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.glass-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.05);
+}
+
+/* Premium gradient headings */
+.gradient-text {
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom visualizer bars styling */
+.visualizer-container {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 1rem;
+}
+
+.visualizer-bar {
+  width: 4px;
+  background-color: var(--color-accent);
+  border-radius: 2px 2px 0 0;
+  transition: height 0.1s ease;
+}
+
+/* Custom pulse animations for ambient design */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+}
+
+.ambient-glow {
+  position: absolute;
+  background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse-glow 8s ease-in-out infinite;
+}

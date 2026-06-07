@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { ensureRegistrySchema, sealDocument, getDocumentRecord } from '@shared/lib/registry'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 // Demo documents that must be in the registry for tamper detection to work.
 // The tampered-contract.uds has the same ID but a different seal hash —

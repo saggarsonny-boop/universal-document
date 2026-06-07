@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server'
 
 const TESTING_BASE = process.env.NEXT_PUBLIC_TESTING_STATION_URL || 'https://test.hive.baby'

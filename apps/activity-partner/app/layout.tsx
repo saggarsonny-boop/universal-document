@@ -4,6 +4,8 @@ import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
 import { ServiceWorkerRegistrar } from "./_lib/ServiceWorkerRegistrar";
 import { HiveHeader } from "./_lib/HiveHeader";
 import { HiveFooter } from "./_lib/HiveFooter";
+import "./globals.css";
+
 
 const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700'], variable: '--font-display', display: 'swap' })
 const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300', '400', '500'], variable: '--font-body', display: 'swap' })

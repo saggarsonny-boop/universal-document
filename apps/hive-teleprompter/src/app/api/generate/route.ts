@@ -27,8 +27,8 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: "Prompt is required." }), { status: 400 });
     }
 
-    const result = streamText({
-      model: anthropic('claude-3-5-sonnet-20241022'),
+    const result = await streamText({
+      model: anthropic('claude-3-5-sonnet-20241022') as any,
       system: `You are an expert teleprompter scriptwriter. Your job is to generate highly engaging, spoken-word scripts optimized for camera reading. 
 Use short sentences, punchy cadence, and active voice. Avoid complex jargon unless necessary. 
 Do not include stage directions like [Smiles] or [Looks at camera]. Just write the exact words the speaker should read.`,

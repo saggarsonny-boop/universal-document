@@ -112,6 +112,13 @@ export function HiveFooter() {
           </a>
         </span>
       </div>
+      <div style={{ marginTop: 16, display: "flex", gap: 12, justifyContent: "center", alignItems: "center", fontSize: 10, fontFamily: "monospace", opacity: 0.6 }}>
+        <button id="plain" data-speak="plain" className="speak-plain" style={{ background: "none", border: "none", color: "#D4AF37", cursor: "pointer", fontSize: 10, padding: 0, textTransform: "uppercase" }}>Plain Speak</button>
+        <span style={{ color: "gray" }}>|</span>
+        <button id="dual" data-speak="dual" className="speak-dual" style={{ background: "none", border: "none", color: "#999", cursor: "pointer", fontSize: 10, padding: 0, textTransform: "uppercase" }}>Dual Speak</button>
+        <span style={{ color: "gray" }}>|</span>
+        <button id="tech" data-speak="tech" className="speak-tech" style={{ background: "none", border: "none", color: "#999", cursor: "pointer", fontSize: 10, padding: 0, textTransform: "uppercase" }}>Tech Speak</button>
+      </div>
     </footer>
   );
 }

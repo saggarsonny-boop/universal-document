@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Zap, Server, Code, Globe, CheckCircle, ArrowRight, PlayCircle, Mic, User, MessageSquare, Briefcase, Stethoscope, Activity, Building, Factory, GraduationCap, DollarSign, TrendingUp, ShieldCheck, AudioLines, Upload, Loader2, Check } from "lucide-react";
 import EnterpriseSandbox from "./components/EnterpriseSandbox";
@@ -17,6 +17,9 @@ export default function Home() {
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isAvatarCloned, setIsAvatarCloned] = useState(false);
 
+  const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
   // Cycle hero modes
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,6 +29,46 @@ export default function Home() {
     }, 4000);
     return () => clearInterval(interval);
   }, [isPlayingAudio]);
+
+  // Canvas visualizer loop
+  useEffect(() => {
+    if (!isPlayingAudio || !analyser || !canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    let animationFrameId: number;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    
+    const draw = () => {
+      animationFrameId = requestAnimationFrame(draw);
+      analyser.getByteFrequencyData(dataArray);
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(5, 5, 5, 0)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      const barWidth = (canvas.width / bufferLength) * 2.2;
+      let barHeight;
+      let x = 0;
+      
+      for (let i = 0; i < bufferLength; i++) {
+        barHeight = (dataArray[i] / 255) * canvas.height * 0.8;
+        
+        ctx.fillStyle = '#D4AF37';
+        const y = (canvas.height - barHeight) / 2;
+        ctx.fillRect(x, y, barWidth - 2, barHeight);
+        
+        x += barWidth;
+      }
+    };
+    
+    draw();
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isPlayingAudio, analyser]);
 
   const handleEpiphanyDemo = async () => {
     setIsProcessing(true);
@@ -66,18 +109,58 @@ export default function Home() {
     const utterance = new SpeechSynthesisUtterance(pitchText);
     if (voice) utterance.voice = voice;
     utterance.rate = 0.95;
-    
-    utterance.onend = () => {
-      setIsPlayingAudio(false);
-    };
+
+    // Web Audio API visualizer setup
+    try {
+      const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
+      const ctx = new AudioCtxClass();
+      const analyserNode = ctx.createAnalyser();
+      analyserNode.fftSize = 64;
+      
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, ctx.currentTime);
+      gain.gain.setValueAtTime(0.01, ctx.currentTime);
+      
+      osc.connect(gain);
+      gain.connect(analyserNode);
+      analyserNode.connect(ctx.destination);
+      osc.start();
+      
+      setAnalyser(analyserNode);
+      
+      const interval = setInterval(() => {
+        if (ctx.state === 'running') {
+          osc.frequency.setValueAtTime(100 + Math.random() * 200, ctx.currentTime);
+          gain.gain.setValueAtTime(0.005 + Math.random() * 0.015, ctx.currentTime);
+        }
+      }, 80);
+      
+      utterance.onend = () => {
+        setIsPlayingAudio(false);
+        clearInterval(interval);
+        try {
+          osc.stop();
+          ctx.close();
+        } catch (err) {}
+        setAnalyser(null);
+      };
+    } catch (e) {
+      console.error("Web Audio API visualizer failed to start:", e);
+      utterance.onend = () => {
+        setIsPlayingAudio(false);
+      };
+    }
     
     window.speechSynthesis.speak(utterance);
     
     // Fallback animation timeout
     setTimeout(() => {
       setIsPlayingAudio(false);
-    }, 10000);
+    }, 15000);
   };
+
 
   const handleStripeCheckout = async (action: string) => {
     try {
@@ -171,6 +254,14 @@ export default function Home() {
                       </>
                     )}
                   </div>
+                  {isPlayingAudio && (
+                    <canvas 
+                      ref={canvasRef} 
+                      width={120} 
+                      height={40} 
+                      style={{ marginTop: '0.25rem', display: 'block' }} 
+                    />
+                  )}
                   <div style={{ color: '#fff', fontSize: '1.25rem', fontWeight: '500', textAlign: 'center' }}>
                     {isPlayingAudio ? '"Hello. I am the CEO Voice Clone..."' : isVoiceCloned ? 'Voice Print Cloned Successfully' : 'Voice Cloning Engine'}
                   </div>

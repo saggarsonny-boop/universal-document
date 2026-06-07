@@ -8,7 +8,7 @@ export const maxDuration = 60; // Fortification patch to prevent Vercel 504 time
 
 export async function POST(req: Request) {
   try {
-    const { documentType } = await req.json();
+    const { documentType, payload } = await req.json();
 
     if (!documentType) {
       return NextResponse.json({ error: "Missing document type" }, { status: 400 });
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const payloadContext = getPayloadContext(documentType);
+    const payloadContext = payload || getPayloadContext(documentType);
 
     // 1. Maker Pass (Execution)
     const makerResult = await generateObject({

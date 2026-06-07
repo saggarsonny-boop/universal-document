@@ -21,6 +21,7 @@ export default function EnterpriseSandbox() {
       
       if (data.error) {
         setActiveLog(`[ERROR] ${data.error}`);
+        setIsProcessing(false);
       } else {
         // Simulate a slight processing delay for dramatic effect
         setTimeout(() => {
@@ -31,8 +32,49 @@ export default function EnterpriseSandbox() {
       }
     } catch (e) {
       setActiveLog("[ERROR] Connection to Substrate failed.");
+      setIsProcessing(false);
     }
-    setIsProcessing(false);
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    setIsProcessing(true);
+    setActiveLog(`[UPLOADING] Encrypting and transmitting ${file.name} (${file.size} bytes)...`);
+    
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = e.target?.result as string;
+      
+      try {
+        const res = await fetch('/api/sandbox', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ documentType: file.name, payload: text })
+        });
+        const data = await res.json();
+        
+        if (data.error) {
+          setActiveLog(`[ERROR] ${data.error}`);
+          setIsProcessing(false);
+        } else {
+          setTimeout(() => {
+            setActiveLog(`[MOH PIPELINE COMPLETE]\n\n${data.result}`);
+            setIsProcessing(false);
+          }, 1500);
+        }
+      } catch (err) {
+        setActiveLog("[ERROR] Connection to Substrate failed.");
+        setIsProcessing(false);
+      }
+    };
+    reader.onerror = () => {
+      setActiveLog("[ERROR] Failed to read local file.");
+      setIsProcessing(false);
+    };
+    
+    reader.readAsText(file);
   };
 
   return (
@@ -43,7 +85,7 @@ export default function EnterpriseSandbox() {
       </div>
       
       <div style={{ padding: '2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-        {/* Buttons */}
+        {/* Buttons and Custom File Ingestion */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <button 
             onClick={() => handleInject('Financial Q3 Report')}
@@ -100,6 +142,15 @@ export default function EnterpriseSandbox() {
               <div style={{ fontSize: '0.8rem', color: '#a1a1aa' }}>XML / ICD-10</div>
             </div>
           </button>
+
+          <div style={{ marginTop: '1.5rem', border: '2px dashed rgba(212, 175, 55, 0.3)', borderRadius: '8px', padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(212, 175, 55, 0.02)', position: 'relative' }}>
+            <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#fff', marginBottom: '0.25rem' }}>Drag & Drop Custom File</span>
+            <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginBottom: '1rem' }}>Supports CSV, SQL, JSON, XML, TXT</span>
+            <label style={{ backgroundColor: 'rgba(212, 175, 55, 0.1)', color: '#D4AF37', border: '1px solid rgba(212, 175, 55, 0.3)', padding: '0.5rem 1rem', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }} onMouseOver={e=>!isProcessing && (e.currentTarget.style.backgroundColor='rgba(212, 175, 55, 0.2)')} onMouseOut={e=>!isProcessing && (e.currentTarget.style.backgroundColor='rgba(212, 175, 55, 0.1)')}>
+              Browse Files
+              <input type="file" accept=".csv,.sql,.json,.xml,.txt" style={{ display: 'none' }} onChange={handleFileUpload} disabled={isProcessing} />
+            </label>
+          </div>
         </div>
 
         {/* Terminal Output */}
