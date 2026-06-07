@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/operator/login — bootstrap an operator session via OPERATOR_SETUP_CODE.
 //
 // Flow:
@@ -20,7 +21,7 @@ import { createHash, timingSafeEqual } from 'crypto'
 import { ensureSchema, getOperatorSetupCodeLastDigest, setOperatorSetupCodeLastDigest, recordOperatorAudit } from '@/lib/db'
 import { issueOperatorCookie } from '@/lib/operator-auth'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 5
 
 type Body = {

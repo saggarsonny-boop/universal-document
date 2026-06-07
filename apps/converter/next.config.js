@@ -11,6 +11,17 @@ const nextConfig = {
     // see that directory's README. The alias lets engine code import
     // as if from the canonical npm package.
     config.resolve.alias['@hive/onboarding'] = path.resolve(__dirname, 'src', 'lib', 'hive-onboarding')
+    
+    // Polyfill Node.js native built-ins and binaries for Cloudflare Pages (Edge)
+    const mockPath = path.resolve(__dirname, 'src/lib/edge-mocks.js')
+    config.resolve.alias['child_process'] = mockPath
+    config.resolve.alias['fs'] = mockPath
+    config.resolve.alias['path'] = mockPath
+    config.resolve.alias['crypto'] = mockPath
+    config.resolve.alias['sharp'] = mockPath
+    config.resolve.alias['html-to-docx'] = mockPath
+    config.resolve.alias['detect-libc'] = mockPath
+
     // Allow shared lib to resolve packages from this app's node_modules
     config.resolve.modules = [path.resolve(__dirname, 'node_modules'), 'node_modules']
     return config

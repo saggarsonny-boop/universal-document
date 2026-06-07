@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export default function MagneticCard({ children, className = "" }: { children: React.ReactNode, className?: string }) {
+export default function MagneticCard({ children, className = "", id }: { children: React.ReactNode, className?: string, id?: string }) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function MagneticCard({ children, className = "" }: { children: R
   return (
     <div 
       ref={cardRef} 
+      id={id}
       className={`relative overflow-hidden group ${className}`}
     >
       <div 

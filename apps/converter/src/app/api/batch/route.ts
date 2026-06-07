@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { validateApiKey, ensureSchema, logCustody } from '@/lib/db'
 import { convertCsv, convertDocx, convertHtml, convertImage, convertPdf, convertTxt } from '@/lib/convert'
@@ -5,7 +6,7 @@ import JSZip from 'jszip'
 import { v4 as uuidv4 } from 'uuid'
 import { isUDUtility, preprocessForUD, UDUtilityId } from '@/lib/preprocess'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 60
 
 const ALLOWED = ['pdf', 'docx', 'txt', 'md', 'csv', 'html', 'png', 'jpg', 'jpeg', 'webp', 'gif']

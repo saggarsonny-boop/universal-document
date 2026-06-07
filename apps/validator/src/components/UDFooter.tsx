@@ -38,13 +38,7 @@ export default function UDFooter() {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', marginBottom: 4 }}>
           Universal Document™ is a pending trademark (USPTO Serial No. 99774346)
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ud-muted)', marginBottom: 12 }}>
-          Need help?{' '}
-          <a href="https://support.hive.baby" style={{ color: 'var(--ud-teal)', textDecoration: 'none', fontWeight: 600 }}>
-            Priority Support — from $1.99/mo →
-          </a>
-        </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', marginBottom: 16 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ud-border-2)', marginBottom: 16 }}>
           © 2026 Universal Document Incorporated
         </p>
         <a href="https://hive.baby" style={{

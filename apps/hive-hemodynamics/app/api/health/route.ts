@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/health — canonical Hive health endpoint shape: { engine, version, ok }.
 // Used by HiveOps live-health probe (V29) and the Queen Bee /api/audit
 // reachability check. Adds a `features` block so /api/audit can report
@@ -6,7 +7,7 @@
 
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const VERSION = "0.2.0";

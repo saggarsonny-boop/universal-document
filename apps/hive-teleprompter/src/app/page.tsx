@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Play, FastForward, Rewind, FlipHorizontal, Settings2, Plus, Minus, Maximize2, Mic, MicOff, Cloud, LogOut, Video, VideoOff, Circle, Download } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
 
 export default function Teleprompter() {
   const [text, setText] = useState<string>("Paste your script here...\n\nWelcome to The Hive Teleprompter.\n\nAdjust the speed and size using the controls.\n\nYou can mirror the text if you are using a physical teleprompter glass rig.\n\nToggle Voice Tracking to let the engine follow your speech.\n\nReady to begin?");

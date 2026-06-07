@@ -1,6 +1,5 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
@@ -14,10 +13,41 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID || "MOCK_CLIENT_ID",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "MOCK_CLIENT_SECRET",
     }),
-    EmailProvider({
-      server: process.env.EMAIL_SERVER || "smtp://mock",
-      from: process.env.EMAIL_FROM || "auth@newphysician.org",
-    }),
+    {
+      id: "email",
+      type: "email",
+      name: "Email",
+      server: "",
+      from: "",
+      options: {},
+      sendVerificationRequest: async ({ identifier, url }: { identifier: string; url: string }) => {
+        const fromEmail = process.env.EMAIL_FROM || "auth@newphysician.org";
+        const apiKey = process.env.RESEND_API_KEY;
+        if (!apiKey) {
+          console.warn("⚠️ RESEND_API_KEY is not set in environment. Skipping email dispatch.");
+          return;
+        }
+
+        const response = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: fromEmail,
+            to: identifier,
+            subject: `Sign in to Hive Teleprompter`,
+            html: `<p>Sign in to your account by clicking the link below:</p><p><a href="${url}">${url}</a></p>`,
+          }),
+        });
+
+        if (!response.ok) {
+          const body = await response.text();
+          throw new Error(`Failed to send email verification via Resend API: ${response.statusText} - ${body}`);
+        }
+      },
+    } as any,
   ],
   session: {
     strategy: "jwt",

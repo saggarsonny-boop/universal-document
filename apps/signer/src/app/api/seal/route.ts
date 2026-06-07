@@ -1,7 +1,8 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { neon } from '@neondatabase/serverless'
 
-export const runtime = 'nodejs'
+
 
 export async function POST(req: NextRequest) {
   if (!process.env.DATABASE_URL) {

@@ -140,10 +140,7 @@ export default function PricingPage() {
         <p style={{ fontSize: 14, color: 'var(--ud-muted)', marginBottom: 6 }}>
           Need enterprise volume, self-hosting, or custom integration?
         </p>
-        <a href="mailto:press@universaldocument.solutions" style={{ fontSize: 14, fontWeight: 600, color: INK, textDecoration: 'none' }}>
-          Contact Universal Document™ Incorporated →
-        </a>
-      </div>
+              </div>
     </main>
   )
 }

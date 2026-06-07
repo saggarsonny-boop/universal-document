@@ -1,9 +1,10 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { getStripe, tierForPriceId } from '@/lib/stripe'
 import { ensureSchema, upsertSubscription, updateSubscriptionStatus } from '@/lib/db'
 import Stripe from 'stripe'
 
-export const runtime = 'nodejs'
+
 
 export async function POST(req: NextRequest) {
   const body = await req.text()

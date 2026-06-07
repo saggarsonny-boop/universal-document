@@ -1,7 +1,8 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureRegistrySchema, revokeDocument } from '@shared/lib/registry'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 10
 
 export async function POST(req: NextRequest) {

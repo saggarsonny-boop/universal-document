@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // PR D — Plus tier session-exchange endpoint.
 //
 // Called by the client after Stripe redirects to /?plus_session_id=cs_...
@@ -11,7 +12,7 @@ import { getStripe, tierForPriceId } from '@/lib/stripe'
 import { ensureSchema, upsertSubscription, getSubscriptionWithTier } from '@/lib/db'
 import { issuePlusCookie } from '@/lib/plus-auth'
 
-export const runtime = 'nodejs'
+
 
 export async function GET(req: NextRequest) {
   const sessionId = req.nextUrl.searchParams.get('id')

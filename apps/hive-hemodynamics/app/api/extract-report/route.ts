@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // Server-side document text extraction. Used for DOCX (mammoth); PDF
 // continues to be extracted client-side via pdfjs-dist in ReportInput so
 // the route only ships the file types that genuinely need server work.
@@ -7,7 +8,7 @@
 
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
+
 export const dynamic = "force-dynamic";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;

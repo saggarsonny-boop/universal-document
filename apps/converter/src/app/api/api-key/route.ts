@@ -1,8 +1,9 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { ensureSchema, getSubscriptionByEmail, createApiKey, getApiKeyByEmail } from '@/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 
-export const runtime = 'nodejs'
+
 
 function getEmailFromRequest(req: NextRequest): string | null {
   return req.headers.get('x-pro-email') ?? null

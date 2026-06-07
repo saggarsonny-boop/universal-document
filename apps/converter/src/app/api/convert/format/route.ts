@@ -1,3 +1,4 @@
+export const runtime = "edge";
 // /api/convert/format — UD Converter v2 orchestrator-driven endpoint.
 //
 // Distinct from the legacy /api/convert which always emits .uds. This
@@ -22,7 +23,7 @@ import { checkRateLimit, recordFreeConversionFromCheck } from '@/lib/rate-limit'
 import { verifyTurnstileToken } from '@/lib/turnstile'
 import type { OutputFormat } from '@/lib/router'
 
-export const runtime = 'nodejs'
+
 export const maxDuration = 30
 
 // See header comment in /api/convert/route.ts. 4 MB defense-in-depth gate

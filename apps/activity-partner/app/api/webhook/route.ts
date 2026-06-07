@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { sql } from '@/app/_lib/db';

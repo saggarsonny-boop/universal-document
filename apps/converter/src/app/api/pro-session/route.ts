@@ -1,8 +1,9 @@
+export const runtime = "edge";
 import { NextRequest, NextResponse } from 'next/server'
 import { getStripe } from '@/lib/stripe'
 import { ensureSchema, getSubscriptionByEmail, getApiKeyByEmail } from '@/lib/db'
 
-export const runtime = 'nodejs'
+
 
 export async function GET(req: NextRequest) {
   const sessionId = req.nextUrl.searchParams.get('id')

@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { HiveFooter } from "@/components/HiveFooter";
 import { Geist, Geist_Mono } from "next/font/google";
-import { HiveFooter } from "@/components/HiveFooter";
 import "./globals.css";
-import { HiveFooter } from "@/components/HiveFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

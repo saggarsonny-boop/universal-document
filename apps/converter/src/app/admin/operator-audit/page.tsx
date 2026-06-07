@@ -19,7 +19,7 @@ import {
 import { neon } from '@neondatabase/serverless'
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 type AuditRow = {
   id: string
