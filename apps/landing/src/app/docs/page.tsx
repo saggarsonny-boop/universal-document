@@ -59,6 +59,10 @@ const SECTIONS = [
   'UD AI Assistants',
   'UD Enterprise',
   'UD Cloud',
+  '11. Schema Registry Governance',
+  'Universal Document Schema Registry roles',
+  'Schema registration and review process',
+  'Versioning, licensing, PKI, and crypto-agility',
 ]
 
 export default function DocsPage() {
