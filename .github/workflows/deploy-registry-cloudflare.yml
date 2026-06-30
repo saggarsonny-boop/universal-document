@@ -37,6 +37,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/registry-static
           command: pages deploy dist --project-name=ud-registry --commit-dirty=true
 
       - name: Attach custom domain
@@ -44,5 +45,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/registry-static
           command: pages domain add registry.universaldocument.org --project-name=ud-registry
         continue-on-error: true

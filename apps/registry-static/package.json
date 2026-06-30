@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "build:landing": "BASE_PATH=/registry OUT_DIR=../landing/public/registry node scripts/build.mjs"
   },
   "devDependencies": {
     "marked": "^14.1.0"

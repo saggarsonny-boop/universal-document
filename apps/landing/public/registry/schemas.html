@@ -1,25 +1,13 @@
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { marked } from 'marked'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const root = path.resolve(__dirname, '..')
-const repoRoot = path.resolve(root, '../..')
-const dist = process.env.OUT_DIR
-  ? path.resolve(process.env.OUT_DIR)
-  : path.join(root, 'dist')
-const basePath = (process.env.BASE_PATH || '').replace(/\/$/, '')
-const p = (segment) => `${basePath}${segment}`
-
-const governanceMd = fs.readFileSync(
-  path.join(repoRoot, 'spec/governance/schema-registry-governance.md'),
-  'utf8',
-)
-
-marked.setOptions({ gfm: true, headerIds: true, mangle: false })
-
-const CSS = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schemas — Universal Document Schema Registry</title>
+  <meta name="description" content="Universal Document Schema Registry — governance, schemas, and standards.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
 :root {
   --ud-ink: #1e2d3d;
   --ud-paper: #fafaf8;
@@ -102,102 +90,19 @@ h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 52px); font-w
 .prose code { font-family: var(--font-mono); font-size: 0.9em; background: var(--ud-paper-2); padding: 1px 6px; border-radius: 4px; }
 .prose hr { border: none; height: 1px; background: var(--ud-gold); opacity: 0.35; margin: 36px 0; }
 @media (max-width: 860px) { .governance-wrap { grid-template-columns: 1fr; } .governance-wrap aside { display: none; } }
-`
-
-function shell(title, active, body) {
-  const links = [
-    ['Home', p('/'), active === 'home'],
-    ['Governance', p('/governance'), active === 'governance'],
-    ['Schemas', p('/schemas'), active === 'schemas'],
-  ]
-
-  const nav = links.map(([label, href, isActive]) =>
-    `<a href="${href}"${isActive ? ' class="active"' : ''}>${label}</a>`,
-  ).join('\n        ')
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${title}</title>
-  <meta name="description" content="Universal Document Schema Registry — governance, schemas, and standards.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <style>${CSS}</style>
+</style>
 </head>
 <body>
   <header>
-    <a href="${p('/')}" class="brand">Schema Registry</a>
+    <a href="/registry/" class="brand">Schema Registry</a>
     <nav>
-      ${nav}
+      <a href="/registry/">Home</a>
+        <a href="/registry/governance">Governance</a>
+        <a href="/registry/schemas" class="active">Schemas</a>
       <a href="https://universaldocument.org">universaldocument.org</a>
     </nav>
   </header>
-  <main>${body}</main>
-  <footer>
-    <p style="margin-bottom:12px">
-      <a href="mailto:registry@universaldocument.org">registry@universaldocument.org</a>
-      · registry.universaldocument.org
-    </p>
-    <p>Operated by the Universal Document Foundation · CC BY 4.0 · © 2026</p>
-  </footer>
-</body>
-</html>`
-}
-
-function homePage() {
-  return shell('Universal Document Schema Registry', 'home', `
-  <section class="hero">
-    <div class="eyebrow">Universal Document Foundation</div>
-    <h1>Schema Registry</h1>
-    <p class="lead">The authoritative catalogue of JSON Schema definitions for Universal Document™ files — from core iSDF schemas to domain-specific document types.</p>
-    <div class="btn-row">
-      <a class="btn btn-primary" href="${p('/governance')}">Read governance model →</a>
-      <a class="btn btn-secondary" href="${p('/schemas')}">Browse schemas</a>
-    </div>
-  </section>
-  <div class="grid">
-    <div class="card"><div class="stat">CC BY 4.0</div><h2>Open by default</h2><p>Public schemas are free under CC BY 4.0. Anyone with an account can submit a schema for review.</p></div>
-    <div class="card"><div class="stat">5-stage process</div><h2>Formal review</h2><p>Impact analysis, harmonization, public consultation, and board approval before publication.</p></div>
-    <div class="card"><div class="stat">Semver</div><h2>Versioned &amp; notified</h2><p>Semantic versioning with support for the latest two active versions.</p></div>
-    <div class="card"><div class="stat">$99/yr</div><h2>Commercial option</h2><p>Register proprietary schemas for $99 per year per schema with priority review.</p></div>
-  </div>
-  <section class="section-alt">
-    <div style="max-width:900px;margin:0 auto;text-align:center">
-      <h2 style="font-family:var(--font-display);font-size:28px;margin-bottom:24px">Maturity levels</h2>
-      <div class="grid" style="padding:0">
-        <div class="card" style="background:#fff"><div class="stat" style="font-size:28px">0</div><h2>Draft</h2><p>Work in progress. Open for public comment.</p></div>
-        <div class="card" style="background:#fff"><div class="stat" style="font-size:28px">1</div><h2>Recommended</h2><p>Stable for production pilots. Board approved.</p></div>
-        <div class="card" style="background:#fff"><div class="stat" style="font-size:28px">2</div><h2>Standard</h2><p>Normative reference for a domain.</p></div>
-      </div>
-    </div>
-  </section>`)
-}
-
-function governancePage() {
-  const html = marked.parse(governanceMd)
-  const headings = [...governanceMd.matchAll(/^##\s+(.+)$/gm)].map((m) => {
-    const text = m[1].replace(/\*\*/g, '')
-    const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
-    return { text, id }
-  })
-
-  const toc = headings.map((h) => `<a href="#${h.id}">${h.text}</a>`).join('\n          ')
-
-  return shell('Governance — Universal Document Schema Registry', 'governance', `
-  <div class="governance-wrap">
-    <aside>
-      <div class="toc-title">On this page</div>
-      <nav>${toc}</nav>
-      <p style="margin-top:24px;padding-top:20px;border-top:1px solid var(--ud-border)"><a href="${p('/')}">← Back to home</a></p>
-    </aside>
-    <article class="prose">${html}</article>
-  </div>`)
-}
-
-function schemasPage() {
-  return shell('Schemas — Universal Document Schema Registry', 'schemas', `
+  <main>
   <div style="max-width:900px;margin:0 auto;padding:56px 24px 96px">
     <div class="eyebrow">Catalogue</div>
     <h1>Published schemas</h1>
@@ -214,18 +119,15 @@ function schemasPage() {
       </div>
     </div>
     <div class="card" style="border-style:dashed">
-      <p style="font-size:14px;color:var(--ud-muted)">Healthcare, finance, legal, and government schemas will be listed here once published. See the <a href="${p('/governance')}">governance model</a> to submit a schema.</p>
+      <p style="font-size:14px;color:var(--ud-muted)">Healthcare, finance, legal, and government schemas will be listed here once published. See the <a href="/registry/governance">governance model</a> to submit a schema.</p>
     </div>
-  </div>`)
-}
-
-fs.mkdirSync(dist, { recursive: true })
-fs.writeFileSync(path.join(dist, 'index.html'), homePage())
-fs.writeFileSync(path.join(dist, 'governance.html'), governancePage())
-fs.writeFileSync(path.join(dist, 'schemas.html'), schemasPage())
-if (!process.env.OUT_DIR) {
-  fs.writeFileSync(path.join(dist, '_redirects'), `/governance /governance.html 200\n/schemas /schemas.html 200\n`)
-  fs.writeFileSync(path.join(dist, '_headers'), `/*\n  X-Frame-Options: SAMEORIGIN\n  X-Content-Type-Options: nosniff\n`)
-}
-
-console.log(`Built static registry site → ${dist}`)
+  </div></main>
+  <footer>
+    <p style="margin-bottom:12px">
+      <a href="mailto:registry@universaldocument.org">registry@universaldocument.org</a>
+      · registry.universaldocument.org
+    </p>
+    <p>Operated by the Universal Document Foundation · CC BY 4.0 · © 2026</p>
+  </footer>
+</body>
+</html>
