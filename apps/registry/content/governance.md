@@ -246,7 +246,7 @@ Upon SRB approval, UDF publishes the schema to the Registry with:
 | Metadata | Description |
 |----------|-------------|
 | **Registry ID** | Permanent filing number |
-| **Schema URI** | `https://registry.universaldocument.org/schemas/{id}/{version}` |
+| **Schema URI** | `https://registry.hive.baby/schemas/{id}/{version}` |
 | **Maturity level** | 0, 1, or 2 (see below) |
 | **Version** | Semver (see Section 4) |
 | **Publication date** | ISO 8601 |
@@ -338,7 +338,7 @@ Open schemas are the default for all maturity level 2 (Standard) publications un
 |-----------|--------|
 | **Cost** | **$99 USD per schema per year** |
 | **Billing** | Annual, renewed on registration anniversary |
-| **License** | Commercial Registry License (proprietary; terms at registry.universaldocument.org/license/commercial) |
+| **License** | Commercial Registry License (proprietary; terms at registry.hive.baby/license/commercial) |
 | **Rights** | Exclusive commercial registration of the schema identifier; priority TWG review (15-day SLA); enhanced webhook notifications; optional private consultation window before public draft |
 | **Restrictions** | Does not restrict others from implementing functionally similar schemas under a different identifier; does not grant trademark rights |
 
@@ -392,7 +392,7 @@ Schemas that require national PKI validation MUST include an `x-ud-signature` ex
     "minimum_assurance": "substantial",
     "allowed_issuers": ["https://eidas.ec.europa.eu/efda/tl-browser/api/v1/current"],
     "root_validation": "national",
-    "algorithm_policy_ref": "https://registry.universaldocument.org/crypto/2026"
+    "algorithm_policy_ref": "https://registry.hive.baby/crypto/2026"
   }
 }
 ```
@@ -435,7 +435,7 @@ Cryptographic algorithms used in UD signing and sealing are centrally managed by
 
 UDF publishes and maintains the **UDF Approved Algorithms List** at:
 
-`https://registry.universaldocument.org/crypto/{year}`
+`https://registry.hive.baby/crypto/{year}`
 
 The list is updated **annually** (January) and may receive emergency revisions for critical vulnerabilities.
 
@@ -467,7 +467,7 @@ Schemas at maturity 1 or 2 MUST declare supported algorithms:
   "x-ud-crypto": {
     "hash": ["sha-256"],
     "signature": ["ml-dsa-65", "ed25519"],
-    "policy_ref": "https://registry.universaldocument.org/crypto/2026",
+    "policy_ref": "https://registry.hive.baby/crypto/2026",
     "migration_deadline": "2030-06-30"
   }
 }
@@ -565,7 +565,7 @@ Material changes to fee structure or crypto-agility timelines require **60-day**
 | iSDF v0.1.0 Specification | `spec/v0.1.0/iSDF-spec.md` |
 | UD JSON Schema | `spec/v0.1.0/ud.schema.json` |
 | Universal Document Whitepaper | `apps/landing/public/whitepaper/` |
-| UDF Algorithms List | `https://registry.universaldocument.org/crypto/{year}` |
+| UDF Algorithms List | `https://registry.hive.baby/crypto/{year}` |
 
 ---
 
