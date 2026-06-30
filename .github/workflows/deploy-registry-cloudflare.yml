@@ -58,9 +58,15 @@ jobs:
           # "Unknown arguments" but was previously masked by continue-on-error).
           # Use the Cloudflare API directly instead, which also auto-creates
           # the required DNS record when the zone is on Cloudflare.
-          response=$(curl -s -w "\n%{http_code}" -X POST \
-            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/ud-registry/domains" \
-            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+          #
+          # Strip whitespace/newlines from the secrets -- a stray trailing
+          # newline in CLOUDFLARE_ACCOUNT_ID previously broke the URL and
+          # made curl exit 3 (CURLE_URL_MALFORMED) before printing anything.
+          account_id=$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | tr -d '[:space:]')
+          api_token=$(printf '%s' "$CLOUDFLARE_API_TOKEN" | tr -d '[:space:]')
+          response=$(curl -sS -w "\n%{http_code}" -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${account_id}/pages/projects/ud-registry/domains" \
+            -H "Authorization: Bearer ${api_token}" \
             -H "Content-Type: application/json" \
             --data '{"name":"registry.universaldocument.org"}')
           http_code=$(echo "$response" | tail -n1)
