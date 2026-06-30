@@ -22,15 +22,30 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy to Vercel (registry.universaldocument.org)
+## Deploy to registry.universaldocument.org
 
-1. In Vercel, create a new project pointing at this repo with **Root Directory** set to `apps/registry`.
-2. Add the custom domain `registry.universaldocument.org` in Vercel → Project → Settings → Domains.
-3. In your DNS provider for `universaldocument.org`, add:
-   - **Type:** CNAME
-   - **Name:** `registry`
-   - **Value:** `cname.vercel-dns.com` (or the target Vercel provides)
-4. Optional: set `NEXT_PUBLIC_SITE_URL=https://registry.universaldocument.org` in Vercel environment variables.
+The registry is integrated into **`apps/landing`** (the same app that serves `universaldocument.org`).
+
+### After merging to main
+
+1. **Vercel** → open the project that deploys `apps/landing` (universaldocument.org)
+2. **Settings → Domains** → add `registry.universaldocument.org`
+3. **Cloudflare DNS** for `registry`:
+   - If you use Cloudflare proxy (orange cloud): point `registry` CNAME to the **same Vercel target** as `universaldocument.org` (usually `cname.vercel-dns.com`)
+   - Ensure SSL mode is **Full** (not Flexible)
+4. Redeploy after merge
+
+### URLs
+
+| URL | Page |
+|-----|------|
+| `registry.universaldocument.org` | Registry home |
+| `registry.universaldocument.org/governance` | Governance model |
+| `universaldocument.org/registry` | Same pages on main domain |
+
+### Standalone app (optional)
+
+This folder (`apps/registry`) is a standalone copy for separate deployment. Production uses the landing integration above.
 
 ## Content
 

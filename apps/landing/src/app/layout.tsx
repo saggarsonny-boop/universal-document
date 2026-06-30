@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, DM_Sans, DM_Mono } from 'next/font/google'
 import './globals.css'
-import UDNav from '@/components/UDNav'
-import UDFooter from '@/components/UDFooter'
-import BetaBanner from '@/components/BetaBanner'
+import AppShell from '@/components/AppShell'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -29,10 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <UDNav engine="Universal Document™" />
-        <BetaBanner />
-        <main style={{ flex: 1 }}>{children}</main>
-        <UDFooter />
+        <AppShell>{children}</AppShell>
         <Analytics />
         <SpeedInsights />
       
