@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Universal Document Schema Registry</title>
+  <meta name="description" content="Universal Document Schema Registry — governance, schemas, and standards.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --ud-ink: #1e2d3d;
+  --ud-paper: #fafaf8;
+  --ud-paper-2: #f2f1ee;
+  --ud-gold: #D4AF37;
+  --ud-teal: #0a7a6a;
+  --ud-border: #e0ddd6;
+  --ud-muted: #4b5563;
+  --font-display: Georgia, 'Playfair Display', serif;
+  --font-body: system-ui, 'DM Sans', sans-serif;
+  --font-mono: 'Courier New', 'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--ud-paper);
+  color: var(--ud-ink);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { color: var(--ud-teal); }
+header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: #1e2d3d;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+header a { text-decoration: none; color: rgba(255,255,255,0.8); font-family: var(--font-mono); font-size: 13px; }
+header a.brand { color: #fff; font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+header a.active { color: var(--ud-gold); font-weight: 600; }
+header nav { display: flex; gap: 18px; align-items: center; }
+main { flex: 1; }
+footer {
+  border-top: 1px solid var(--ud-border);
+  padding: 40px 24px;
+  background: var(--ud-paper-2);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ud-muted);
+}
+footer a { color: var(--ud-muted); text-decoration: none; }
+.hero { padding: 72px 24px 56px; max-width: 900px; margin: 0 auto; text-align: center; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--ud-gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 52px); font-weight: 700; line-height: 1.1; margin-bottom: 16px; }
+.lead { font-size: 18px; color: var(--ud-muted); line-height: 1.7; max-width: 640px; margin: 0 auto 32px; }
+.btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; padding: 12px 24px; border-radius: 8px;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+}
+.btn-primary { background: var(--ud-gold); color: #1e2d3d; }
+.btn-secondary { background: transparent; color: var(--ud-ink); border: 1px solid var(--ud-border); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; padding: 0 24px 64px; }
+.card { background: var(--ud-paper-2); border: 1px solid var(--ud-border); border-radius: 12px; padding: 24px; }
+.card .stat { font-family: var(--font-mono); font-size: 11px; color: var(--ud-gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.card h2 { font-family: var(--font-display); font-size: 20px; margin-bottom: 10px; }
+.card p { font-size: 14px; color: var(--ud-muted); line-height: 1.6; }
+.section-alt { background: var(--ud-paper-2); border-top: 1px solid var(--ud-border); border-bottom: 1px solid var(--ud-border); padding: 56px 24px; }
+.governance-wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 96px; display: grid; grid-template-columns: 220px 1fr; gap: 48px; }
+.governance-wrap aside { position: sticky; top: 80px; font-family: var(--font-mono); font-size: 12px; }
+.governance-wrap aside a { display: block; color: var(--ud-muted); text-decoration: none; margin-bottom: 8px; line-height: 1.4; }
+.governance-wrap aside .toc-title { color: var(--ud-gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 12px; }
+.prose h1 { font-size: 2rem; margin: 48px 0 20px; }
+.prose h2 { font-size: 1.6rem; margin: 40px 0 16px; scroll-margin-top: 80px; }
+.prose h3 { font-size: 1.2rem; margin: 28px 0 12px; }
+.prose p, .prose li { line-height: 1.75; margin-bottom: 12px; }
+.prose ul, .prose ol { padding-left: 24px; margin-bottom: 16px; }
+.prose table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; }
+.prose th, .prose td { padding: 10px 12px; border-bottom: 1px solid var(--ud-border); text-align: left; vertical-align: top; }
+.prose th { background: var(--ud-paper-2); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; }
+.prose pre { background: var(--ud-paper-2); border: 1px solid var(--ud-border); border-radius: 8px; padding: 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; margin-bottom: 20px; }
+.prose code { font-family: var(--font-mono); font-size: 0.9em; background: var(--ud-paper-2); padding: 1px 6px; border-radius: 4px; }
+.prose hr { border: none; height: 1px; background: var(--ud-gold); opacity: 0.35; margin: 36px 0; }
+@media (max-width: 860px) { .governance-wrap { grid-template-columns: 1fr; } .governance-wrap aside { display: none; } }
+</style>
+</head>
+<body>
+  <header>
+    <a href="/" class="brand">Schema Registry</a>
+    <nav>
+      <a href="/" class="active">Home</a>
+        <a href="/governance">Governance</a>
+        <a href="/schemas">Schemas</a>
+      <a href="https://universaldocument.org">universaldocument.org</a>
+    </nav>
+  </header>
+  <main>
+  <section class="hero">
+    <div class="eyebrow">Universal Document Foundation</div>
+    <h1>Schema Registry</h1>
+    <p class="lead">The authoritative catalogue of JSON Schema definitions for Universal Document™ files — from core iSDF schemas to domain-specific document types.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/governance">Read governance model →</a>
+      <a class="btn btn-secondary" href="/schemas">Browse schemas</a>
+    </div>
+  </section>
+  <div class="grid">
+    <div class="card"><div class="stat">CC BY 4.0</div><h2>Open by default</h2><p>Public schemas are free under CC BY 4.0. Anyone with an account can submit a schema for review.</p></div>
+    <div class="card"><div class="stat">5-stage process</div><h2>Formal review</h2><p>Impact analysis, harmonization, public consultation, and board approval before publication.</p></div>
+    <div class="card"><div class="stat">Semver</div><h2>Versioned &amp; notified</h2><p>Semantic versioning with support for the latest two active versions.</p></div>
+    <div class="card"><div class="stat">$99/yr</div><h2>Commercial option</h2><p>Register proprietary schemas for $99 per year per schema with priority review.</p></div>
+  </div>
+  <section class="section-alt">
+    <div style="max-width:900px;margin:0 auto;text-align:center">
+      <h2 style="font-family:var(--font-display);font-size:28px;margin-bottom:24px">Maturity levels</h2>
+      <div class="grid" style="padding:0">
+        <div class="card" style="background:#fff"><div class="stat" style="font-size:28px">0</div><h2>Draft</h2><p>Work in progress. Open for public comment.</p></div>
+        <div class="card" style="background:#fff"><div class="stat" style="font-size:28px">1</div><h2>Recommended</h2><p>Stable for production pilots. Board approved.</p></div>
+        <div class="card" style="background:#fff"><div class="stat" style="font-size:28px">2</div><h2>Standard</h2><p>Normative reference for a domain.</p></div>
+      </div>
+    </div>
+  </section></main>
+  <footer>
+    <p style="margin-bottom:12px">
+      <a href="mailto:registry@universaldocument.org">registry@universaldocument.org</a>
+      · registry.universaldocument.org
+    </p>
+    <p>Operated by the Universal Document Foundation · CC BY 4.0 · © 2026</p>
+  </footer>
+</body>
+</html>

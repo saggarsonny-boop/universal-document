@@ -1,0 +1,11 @@
+{
+  "name": "ud-registry-static",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "marked": "^14.1.0"
+  }
+}
