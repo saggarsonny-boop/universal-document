@@ -13,6 +13,7 @@ Static site for **registry.universaldocument.org**. No Vercel. Cloudflare Pages 
 ## Pages
 
 - `/` — Registry home
+- `/charter` — UDF Foundation charter
 - `/governance` — Full governance document
 - `/schemas` — Schema catalogue
 
