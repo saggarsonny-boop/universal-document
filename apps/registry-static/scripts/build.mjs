@@ -17,6 +17,11 @@ const governanceMd = fs.readFileSync(
   'utf8',
 )
 
+const charterMd = fs.readFileSync(
+  path.join(repoRoot, 'spec/governance/udf-charter.md'),
+  'utf8',
+)
+
 marked.setOptions({ gfm: true, headerIds: true, mangle: false })
 
 const CSS = `
@@ -107,6 +112,7 @@ h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 52px); font-w
 function shell(title, active, body) {
   const links = [
     ['Home', p('/'), active === 'home'],
+    ['Charter', p('/charter'), active === 'charter'],
     ['Governance', p('/governance'), active === 'governance'],
     ['Schemas', p('/schemas'), active === 'schemas'],
   ]
@@ -175,6 +181,27 @@ function homePage() {
   </section>`)
 }
 
+function charterPage() {
+  const html = marked.parse(charterMd)
+  const headings = [...charterMd.matchAll(/^##\s+(.+)$/gm)].map((m) => {
+    const text = m[1].replace(/\*\*/g, '')
+    const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
+    return { text, id }
+  })
+
+  const toc = headings.map((h) => `<a href="#${h.id}">${h.text}</a>`).join('\n          ')
+
+  return shell('Charter — Universal Document Foundation', 'charter', `
+  <div class="governance-wrap">
+    <aside>
+      <div class="toc-title">On this page</div>
+      <nav>${toc}</nav>
+      <p style="margin-top:24px;padding-top:20px;border-top:1px solid var(--ud-border)"><a href="${p('/')}">← Back to home</a></p>
+    </aside>
+    <article class="prose">${html}</article>
+  </div>`)
+}
+
 function governancePage() {
   const html = marked.parse(governanceMd)
   const headings = [...governanceMd.matchAll(/^##\s+(.+)$/gm)].map((m) => {
@@ -221,10 +248,11 @@ function schemasPage() {
 
 fs.mkdirSync(dist, { recursive: true })
 fs.writeFileSync(path.join(dist, 'index.html'), homePage())
+fs.writeFileSync(path.join(dist, 'charter.html'), charterPage())
 fs.writeFileSync(path.join(dist, 'governance.html'), governancePage())
 fs.writeFileSync(path.join(dist, 'schemas.html'), schemasPage())
 if (!process.env.OUT_DIR) {
-  fs.writeFileSync(path.join(dist, '_redirects'), `/governance /governance.html 200\n/schemas /schemas.html 200\n`)
+  fs.writeFileSync(path.join(dist, '_redirects'), `/charter /charter.html 200\n/governance /governance.html 200\n/schemas /schemas.html 200\n`)
   fs.writeFileSync(path.join(dist, '_headers'), `/*\n  X-Frame-Options: SAMEORIGIN\n  X-Content-Type-Options: nosniff\n`)
 }
 
