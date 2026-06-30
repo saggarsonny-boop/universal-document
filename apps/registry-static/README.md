@@ -25,7 +25,7 @@ Required GitHub repository secrets:
 
 | Secret | Where to get it |
 |--------|-----------------|
-| `CLOUDFLARE_API_TOKEN` | Cloudflare Dashboard → My Profile → API Tokens → Create Token (Edit Cloudflare Pages) |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare Dashboard → My Profile → API Tokens → Create Token (Custom token). Must include the permission **Account → Cloudflare Pages → Edit** specifically — a token that can only read account info or has Pages set to Read will fail with "Authentication error [code: 10000]" on `pages deploy`. |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Dashboard → any zone → right sidebar |
 
 The workflow also runs `pages domain add registry.universaldocument.org` to fix the 522 host error.
