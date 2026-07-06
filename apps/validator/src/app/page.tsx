@@ -328,6 +328,35 @@ export default function ValidatorPage() {
         { label: 'Metadata', text: 'View the original title, author, dates, and source file name preserved inside the document structure.' },
         { label: 'No data sent', text: 'Your document never leaves your device. No server, no log, no account.' },
       ]} />
+
+      <div id="stripe-checkout-cta" style={{
+          margin: '2rem auto',
+          padding: '2rem',
+          borderRadius: '12px',
+          background: 'rgba(59,130,246,0.05)',
+          border: '1px solid rgba(59,130,246,0.2)',
+          textAlign: 'center',
+          fontFamily: 'sans-serif',
+          maxWidth: '600px'
+      }}>
+          <h3 style={{ marginTop: 0, color: '#fff' }}>Activate Premium License</h3>
+          <p style={{ color: '#9ca3af', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+              Get instant access to all advanced capabilities and integration features.
+          </p>
+          <a href="https://buy.stripe.com/9B6aEZ7Qzd3rcw2bDz0RG02"
+             target="_blank"
+             style={{
+                 display: 'inline-block',
+                 padding: '0.8rem 2rem',
+                 background: '#3b82f6',
+                 color: '#fff',
+                 fontWeight: 'bold',
+                 borderRadius: '8px',
+                 textDecoration: 'none'
+             }}>
+             Pay $5 to Validate
+          </a>
+      </div>
     </div>
   )
 }
