@@ -237,6 +237,27 @@ export default function Home() {
               <p className="text-neutral-400 leading-relaxed text-lg">
                 This space is dedicated to the physicians, the healers, and the leaders who have faced systemic collapse and chosen to rebuild themselves—and the system—anew.
               </p>
+              
+              <div className="pt-6 border-t border-neutral-900/60 space-y-3">
+                <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-2">Advisory Services</div>
+                <div className="flex flex-col gap-2">
+                  <a href="https://hub.newphysician.org/advisory/medico-legal.html" className="text-sm font-bold text-[#D4AF37] hover:text-white transition-colors flex items-center gap-1.5">
+                    Medico-Legal Expert & Billing Fraud Defense →
+                  </a>
+                  <a href="https://hub.newphysician.org/advisory/vc.html" className="text-sm font-bold text-[#D4AF37] hover:text-white transition-colors flex items-center gap-1.5">
+                    Health-AI Clinical Due Diligence & VC Advisory →
+                  </a>
+                  <a href="https://hub.newphysician.org/advisory/pharma.html" className="text-sm font-bold text-[#D4AF37] hover:text-white transition-colors flex items-center gap-1.5">
+                    Pharmaceutical Compliance & Off-Label Defense →
+                  </a>
+                  <a href="https://hub.newphysician.org/advisory/startups.html" className="text-sm font-bold text-[#D4AF37] hover:text-white transition-colors flex items-center gap-1.5">
+                    Startup Medical Advisory & Regulatory Risk →
+                  </a>
+                  <a href="https://hub.newphysician.org/advisory/mitigation.html" className="text-sm font-bold text-[#D4AF37] hover:text-white transition-colors flex items-center gap-1.5">
+                    Federal Sentencing Mitigation & ESI Clinical Expert →
+                  </a>
+                </div>
+              </div>
             </motion.div>
             <div className="relative aspect-square rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 group">
               <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
