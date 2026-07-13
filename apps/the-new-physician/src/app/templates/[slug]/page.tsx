@@ -1,0 +1,180 @@
+import { db } from '@/lib/db';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, CheckCircle2, ShieldAlert, CreditCard, Layers } from 'lucide-react';
+import { HiveFooter } from '@/components/HiveFooter';
+import CheckoutButton from './CheckoutButton';
+
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export const dynamic = 'force-dynamic';
+
+export default async function TemplateDetails({ params }: PageProps) {
+  const { slug } = await params;
+
+  const product = await db.product.findUnique({
+    where: { slug }
+  });
+
+  if (!product || product.status !== 'live') {
+    notFound();
+  }
+
+  // If this is a bundle, fetch details of the bundled products
+  let bundledProducts: any[] = [];
+  if (product.isBundle && product.bundleItems) {
+    try {
+      const itemSlugs = JSON.parse(product.bundleItems);
+      bundledProducts = await db.product.findMany({
+        where: {
+          slug: { in: itemSlugs }
+        },
+        select: {
+          title: true,
+          shortDescription: true,
+          slug: true
+        }
+      });
+    } catch (e) {
+      console.error('Error parsing bundle items:', e);
+    }
+  }
+
+  // Determine specific disclaimer based on tags
+  const isLegal = ['road', 'busted', 'ssrn'].includes(product.sourceTag);
+  const isClinicalOrCareer = ['er_clinical', 'atls', 'physician_career'].includes(product.sourceTag);
+
+  return (
+    <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col selection:bg-[#D4AF37] selection:text-[#0B0F19]">
+      {/* Dynamic SEO JSON-LD Product & Offer Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            'name': product.title,
+            'description': product.shortDescription,
+            'offers': {
+              '@type': 'Offer',
+              'price': (product.priceCents / 100).toFixed(2),
+              'priceCurrency': product.currency.toUpperCase(),
+              'availability': 'https://schema.org/InStock',
+              'url': `https://hub.newphysician.org/templates/${product.slug}`
+            }
+          })
+        }}
+      />
+
+      <header className="border-b border-[#1F293D] py-5 px-6 md:px-12 flex justify-between items-center bg-[#0D111A]/80 backdrop-blur-md sticky top-0 z-50">
+        <Link href="/templates" className="flex items-center gap-2 hover:text-[#D4AF37] transition-colors text-sm text-[#8F9CAE]">
+          <ArrowLeft className="w-4 h-4" /> Back to Templates
+        </Link>
+        <span className="font-bold tracking-widest text-[#D4AF37] text-xs uppercase">The New Physician</span>
+      </header>
+
+      <main className="flex-grow max-w-5xl mx-auto w-full px-6 py-12 md:py-16">
+        <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+          {/* Product Info (Col-Span 2) */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[10px] font-bold tracking-widest text-[#D4AF37] uppercase bg-[rgba(212,175,55,0.05)] border border-[rgba(212,175,55,0.2)] px-2.5 py-1 rounded">
+                {product.format.toUpperCase()}
+              </span>
+              <span className="text-xs text-[#5B6574] font-medium uppercase tracking-wider">
+                Source: {product.sourceTag}
+              </span>
+            </div>
+
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4 text-white">
+              {product.title}
+            </h1>
+
+            <p className="text-[#ACB6C5] text-base md:text-lg leading-relaxed mb-8 border-b border-[#1F293D] pb-8">
+              {product.shortDescription}
+            </p>
+
+            <div className="prose prose-invert max-w-none mb-8">
+              <h3 className="text-sm font-bold tracking-wider text-[#D4AF37] uppercase mb-4">Product Overview</h3>
+              <p className="text-[#8F9CAE] text-sm leading-relaxed mb-6 whitespace-pre-line">
+                {product.longDescription}
+              </p>
+            </div>
+
+            {/* If Bundle, show included items */}
+            {product.isBundle && bundledProducts.length > 0 && (
+              <div className="bg-[#0D111A] border border-[rgba(212,175,55,0.2)] rounded-2xl p-6 mb-8">
+                <h3 className="text-sm font-bold tracking-wider text-[#D4AF37] uppercase mb-4 flex items-center gap-2">
+                  <Layers className="w-4 h-4" /> Included in this Toolkit:
+                </h3>
+                <div className="space-y-4">
+                  {bundledProducts.map((item) => (
+                    <div key={item.slug} className="flex gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-white">{item.title}</h4>
+                        <p className="text-[#8F9CAE] text-[11px] leading-relaxed mt-0.5">{item.shortDescription}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Security Stamp Statement */}
+            <div className="bg-[#0D111A] border border-[#1F293D] rounded-2xl p-5 mb-8">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-2">Dynamic Anti-Piracy Protection</h4>
+              <p className="text-[#8F9CAE] text-xs leading-relaxed">
+                To prevent unauthorized sharing, this document is dynamically generated at the moment of purchase. Every page is watermarked with the buyer's verified name, email address, and transaction ID.
+              </p>
+            </div>
+          </div>
+
+          {/* Checkout Widget (Col-Span 1) */}
+          <div className="md:col-span-1">
+            <div className="bg-[#0D111A] border border-[#1F293D] rounded-2xl p-6 shadow-xl sticky top-24">
+              <div className="text-center mb-6">
+                <span className="text-xs font-semibold text-[#8F9CAE] uppercase tracking-wider block mb-1">Pricing</span>
+                <div className="flex items-baseline justify-center text-white">
+                  <span className="text-xl text-[#8F9CAE] font-medium mr-1">$</span>
+                  <span className="text-4xl font-extrabold font-mono">
+                    {(product.priceCents / 100).toFixed(2)}
+                  </span>
+                </div>
+                <span className="text-[10px] text-[#5B6574] tracking-wider block mt-1">One-time purchase · Instant download</span>
+              </div>
+
+              {/* Checkout Interactive Client Component Button */}
+              <CheckoutButton productId={product.id} />
+
+              <div className="mt-6 space-y-4 border-t border-[#1F293D]/50 pt-6">
+                <div className="flex items-center gap-3 text-[#8F9CAE] text-xs">
+                  <CreditCard className="w-4 h-4 text-[#D4AF37] shrink-0" />
+                  <span>Secure credit card processing by Stripe</span>
+                </div>
+                <div className="flex items-start gap-3 text-[#8F9CAE] text-[11px] leading-relaxed bg-[#080B12] p-3 rounded-lg border border-[#1F293D]/50">
+                  <ShieldAlert className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-white block mb-0.5">Procedural Disclaimer</span>
+                    {isLegal && (
+                      <span>This template is for educational and informational purposes only. It does not constitute formal legal advice, nor does it establish an attorney-client relationship.</span>
+                    )}
+                    {isClinicalOrCareer && (
+                      <span>This product represents professional judgment applied to documents. It does not imply active, federally-reimbursed clinical practice or guarantee state licensing board outcomes.</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <HiveFooter />
+    </div>
+  );
+}
