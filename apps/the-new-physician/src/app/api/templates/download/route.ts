@@ -16,20 +16,20 @@ export async function GET(request: Request) {
 
     // Find the order
     const order = await db.order.findUnique({
-      where: { downloadToken: token }
+      where: { download_token: token }
     });
 
     if (!order) {
       return new Response('Invalid download link', { status: 404 });
     }
 
-    if (order.tokenExpiresAt && new Date() > order.tokenExpiresAt) {
+    if (order.token_expires_at && new Date() > order.token_expires_at) {
       return new Response('This download link has expired (valid for 24h only)', { status: 410 });
     }
 
     // Get the product
     const product = await db.product.findUnique({
-      where: { id: order.productId }
+      where: { id: order.product_id }
     });
 
     if (!product) {
@@ -90,9 +90,9 @@ export async function GET(request: Request) {
 
       // Draw Description
       const descLines = [
-        product.shortDescription,
+        product.short_description,
         '',
-        product.longDescription,
+        product.long_description,
         '',
         '--- Legal & Clinical Disclaimers ---',
         'This document is for educational and informational purposes only.',
@@ -132,8 +132,8 @@ export async function GET(request: Request) {
 
     // Apply personalized watermarking
     const watermarkedBytes = await watermarkPdf(pdfBytes, {
-      buyerName: order.buyerName,
-      buyerEmail: order.buyerEmail,
+      buyerName: order.buyer_name,
+      buyerEmail: order.buyer_email,
       orderId: order.id
     });
 

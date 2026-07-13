@@ -24,20 +24,20 @@ export default async function TemplatesHub({ searchParams }: PageProps) {
     where: {
       status: 'live',
       AND: [
-        selectedBuyer !== 'all' ? { buyerTag: selectedBuyer } : {},
-        selectedSource !== 'all' ? { sourceTag: selectedSource } : {},
+        selectedBuyer !== 'all' ? { buyer_tag: selectedBuyer } : {},
+        selectedSource !== 'all' ? { source_tag: selectedSource } : {},
         query
           ? {
               OR: [
                 { title: { contains: query, mode: 'insensitive' } },
-                { shortDescription: { contains: query, mode: 'insensitive' } },
-                { searchKeywords: { contains: query, mode: 'insensitive' } }
+                { short_description: { contains: query, mode: 'insensitive' } },
+                { search_keywords: { contains: query, mode: 'insensitive' } }
               ]
             }
           : {}
       ]
     },
-    orderBy: { priceCents: 'asc' }
+    orderBy: { price_cents: 'asc' }
   });
 
   const buyerTags = [
@@ -193,7 +193,7 @@ export default async function TemplatesHub({ searchParams }: PageProps) {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
+            {products.map((product: any) => (
               <div
                 key={product.id}
                 className="bg-[#0D111A] border border-[#1F293D] rounded-2xl p-6 flex flex-col justify-between hover:border-[#D4AF37]/50 hover:shadow-xl hover:shadow-[#D4AF37]/5 transition-all duration-300 group"
@@ -204,21 +204,21 @@ export default async function TemplatesHub({ searchParams }: PageProps) {
                       {product.format.toUpperCase()}
                     </span>
                     <span className="text-xs text-[#5B6574] font-medium uppercase tracking-wider">
-                      {product.sourceTag}
+                      {product.source_tag}
                     </span>
                   </div>
                   <h3 className="text-lg font-bold text-white group-hover:text-[#D4AF37] transition-colors mb-2">
                     {product.title}
                   </h3>
                   <p className="text-[#8F9CAE] text-xs leading-relaxed line-clamp-3 mb-6">
-                    {product.shortDescription}
+                    {product.short_description}
                   </p>
                 </div>
                 <div className="flex items-center justify-between border-t border-[#1F293D]/50 pt-4 mt-4">
                   <div className="flex items-baseline text-white">
                     <span className="text-xs text-[#8F9CAE] mr-1">$</span>
                     <span className="text-xl font-bold font-mono">
-                      {(product.priceCents / 100).toFixed(2)}
+                      {(product.price_cents / 100).toFixed(2)}
                     </span>
                   </div>
                   <Link

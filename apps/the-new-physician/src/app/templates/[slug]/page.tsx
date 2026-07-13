@@ -26,16 +26,16 @@ export default async function TemplateDetails({ params }: PageProps) {
 
   // If this is a bundle, fetch details of the bundled products
   let bundledProducts: any[] = [];
-  if (product.isBundle && product.bundleItems) {
+  if (product.is_bundle && product.bundle_items) {
     try {
-      const itemSlugs = JSON.parse(product.bundleItems);
+      const itemSlugs = JSON.parse(product.bundle_items);
       bundledProducts = await db.product.findMany({
         where: {
           slug: { in: itemSlugs }
         },
         select: {
           title: true,
-          shortDescription: true,
+          short_description: true,
           slug: true
         }
       });
@@ -45,8 +45,8 @@ export default async function TemplateDetails({ params }: PageProps) {
   }
 
   // Determine specific disclaimer based on tags
-  const isLegal = ['road', 'busted', 'ssrn'].includes(product.sourceTag);
-  const isClinicalOrCareer = ['er_clinical', 'atls', 'physician_career'].includes(product.sourceTag);
+  const isLegal = ['road', 'busted', 'ssrn'].includes(product.source_tag);
+  const isClinicalOrCareer = ['er_clinical', 'atls', 'physician_career'].includes(product.source_tag);
 
   return (
     <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col selection:bg-[#D4AF37] selection:text-[#0B0F19]">
@@ -58,10 +58,10 @@ export default async function TemplateDetails({ params }: PageProps) {
             '@context': 'https://schema.org',
             '@type': 'Product',
             'name': product.title,
-            'description': product.shortDescription,
+            'description': product.short_description,
             'offers': {
               '@type': 'Offer',
-              'price': (product.priceCents / 100).toFixed(2),
+              'price': (product.price_cents / 100).toFixed(2),
               'priceCurrency': product.currency.toUpperCase(),
               'availability': 'https://schema.org/InStock',
               'url': `https://hub.newphysician.org/templates/${product.slug}`
@@ -86,7 +86,7 @@ export default async function TemplateDetails({ params }: PageProps) {
                 {product.format.toUpperCase()}
               </span>
               <span className="text-xs text-[#5B6574] font-medium uppercase tracking-wider">
-                Source: {product.sourceTag}
+                Source: {product.source_tag}
               </span>
             </div>
 
@@ -95,18 +95,18 @@ export default async function TemplateDetails({ params }: PageProps) {
             </h1>
 
             <p className="text-[#ACB6C5] text-base md:text-lg leading-relaxed mb-8 border-b border-[#1F293D] pb-8">
-              {product.shortDescription}
+              {product.short_description}
             </p>
 
             <div className="prose prose-invert max-w-none mb-8">
               <h3 className="text-sm font-bold tracking-wider text-[#D4AF37] uppercase mb-4">Product Overview</h3>
               <p className="text-[#8F9CAE] text-sm leading-relaxed mb-6 whitespace-pre-line">
-                {product.longDescription}
+                {product.long_description}
               </p>
             </div>
 
             {/* If Bundle, show included items */}
-            {product.isBundle && bundledProducts.length > 0 && (
+            {product.is_bundle && bundledProducts.length > 0 && (
               <div className="bg-[#0D111A] border border-[rgba(212,175,55,0.2)] rounded-2xl p-6 mb-8">
                 <h3 className="text-sm font-bold tracking-wider text-[#D4AF37] uppercase mb-4 flex items-center gap-2">
                   <Layers className="w-4 h-4" /> Included in this Toolkit:
@@ -117,7 +117,7 @@ export default async function TemplateDetails({ params }: PageProps) {
                       <CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-white">{item.title}</h4>
-                        <p className="text-[#8F9CAE] text-[11px] leading-relaxed mt-0.5">{item.shortDescription}</p>
+                        <p className="text-[#8F9CAE] text-[11px] leading-relaxed mt-0.5">{item.short_description}</p>
                       </div>
                     </div>
                   ))}
@@ -142,7 +142,7 @@ export default async function TemplateDetails({ params }: PageProps) {
                 <div className="flex items-baseline justify-center text-white">
                   <span className="text-xl text-[#8F9CAE] font-medium mr-1">$</span>
                   <span className="text-4xl font-extrabold font-mono">
-                    {(product.priceCents / 100).toFixed(2)}
+                    {(product.price_cents / 100).toFixed(2)}
                   </span>
                 </div>
                 <span className="text-[10px] text-[#5B6574] tracking-wider block mt-1">One-time purchase · Instant download</span>

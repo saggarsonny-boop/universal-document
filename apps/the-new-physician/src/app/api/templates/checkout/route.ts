@@ -20,7 +20,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Product not found or not available' }, { status: 404 });
     }
 
-    if (!product.stripePriceId) {
+    if (!product.stripe_price_id) {
       return NextResponse.json({ error: 'Stripe price integration missing for this product' }, { status: 500 });
     }
 
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: product.stripePriceId,
+          price: product.stripe_price_id,
           quantity: 1,
         },
       ],
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       metadata: {
         productId: product.id,
         slug: product.slug,
-        isBundle: product.isBundle ? 'true' : 'false'
+        isBundle: product.is_bundle ? 'true' : 'false'
       }
     });
 

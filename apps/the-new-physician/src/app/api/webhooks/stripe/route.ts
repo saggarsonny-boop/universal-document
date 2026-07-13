@@ -46,15 +46,16 @@ export async function POST(request: Request) {
     try {
       await db.order.create({
         data: {
-          productId: productId,
-          stripeSessionId: session.id,
-          stripePaymentIntent: session.payment_intent as string || null,
-          buyerEmail: buyerEmail,
-          buyerName: buyerName,
-          amountCents: amountCents,
+          id: crypto.randomUUID(), // we need to specify id since it doesn't default to default(uuid) or auto-increment in schema. prisma db pull shows id is a required field without default value
+          product_id: productId,
+          stripe_session_id: session.id,
+          stripe_payment_intent: session.payment_intent as string || null,
+          buyer_email: buyerEmail,
+          buyer_name: buyerName,
+          amount_cents: amountCents,
           status: 'completed',
-          downloadToken: downloadToken,
-          tokenExpiresAt: tokenExpiresAt
+          download_token: downloadToken,
+          token_expires_at: tokenExpiresAt
         }
       });
 

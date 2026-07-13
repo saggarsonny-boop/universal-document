@@ -61,7 +61,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
 
   // Query DB to find the order and retrieve the download token
   const order = await db.order.findFirst({
-    where: { stripeSessionId: sessionId }
+    where: { stripe_session_id: sessionId }
   });
 
   // If the order isn't in the database yet (webhook latency), show processing message
@@ -73,17 +73,17 @@ export default async function SuccessPage({ searchParams }: PageProps) {
         <p className="text-[#8F9CAE] max-w-md mb-6 leading-relaxed">
           We are syncing your payment confirmation and generating your watermarked files. This usually takes just a few seconds. Please refresh this page.
         </p>
-        <button
-          onClick={() => typeof window !== 'undefined' && window.location.reload()}
-          className="bg-[#D4AF37] hover:bg-[#BCA032] text-[#0B0F19] font-bold px-8 py-3 rounded-xl transition-all"
+        <Link
+          href={`/templates/success?session_id=${sessionId}`}
+          className="bg-[#D4AF37] hover:bg-[#BCA032] text-[#0B0F19] font-bold px-8 py-3 rounded-xl transition-all inline-block"
         >
           Check Status / Refresh
-        </button>
+        </Link>
       </div>
     );
   }
 
-  const downloadLink = `/api/templates/download?token=${order.downloadToken}`;
+  const downloadLink = `/api/templates/download?token=${order.download_token}`;
 
   return (
     <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col selection:bg-[#D4AF37] selection:text-[#0B0F19]">
@@ -116,8 +116,8 @@ export default async function SuccessPage({ searchParams }: PageProps) {
             <div className="space-y-2">
               <span className="text-[10px] text-[#5B6574] font-bold uppercase tracking-wider block">Target Buyer Details</span>
               <div className="text-xs text-[#8F9CAE]">
-                <span className="text-white block font-bold">{order.buyerName}</span>
-                <span>{order.buyerEmail}</span>
+                <span className="text-white block font-bold">{order.buyer_name}</span>
+                <span>{order.buyer_email}</span>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
           <div className="space-y-3 text-xs text-[#8F9CAE] leading-relaxed">
             <div className="flex items-center gap-2 justify-center">
               <Mail className="w-4 h-4 text-[#D4AF37] shrink-0" />
-              <span>We also sent a backup copy of the link to <strong>{order.buyerEmail}</strong></span>
+              <span>We also sent a backup copy of the link to <strong>{order.buyer_email}</strong></span>
             </div>
             <div className="flex items-center gap-2 justify-center">
               <ShieldCheck className="w-4 h-4 text-[#D4AF37] shrink-0" />
