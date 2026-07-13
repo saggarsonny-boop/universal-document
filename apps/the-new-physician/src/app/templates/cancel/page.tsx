@@ -3,6 +3,7 @@ import { XCircle, ArrowLeft, HelpCircle } from 'lucide-react';
 import { HiveFooter } from '@/components/HiveFooter';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export default function CancelPage() {
   return (

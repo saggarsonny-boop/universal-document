@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { watermarkPdf } from '@/lib/watermarker';
 import { PDFDocument, rgb } from 'pdf-lib';
-import fs from 'fs';
-import path from 'path';
+import { generateTemplate } from '@/lib/pdf-pipeline';
+
+export const runtime = 'edge';
 
 export async function GET(request: Request) {
   try {
@@ -36,18 +37,11 @@ export async function GET(request: Request) {
       return new Response('Associated product not found', { status: 404 });
     }
 
-    // Determine the master PDF file path
-    const privateTemplatesDir = path.join(process.cwd(), 'private-templates');
-    const specificPdfPath = path.join(privateTemplatesDir, `${product.slug}.pdf`);
-    const defaultPdfPath = path.join(privateTemplatesDir, 'default.pdf');
-
     let pdfBytes: Buffer;
 
-    if (fs.existsSync(specificPdfPath)) {
-      pdfBytes = fs.readFileSync(specificPdfPath);
-    } else if (fs.existsSync(defaultPdfPath)) {
-      pdfBytes = fs.readFileSync(defaultPdfPath);
-    } else {
+    try {
+      pdfBytes = await generateTemplate(product.slug, { greyscale: false });
+    } catch (err) {
       // Bulletproof fallback: generate a beautiful placeholder PDF on the fly using pdf-lib
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage([600, 800]);

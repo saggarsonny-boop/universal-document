@@ -14,6 +14,7 @@ interface PageProps {
 }
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export default async function TemplatesHub({ searchParams }: PageProps) {
   const params = await searchParams;

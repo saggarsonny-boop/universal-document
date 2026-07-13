@@ -13,6 +13,7 @@ interface PageProps {
 }
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export default async function SuccessPage({ searchParams }: PageProps) {
   const params = await searchParams;
