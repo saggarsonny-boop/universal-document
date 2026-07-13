@@ -82,3 +82,42 @@ model PodcastEpisode {
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
 }
+
+model Order {
+  id                    String    @id
+  product_id            String
+  stripe_session_id     String    @unique
+  stripe_payment_intent String?
+  buyer_email           String
+  buyer_name            String
+  amount_cents          Int
+  status                String    @default("pending")
+  watermarked_file_key  String?
+  download_token        String?   @unique
+  token_expires_at      DateTime?
+  created_at            DateTime  @default(now())
+}
+
+model Product {
+  id                String   @id
+  slug              String   @unique
+  title             String
+  short_description String
+  long_description  String
+  source_tag        String
+  buyer_tag         String
+  format            String
+  stripe_product_id String?
+  stripe_price_id   String?
+  price_cents       Int
+  currency          String   @default("usd")
+  status            String   @default("draft")
+  version           String   @default("1.0")
+  search_keywords   String
+  created_at        DateTime @default(now())
+  is_bundle         Boolean  @default(false)
+  bundle_items      String?
+  brand             String   @default("clinical")
+}
+
+

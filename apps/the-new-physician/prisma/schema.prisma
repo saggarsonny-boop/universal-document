@@ -178,7 +178,9 @@ model Product {
   created_at        DateTime @default(now())
   is_bundle         Boolean  @default(false)
   bundle_items      String?
+  brand             String   @default("clinical")
 }
+
 
 model conversion_costs {
   id                 String    @id @default(dbgenerated("(gen_random_uuid())::text"))
