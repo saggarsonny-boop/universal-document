@@ -13,15 +13,24 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const products = await dbEdge('SELECT slug FROM product WHERE status = $1', ['live']) as any[];
-  return products.map((p) => ({
-    slug: p.slug,
-  }));
+  return [
+    { slug: 'first-72-hours-after-arrest' },
+    { slug: 'supervision-probation-compliance-tracker' },
+    { slug: 'talking-to-your-kids-about-your-case' },
+    { slug: 'the-pre-trial-sovereignty-prep-workbook' },
+    { slug: 'the-road-companion-toolkit' },
+    { slug: 'the-plea-bargain-audit-workbook' },
+    { slug: 'post-sentencing-reintegration-planner' },
+    { slug: 'family-preparedness-under-indictment-workbook' },
+    { slug: 'the-first-forty-eight-hours-of-prison' },
+    { slug: 'prison-sovereignty-physical-mental-safety' },
+    { slug: 'the-commutation-executive-clemency-blueprint' }
+  ];
 }
 
 export default async function TemplateDetails({ params }: PageProps) {
   const { slug } = await params;
-  const products = await dbEdge('SELECT * FROM product WHERE slug = $1', [slug]) as any[];
+  const products = await dbEdge('SELECT * FROM "Product" WHERE slug = $1', [slug]) as any[];
   const product = products[0];
 
   if (!product || product.status !== 'live') {
@@ -33,7 +42,7 @@ export default async function TemplateDetails({ params }: PageProps) {
   if (product.is_bundle && product.bundle_items) {
     try {
       const itemSlugs = JSON.parse(product.bundle_items);
-      bundledProducts = await dbEdge('SELECT title, short_description, slug FROM product WHERE slug = ANY($1)', [itemSlugs]) as any[];
+      bundledProducts = await dbEdge('SELECT title, short_description, slug FROM "Product" WHERE slug = ANY($1)', [itemSlugs]) as any[];
     } catch (e) {
       console.error('Error parsing bundle items:', e);
     }

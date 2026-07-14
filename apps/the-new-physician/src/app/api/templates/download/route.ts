@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     }
 
     // Get the product
-    const products = await dbEdge('SELECT id, slug, is_bundle, bundle_items, title, format, version, short_description, long_description FROM product WHERE id = $1', [order.product_id]) as any[];
+    const products = await dbEdge('SELECT id, slug, is_bundle, bundle_items, title, format, version, short_description, long_description FROM "Product" WHERE id = $1', [order.product_id]) as any[];
     const product = products[0];
 
     if (!product) {

@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch all live products to populate dynamic pages
   try {
-    const liveProducts = await dbEdge('SELECT slug, created_at FROM product WHERE status = $1', ['live']) as any[];
+    const liveProducts = await dbEdge('SELECT slug, created_at FROM "Product" WHERE status = $1', ['live']) as any[];
 
     const productUrls = liveProducts.map((p: any) => ({
       url: `${baseUrl}/templates/${p.slug}`,

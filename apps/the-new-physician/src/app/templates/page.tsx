@@ -24,7 +24,7 @@ export default async function TemplatesHub({ searchParams }: PageProps) {
   const selectedBrand = params.brand || 'all';
 
   // Fetch live products via dbEdge
-  let sqlText = `SELECT * FROM product WHERE status = 'live'`;
+  let sqlText = `SELECT * FROM "Product" WHERE status = 'live'`;
   const queryParams: any[] = [];
   let paramIdx = 1;
 
