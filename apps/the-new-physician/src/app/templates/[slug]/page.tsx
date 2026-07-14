@@ -12,8 +12,12 @@ interface PageProps {
   }>;
 }
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
+export async function generateStaticParams() {
+  const products = await dbEdge('SELECT slug FROM product WHERE status = $1', ['live']) as any[];
+  return products.map((p) => ({
+    slug: p.slug,
+  }));
+}
 
 export default async function TemplateDetails({ params }: PageProps) {
   const { slug } = await params;

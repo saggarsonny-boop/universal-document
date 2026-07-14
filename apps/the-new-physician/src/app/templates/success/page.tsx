@@ -1,10 +1,9 @@
-import { dbEdge } from '@/lib/db-edge';
-import Stripe from 'stripe';
+"use client";
+
+import { useEffect, useState, use } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, Download, ArrowRight, ShieldCheck, Mail } from 'lucide-react';
 import { HiveFooter } from '@/components/HiveFooter';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 
 interface PageProps {
   searchParams: Promise<{
@@ -12,35 +11,80 @@ interface PageProps {
   }>;
 }
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
-
-export default async function SuccessPage({ searchParams }: PageProps) {
-  const params = await searchParams;
+export default function SuccessPage({ searchParams }: PageProps) {
+  const params = use(searchParams);
   const sessionId = params.session_id;
 
-  if (!sessionId) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'pending' | 'syncing' | 'success'>('syncing');
+  const [order, setOrder] = useState<any>(null);
+
+  useEffect(() => {
+    if (!sessionId) {
+      setError('No Stripe session identifier found.');
+      setLoading(false);
+      return;
+    }
+
+    let intervalId: any;
+
+    const checkStatus = async () => {
+      try {
+        const res = await fetch(`/api/templates/success-status?session_id=${sessionId}`);
+        if (!res.ok) {
+          throw new Error('Failed to retrieve order status');
+        }
+        const data = await res.json();
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        if (data.status === 'success') {
+          setStatus('success');
+          setOrder(data.order);
+          setLoading(false);
+          clearInterval(intervalId);
+        } else if (data.status === 'pending') {
+          setStatus('pending');
+          setLoading(false);
+        } else {
+          // syncing - keep polling
+          setStatus('syncing');
+        }
+      } catch (err: any) {
+        setError(err.message || 'Unable to verify checkout status.');
+        setLoading(false);
+        clearInterval(intervalId);
+      }
+    };
+
+    // Initial check
+    checkStatus();
+
+    // Poll every 3 seconds for syncing state
+    intervalId = setInterval(checkStatus, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [sessionId]);
+
+  if (loading || status === 'syncing') {
     return (
       <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col items-center justify-center p-6 text-center">
-        <h1 className="text-2xl font-bold text-red-400 mb-2">Invalid Session</h1>
-        <p className="text-[#8F9CAE] mb-6">No Stripe session identifier found.</p>
-        <Link href="/templates" className="bg-[#D4AF37] hover:bg-[#BCA032] text-[#0B0F19] font-bold px-6 py-3 rounded-xl transition-all">
-          Return to Templates
-        </Link>
+        <div className="w-12 h-12 border-4 border-t-[#D4AF37] border-[#1F293D] rounded-full animate-spin mb-6"></div>
+        <h1 className="text-2xl font-bold text-white mb-2">Completing Order...</h1>
+        <p className="text-[#8F9CAE] max-w-md mb-6 leading-relaxed">
+          We are syncing your payment confirmation and generating your watermarked files. This usually takes just a few seconds.
+        </p>
       </div>
     );
   }
 
-  // Fetch Checkout Session from Stripe
-  let session: any;
-  try {
-    session = await stripe.checkout.sessions.retrieve(sessionId);
-  } catch (e: any) {
-    console.error('Stripe Session Retrieval Error:', e.message);
+  if (error) {
     return (
       <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col items-center justify-center p-6 text-center">
         <h1 className="text-2xl font-bold text-red-400 mb-2">Checkout Error</h1>
-        <p className="text-[#8F9CAE] mb-6">Unable to verify checkout status from Stripe.</p>
+        <p className="text-[#8F9CAE] mb-6">{error}</p>
         <Link href="/templates" className="bg-[#D4AF37] hover:bg-[#BCA032] text-[#0B0F19] font-bold px-6 py-3 rounded-xl transition-all">
           Return to Templates
         </Link>
@@ -48,36 +92,13 @@ export default async function SuccessPage({ searchParams }: PageProps) {
     );
   }
 
-  if (session.payment_status !== 'paid') {
+  if (status === 'pending') {
     return (
       <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col items-center justify-center p-6 text-center">
         <h1 className="text-2xl font-bold text-[#D4AF37] mb-2">Payment Pending</h1>
         <p className="text-[#8F9CAE] mb-6">Your payment is processing. Once complete, your download link will be active.</p>
         <Link href="/templates" className="bg-[#1F293D] hover:bg-[#D4AF37] hover:text-[#0B0F19] text-white font-bold px-6 py-3 rounded-xl transition-all">
           Return to Templates
-        </Link>
-      </div>
-    );
-  }
-
-  // Query DB to find the order and retrieve the download token via dbEdge
-  const orders = await dbEdge('SELECT id, download_token FROM orders WHERE stripe_session_id = $1', [sessionId]) as any[];
-  const order = orders[0];
-
-  // If the order isn't in the database yet (webhook latency), show processing message
-  if (!order) {
-    return (
-      <div className="min-h-screen bg-[#0B0F19] text-[#E2E8F0] font-sans flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-12 h-12 border-4 border-t-[#D4AF37] border-[#1F293D] rounded-full animate-spin mb-6"></div>
-        <h1 className="text-2xl font-bold text-white mb-2">Completing Order...</h1>
-        <p className="text-[#8F9CAE] max-w-md mb-6 leading-relaxed">
-          We are syncing your payment confirmation and generating your watermarked files. This usually takes just a few seconds. Please refresh this page.
-        </p>
-        <Link
-          href={`/templates/success?session_id=${sessionId}`}
-          className="bg-[#D4AF37] hover:bg-[#BCA032] text-[#0B0F19] font-bold px-8 py-3 rounded-xl transition-all inline-block"
-        >
-          Check Status / Refresh
         </Link>
       </div>
     );
