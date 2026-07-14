@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { db } from '@/lib/db';
 
-export const runtime = 'edge';
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+
+export const runtime = 'edge';
 
 export async function POST(request: Request) {
   try {

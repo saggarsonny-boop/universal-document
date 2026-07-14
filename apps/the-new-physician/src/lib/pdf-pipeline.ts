@@ -1,6 +1,4 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import fs from 'fs';
-import path from 'path';
 
 export interface GenerateOptions {
   greyscale?: boolean;

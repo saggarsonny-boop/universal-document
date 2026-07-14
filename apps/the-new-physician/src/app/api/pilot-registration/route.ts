@@ -4,6 +4,9 @@ import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
+
 const getEvaluationTier = (scoreVal: number) => {
   if (scoreVal <= 25) {
     return {

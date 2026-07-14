@@ -39,10 +39,11 @@ export async function GET(request: Request) {
 
     let pdfBytes: Buffer;
 
-    try {
+    // Check if the product is one of the three Road templates
+    if (['first-72-hours-arrest', 'supervision-compliance-tracker', 'talking-to-kids-case'].includes(product.slug)) {
       pdfBytes = await generateTemplate(product.slug, { greyscale: false });
-    } catch (err) {
-      // Bulletproof fallback: generate a beautiful placeholder PDF on the fly using pdf-lib
+    } else {
+      // Fallback: generate a beautiful placeholder PDF on the fly using pdf-lib (without filesystem read)
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage([600, 800]);
       const font = await pdfDoc.embedFont('Helvetica-Bold');
