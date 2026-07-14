@@ -1,12 +1,12 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
+      disallow: ['/api/', '/templates/success', '/templates/cancel'],
     },
-    sitemap: 'https://newphysician.org/sitemap.xml',
-  }
+    sitemap: 'https://hub.newphysician.org/sitemap.xml',
+  };
 }
-// Trigger production build

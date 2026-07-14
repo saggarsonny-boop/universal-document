@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -7,16 +8,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- Introspected Models ---
-
 model attorneys {
-  id                 String   @id
-  clerk_id           String   @unique
-  email              String   @unique
-  stripe_customer_id String?  @unique
-  subscription_tier  String   @default("FREE")
-  subscription_id    String?
-  created_at         DateTime @default(now())
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id       String?   @db.Uuid
+  name          String    @db.VarChar(255)
+  firm          String?   @db.VarChar(255)
+  jurisdiction  String?   @db.VarChar(255)
+  bio           String?
+  approved      Boolean?  @default(false)
+  contact_phone String?   @db.VarChar(50)
+  created_at    DateTime? @default(now()) @db.Timestamp(6)
+  status        String?   @default("pending") @db.VarChar(50)
+  users         users?    @relation(fields: [user_id], references: [id], onUpdate: NoAction)
 }
 
 model documents {
@@ -58,13 +61,9 @@ model signers {
   documents        documents          @relation(fields: [document_id], references: [id], onDelete: Cascade)
 }
 
-// --- The New Physician App Models ---
-
 model WaitlistEntry {
   id        String   @id @default(cuid())
-  email     String?  @unique
-  score     Int?
-  answers   String?  @db.Text
+  email     String   @unique
   createdAt DateTime @default(now())
 }
 
@@ -76,25 +75,24 @@ model User {
   image         String?
   plan          String    @default("FOUNDER")
   accounts      Account[]
-  sessions      Session[]
   scripts       Script[]
+  sessions      Session[]
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -119,33 +117,185 @@ model Script {
   id        String   @id @default(cuid())
   userId    String
   title     String
-  content   String   @db.Text
+  content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PodcastEpisode {
   id          String   @id @default(cuid())
   title       String
-  description String   @db.Text
+  description String
   audioUrl    String
-  duration    Int      // Duration in seconds
+  duration    Int
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
 }
 
-// --- HiveIMR Global Pilot Registrations ---
-
 model IMRPilotRegistration {
-  id                    String   @id @default(cuid())
-  email                 String   @unique
-  name                  String
-  practiceType          String   // "SOLO", "CLINIC", "SYSTEM"
-  stateCountry          String
-  meansTested           Boolean  @default(false)
-  systemicCaptureScore  Int
-  answers               String   @db.Text // JSON string of user answers
-  createdAt             DateTime @default(now())
+  id                   String   @id @default(cuid())
+  email                String   @unique
+  name                 String
+  practiceType         String
+  stateCountry         String
+  meansTested          Boolean  @default(false)
+  systemicCaptureScore Int
+  answers              String
+  createdAt            DateTime @default(now())
+}
+
+model Order {
+  id                    String    @id
+  product_id            String
+  stripe_session_id     String    @unique
+  stripe_payment_intent String?
+  buyer_email           String
+  buyer_name            String
+  amount_cents          Int
+  status                String    @default("pending")
+  watermarked_file_key  String?
+  download_token        String?   @unique
+  token_expires_at      DateTime?
+  created_at            DateTime  @default(now())
+}
+
+model Product {
+  id                String   @id
+  slug              String   @unique
+  title             String
+  short_description String
+  long_description  String
+  source_tag        String
+  buyer_tag         String
+  format            String
+  stripe_product_id String?
+  stripe_price_id   String?
+  price_cents       Int
+  currency          String   @default("usd")
+  status            String   @default("draft")
+  version           String   @default("1.0")
+  search_keywords   String
+  created_at        DateTime @default(now())
+  is_bundle         Boolean  @default(false)
+  bundle_items      String?
+  brand             String   @default("clinical")
+}
+
+
+model conversion_costs {
+  id                 String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  timestamp          DateTime? @default(now()) @db.Timestamptz(6)
+  user_tier          String
+  route              String
+  input_format       String?
+  output_format      String?
+  input_tokens       Int?      @default(0)
+  output_tokens      Int?      @default(0)
+  estimated_cost_usd Decimal?  @default(0) @db.Decimal(10, 6)
+  file_name          String?
+  success            Boolean?  @default(true)
+  error_message      String?
+
+  @@index([timestamp(sort: Desc)])
+}
+
+model converter_api_keys {
+  id           String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  email        String
+  key_prefix   String
+  key_hash     String    @unique
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  last_used_at DateTime? @db.Timestamptz(6)
+}
+
+model converter_custody_log {
+  id             String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  email          String?
+  api_key_prefix String?
+  file_name      String?
+  file_size      Int?
+  output_id      String?
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model converter_free_tier_state {
+  ip_hash            String    @id
+  lifetime_count     Int       @default(0)
+  last_conversion_at DateTime? @db.Timestamptz(6)
+}
+
+model converter_operator_audit {
+  id            String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  user_identity String
+  action        String
+  engine_slug   String    @default("ud-converter")
+  file_size     BigInt?
+  file_type     String?
+  timestamp     DateTime? @default(now()) @db.Timestamptz(6)
+  request_id    String?
+
+  @@index([timestamp(sort: Desc)])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model converter_operator_setup_code_state {
+  id               Int       @id @default(1)
+  last_used_digest String?
+  last_used_at     DateTime? @db.Timestamptz(6)
+}
+
+model converter_subscriptions {
+  id                     String    @id @default(dbgenerated("(gen_random_uuid())::text"))
+  email                  String    @unique
+  stripe_customer_id     String?
+  stripe_subscription_id String?
+  status                 String?   @default("active")
+  created_at             DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime? @default(now()) @db.Timestamptz(6)
+  tier                   String    @default("pro")
+}
+
+model converter_usage {
+  ip_hash String
+  day     String
+  count   Int?   @default(0)
+
+  @@id([ip_hash, day])
+}
+
+model hiveboard_registrations {
+  id             Int       @id @default(autoincrement())
+  candidate_name String    @db.VarChar(255)
+  email          String    @db.VarChar(255)
+  role           String    @db.VarChar(50)
+  score          Int
+  certificate_id String?   @db.VarChar(255)
+  uds_hash       String?   @db.VarChar(255)
+  price_paid     Int
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@unique([email, role], map: "idx_hiveboard_registrations_email_role")
+}
+
+model support_tickets {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sender     String    @db.VarChar(255)
+  message    String
+  status     String?   @default("new") @db.VarChar(50)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model users {
+  id                  String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email               String      @unique @db.VarChar(255)
+  password_hash       String?
+  tier                String?     @default("free") @db.VarChar(50)
+  stripe_customer_id  String?     @db.VarChar(255)
+  registration_token  String?     @db.VarChar(255)
+  created_at          DateTime?   @default(now()) @db.Timestamp(6)
+  magic_token         String?     @db.VarChar(255)
+  magic_token_expires BigInt?
+  last_active         BigInt?
+  attorneys           attorneys[]
 }

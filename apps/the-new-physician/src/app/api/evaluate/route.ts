@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import nodemailer from 'nodemailer';
-import crypto from 'crypto';
+import { dbEdge } from '@/lib/db-edge';
 
-const prisma = new PrismaClient();
+async function sha256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 const getEvaluationTier = (scoreVal: number) => {
   if (scoreVal <= 25) {
@@ -69,18 +75,23 @@ export async function POST(request: Request) {
     const cleanScore = typeof systemicCaptureScore === 'number' ? Math.round(systemicCaptureScore) : 0;
     const cleanAnswers = answers ? (typeof answers === 'string' ? answers : JSON.stringify(answers)) : '{}';
 
-    // Insert into Neon database using Prisma
-    const registration = await prisma.iMRPilotRegistration.create({
-      data: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        practiceType,
-        stateCountry: stateCountry.trim(),
-        meansTested: !!meansTested,
-        systemicCaptureScore: cleanScore,
-        answers: cleanAnswers
-      }
-    });
+    // Insert into Neon database using dbEdge
+    const uuid = globalThis.crypto.randomUUID();
+    await dbEdge(`
+      INSERT INTO imr_pilot_registrations 
+      (id, name, email, practice_type, state_country, means_tested, systemic_capture_score, answers) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    `, [
+      uuid,
+      name.trim(),
+      email.trim().toLowerCase(),
+      practiceType,
+      stateCountry.trim(),
+      !!meansTested,
+      cleanScore,
+      cleanAnswers
+    ]);
+    const registration = { id: uuid };
 
     // Parse answers for evaluation
     let answersObj: Record<string, number> = {};
@@ -190,11 +201,11 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
     }
 
     // Build compliant iSDF v0.1.0 Universal Document Sealed (UDS) object
-    const uuid = crypto.randomUUID();
+    const documentUuid = globalThis.crypto.randomUUID();
     const isoNow = new Date().toISOString();
 
     const metadata = {
-      "id": uuid,
+      "id": documentUuid,
       "title": `Kintsugi Career Transition Blueprint - Dr. ${lastName}`,
       "created_at": isoNow,
       "updated_at": isoNow,
@@ -316,7 +327,7 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
 
     // Calculate canonical key string and SHA-256 hash
     const canonicalJSON = getCanonicalString(documentBody);
-    const computedHash = crypto.createHash('sha256').update(canonicalJSON).digest('hex');
+    const computedHash = await sha256(canonicalJSON);
 
     const seal = {
       "sealed_at": isoNow,
@@ -343,24 +354,9 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
       "seal": seal
     };
 
-    // Nodemailer configuration
-    const emailServer = process.env.EMAIL_SERVER || '';
+    // Resend configuration
+    const resendApiKey = process.env.RESEND_API_KEY || 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4';
     const emailFrom = process.env.EMAIL_FROM || 'info@newphysician.org';
-
-    let transporter;
-    if (emailServer) {
-      transporter = nodemailer.createTransport(emailServer);
-    } else {
-      transporter = nodemailer.createTransport({
-        host: 'smtp.resend.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'resend',
-          pass: 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4'
-        }
-      });
-    }
 
     const adminMailHtml = `
       <div style="font-family: monospace; background-color: #0b0b0b; color: #f5f5f5; padding: 30px; border-radius: 12px; border: 1px solid #333;">
@@ -461,28 +457,43 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
     const udsFilename = `kintsugi-blueprint-${lastName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.uds`;
 
     try {
+      const udsBase64 = btoa(JSON.stringify(completeUDS, null, 2));
+      
       await Promise.all([
-        transporter.sendMail({
-          from: emailFrom,
-          to: 'hive@hive.baby',
-          subject: `[MOH Pilot Applicant] Blueprint Sealed: Dr. ${lastName} (${cleanScore}%)`,
-          html: adminMailHtml
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: ['hive@hive.baby'],
+            subject: `[MOH Pilot Applicant] Blueprint Sealed: Dr. ${lastName} (${cleanScore}%)`,
+            html: adminMailHtml
+          })
         }),
-        transporter.sendMail({
-          from: emailFrom,
-          to: email.trim().toLowerCase(),
-          subject: `[HiveIMR Global Pilot] Kintsugi Career Transition Blueprint Sealed`,
-          html: candidateMailHtml,
-          attachments: [
-            {
-              filename: udsFilename,
-              content: JSON.stringify(completeUDS, null, 2),
-              contentType: 'application/json'
-            }
-          ]
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: [email.trim().toLowerCase()],
+            subject: `[HiveIMR Global Pilot] Kintsugi Career Transition Blueprint Sealed`,
+            html: candidateMailHtml,
+            attachments: [
+              {
+                filename: udsFilename,
+                content: udsBase64
+              }
+            ]
+          })
         })
       ]);
-      console.log('Successfully dispatched blueprint emails.');
+      console.log('Successfully dispatched blueprint emails via Resend API.');
     } catch (mailError) {
       console.error('Failed to dispatch blueprint emails:', mailError);
     }
@@ -495,7 +506,7 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
       registrationId: registration.id
     });
   } catch (error: any) {
-    if (error.code === 'P2002') {
+    if (error.code === '23505' || error.message?.includes('duplicate key')) {
       return NextResponse.json({ success: true, message: 'You have already registered for the Pilot Program' });
     }
     console.error('Sovereignty Evaluation API Error:', error);
