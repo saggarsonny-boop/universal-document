@@ -3,9 +3,9 @@ import path from 'path';
 import { generateTemplate } from '../src/lib/pdf-pipeline';
 
 const templates = [
-  'first-72-hours-arrest',
-  'supervision-compliance-tracker',
-  'talking-to-kids-case'
+  'first-72-hours-after-arrest',
+  'supervision-probation-compliance-tracker',
+  'talking-to-your-kids-about-your-case'
 ];
 
 async function main() {

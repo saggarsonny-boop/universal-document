@@ -131,7 +131,7 @@ export async function generateTemplate(slug: string, options: GenerateOptions = 
   let title = 'The Road Workbook';
   let lines: string[] = [];
 
-  if (slug === 'first-72-hours-arrest') {
+  if (slug === 'first-72-hours-after-arrest') {
     title = 'The First 72 Hours After Arrest';
     lines = [
       'Focus: Immediate crisis containment, right-to-silence enforcement, and key documentation setup.',
@@ -152,7 +152,7 @@ export async function generateTemplate(slug: string, options: GenerateOptions = 
       '   - Establish a designated family point-of-contact for communications.',
       '   - Secure passwords, financial records, and medical needs in a trusted location.'
     ];
-  } else if (slug === 'supervision-compliance-tracker') {
+  } else if (slug === 'supervision-probation-compliance-tracker') {
     title = 'Supervised Release & Probation Tracker';
     lines = [
       'Focus: Systematic tracking of compliance metrics, reporting deadlines, and supervision officer notes.',
@@ -173,7 +173,7 @@ export async function generateTemplate(slug: string, options: GenerateOptions = 
       '   - Log weekly work hours, payslips, and supervisor approvals.',
       '   - Verify community service hours are signed off by the host coordinator.'
     ];
-  } else if (slug === 'talking-to-kids-case') {
+  } else if (slug === 'talking-to-your-kids-about-your-case') {
     title = 'Talking To Your Kids About Your Case';
     lines = [
       'Focus: Developmentally appropriate discussion templates, crisis communications, and emotional anchoring.',

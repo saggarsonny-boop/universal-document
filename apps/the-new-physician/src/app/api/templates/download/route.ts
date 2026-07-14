@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     let pdfBytes: Buffer;
 
     // Check if the product is one of the three Road templates
-    if (['first-72-hours-arrest', 'supervision-compliance-tracker', 'talking-to-kids-case'].includes(product.slug)) {
+    if (['first-72-hours-after-arrest', 'supervision-probation-compliance-tracker', 'talking-to-your-kids-about-your-case'].includes(product.slug)) {
       pdfBytes = await generateTemplate(product.slug, { greyscale: false });
     } else {
       // Fallback: generate a beautiful placeholder PDF on the fly using pdf-lib (without filesystem read)
