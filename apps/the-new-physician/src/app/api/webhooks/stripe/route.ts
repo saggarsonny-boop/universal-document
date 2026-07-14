@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { db } from '@/lib/db';
-import crypto from 'crypto';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -40,7 +39,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ received: true });
     }
 
-    const downloadToken = crypto.randomUUID();
+    const downloadToken = globalThis.crypto.randomUUID();
     const tokenExpiresAt = new Date();
     tokenExpiresAt.setHours(tokenExpiresAt.getHours() + 24); // 24 hour expiry
 
@@ -48,7 +47,7 @@ export async function POST(request: Request) {
     try {
       await db.order.create({
         data: {
-          id: crypto.randomUUID(), // we need to specify id since it doesn't default to default(uuid) or auto-increment in schema. prisma db pull shows id is a required field without default value
+          id: globalThis.crypto.randomUUID(), // we need to specify id since it doesn't default to default(uuid) or auto-increment in schema. prisma db pull shows id is a required field without default value
           product_id: productId,
           stripe_session_id: session.id,
           stripe_payment_intent: session.payment_intent as string || null,

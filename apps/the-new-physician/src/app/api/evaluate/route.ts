@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import nodemailer from 'nodemailer';
-import crypto from 'crypto';
 
 const prisma = new PrismaClient();
+
+async function sha256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await globalThis.crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -319,7 +324,7 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
 
     // Calculate canonical key string and SHA-256 hash
     const canonicalJSON = getCanonicalString(documentBody);
-    const computedHash = crypto.createHash('sha256').update(canonicalJSON).digest('hex');
+    const computedHash = await sha256(canonicalJSON);
 
     const seal = {
       "sealed_at": isoNow,
@@ -346,24 +351,9 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
       "seal": seal
     };
 
-    // Nodemailer configuration
-    const emailServer = process.env.EMAIL_SERVER || '';
+    // Resend configuration
+    const resendApiKey = process.env.RESEND_API_KEY || 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4';
     const emailFrom = process.env.EMAIL_FROM || 'info@newphysician.org';
-
-    let transporter;
-    if (emailServer) {
-      transporter = nodemailer.createTransport(emailServer);
-    } else {
-      transporter = nodemailer.createTransport({
-        host: 'smtp.resend.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'resend',
-          pass: 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4'
-        }
-      });
-    }
 
     const adminMailHtml = `
       <div style="font-family: monospace; background-color: #0b0b0b; color: #f5f5f5; padding: 30px; border-radius: 12px; border: 1px solid #333;">
@@ -464,28 +454,43 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
     const udsFilename = `kintsugi-blueprint-${lastName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.uds`;
 
     try {
+      const udsBase64 = btoa(JSON.stringify(completeUDS, null, 2));
+      
       await Promise.all([
-        transporter.sendMail({
-          from: emailFrom,
-          to: 'hive@hive.baby',
-          subject: `[MOH Pilot Applicant] Blueprint Sealed: Dr. ${lastName} (${cleanScore}%)`,
-          html: adminMailHtml
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: ['hive@hive.baby'],
+            subject: `[MOH Pilot Applicant] Blueprint Sealed: Dr. ${lastName} (${cleanScore}%)`,
+            html: adminMailHtml
+          })
         }),
-        transporter.sendMail({
-          from: emailFrom,
-          to: email.trim().toLowerCase(),
-          subject: `[HiveIMR Global Pilot] Kintsugi Career Transition Blueprint Sealed`,
-          html: candidateMailHtml,
-          attachments: [
-            {
-              filename: udsFilename,
-              content: JSON.stringify(completeUDS, null, 2),
-              contentType: 'application/json'
-            }
-          ]
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: [email.trim().toLowerCase()],
+            subject: `[HiveIMR Global Pilot] Kintsugi Career Transition Blueprint Sealed`,
+            html: candidateMailHtml,
+            attachments: [
+              {
+                filename: udsFilename,
+                content: udsBase64
+              }
+            ]
+          })
         })
       ]);
-      console.log('Successfully dispatched blueprint emails.');
+      console.log('Successfully dispatched blueprint emails via Resend API.');
     } catch (mailError) {
       console.error('Failed to dispatch blueprint emails:', mailError);
     }

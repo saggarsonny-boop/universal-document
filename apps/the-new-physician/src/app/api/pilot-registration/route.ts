@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import nodemailer from 'nodemailer';
 
 const prisma = new PrismaClient();
 
@@ -81,24 +80,9 @@ export async function POST(request: Request) {
     const tier = getEvaluationTier(cleanScore);
     const lastName = name.trim().split(' ').pop() || name.trim();
 
-    // Configure Nodemailer Transport using SMTP environment configuration
-    const emailServer = process.env.EMAIL_SERVER || '';
+    // Resend configuration
+    const resendApiKey = process.env.RESEND_API_KEY || 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4';
     const emailFrom = process.env.EMAIL_FROM || 'info@newphysician.org';
-    
-    let transporter;
-    if (emailServer) {
-      transporter = nodemailer.createTransport(emailServer);
-    } else {
-      transporter = nodemailer.createTransport({
-        host: 'smtp.resend.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'resend',
-          pass: 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4'
-        }
-      });
-    }
 
     // 1. Send Notification Email to hive@hive.baby
     const adminMailHtml = `
@@ -224,25 +208,39 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    // Trigger emails in background (or sequence) using the configured SMTP
+    // Trigger emails in background (or sequence) using the configured Resend API
     try {
       await Promise.all([
         // Send alert to admin
-        transporter.sendMail({
-          from: emailFrom,
-          to: 'hive@hive.baby',
-          subject: `[MOH Pilot Applicant] New Registration: Dr. ${lastName} (${cleanScore}%)`,
-          html: adminMailHtml
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: ['hive@hive.baby'],
+            subject: `[MOH Pilot Applicant] New Registration: Dr. ${lastName} (${cleanScore}%)`,
+            html: adminMailHtml
+          })
         }),
         // Send confirmation to applicant
-        transporter.sendMail({
-          from: emailFrom,
-          to: email.trim().toLowerCase(),
-          subject: `[HiveIMR Global Pilot] Sovereignty Registration Confirmed`,
-          html: candidateMailHtml
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: [email.trim().toLowerCase()],
+            subject: `[HiveIMR Global Pilot] Sovereignty Registration Confirmed`,
+            html: candidateMailHtml
+          })
         })
       ]);
-      console.log('Successfully sent registration emails.');
+      console.log('Successfully sent registration emails via Resend API.');
     } catch (mailError) {
       // Log the email failure but DO NOT fail the registration itself
       console.error('Failed to send registration notification emails:', mailError);
