@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, ShieldAlert, CreditCard, Layers } from 'lucide-react';
@@ -17,10 +17,8 @@ export const runtime = 'edge';
 
 export default async function TemplateDetails({ params }: PageProps) {
   const { slug } = await params;
-
-  const product = await db.product.findUnique({
-    where: { slug }
-  });
+  const products = await dbEdge('SELECT * FROM product WHERE slug = $1', [slug]) as any[];
+  const product = products[0];
 
   if (!product || product.status !== 'live') {
     notFound();
@@ -31,16 +29,7 @@ export default async function TemplateDetails({ params }: PageProps) {
   if (product.is_bundle && product.bundle_items) {
     try {
       const itemSlugs = JSON.parse(product.bundle_items);
-      bundledProducts = await db.product.findMany({
-        where: {
-          slug: { in: itemSlugs }
-        },
-        select: {
-          title: true,
-          short_description: true,
-          slug: true
-        }
-      });
+      bundledProducts = await dbEdge('SELECT title, short_description, slug FROM product WHERE slug = ANY($1)', [itemSlugs]) as any[];
     } catch (e) {
       console.error('Error parsing bundle items:', e);
     }

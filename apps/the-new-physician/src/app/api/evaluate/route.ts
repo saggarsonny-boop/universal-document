@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db as prisma } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 
 async function sha256(message: string): Promise<string> {
   const msgBuffer = new TextEncoder().encode(message);
@@ -75,18 +75,23 @@ export async function POST(request: Request) {
     const cleanScore = typeof systemicCaptureScore === 'number' ? Math.round(systemicCaptureScore) : 0;
     const cleanAnswers = answers ? (typeof answers === 'string' ? answers : JSON.stringify(answers)) : '{}';
 
-    // Insert into Neon database using Prisma
-    const registration = await prisma.iMRPilotRegistration.create({
-      data: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        practiceType,
-        stateCountry: stateCountry.trim(),
-        meansTested: !!meansTested,
-        systemicCaptureScore: cleanScore,
-        answers: cleanAnswers
-      }
-    });
+    // Insert into Neon database using dbEdge
+    const uuid = globalThis.crypto.randomUUID();
+    await dbEdge(`
+      INSERT INTO imr_pilot_registrations 
+      (id, name, email, practice_type, state_country, means_tested, systemic_capture_score, answers) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    `, [
+      uuid,
+      name.trim(),
+      email.trim().toLowerCase(),
+      practiceType,
+      stateCountry.trim(),
+      !!meansTested,
+      cleanScore,
+      cleanAnswers
+    ]);
+    const registration = { id: uuid };
 
     // Parse answers for evaluation
     let answersObj: Record<string, number> = {};
@@ -196,11 +201,11 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
     }
 
     // Build compliant iSDF v0.1.0 Universal Document Sealed (UDS) object
-    const uuid = crypto.randomUUID();
+    const documentUuid = globalThis.crypto.randomUUID();
     const isoNow = new Date().toISOString();
 
     const metadata = {
-      "id": uuid,
+      "id": documentUuid,
       "title": `Kintsugi Career Transition Blueprint - Dr. ${lastName}`,
       "created_at": isoNow,
       "updated_at": isoNow,
@@ -501,7 +506,7 @@ ${actionSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}
       registrationId: registration.id
     });
   } catch (error: any) {
-    if (error.code === 'P2002') {
+    if (error.code === '23505' || error.message?.includes('duplicate key')) {
       return NextResponse.json({ success: true, message: 'You have already registered for the Pilot Program' });
     }
     console.error('Sovereignty Evaluation API Error:', error);

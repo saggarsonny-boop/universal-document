@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -45,20 +45,22 @@ export async function POST(request: Request) {
 
     // Save order in database
     try {
-      await db.order.create({
-        data: {
-          id: globalThis.crypto.randomUUID(), // we need to specify id since it doesn't default to default(uuid) or auto-increment in schema. prisma db pull shows id is a required field without default value
-          product_id: productId,
-          stripe_session_id: session.id,
-          stripe_payment_intent: session.payment_intent as string || null,
-          buyer_email: buyerEmail,
-          buyer_name: buyerName,
-          amount_cents: amountCents,
-          status: 'completed',
-          download_token: downloadToken,
-          token_expires_at: tokenExpiresAt
-        }
-      });
+      await dbEdge(`
+        INSERT INTO orders 
+        (id, product_id, stripe_session_id, stripe_payment_intent, buyer_email, buyer_name, amount_cents, status, download_token, token_expires_at) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      `, [
+        globalThis.crypto.randomUUID(),
+        productId,
+        session.id,
+        session.payment_intent as string || null,
+        buyerEmail,
+        buyerName,
+        amountCents,
+        'completed',
+        downloadToken,
+        tokenExpiresAt
+      ]);
 
       console.log(`Order successfully created for session: ${session.id}`);
 

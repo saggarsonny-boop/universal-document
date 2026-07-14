@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 
@@ -14,9 +14,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Product ID is required' }, { status: 400 });
     }
 
-    const product = await db.product.findUnique({
-      where: { id: productId }
-    });
+    const products = await dbEdge('SELECT id, slug, status, stripe_price_id, is_bundle FROM product WHERE id = $1', [productId]) as any[];
+    const product = products[0];
 
     if (!product || product.status !== 'live') {
       return NextResponse.json({ error: 'Product not found or not available' }, { status: 404 });

@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 import Link from 'next/link';
 import { Search, SlidersHorizontal, BookOpen, User, DollarSign } from 'lucide-react';
 import { HiveFooter } from '@/components/HiveFooter';
@@ -23,27 +23,31 @@ export default async function TemplatesHub({ searchParams }: PageProps) {
   const selectedSource = params.source || 'all';
   const selectedBrand = params.brand || 'all';
 
-  // Fetch live products
-  const products = await db.product.findMany({
-    where: {
-      status: 'live',
-      AND: [
-        selectedBuyer !== 'all' ? { buyer_tag: selectedBuyer } : {},
-        selectedSource !== 'all' ? { source_tag: selectedSource } : {},
-        selectedBrand !== 'all' ? { brand: selectedBrand } : {},
-        query
-          ? {
-              OR: [
-                { title: { contains: query, mode: 'insensitive' } },
-                { short_description: { contains: query, mode: 'insensitive' } },
-                { search_keywords: { contains: query, mode: 'insensitive' } }
-              ]
-            }
-          : {}
-      ]
-    },
-    orderBy: { price_cents: 'asc' }
-  });
+  // Fetch live products via dbEdge
+  let sqlText = `SELECT * FROM product WHERE status = 'live'`;
+  const queryParams: any[] = [];
+  let paramIdx = 1;
+
+  if (selectedBuyer !== 'all') {
+    sqlText += ` AND buyer_tag = $${paramIdx++}`;
+    queryParams.push(selectedBuyer);
+  }
+  if (selectedSource !== 'all') {
+    sqlText += ` AND source_tag = $${paramIdx++}`;
+    queryParams.push(selectedSource);
+  }
+  if (selectedBrand !== 'all') {
+    sqlText += ` AND brand = $${paramIdx++}`;
+    queryParams.push(selectedBrand);
+  }
+  if (query) {
+    sqlText += ` AND (title ILIKE $${paramIdx} OR short_description ILIKE $${paramIdx} OR search_keywords ILIKE $${paramIdx})`;
+    queryParams.push(`%${query}%`);
+  }
+
+  sqlText += ` ORDER BY price_cents ASC`;
+
+  const products = await dbEdge(sqlText, queryParams) as any[];
 
   const buyerTags = [
     { label: 'All Buyers', value: 'all' },

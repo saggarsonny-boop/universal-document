@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -25,10 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch all live products to populate dynamic pages
   try {
-    const liveProducts = await db.product.findMany({
-      where: { status: 'live' },
-      select: { slug: true, created_at: true }
-    });
+    const liveProducts = await dbEdge('SELECT slug, created_at FROM product WHERE status = $1', ['live']) as any[];
 
     const productUrls = liveProducts.map((p: any) => ({
       url: `${baseUrl}/templates/${p.slug}`,

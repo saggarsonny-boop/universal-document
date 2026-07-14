@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 import { watermarkPdf } from '@/lib/watermarker';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { generateTemplate } from '@/lib/pdf-pipeline';
@@ -16,22 +16,21 @@ export async function GET(request: Request) {
     }
 
     // Find the order
-    const order = await db.order.findUnique({
-      where: { download_token: token }
-    });
+    // Find the order
+    const orders = await dbEdge('SELECT id, product_id, buyer_email, buyer_name, token_expires_at FROM orders WHERE download_token = $1', [token]) as any[];
+    const order = orders[0];
 
     if (!order) {
       return new Response('Invalid download link', { status: 404 });
     }
 
-    if (order.token_expires_at && new Date() > order.token_expires_at) {
+    if (order.token_expires_at && new Date() > new Date(order.token_expires_at)) {
       return new Response('This download link has expired (valid for 24h only)', { status: 410 });
     }
 
     // Get the product
-    const product = await db.product.findUnique({
-      where: { id: order.product_id }
-    });
+    const products = await dbEdge('SELECT id, slug, is_bundle, bundle_items, title, format, version, short_description, long_description FROM product WHERE id = $1', [order.product_id]) as any[];
+    const product = products[0];
 
     if (!product) {
       return new Response('Associated product not found', { status: 404 });

@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { dbEdge } from '@/lib/db-edge';
 import Stripe from 'stripe';
 import Link from 'next/link';
 import { CheckCircle2, Download, ArrowRight, ShieldCheck, Mail } from 'lucide-react';
@@ -60,10 +60,9 @@ export default async function SuccessPage({ searchParams }: PageProps) {
     );
   }
 
-  // Query DB to find the order and retrieve the download token
-  const order = await db.order.findFirst({
-    where: { stripe_session_id: sessionId }
-  });
+  // Query DB to find the order and retrieve the download token via dbEdge
+  const orders = await dbEdge('SELECT id, download_token FROM orders WHERE stripe_session_id = $1', [sessionId]) as any[];
+  const order = orders[0];
 
   // If the order isn't in the database yet (webhook latency), show processing message
   if (!order) {
