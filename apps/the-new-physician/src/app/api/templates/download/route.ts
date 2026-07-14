@@ -1,10 +1,26 @@
-import { NextResponse } from 'next/server';
 import { dbEdge } from '@/lib/db-edge';
 import { watermarkPdf } from '@/lib/watermarker';
-import { PDFDocument, rgb } from 'pdf-lib';
-import { generateTemplate } from '@/lib/pdf-pipeline';
+import { zipSync } from 'fflate';
 
 export const runtime = 'edge';
+
+// Master PDFs are stored as bytea in product_files (loaded by prisma/seed.js
+// from private-templates/). base64 round-trip keeps the bytes driver-agnostic.
+async function fetchMaster(slug: string): Promise<Buffer> {
+  const rows = await dbEdge(
+    `SELECT encode(pdf, 'base64') AS pdf_b64, byte_size FROM product_files WHERE product_slug = $1`,
+    [slug]
+  ) as any[];
+  const row = rows[0];
+  if (!row?.pdf_b64) {
+    throw new Error(`No master PDF stored for product "${slug}"`);
+  }
+  const bytes = Buffer.from(row.pdf_b64, 'base64');
+  if (bytes.length !== Number(row.byte_size)) {
+    throw new Error(`Master PDF for "${slug}" failed integrity check (${bytes.length} != ${row.byte_size})`);
+  }
+  return bytes;
+}
 
 export async function GET(request: Request) {
   try {
@@ -15,9 +31,10 @@ export async function GET(request: Request) {
       return new Response('Download token is required', { status: 400 });
     }
 
-    // Find the order
-    // Find the order
-    const orders = await dbEdge('SELECT id, product_id, buyer_email, buyer_name, token_expires_at FROM orders WHERE download_token = $1', [token]) as any[];
+    const orders = await dbEdge(
+      'SELECT id, product_id, buyer_email, buyer_name, token_expires_at FROM orders WHERE download_token = $1',
+      [token]
+    ) as any[];
     const order = orders[0];
 
     if (!order) {
@@ -28,110 +45,49 @@ export async function GET(request: Request) {
       return new Response('This download link has expired (valid for 24h only)', { status: 410 });
     }
 
-    // Get the product
-    const products = await dbEdge('SELECT id, slug, is_bundle, bundle_items, title, format, version, short_description, long_description FROM "Product" WHERE id = $1', [order.product_id]) as any[];
+    const products = await dbEdge(
+      'SELECT id, slug, is_bundle, bundle_items, title FROM "Product" WHERE id = $1',
+      [order.product_id]
+    ) as any[];
     const product = products[0];
 
     if (!product) {
       return new Response('Associated product not found', { status: 404 });
     }
 
-    let pdfBytes: Buffer;
-
-    // Check if the product is one of the three Road templates
-    if (['first-72-hours-after-arrest', 'supervision-probation-compliance-tracker', 'talking-to-your-kids-about-your-case'].includes(product.slug)) {
-      pdfBytes = await generateTemplate(product.slug, { greyscale: false });
-    } else {
-      // Fallback: generate a beautiful placeholder PDF on the fly using pdf-lib (without filesystem read)
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([600, 800]);
-      const font = await pdfDoc.embedFont('Helvetica-Bold');
-      const regularFont = await pdfDoc.embedFont('Helvetica');
-
-      // Draw Header
-      page.drawText('THE NEW PHYSICIAN LIBRARY', {
-        x: 50,
-        y: 730,
-        size: 10,
-        font: font,
-        color: rgb(0.83, 0.68, 0.21), // Gold
-      });
-
-      page.drawLine({
-        start: { x: 50, y: 715 },
-        end: { x: 550, y: 715 },
-        thickness: 1,
-        color: rgb(0.8, 0.8, 0.8),
-      });
-
-      // Draw Title
-      page.drawText(product.title, {
-        x: 50,
-        y: 660,
-        size: 24,
-        font: font,
-        color: rgb(0.09, 0.12, 0.19), // Dark Blue
-      });
-
-      // Draw Metadata
-      page.drawText(`Format: ${product.format.toUpperCase()} | Version: ${product.version}`, {
-        x: 50,
-        y: 630,
-        size: 10,
-        font: regularFont,
-        color: rgb(0.4, 0.4, 0.4),
-      });
-
-      // Draw Description
-      const descLines = [
-        product.short_description,
-        '',
-        product.long_description,
-        '',
-        '--- Legal & Clinical Disclaimers ---',
-        'This document is for educational and informational purposes only.',
-        'If it relates to legal matters, it does not constitute legal advice and does not create an attorney-client relationship.',
-        'If it relates to clinical or career matters, it does not imply an active clinical practice or guarantee certification outcomes.'
-      ];
-
-      let yOffset = 580;
-      for (const line of descLines) {
-        if (line === '') {
-          yOffset -= 15;
-          continue;
-        }
-        // Split line into smaller chunks if it exceeds page width
-        const words = line.split(' ');
-        let currentLine = '';
-        for (const word of words) {
-          const testLine = currentLine ? `${currentLine} ${word}` : word;
-          const width = regularFont.widthOfTextAtSize(testLine, 11);
-          if (width > 500) {
-            page.drawText(currentLine, { x: 50, y: yOffset, size: 11, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-            yOffset -= 18;
-            currentLine = word;
-          } else {
-            currentLine = testLine;
-          }
-        }
-        if (currentLine) {
-          page.drawText(currentLine, { x: 50, y: yOffset, size: 11, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-          yOffset -= 22;
-        }
-      }
-
-      const generatedBytes = await pdfDoc.save();
-      pdfBytes = Buffer.from(generatedBytes);
-    }
-
-    // Apply personalized watermarking
-    const watermarkedBytes = await watermarkPdf(pdfBytes, {
+    const watermarkOptions = {
       buyerName: order.buyer_name,
       buyerEmail: order.buyer_email,
       orderId: order.id
-    });
+    };
 
-    // Return file stream response
+    if (product.is_bundle && product.bundle_items) {
+      // Bundle: watermark every included master and deliver one ZIP.
+      const itemSlugs: string[] = JSON.parse(product.bundle_items);
+      const entries: Record<string, Uint8Array> = {};
+
+      for (const slug of itemSlugs) {
+        const master = await fetchMaster(slug);
+        const watermarked = await watermarkPdf(master, watermarkOptions);
+        entries[`${slug}.pdf`] = new Uint8Array(watermarked);
+      }
+
+      const zipped = zipSync(entries, { level: 6 });
+
+      return new Response(new Uint8Array(zipped), {
+        headers: {
+          'Content-Type': 'application/zip',
+          'Content-Disposition': `attachment; filename="${product.slug}.zip"`,
+          'Content-Length': zipped.length.toString()
+        }
+      });
+    }
+
+    // Single product: watermark the real master. No placeholder fallback —
+    // a product without a stored master must fail loudly, not deliver a blank.
+    const master = await fetchMaster(product.slug);
+    const watermarkedBytes = await watermarkPdf(master, watermarkOptions);
+
     return new Response(new Uint8Array(watermarkedBytes), {
       headers: {
         'Content-Type': 'application/pdf',
@@ -141,6 +97,6 @@ export async function GET(request: Request) {
     });
   } catch (error: any) {
     console.error('Download route error:', error);
-    return new Response('Internal Server Error', { status: 500 });
+    return new Response('We could not prepare your download. Please contact support@newphysician.org with your order email.', { status: 500 });
   }
 }

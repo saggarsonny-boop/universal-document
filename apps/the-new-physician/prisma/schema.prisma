@@ -158,28 +158,44 @@ model Order {
   download_token        String?   @unique
   token_expires_at      DateTime?
   created_at            DateTime  @default(now())
+
+  @@map("orders")
 }
 
 model Product {
-  id                String   @id
-  slug              String   @unique
-  title             String
-  short_description String
-  long_description  String
-  source_tag        String
-  buyer_tag         String
-  format            String
-  stripe_product_id String?
-  stripe_price_id   String?
-  price_cents       Int
-  currency          String   @default("usd")
-  status            String   @default("draft")
-  version           String   @default("1.0")
-  search_keywords   String
-  created_at        DateTime @default(now())
-  is_bundle         Boolean  @default(false)
-  bundle_items      String?
-  brand             String   @default("clinical")
+  id                           String   @id
+  slug                         String   @unique
+  title                        String
+  short_description            String
+  long_description             String
+  source_tag                   String
+  buyer_tag                    String
+  category                     String?
+  format                       String
+  stripe_product_id            String?
+  stripe_price_id              String?
+  stripe_site_license_price_id String?
+  price_cents                  Int
+  currency                     String   @default("usd")
+  status                       String   @default("draft")
+  version                      String   @default("1.0")
+  search_keywords              String
+  created_at                   DateTime @default(now())
+  is_bundle                    Boolean  @default(false)
+  bundle_items                 String?
+  brand                        String   @default("clinical")
+}
+
+// Master PDF bytes, one row per live single. Kept out of "Product" so
+// browse queries never pull ~85KB of bytea per row. The search_tsv
+// generated column on "Product" is managed by raw SQL (prisma/sql/) and
+// intentionally not modelled here.
+model product_files {
+  product_slug String   @id
+  pdf          Bytes
+  byte_size    Int
+  page_count   Int
+  updated_at   DateTime @default(now())
 }
 
 

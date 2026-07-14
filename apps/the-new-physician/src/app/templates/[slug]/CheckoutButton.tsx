@@ -47,7 +47,7 @@ export default function CheckoutButton({ productId }: CheckoutButtonProps) {
       <button
         onClick={handleCheckout}
         disabled={loading}
-        className="w-full bg-[#D4AF37] hover:bg-[#BCA032] disabled:bg-[#1F293D] disabled:text-[#5B6574] text-[#0B0F19] font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg hover:shadow-[#D4AF37]/15 flex items-center justify-center gap-2 cursor-pointer text-sm"
+        className="w-full bg-[#D4AF37] hover:bg-[#BCA032] disabled:bg-neutral-800 disabled:text-neutral-500 text-black font-bold py-3.5 px-4 rounded-xl transition-all shadow-lg hover:shadow-[#D4AF37]/15 flex items-center justify-center gap-2 cursor-pointer text-sm"
       >
         {loading ? (
           <>

@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { dbEdge } from '@/lib/db-edge';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+let _stripe: Stripe | null = null;
+// Lazy init so builds without STRIPE_SECRET_KEY don't fail at module load.
+function getStripe(): Stripe {
+  if (!_stripe) _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+  return _stripe;
+}
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export const runtime = 'edge';
@@ -13,14 +18,16 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event;
 
+  // Fail closed: an unsigned or unverifiable event must never mint orders
+  // or download tokens. constructEventAsync is required on the Edge runtime
+  // (the sync variant throws under SubtleCrypto).
+  if (!webhookSecret || !signature) {
+    console.error('Webhook rejected: missing STRIPE_WEBHOOK_SECRET or stripe-signature header');
+    return NextResponse.json({ error: 'Webhook not configured' }, { status: 400 });
+  }
+
   try {
-    if (webhookSecret && signature) {
-      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-    } else {
-      // Fallback/development mode if webhook secret is not set
-      const parsed = JSON.parse(body);
-      event = parsed as Stripe.Event;
-    }
+    event = await getStripe().webhooks.constructEventAsync(body, signature, webhookSecret);
   } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });

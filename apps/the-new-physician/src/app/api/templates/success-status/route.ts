@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { dbEdge } from '@/lib/db-edge';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+let _stripe: Stripe | null = null;
+// Lazy init so builds without STRIPE_SECRET_KEY don't fail at module load.
+function getStripe(): Stripe {
+  if (!_stripe) _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+  return _stripe;
+}
 
 export const runtime = 'edge';
 
@@ -18,7 +23,7 @@ export async function GET(request: Request) {
     // Fetch Checkout Session from Stripe
     let session: any;
     try {
-      session = await stripe.checkout.sessions.retrieve(sessionId);
+      session = await getStripe().checkout.sessions.retrieve(sessionId);
     } catch (e: any) {
       console.error('Stripe Session Retrieval Error:', e.message);
       return NextResponse.json({ error: 'Stripe session retrieval failed' }, { status: 500 });
