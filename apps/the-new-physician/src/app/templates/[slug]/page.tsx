@@ -12,21 +12,8 @@ interface PageProps {
   }>;
 }
 
-export async function generateStaticParams() {
-  return [
-    { slug: 'first-72-hours-after-arrest' },
-    { slug: 'supervision-probation-compliance-tracker' },
-    { slug: 'talking-to-your-kids-about-your-case' },
-    { slug: 'the-pre-trial-sovereignty-prep-workbook' },
-    { slug: 'the-road-companion-toolkit' },
-    { slug: 'the-plea-bargain-audit-workbook' },
-    { slug: 'post-sentencing-reintegration-planner' },
-    { slug: 'family-preparedness-under-indictment-workbook' },
-    { slug: 'the-first-forty-eight-hours-of-prison' },
-    { slug: 'prison-sovereignty-physical-mental-safety' },
-    { slug: 'the-commutation-executive-clemency-blueprint' }
-  ];
-}
+export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export default async function TemplateDetails({ params }: PageProps) {
   const { slug } = await params;
