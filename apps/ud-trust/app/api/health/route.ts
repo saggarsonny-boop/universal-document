@@ -30,3 +30,4 @@ export async function GET() {
     imageBudget: imageBudgetSnapshot(),
   });
 }
+// trigger redeploy
