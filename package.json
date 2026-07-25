@@ -1,0 +1,12 @@
+{
+  "name": "universal-document-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build:ud-trust": "npm run build -w apps/ud-trust"
+  }
+}

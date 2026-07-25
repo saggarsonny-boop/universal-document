@@ -1,0 +1,34 @@
+{
+  "install": {
+    "cta": "Adicionar {{engineName}} à tela inicial",
+    "ctaAriaIos": "Mostre-me como adicionar {{engineName}} à minha tela inicial",
+    "ctaAriaChromium": "Adicionar {{engineName}} à tela inicial",
+    "fallback": {
+      "desktopSafariFirefox": "Adicione {{engineName}} à sua tela inicial para acesso com um toque. Use a opção de favoritos do seu navegador para mantê-lo acessível. Sem loja de aplicativos — é grátis.",
+      "unknown": "{{engineName}} funciona em qualquer dispositivo. Use a opção \"Adicionar à tela inicial\" do seu navegador para mantê-lo acessível."
+    },
+    "banner": {
+      "regionAria": "Instalar {{engineName}}",
+      "dismissAria": "Dispensar sugestão de instalação",
+      "default": "Adicione {{engineName}} à sua tela inicial para acesso com um toque. Sem loja de aplicativos, sem cadastro."
+    },
+    "ahtsCard": {
+      "title": "Adicionar {{engineName}} à tela inicial",
+      "body": "Instale para acesso com um toque — abre como qualquer outro aplicativo. Sem loja de aplicativos.",
+      "dismiss": "Entendi"
+    },
+    "overlay": {
+      "title": "Adicionar {{engineName}} à tela inicial",
+      "body": "Três toques no Safari. Depois disso, {{engineName}} abre como qualquer outro aplicativo.",
+      "step1": "Toque no botão de compartilhar na parte inferior do Safari.",
+      "step2": "Role para baixo e toque em Adicionar à Tela de Início.",
+      "step3": "Toque em Adicionar no canto superior direito.",
+      "dismiss": "Entendi",
+      "ariaLabel": "Como adicionar {{engineName}} à tela inicial"
+    },
+    "installedToast": "{{engineName}} está na sua tela inicial. Abra-o como qualquer outro aplicativo."
+  },
+  "firstVisit": {
+    "default": "Primeira visita? Experimente — seus dados ficam no seu dispositivo."
+  }
+}

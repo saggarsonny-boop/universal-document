@@ -1,0 +1,12 @@
+{
+  "name": "@hive/amplifiers",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.16.0",
+    "react": "^18.2.0"
+  }
+}

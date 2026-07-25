@@ -1,0 +1,13 @@
+{
+  "name": "@hive/storage",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "@neondatabase/serverless": "^1.1.0",
+    "@hive/ud-schema": "file:../hive-ud-schema"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

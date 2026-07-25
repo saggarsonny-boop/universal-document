@@ -1,0 +1,34 @@
+{
+  "install": {
+    "cta": "Ajouter {{engineName}} à votre écran d'accueil",
+    "ctaAriaIos": "Montrez-moi comment ajouter {{engineName}} à mon écran d'accueil",
+    "ctaAriaChromium": "Ajouter {{engineName}} à votre écran d'accueil",
+    "fallback": {
+      "desktopSafariFirefox": "Ajoutez {{engineName}} à votre écran d'accueil pour un accès en un seul geste. Utilisez l'option de favoris de votre navigateur pour le garder accessible. Pas de téléchargement requis — c'est gratuit.",
+      "unknown": "{{engineName}} fonctionne sur n'importe quel appareil. Utilisez l'option \"Ajouter à l'écran d'accueil\" de votre navigateur pour le garder accessible."
+    },
+    "banner": {
+      "regionAria": "Installer {{engineName}}",
+      "dismissAria": "Ignorer la suggestion d'installation",
+      "default": "Ajoutez {{engineName}} à votre écran d'accueil pour un accès en un seul geste. Pas de téléchargement, pas d'inscription."
+    },
+    "ahtsCard": {
+      "title": "Ajouter {{engineName}} à votre écran d'accueil",
+      "body": "Installez pour un accès en un seul geste — s'ouvre comme n'importe quelle autre application. Pas de téléchargement requis.",
+      "dismiss": "Compris"
+    },
+    "overlay": {
+      "title": "Ajouter {{engineName}} à votre écran d'accueil",
+      "body": "Trois gestes dans Safari. Après cela, {{engineName}} s'ouvre comme n'importe quelle autre application.",
+      "step1": "Appuyez sur le bouton de partage en bas de Safari.",
+      "step2": "Faites défiler vers le bas et appuyez sur Ajouter à l'écran d'accueil.",
+      "step3": "Appuyez sur Ajouter dans le coin supérieur droit.",
+      "dismiss": "Compris",
+      "ariaLabel": "Comment ajouter {{engineName}} à votre écran d'accueil"
+    },
+    "installedToast": "{{engineName}} est sur votre écran d'accueil. Ouvrez-le comme n'importe quelle autre application."
+  },
+  "firstVisit": {
+    "default": "Première visite ? Essayez — vos données restent sur votre appareil."
+  }
+}

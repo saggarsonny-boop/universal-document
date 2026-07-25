@@ -1,0 +1,11 @@
+{
+  "name": "@hive/billing",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "stripe": "^15.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

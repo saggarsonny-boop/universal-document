@@ -1,0 +1,34 @@
+{
+  "install": {
+    "cta": "Añadir {{engineName}} a tu pantalla de inicio",
+    "ctaAriaIos": "Muéstrame cómo añadir {{engineName}} a mi pantalla de inicio",
+    "ctaAriaChromium": "Añadir {{engineName}} a tu pantalla de inicio",
+    "fallback": {
+      "desktopSafariFirefox": "Añade {{engineName}} a tu pantalla de inicio para acceder con un solo toque. Usa la opción de marcadores de tu navegador para mantenerlo accesible. Sin tienda de aplicaciones — es gratis.",
+      "unknown": "{{engineName}} funciona en cualquier dispositivo. Usa la opción \"Añadir a pantalla de inicio\" de tu navegador para mantenerlo accesible."
+    },
+    "banner": {
+      "regionAria": "Instalar {{engineName}}",
+      "dismissAria": "Descartar sugerencia de instalación",
+      "default": "Añade {{engineName}} a tu pantalla de inicio para acceder con un solo toque. Sin tienda de aplicaciones, sin registro."
+    },
+    "ahtsCard": {
+      "title": "Añadir {{engineName}} a tu pantalla de inicio",
+      "body": "Instala para acceder con un solo toque — se abre como cualquier otra aplicación. Sin tienda de aplicaciones.",
+      "dismiss": "Entendido"
+    },
+    "overlay": {
+      "title": "Añadir {{engineName}} a tu pantalla de inicio",
+      "body": "Tres toques en Safari. Después de esto, {{engineName}} se abre como cualquier otra aplicación.",
+      "step1": "Toca el botón de compartir en la parte inferior de Safari.",
+      "step2": "Desplázate hacia abajo y toca Añadir a pantalla de inicio.",
+      "step3": "Toca Añadir en la esquina superior derecha.",
+      "dismiss": "Entendido",
+      "ariaLabel": "Cómo añadir {{engineName}} a tu pantalla de inicio"
+    },
+    "installedToast": "{{engineName}} está en tu pantalla de inicio. Ábrelo como cualquier otra aplicación."
+  },
+  "firstVisit": {
+    "default": "¿Primera visita? Pruébalo — tus datos permanecen en tu dispositivo."
+  }
+}

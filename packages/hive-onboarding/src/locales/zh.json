@@ -1,0 +1,34 @@
+{
+  "install": {
+    "cta": "将 {{engineName}} 添加到主屏幕",
+    "ctaAriaIos": "教我如何将 {{engineName}} 添加到主屏幕",
+    "ctaAriaChromium": "将 {{engineName}} 添加到主屏幕",
+    "fallback": {
+      "desktopSafariFirefox": "将 {{engineName}} 添加到主屏幕，一键访问。使用浏览器的书签功能保持便捷访问。无需应用商店——完全免费。",
+      "unknown": "{{engineName}} 适用于任何设备。使用浏览器的\"添加到主屏幕\"选项保持便捷访问。"
+    },
+    "banner": {
+      "regionAria": "安装 {{engineName}}",
+      "dismissAria": "关闭安装提示",
+      "default": "将 {{engineName}} 添加到主屏幕，一键访问。无需应用商店，无需注册。"
+    },
+    "ahtsCard": {
+      "title": "将 {{engineName}} 添加到主屏幕",
+      "body": "安装后一键访问——像其他应用一样打开。无需应用商店。",
+      "dismiss": "知道了"
+    },
+    "overlay": {
+      "title": "将 {{engineName}} 添加到主屏幕",
+      "body": "在 Safari 中只需三步。完成后，{{engineName}} 将像其他应用一样打开。",
+      "step1": "点击 Safari 底部的分享按钮。",
+      "step2": "向下滚动并点击添加到主屏幕。",
+      "step3": "点击右上角的添加。",
+      "dismiss": "知道了",
+      "ariaLabel": "如何将 {{engineName}} 添加到主屏幕"
+    },
+    "installedToast": "{{engineName}} 已添加到主屏幕。像其他应用一样打开即可。"
+  },
+  "firstVisit": {
+    "default": "第一次访问？试试看——您的数据保留在您的设备上。"
+  }
+}
