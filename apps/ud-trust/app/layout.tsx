@@ -36,3 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CrossPollinationModal sourceEngine="ud-trust" targetEngine="UD Converter" targetUrl="https://converter.universaldocument.org" description="Need to convert or unlock complex documents? Try the UD Converter." />
       
         <script src="https://marketing.hive.baby/hive-track.js" async></script>
+      </body>
+    </html>
+  </ClerkProvider>
+);
+}

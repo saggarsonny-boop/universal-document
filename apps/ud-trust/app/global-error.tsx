@@ -20,3 +20,7 @@ export default function GlobalError({
             Restart Engine
           </button>
         </div>
+      </body>
+    </html>
+  );
+}
