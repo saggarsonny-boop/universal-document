@@ -1,0 +1,54 @@
+{
+  "engine": {
+    "name": "[ar] HivePlainScan",
+    "tagline": "[ar] Radiology reports explained in plain English"
+  },
+  "home": {
+    "h1": "[ar] Your radiology report, in plain English.",
+    "lede": "[ar] Paste, upload, or photograph a finalized imaging report. Get a clear summary, a finding-by-finding breakdown, questions to bring to your doctor, and a downloadable PDF. No diagnosis. No jargon. Free, forever.",
+    "cta": "[ar] Explain my report",
+    "tab_paste": "[ar] Paste Text",
+    "tab_pdf": "[ar] Upload PDF or DOCX",
+    "tab_image": "[ar] Upload Image",
+    "exam_label": "[ar] Exam type",
+    "region_label": "[ar] Body region",
+    "sample_link": "[ar] Try sample report"
+  },
+  "explain": {
+    "loading": "[ar] Reading your report...",
+    "summary_heading": "[ar] Plain English Summary",
+    "visual_heading": "[ar] Visual summary",
+    "questions_heading": "[ar] Questions to bring to your doctor",
+    "redflags_heading": "[ar] Things to take to your doctor promptly",
+    "download_pdf": "[ar] Download as PDF",
+    "ai_caption": "[ar] AI-generated educational illustration based on report text.",
+    "svg_caption": "[ar] Schematic diagram based on report text.",
+    "not_real_image": "[ar] Not an actual medical image. Not to scale."
+  },
+  "phi": {
+    "preview_prefix": "[ar] Heads up: the report text contains",
+    "preview_suffix": "[ar] We will remove anything matching these patterns before sending the report to the AI."
+  },
+  "errors": {
+    "generic": "[ar] Something went wrong. Please check your report and try again.",
+    "empty_text": "[ar] Report text is empty.",
+    "image_empty": "[ar] Image is empty.",
+    "image_no_ai": "[ar] Image-based explanations require the AI service. Please paste the report text instead."
+  },
+  "disclaimer": {
+    "default": "[ar] This explanation is based on the radiology report you provided. It is for educational purposes only. It does not diagnose your condition, recommend treatment, or replace advice from your physician.",
+    "footer": "[ar] This is not medical advice. Always consult a qualified clinician.",
+    "no_ads": "[ar] No ads. No investors. No agenda.",
+    "free_forever": "[ar] Free at the base tier, forever."
+  },
+  "hive_footer": {
+    "made_with": "[ar] Made with",
+    "in_the": "[ar] in the",
+    "links": {
+      "social_experiment": "[ar] social experiment",
+      "contribute": "[ar] contribute",
+      "patronage": "[ar] patronage",
+      "privacy": "[ar] privacy"
+    }
+  }
+}

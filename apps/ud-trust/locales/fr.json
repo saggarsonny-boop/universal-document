@@ -1,0 +1,54 @@
+{
+  "engine": {
+    "name": "[fr] HivePlainScan",
+    "tagline": "[fr] Radiology reports explained in plain English"
+  },
+  "home": {
+    "h1": "[fr] Your radiology report, in plain English.",
+    "lede": "[fr] Paste, upload, or photograph a finalized imaging report. Get a clear summary, a finding-by-finding breakdown, questions to bring to your doctor, and a downloadable PDF. No diagnosis. No jargon. Free, forever.",
+    "cta": "[fr] Explain my report",
+    "tab_paste": "[fr] Paste Text",
+    "tab_pdf": "[fr] Upload PDF or DOCX",
+    "tab_image": "[fr] Upload Image",
+    "exam_label": "[fr] Exam type",
+    "region_label": "[fr] Body region",
+    "sample_link": "[fr] Try sample report"
+  },
+  "explain": {
+    "loading": "[fr] Reading your report...",
+    "summary_heading": "[fr] Plain English Summary",
+    "visual_heading": "[fr] Visual summary",
+    "questions_heading": "[fr] Questions to bring to your doctor",
+    "redflags_heading": "[fr] Things to take to your doctor promptly",
+    "download_pdf": "[fr] Download as PDF",
+    "ai_caption": "[fr] AI-generated educational illustration based on report text.",
+    "svg_caption": "[fr] Schematic diagram based on report text.",
+    "not_real_image": "[fr] Not an actual medical image. Not to scale."
+  },
+  "phi": {
+    "preview_prefix": "[fr] Heads up: the report text contains",
+    "preview_suffix": "[fr] We will remove anything matching these patterns before sending the report to the AI."
+  },
+  "errors": {
+    "generic": "[fr] Something went wrong. Please check your report and try again.",
+    "empty_text": "[fr] Report text is empty.",
+    "image_empty": "[fr] Image is empty.",
+    "image_no_ai": "[fr] Image-based explanations require the AI service. Please paste the report text instead."
+  },
+  "disclaimer": {
+    "default": "[fr] This explanation is based on the radiology report you provided. It is for educational purposes only. It does not diagnose your condition, recommend treatment, or replace advice from your physician.",
+    "footer": "[fr] This is not medical advice. Always consult a qualified clinician.",
+    "no_ads": "[fr] No ads. No investors. No agenda.",
+    "free_forever": "[fr] Free at the base tier, forever."
+  },
+  "hive_footer": {
+    "made_with": "[fr] Made with",
+    "in_the": "[fr] in the",
+    "links": {
+      "social_experiment": "[fr] social experiment",
+      "contribute": "[fr] contribute",
+      "patronage": "[fr] patronage",
+      "privacy": "[fr] privacy"
+    }
+  }
+}
