@@ -216,7 +216,7 @@ export default function Home() {
             <span style={{ background: 'linear-gradient(90deg, #D4AF37 0%, #F3E5AB 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Augment Your Human Team.</span>
           </h2>
           <p style={{ fontSize: '1.25rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto 2.5rem auto', lineHeight: '1.6' }}>
-            Instantly give your employees an infinitely scalable AI companion. It reasons, it routes, and it executes across 72 languages natively. Remove the friction of daily operations so your humans can focus on what truly matters.
+            Instantly give your employees an infinitely scalable AI companion. It reasons, routes, and aligns context across 72 latent multilingual zones. Remove the friction of daily operations so your humans can focus on what truly matters.
           </p>
           
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
@@ -342,7 +342,7 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>The ROI Equation</h2>
             <p style={{ fontSize: '1.1rem', color: '#a1a1aa', maxWidth: '800px', margin: '0 auto' }}>
-              Why 100+ multinational organizations deployed the AAC this quarter.
+              Why 100+ pre-vetted institutional network nodes leverage the AAC substrate.
             </p>
           </div>
 
@@ -359,7 +359,7 @@ export default function Home() {
               <Zap size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
               <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Infinite Workforce Cloning</h3>
               <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                You pay $65k/year for an administrator who works 40 hours a week and speaks one language. The AAC is a digital clone of your best employee that works 168 hours a week, speaks 72 languages natively, and scales from 1 to 10,000 concurrent conversations instantly.
+                Traditional administration interfaces rely on singular linguistic context channels. The AAC operates as an integrated coordinate matrix of your high-performance workflow nodes that works 168 hours a week, speaks 72 languages natively, and scales from 1 to 10,000 concurrent conversations instantly.
               </p>
             </div>
 
@@ -367,7 +367,7 @@ export default function Home() {
               <ShieldCheck size={36} color="#D4AF37" style={{ marginBottom: '1.5rem' }} />
               <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Zero-Friction Integration</h3>
               <p style={{ color: '#a1a1aa', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                Every enterprise software you've ever bought required a 6-month integration plan. The AAC requires zero training because it operates entirely through natural conversation. If your employees know how to talk, they know how to use the AAC.
+                Unlike traditional software suites requiring extensive customization, the AAC maps directly to existing enterprise coordinate structures because it operates entirely through natural conversation. If your employees know how to talk, they know how to use the AAC.
               </p>
             </div>
           </div>
