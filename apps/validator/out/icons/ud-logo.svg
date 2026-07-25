@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fav-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE6A1" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#8A6F1F" />
+    </linearGradient>
+    <mask id="door-mask">
+      <rect x="0" y="0" width="100" height="100" fill="white" />
+      <rect x="42" y="60" width="16" height="20" rx="8" ry="8" fill="black" />
+      <rect x="42" y="68" width="16" height="20" fill="black" />
+    </mask>
+  </defs>
+  <rect x="38" y="22" width="24" height="10" rx="5" fill="url(#fav-gold)" />
+  <rect x="30" y="35" width="40" height="10" rx="5" fill="url(#fav-gold)" />
+  <rect x="24" y="48" width="52" height="10" rx="5" fill="url(#fav-gold)" />
+  <rect x="20" y="61" width="60" height="10" rx="5" fill="url(#fav-gold)" mask="url(#door-mask)" />
+</svg>
