@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ud-trust",
+  "main": ".open-next/worker.js",
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "compatibility_date": "2026-07-25",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "env": {
+    "preview": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "universaljustice-db",
+          "database_id": "011c1e54-0867-4080-a649-b3bbf0e55c43"
+        }
+      ]
+    },
+    "production": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "xeosystem-db",
+          "database_id": "767dd907-fde3-41a8-8d77-75306c1e940f"
+        }
+      ]
+    }
+  }
+}
