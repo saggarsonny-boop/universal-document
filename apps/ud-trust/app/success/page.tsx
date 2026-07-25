@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 
 export default function SuccessPage() {
-  const [email, setEmail] = useState("");
+  const [sessionId, setSessionId] = useState("");
+  const [maskedEmail, setMaskedEmail] = useState("");
   const [code, setCode] = useState("");
-  const [step, setStep] = useState(1); // 1 = enter email, 2 = enter code
+  const [step, setStep] = useState(1); // 1 = loading/verifying session, 2 = enter code, 3 = complete
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -15,30 +16,38 @@ export default function SuccessPage() {
     const token = localStorage.getItem("hive_session_token");
     if (token) {
       setActiveToken(token);
+      setStep(3);
+    } else {
+      const params = new URLSearchParams(window.location.search);
+      const sid = params.get("session_id");
+      if (sid) {
+        setSessionId(sid);
+        verifyStripeSession(sid);
+      } else {
+        setError("Error: Missing checkout session ID. Please complete payment first.");
+      }
     }
   }, []);
 
-  const handleSendCode = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const verifyStripeSession = async (sid: string) => {
     setLoading(true);
     setError("");
-    setMessage("");
-
     try {
-      const res = await fetch("/api/auth/send-code", {
+      const res = await fetch("/api/activation/status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ session_id: sid }),
       });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.success) {
+        setMaskedEmail(data.email);
         setStep(2);
-        setMessage("Verification code sent to your email!");
+        setMessage(`We found your purchase! A secure activation code has been sent to ${data.email}.`);
       } else {
-        setError(data.error || "Failed to send code.");
+        setError(data.error || "Could not verify your purchase session. Please contact support.");
       }
     } catch (err) {
-      setError("Network error. Try again.");
+      setError("Network error verifying purchase. Please refresh to try again.");
     } finally {
       setLoading(false);
     }
@@ -51,16 +60,30 @@ export default function SuccessPage() {
     setMessage("");
 
     try {
+      // Re-fetch email from Stripe session context (or passed from verification step)
+      const sessionRes = await fetch("/api/activation/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id: sessionId }),
+      });
+      const sessionData = await sessionRes.json();
+      if (!sessionRes.ok) {
+        setError("Session expired. Please reload page.");
+        setLoading(false);
+        return;
+      }
+
+      // Perform verification
       const res = await fetch("/api/auth/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code }),
+        body: JSON.stringify({ email: sessionData.email, code }),
       });
       const data = await res.json();
       if (res.ok && data.token) {
         localStorage.setItem("hive_session_token", data.token);
-        localStorage.setItem("hive_user_email", email.toLowerCase());
         setActiveToken(data.token);
+        setStep(3);
         setMessage("License Activated! Redirecting to dashboard...");
         setTimeout(() => {
           window.location.href = "/dashboard";
@@ -79,10 +102,16 @@ export default function SuccessPage() {
     if (!confirm("Are you sure you want to revoke all active sessions? This will sign out all devices.")) return;
     setLoading(true);
     localStorage.removeItem("hive_session_token");
-    localStorage.removeItem("hive_user_email");
     setActiveToken(null);
     setStep(1);
-    setMessage("All sessions revoked successfully. Please sign in again.");
+    setMessage("All sessions revoked successfully.");
+    const params = new URLSearchParams(window.location.search);
+    const sid = params.get("session_id");
+    if (sid) {
+      verifyStripeSession(sid);
+    } else {
+      setError("Missing checkout session ID.");
+    }
     setLoading(false);
   };
 
@@ -130,17 +159,84 @@ export default function SuccessPage() {
             margin: "0 auto 20px auto"
           }}></div>
           <h2 style={{ fontSize: "1.25rem", fontWeight: "600" }}>Sovereign License Activation</h2>
-          <p style={{ fontSize: "0.9rem", color: "#A3A3A3", marginTop: "8px", lineHeight: "1.4" }}>
-            Stripe payment received! Access is now ready to deploy.
-          </p>
         </div>
 
         {error && <div style={{ color: "#ef4444", marginBottom: "15px", textAlign: "center", fontSize: "0.9rem" }}>{error}</div>}
         {message && <div style={{ color: "#D4AF37", marginBottom: "15px", textAlign: "center", fontSize: "0.9rem" }}>{message}</div>}
 
-        {activeToken ? (
+        {step === 1 && (
+          <div style={{ textAlign: "center", padding: "20px" }}>
+            <p style={{ color: "#A3A3A3", marginBottom: "20px" }}>Verifying checkout session with Stripe...</p>
+            <div style={{
+              width: "40px",
+              height: "40px",
+              border: "3px solid rgba(212, 175, 55, 0.1)",
+              borderTop: "3px solid #D4AF37",
+              borderRadius: "50%",
+              margin: "0 auto",
+              animation: "spin 1s linear infinite"
+            }}></div>
+            <style jsx>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
+          </div>
+        )}
+
+        {step === 2 && (
+          <form onSubmit={handleVerifyCode}>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", color: "#A3A3A3", marginBottom: "8px" }}>
+                Activation Code (Sent to {maskedEmail})
+              </label>
+              <input
+                type="text"
+                required
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="e.g. 123456"
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  background: "#161A21",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  borderRadius: "8px",
+                  color: "#FFFFFF",
+                  fontSize: "0.95rem",
+                  textAlign: "center",
+                  letterSpacing: "4px",
+                  boxSizing: "border-box"
+                }}
+              />
+            </div>
+            <p style={{ fontSize: "0.8rem", color: "#A3A3A3", lineHeight: "1.4", marginBottom: "20px" }}>
+              🔒 **Passwordless SSO:** For maximum security, activation codes are sent directly to the email registered during purchase.
+            </p>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: "100%",
+                background: "#D4AF37",
+                color: "#000000",
+                border: "none",
+                padding: "12px",
+                borderRadius: "8px",
+                fontWeight: "700",
+                cursor: "pointer",
+                opacity: loading ? 0.7 : 1
+              }}
+            >
+              {loading ? "Activating..." : "Activate Account"}
+            </button>
+          </form>
+        )}
+
+        {step === 3 && (
           <div style={{ textAlign: "center" }}>
-            <p style={{ color: "#A3A3A3", marginBottom: "20px" }}>You have an active premium session.</p>
+            <p style={{ color: "#A3A3A3", marginBottom: "20px" }}>Your session is authenticated.</p>
             <button 
               onClick={() => window.location.href = "/dashboard"} 
               style={{
@@ -173,99 +269,6 @@ export default function SuccessPage() {
               Revoke All Active Sessions
             </button>
           </div>
-        ) : (
-          <>
-            {step === 1 ? (
-              <form onSubmit={handleSendCode}>
-                <div style={{ marginBottom: "20px" }}>
-                  <label style={{ display: "block", fontSize: "0.85rem", color: "#A3A3A3", marginBottom: "8px" }}>
-                    Account Email Address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter the email used for purchase"
-                    style={{
-                      width: "100%",
-                      padding: "12px",
-                      background: "#161A21",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: "8px",
-                      color: "#FFFFFF",
-                      fontSize: "0.95rem",
-                      boxSizing: "border-box"
-                    }}
-                  />
-                </div>
-                <p style={{ fontSize: "0.8rem", color: "#A3A3A3", lineHeight: "1.4", marginBottom: "20px" }}>
-                  🔒 **Passwordless SSO:** We do not use passwords. A one-time activation code will be delivered directly to your email inbox.
-                </p>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  style={{
-                    width: "100%",
-                    background: "#D4AF37",
-                    color: "#000000",
-                    border: "none",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    fontWeight: "700",
-                    cursor: "pointer",
-                    opacity: loading ? 0.7 : 1
-                  }}
-                >
-                  {loading ? "Requesting Code..." : "Send Activation Code"}
-                </button>
-              </form>
-            ) : (
-              <form onSubmit={handleVerifyCode}>
-                <div style={{ marginBottom: "20px" }}>
-                  <label style={{ display: "block", fontSize: "0.85rem", color: "#A3A3A3", marginBottom: "8px" }}>
-                    Enter 6-Digit Activation Code
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    placeholder="e.g. 123456"
-                    style={{
-                      width: "100%",
-                      padding: "12px",
-                      background: "#161A21",
-                      border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: "8px",
-                      color: "#FFFFFF",
-                      fontSize: "0.95rem",
-                      textAlign: "center",
-                      letterSpacing: "4px",
-                      boxSizing: "border-box"
-                    }}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  style={{
-                    width: "100%",
-                    background: "#D4AF37",
-                    color: "#000000",
-                    border: "none",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    fontWeight: "700",
-                    cursor: "pointer",
-                    opacity: loading ? 0.7 : 1
-                  }}
-                >
-                  {loading ? "Verifying..." : "Activate Account"}
-                </button>
-              </form>
-            )}
-          </>
         )}
       </div>
     </div>
