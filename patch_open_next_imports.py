@@ -2,7 +2,7 @@ import os
 import re
 
 open_next_dir = "apps/ud-trust/.open-next"
-builtins = ["http", "https", "zlib", "worker_threads", "crypto", "fs", "path", "os", "stream", "util", "url", "events", "buffer"]
+builtins = ["http", "https", "zlib", "worker_threads", "crypto", "fs", "path", "os", "stream", "util", "url", "events", "buffer", "async_hooks", "vm"]
 
 print("Starting to patch Node.js built-in imports in .open-next...")
 
