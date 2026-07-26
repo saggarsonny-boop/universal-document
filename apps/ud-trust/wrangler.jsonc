@@ -6,7 +6,7 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  "compatibility_date": "2024-09-23",
+  "compatibility_date": "2024-09-01",
   "compatibility_flags": [
     "nodejs_compat"
   ],
