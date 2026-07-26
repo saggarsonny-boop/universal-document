@@ -6,13 +6,11 @@ builtins = ["http", "https", "zlib", "worker_threads", "crypto", "fs", "path", "
 
 print("Starting to patch Node.js built-in imports in .open-next...")
 
-# Prepend require polyfill to the main worker entrypoint
+# Prepend require polyfill to the main worker entrypoint by writing it to polyfill.js
 worker_path = "apps/ud-trust/.open-next/worker.js"
+polyfill_path = "apps/ud-trust/.open-next/polyfill.js"
 if os.path.exists(worker_path):
     try:
-        with open(worker_path, "r", encoding="utf-8") as f_wk:
-            w_content = f_wk.read()
-        
         polyfill_js = """import * as __poly_http from 'node:http';
 import * as __poly_https from 'node:https';
 import * as __poly_zlib from 'node:zlib';
@@ -52,12 +50,19 @@ globalThis.require = function(mod) {
   throw new Error('Dynamic require of ' + mod + ' is not supported by polyfill');
 };
 """
-        if "globalThis.require" not in w_content:
+        with open(polyfill_path, "w", encoding="utf-8") as f_pf:
+            f_pf.write(polyfill_js)
+        print("Created polyfill.js successfully!")
+        
+        with open(worker_path, "r", encoding="utf-8") as f_wk:
+            w_content = f_wk.read()
+        
+        if "import './polyfill.js';" not in w_content:
             with open(worker_path, "w", encoding="utf-8") as f_wk:
-                f_wk.write(polyfill_js + "\n" + w_content)
-            print("Prepended global require polyfill to worker.js successfully!")
+                f_wk.write("import './polyfill.js';\n" + w_content)
+            print("Prepended polyfill import to worker.js successfully!")
     except Exception as e:
-        print(f"Failed to prepend polyfill to worker.js: {e}")
+        print(f"Failed to setup polyfill: {e}")
 
 for root, dirs, files in os.walk(open_next_dir):
     for file in files:
