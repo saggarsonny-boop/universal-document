@@ -17,11 +17,11 @@ for root, dirs, files in os.walk(open_next_dir):
                 original = content
                 for b in builtins:
                     # Replace require("builtin") and require('builtin')
-                    content = re.sub(r"""require\((["'])""" + b + r"""(["'])\)""", r"""require(\\1node:""" + b + r"""\\2)""", content)
+                    content = re.sub(r"""require\((["'])""" + b + r"""(["'])\)""", r"""require(\1node:""" + b + r"""\2)""", content)
                     # Replace from "builtin" and from 'builtin'
-                    content = re.sub(r"""from\s+(["'])""" + b + r"""(["'])""", r"""from \\1node:""" + b + r"""\\2""", content)
+                    content = re.sub(r"""from\s+(["'])""" + b + r"""(["'])""", r"""from \1node:""" + b + r"""\2""", content)
                     # Replace import("builtin") and import('builtin')
-                    content = re.sub(r"""import\((["'])""" + b + r"""(["'])\)""", r"""import(\\1node:""" + b + r"""\\2)""", content)
+                    content = re.sub(r"""import\((["'])""" + b + r"""(["'])\)""", r"""import(\1node:""" + b + r"""\2)""", content)
                 
                 if content != original:
                     with open(filepath, "w", encoding="utf-8") as f_out:
