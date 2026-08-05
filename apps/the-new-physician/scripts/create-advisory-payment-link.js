@@ -1,3 +1,9 @@
+// SUPERSEDED — DO NOT RUN.
+// The live Advisory Fees Payment Link was already created on 2026-08-05
+// (product prod_V0yy0VU6D4BkM6, link https://buy.stripe.com/14AfZj7Qz5AZeEa9vr0RG19)
+// by a separate agent using different idempotency keys. Running this script
+// would create a DUPLICATE product/price/link. Kept for reference only.
+process.exit(1);
 // Creates the live "Advisory Fees" Stripe Payment Link:
 //   - customer chooses the amount ($10 minimum)
 //   - required "Invoice # / purpose of payment" text box
