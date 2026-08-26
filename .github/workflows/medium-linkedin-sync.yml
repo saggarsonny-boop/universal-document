@@ -1,5 +1,9 @@
 name: Autonomous LinkedIn Publisher
 
+concurrency:
+  group: linkedin-publisher
+  cancel-in-progress: false
+
 on:
   schedule:
     # Run every 6 hours
