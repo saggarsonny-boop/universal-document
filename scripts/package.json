@@ -1,0 +1,12 @@
+{
+  "name": "new-physician-linkedin-publisher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Isolated runtime for the autonomous LinkedIn publisher.",
+  "scripts": {
+    "test": "node test-linkedin-publisher.js"
+  },
+  "dependencies": {
+    "axios": "1.20.0"
+  }
+}

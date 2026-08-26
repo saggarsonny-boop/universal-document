@@ -22,7 +22,11 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install axios
+        run: npm ci
+        working-directory: ./scripts
+
+      - name: Test Publisher Script
+        run: npm test
         working-directory: ./scripts
 
       - name: Run Publisher Script
