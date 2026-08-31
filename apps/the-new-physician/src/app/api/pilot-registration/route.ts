@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import nodemailer from 'nodemailer';
+import { dbEdge } from '@/lib/db-edge';
 
-const prisma = new PrismaClient();
+export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 const getEvaluationTier = (scoreVal: number) => {
   if (scoreVal <= 25) {
@@ -53,18 +53,23 @@ export async function POST(request: Request) {
     const cleanScore = typeof systemicCaptureScore === 'number' ? Math.round(systemicCaptureScore) : 0;
     const cleanAnswers = answers ? (typeof answers === 'string' ? answers : JSON.stringify(answers)) : '{}';
 
-    // Insert into Neon database using Prisma
-    const registration = await prisma.iMRPilotRegistration.create({
-      data: {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        practiceType,
-        stateCountry: stateCountry.trim(),
-        meansTested: !!meansTested,
-        systemicCaptureScore: cleanScore,
-        answers: cleanAnswers
-      }
-    });
+    // Insert into Neon database using dbEdge
+    const uuid = globalThis.crypto.randomUUID();
+    await dbEdge(`
+      INSERT INTO imr_pilot_registrations 
+      (id, name, email, practice_type, state_country, means_tested, systemic_capture_score, answers) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    `, [
+      uuid,
+      name.trim(),
+      email.trim().toLowerCase(),
+      practiceType,
+      stateCountry.trim(),
+      !!meansTested,
+      cleanScore,
+      cleanAnswers
+    ]);
+    const registration = { id: uuid };
 
     // Parse answers for detailed email breakdown
     let answersObj: Record<string, number> = {};
@@ -78,24 +83,9 @@ export async function POST(request: Request) {
     const tier = getEvaluationTier(cleanScore);
     const lastName = name.trim().split(' ').pop() || name.trim();
 
-    // Configure Nodemailer Transport using SMTP environment configuration
-    const emailServer = process.env.EMAIL_SERVER || '';
+    // Resend configuration
+    const resendApiKey = process.env.RESEND_API_KEY || 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4';
     const emailFrom = process.env.EMAIL_FROM || 'info@newphysician.org';
-    
-    let transporter;
-    if (emailServer) {
-      transporter = nodemailer.createTransport(emailServer);
-    } else {
-      transporter = nodemailer.createTransport({
-        host: 'smtp.resend.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'resend',
-          pass: 're_ie4yKiNR_JdWCkjZJ6hrAQZtwcM9Ea3z4'
-        }
-      });
-    }
 
     // 1. Send Notification Email to hive@hive.baby
     const adminMailHtml = `
@@ -221,25 +211,39 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    // Trigger emails in background (or sequence) using the configured SMTP
+    // Trigger emails in background (or sequence) using the configured Resend API
     try {
       await Promise.all([
         // Send alert to admin
-        transporter.sendMail({
-          from: emailFrom,
-          to: 'hive@hive.baby',
-          subject: `[MOH Pilot Applicant] New Registration: Dr. ${lastName} (${cleanScore}%)`,
-          html: adminMailHtml
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: ['hive@hive.baby'],
+            subject: `[MOH Pilot Applicant] New Registration: Dr. ${lastName} (${cleanScore}%)`,
+            html: adminMailHtml
+          })
         }),
         // Send confirmation to applicant
-        transporter.sendMail({
-          from: emailFrom,
-          to: email.trim().toLowerCase(),
-          subject: `[HiveIMR Global Pilot] Sovereignty Registration Confirmed`,
-          html: candidateMailHtml
+        fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: `The New Physician <${emailFrom}>`,
+            to: [email.trim().toLowerCase()],
+            subject: `[HiveIMR Global Pilot] Sovereignty Registration Confirmed`,
+            html: candidateMailHtml
+          })
         })
       ]);
-      console.log('Successfully sent registration emails.');
+      console.log('Successfully sent registration emails via Resend API.');
     } catch (mailError) {
       // Log the email failure but DO NOT fail the registration itself
       console.error('Failed to send registration notification emails:', mailError);
@@ -247,8 +251,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, message: 'Successfully registered for the HiveIMR Global Pilot Program' });
   } catch (error: any) {
-    // Unique constraint violation in Prisma (P2002) for the email column
-    if (error.code === 'P2002') {
+    if (error.code === '23505' || error.message?.includes('duplicate key')) {
       return NextResponse.json({ success: true, message: 'You have already registered for the Pilot Program' });
     }
     
@@ -266,9 +269,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized credentials required' }, { status: 401 });
     }
 
-    const registrations = await prisma.iMRPilotRegistration.findMany({
-      orderBy: { createdAt: 'desc' }
-    });
+    const registrations = await dbEdge('SELECT * FROM imr_pilot_registrations ORDER BY created_at DESC');
 
     return NextResponse.json({ success: true, registrations });
   } catch (error) {
