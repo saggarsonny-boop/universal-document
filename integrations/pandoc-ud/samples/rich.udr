@@ -1,0 +1,55 @@
+{
+  "ud_version": "0.1.0",
+  "state": "UDR",
+  "metadata": {
+    "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "title": "Patient Discharge Summary",
+    "created_at": "2026-04-13T09:00:00Z",
+    "updated_at": "2026-04-13T09:00:00Z",
+    "created_by": "dr.saggar",
+    "revoked": false
+  },
+  "manifest": {
+    "base_language": "en",
+    "language_manifest": [
+      {"code": "en", "label": "English"},
+      {"code": "es", "label": "Spanish"}
+    ],
+    "clarity_layer_manifest": [
+      {"id": "clinical", "label": "Clinical Detail"},
+      {"id": "plain", "label": "Plain Language"}
+    ],
+    "permissions": {
+      "allow_copy": false,
+      "allow_print": true,
+      "allow_export": false,
+      "require_auth": false
+    }
+  },
+  "blocks": [
+    {
+      "id": "b_001",
+      "type": "heading",
+      "base_content": {"text": "Discharge Summary", "level": 1},
+      "hidden": false
+    },
+    {
+      "id": "b_002",
+      "type": "paragraph",
+      "base_content": {"text": "Patient admitted with acute chest pain, discharged after 48 hours with no cardiac event confirmed."},
+      "clarity": {
+        "plain": {
+          "en": "You came in with chest pain. Tests showed your heart is fine. You are going home after 2 days.",
+          "es": "Usted llegó con dolor en el pecho. Las pruebas mostraron que su corazón está bien."
+        },
+        "clinical": {
+          "en": "Admission for ACS rule-out. Troponin x3 negative. TIMI score 2. Discharged with cardiology follow-up."
+        }
+      },
+      "translations": {
+        "es": "El paciente fue ingresado con dolor torácico agudo y dado de alta después de 48 horas."
+      },
+      "hidden": false
+    }
+  ]
+}
